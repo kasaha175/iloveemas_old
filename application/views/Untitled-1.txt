@@ -1,0 +1,4 @@
+Array ( 
+    [0] => stdClass Object ( [name] => "" [value] => 24 [type] => 24 [sub_type] => 24 ) 
+    [1] => stdClass Object ( [name] => "" [value] => 23 [type] => 24 [type] => 24 ) 
+    )

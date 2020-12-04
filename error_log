@@ -1,0 +1,5 @@
+
+[20-Jul-2020 15:20:53 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 262144 bytes) in /home/ngopsmyi/public_html/iloveemas/application/views/ReportBuy.php on line 124
+[20-Jul-2020 15:21:40 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 9433074 bytes) in /home/ngopsmyi/public_html/iloveemas/system/core/Loader.php on line 976
+[20-Jul-2020 15:21:57 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 9433074 bytes) in /home/ngopsmyi/public_html/iloveemas/system/core/Loader.php on line 976
+[20-Jul-2020 15:42:04 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 262144 bytes) in /home/ngopsmyi/public_html/iloveemas/application/views/ReportBuy.php on line 124

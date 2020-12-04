@@ -1,0 +1,120 @@
+<img width="918" height="1188" src="<?=base_url()?>assets/img/Nota_Beli001.png" alt="background image"/>
+<p style="position:absolute;top:68px;left:88px;white-space:nowrap" class="ft00">PT.	Muara	Logam	Indonesia	</p>
+<p style="position:absolute;top:101px;left:436px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:75px;left:580px;white-space:nowrap" class="ft02"><b>Purchase	Payment	</b></p>
+<p style="position:absolute;top:111px;left:75px;white-space:nowrap" class="ft03">				</p>
+<p style="position:absolute;top:105px;left:83px;white-space:nowrap" class="ft01"><input type="checkbox"></p>
+<p style="position:absolute;top:111px;left:110px;white-space:nowrap" class="ft03">				I	Love	Emas	Jakarta	:	Ruko	Sky	Terrace	Blok		B,	Jl.	Tanah	Lot,	Daan	Mogot	Baru,	</p>
+<p style="position:absolute;top:124px;left:197px;white-space:nowrap" class="ft03">Kalideres,	Jakarta	Barat	</p>
+<p style="position:absolute;top:136px;left:436px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:115px;left:509px;white-space:nowrap" class="ft01">Payment	Date	</p>
+<p style="position:absolute;top:160px;left:509px;white-space:nowrap" class="ft01"><?=date('Y-m-d', strtotime($a->t_date_created))?></p>
+<p style="position:absolute;top:115px;left:665px;white-space:nowrap" class="ft01">Invoice	Number	</p>
+<p style="position:absolute;top:160px;left:665px;white-space:nowrap" class="ft01"><?=$a->t_no_order?></p>
+<p style="position:absolute;top:146px;left:75px;white-space:nowrap" class="ft03">				</p>
+<p style="position:absolute;top:140px;left:83px;white-space:nowrap" class="ft01"><input type="checkbox"></p>
+<p style="position:absolute;top:146px;left:110px;white-space:nowrap" class="ft03">				I	Love	Emas	Jakarta	:	Ruko	Sky	Terrace	Blok		B,	Jl.	Tanah	Lot,	Daan	Mogot	Baru,	</p>
+<p style="position:absolute;top:159px;left:197px;white-space:nowrap" class="ft03">Kalideres,	Jakarta	Barat	</p>
+<p style="position:absolute;top:170px;left:436px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:150px;left:509px;white-space:nowrap" class="ft01">		</p>
+<p style="position:absolute;top:150px;left:665px;white-space:nowrap" class="ft01">		</p>
+<p style="position:absolute;top:178px;left:75px;white-space:nowrap" class="ft03">				</p>
+<p style="position:absolute;top:172px;left:83px;white-space:nowrap" class="ft01"><input type="checkbox"></p>
+<p style="position:absolute;top:178px;left:110px;white-space:nowrap" class="ft03">				I	Love	Emas	Jakarta	:	Ruko	Sky	Terrace	Blok		B,	Jl.	Tanah	Lot,	Daan	Mogot	Baru,	</p>
+<p style="position:absolute;top:191px;left:197px;white-space:nowrap" class="ft03">Kalideres,	Jakarta	Barat	</p>
+<p style="position:absolute;top:203px;left:436px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:182px;left:509px;white-space:nowrap" class="ft01">		</p>
+<p style="position:absolute;top:182px;left:665px;white-space:nowrap" class="ft01">		</p>
+<p style="position:absolute;top:230px;left:61px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:230px;left:93px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:230px;left:178px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:230px;left:263px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:230px;left:436px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:230px;left:509px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:230px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:239px;left:61px;white-space:nowrap" class="ft04">Vendor	:	</p>
+<p style="position:absolute;top:255px;left:436px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:255px;left:509px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:255px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:262px;left:61px;white-space:nowrap" class="ft04">Name :	<?=ucwords(strtolower($a->nameCustomer))?></p>
+<p style="position:absolute;top:279px;left:436px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:279px;left:509px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:279px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:284px;left:61px;white-space:nowrap" class="ft04">iD	Number	: <?=strtoupper($a->c_id_number)?>	</p>
+<p style="position:absolute;top:301px;left:436px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:301px;left:509px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:301px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:307px;left:61px;white-space:nowrap" class="ft04">Address								: <?=ucwords(strtolower($a->c_address))?>	</p>
+<p style="position:absolute;top:324px;left:436px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:324px;left:509px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:324px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:331px;left:61px;white-space:nowrap" class="ft04">Telephone	:	<?=$a->c_phone?></p>
+<p style="position:absolute;top:347px;left:436px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:347px;left:509px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:347px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:374px;left:61px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:374px;left:93px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:374px;left:178px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:374px;left:263px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:374px;left:436px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:374px;left:509px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:374px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:400px;left:61px;white-space:nowrap" class="ft04">No	</p>
+<p style="position:absolute;top:397px;left:93px;white-space:nowrap" class="ft01">Material	</p>
+<p style="position:absolute;top:397px;left:178px;white-space:nowrap" class="ft01">Type	</p>
+<p style="position:absolute;top:397px;left:263px;white-space:nowrap" class="ft01">Carat/Precentage	</p>
+<p style="position:absolute;top:376px;left:436px;white-space:nowrap" class="ft06">Weight	<br/>(gr)	</p>
+<p style="position:absolute;top:397px;left:509px;white-space:nowrap" class="ft01">Price/gr	(Rp)	</p>
+<p style="position:absolute;top:397px;left:665px;white-space:nowrap" class="ft01">Amount	(Rp)	</p>
+
+<?php $i=423; $no=0; foreach($detail as $d){ $no++; ?>
+
+<p style="position:absolute;top:<?=$i?>px;left:61px;white-space:nowrap" class="ft01">	<?=$no?>	</p>
+<p style="position:absolute;top:<?=$i?>px;left:93px;white-space:nowrap" class="ft01"> <?=$d->ti_material?></p>
+<p style="position:absolute;top:<?=$i?>px;left:178px;white-space:nowrap" class="ft01"> <?=$d->ti_material_type?></p>
+<p style="position:absolute;top:<?=$i?>px;left:263px;white-space:nowrap" class="ft01"> <?=$d->ti_carat?></p>
+<p style="position:absolute;top:<?=$i?>px;left:436px;white-space:nowrap" class="ft01"><?=$d->ti_weight?></p>
+<p style="position:absolute;top:<?=$i?>px;left:509px;white-space:nowrap" class="ft01"> <?php if($d->ti_price!='-'){ echo nominal($d->ti_price);}else{echo $d->ti_price;}?></p>
+<p style="position:absolute;top:<?=$i?>px;left:665px;white-space:nowrap" class="ft01"><?=nominal($d->ti_price_total)?></p>
+<?php $i = $i+23;} ?>
+<p style="position:absolute;top:767px;left:61px;white-space:nowrap" class="ft03">				</p>
+<p style="position:absolute;top:761px;left:69px;white-space:nowrap" class="ft01"><input type="checkbox"></p>
+<p style="position:absolute;top:767px;left:96px;white-space:nowrap" class="ft03">				Cash	</p>
+<p style="position:absolute;top:767px;left:178px;white-space:nowrap" class="ft03">				</p>
+<p style="position:absolute;top:761px;left:186px;white-space:nowrap" class="ft01"><input type="checkbox"></p>
+<p style="position:absolute;top:767px;left:213px;white-space:nowrap" class="ft03">				Credit	</p>
+<p style="position:absolute;top:767px;left:263px;white-space:nowrap" class="ft03">				</p>
+<p style="position:absolute;top:761px;left:271px;white-space:nowrap" class="ft01"><input type="checkbox"></p>
+<p style="position:absolute;top:767px;left:298px;white-space:nowrap" class="ft03">				Debit	</p>
+<p style="position:absolute;top:756px;left:436px;white-space:nowrap" class="ft03">				</p>
+<p style="position:absolute;top:761px;left:371px;white-space:nowrap" class="ft01"><input type="checkbox"></p>
+<p style="position:absolute;top:767px;left:398px;white-space:nowrap" class="ft03">				Transfer	</p>
+<p style="position:absolute;top:756px;left:436px;white-space:nowrap" class="ft03">				</p>
+<p style="position:absolute;top:768px;left:562px;white-space:nowrap" class="ft01">Total	</p>
+<p style="position:absolute;top:768px;left:737px;white-space:nowrap" class="ft01"><?=nominal($a->t_price_total)?></p>
+<p style="position:absolute;top:793px;left:61px;white-space:nowrap" class="ft05">Memo : <?=terbilang($a->t_price_total)?></p>
+<p style="position:absolute;top:819px;left:61px;white-space:nowrap" class="ft05">1.	Barang	yang	sudah	dibeli/dijual	tidak	dapat	dikembalikan.	</p>
+<p style="position:absolute;top:813px;left:538px;white-space:nowrap" class="ft01">Received	By	</p>
+<p style="position:absolute;top:813px;left:724px;white-space:nowrap" class="ft01">Paid	By	</p>
+<p style="position:absolute;top:943px;left:714px;white-space:nowrap" class="ft01">I Love Emas	</p>
+<p style="position:absolute;top:841px;left:61px;white-space:nowrap" class="ft05">2.	Tidak	menerima	penjualan/pembelian	untuk	anak	dibawah	usia	18th,	kecuali	dengan		</p>
+<p style="position:absolute;top:836px;left:509px;white-space:nowrap" class="ft01">		</p>
+<p style="position:absolute;top:856px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:856px;left:61px;white-space:nowrap" class="ft07">					disertai	surat	lengkap	dan/atau	disertai	dengan	persetujuan	orang	tua/wali	secara	<br/>tertulis	</p>
+<p style="position:absolute;top:865px;left:509px;white-space:nowrap" class="ft01">		</p>
+<p style="position:absolute;top:885px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:893px;left:61px;white-space:nowrap" class="ft05">3.	Hanya	membeli/menjual	barang	(perhiasan/logam	mulia)	yang	legal	berdasarkan		</p>
+<p style="position:absolute;top:888px;left:509px;white-space:nowrap" class="ft01">		</p>
+<p style="position:absolute;top:908px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:916px;left:61px;white-space:nowrap" class="ft05">					data	keterangan	penjual/pembeli	saat	transaksi	jual/beli	</p>
+<p style="position:absolute;top:910px;left:509px;white-space:nowrap" class="ft01">		</p>
+<p style="position:absolute;top:930px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:938px;left:61px;white-space:nowrap" class="ft05">4.	Tidak	bertanggung	jawab	baik	secara	hukum	pidana	maupun	perdata	atas	transaksi	</p>
+<p style="position:absolute;top:933px;left:509px;white-space:nowrap" class="ft01">		</p>
+<p style="position:absolute;top:953px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:961px;left:61px;white-space:nowrap" class="ft05">						penjualan/pembelian	barang	(perhiasan/Logam	Mulia)	jika	dikemudian	hari	barang		</p>
+<p style="position:absolute;top:955px;left:509px;white-space:nowrap" class="ft01">______________________	&#160;______________________	</p>
+<p style="position:absolute;top:984px;left:61px;white-space:nowrap" class="ft05">						tersebut	hasil	curian,	penipuan,	penggelapan,	dll	</p>
+<p style="position:absolute;top:979px;left:509px;white-space:nowrap" class="ft01">		</p>
+<p style="position:absolute;top:999px;left:665px;white-space:nowrap" class="ft01">	</p>
+<p style="position:absolute;top:1002px;left:54px;white-space:nowrap" class="ft01">	</p>
