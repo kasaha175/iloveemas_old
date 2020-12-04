@@ -381,13 +381,19 @@ class TransactionController extends CI_Controller
 						'priceTotal' => $priceTotal,
 					);
 				}else if ($idMaterial == 3) {
-					if($weight<1){
-						$price = ($rtiAU - $AUpresentaseLMBaru)*$weight;
+					// if($weight<1){
+						if ($this->input->post('plusminus') == 'plus') {
+							$price = ($rtiAU + $AUpresentaseLMBaru)*$weight;
+						}
+						else{
+
+							$price = ($rtiAU - $AUpresentaseLMBaru)*$weight;
+						}
 						$priceTotal = round($price);
-					}else{
-						$price = $rtiAU - $AUpresentaseLMBaru;
-						$priceTotal = round($price * $weight);
-					}
+					// }else{
+					// 	$price = $rtiAU - $AUpresentaseLMBaru;
+					// 	$priceTotal = round($price * $weight);
+					// }
 					$data = array(
 						'id' => $idLast,
 						'qty' => $weight,

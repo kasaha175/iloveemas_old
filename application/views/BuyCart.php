@@ -89,6 +89,15 @@ error_reporting(0);
 											<input type="number" step="any" name="weight" required class="aang form-control">
 										</div>
 										<?php } ?>
+										<?php if(in_array($this->uri->segment(3), array("3"))){ ?>
+										<div class="form-group">
+											<label for="">Plus / Minus Transaksi</label>
+											<select name="plusminus" required class="zein form-control select2">
+												<option value="plus"> Plus (+)</option>
+												<option value="minus"> Minus (-)</option>
+											</select>
+										</div>
+										<?php } ?>
 										<?php if(in_array($this->uri->segment(3), array("1"))){ ?>
 										<div class="form-group">
 											<label>PRICE</label>
@@ -187,19 +196,15 @@ error_reporting(0);
 
 								<form action="<?=base_url()?>transaction/buy-checkout/">
 								<div class="row">
-								<div class="col-md-2">
-									<p>PLUS/MINUS</p>
+								<div class="col-md-4">
+									<p>PLUS / MINUS BIAYA ADMIN</p>
 									<select type="number" step="any" class="form-control" name="operator">
-										<option>
-											+
-										</option>
-										<option>
-											-
-										</option>
+										<option value="+"> Plus (+)</option>
+										<option value="-"> Minus (-)</option>
 									</select>
 								</div>
-								<div class="col-md-10">
-									<p>BIAYA ADMIN</p>
+								<div class="col-md-8">
+									<p>&nbsp;</p>
 									<input type="number" step="any" class="form-control biayaAdmin" name="biayaAdmin">
 								</div>
 								</div>
