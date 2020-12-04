@@ -381,8 +381,7 @@ class TransactionController extends CI_Controller
 						'priceTotal' => $priceTotal,
 					);
 				}else if ($idMaterial == 3) {
-					// if($weight<1){
-						if ($this->input->post('plusminus') == 'plus') {
+					if ($this->input->post('plusminus') == 'plus') {
 							$price = ($rtiAU + $AUpresentaseLMBaru)*$weight;
 						}
 						else{
@@ -390,10 +389,6 @@ class TransactionController extends CI_Controller
 							$price = ($rtiAU - $AUpresentaseLMBaru)*$weight;
 						}
 						$priceTotal = round($price);
-					// }else{
-					// 	$price = $rtiAU - $AUpresentaseLMBaru;
-					// 	$priceTotal = round($price * $weight);
-					// }
 					$data = array(
 						'id' => $idLast,
 						'qty' => $weight,
@@ -652,7 +647,7 @@ class TransactionController extends CI_Controller
 					// $price = round((($percentage/100) * ($price)));
 					// $priceTotal = $price * $weight; 	
 					// }
-					$price = round(($rtiAU + ($rtiAU * - (16/100))) * $percentage/100);
+					$price = ($rtiAU + ($rtiAU * - ($AUpresentasePotonganCustProf/100))) * $percentage/100;
 					$priceTotal = ($price * $weight);	
 					$data = array(
 						'id' => $idLast,

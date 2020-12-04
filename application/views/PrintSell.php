@@ -70,12 +70,9 @@
             alt=""
             style="width:30px;float:right;"
         /></a>
-        <a href="<?=base_url()?>report/sell/"
-          ><img
-            src="<?=base_url()?>assets/offline/back.png"
-            alt=""
-            style="width:30px;float:right;"
-        /></a>
+        <!-- <a href="<?=base_url()?>report/sell/"> -->
+            <img src="<?=base_url()?>assets/offline/back.png" alt="" style="width:30px;float:right;cursor: pointer;" onclick="clickBack();"/>
+        <!-- </a> -->
       </div>
       <div style="padding:45px;margin:0px;" id="printNow">
         <div style="width:100%">
@@ -368,8 +365,13 @@
           var originalContents = document.body.innerHTML;
           document.body.innerHTML = printContents;
           window.print();
-          window.location.href = '<?=base_url()?>report/sell';
+          // window.location.href = '<?=base_url()?>report/sell';
+          clickBack();
         });
+        function clickBack() {
+            // window.history.back();
+            window.location.href = "<?= base_url('dashboard') ?>";
+        }
       </script>
     </div>
   </body>
