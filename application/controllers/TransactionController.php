@@ -251,7 +251,7 @@ class TransactionController extends CI_Controller
 			$AUpotonganK2499 = abs($this->MasterModel->formulasData('rti-au')->row('h'));
 			$AUpresentasePotonganK24 = abs($this->MasterModel->formulasData('rti-au')->row('b'));
 			$AUpresentasePotonganCustProf = abs($this->MasterModel->formulasData('rti-au')->row('f'));
-			$AUpresentaseLMBaru = abs($this->MasterModel->formulasData('rti-au')->row('d'));
+			$AUpresentaseLMBaru = $this->MasterModel->formulasData('rti-au')->row('d');
 			$AUpresentaseLMLama = abs($this->MasterModel->formulasData('rti-au')->row('e'));
 			$AUpotonganubs = abs($this->MasterModel->formulasData('rti-au')->row('g'));
 			$AGpresentasePotonganAG = abs($this->MasterModel->formulasData('rti-ag')->row('a'));
@@ -381,14 +381,9 @@ class TransactionController extends CI_Controller
 						'priceTotal' => $priceTotal,
 					);
 				}else if ($idMaterial == 3) {
-					if ($this->input->post('plusminus') == 'plus') {
-							$price = ($rtiAU + $AUpresentaseLMBaru)*$weight;
-						}
-						else{
-
-							$price = ($rtiAU - $AUpresentaseLMBaru)*$weight;
-						}
-						$priceTotal = round($price);
+					
+						$price = ($rtiAU + $AUpresentaseLMBaru)*$weight;
+					$priceTotal = round($price);
 					$data = array(
 						'id' => $idLast,
 						'qty' => $weight,

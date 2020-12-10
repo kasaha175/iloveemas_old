@@ -89,15 +89,7 @@ error_reporting(0);
 											<input type="number" step="any" name="weight" required class="aang form-control">
 										</div>
 										<?php } ?>
-										<?php if(in_array($this->uri->segment(3), array("3"))){ ?>
-										<div class="form-group">
-											<label for="">Plus / Minus Transaksi</label>
-											<select name="plusminus" required class="zein form-control select2">
-												<option value="plus"> Plus (+)</option>
-												<option value="minus"> Minus (-)</option>
-											</select>
-										</div>
-										<?php } ?>
+										
 										<?php if(in_array($this->uri->segment(3), array("1"))){ ?>
 										<div class="form-group">
 											<label>PRICE</label>
