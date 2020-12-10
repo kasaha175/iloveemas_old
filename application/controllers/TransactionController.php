@@ -252,8 +252,8 @@ class TransactionController extends CI_Controller
 			$AUpresentasePotonganK24 = abs($this->MasterModel->formulasData('rti-au')->row('b'));
 			$AUpresentasePotonganCustProf = abs($this->MasterModel->formulasData('rti-au')->row('f'));
 			$AUpresentaseLMBaru = $this->MasterModel->formulasData('rti-au')->row('d');
-			$AUpresentaseLMLama = abs($this->MasterModel->formulasData('rti-au')->row('e'));
-			$AUpotonganubs = abs($this->MasterModel->formulasData('rti-au')->row('g'));
+			$AUpresentaseLMLama = $this->MasterModel->formulasData('rti-au')->row('e');
+			$AUpotonganubs = $this->MasterModel->formulasData('rti-au')->row('g');
 			$AGpresentasePotonganAG = abs($this->MasterModel->formulasData('rti-ag')->row('a'));
 			$AGpresentasePotonganAGLow = abs($this->MasterModel->formulasData('rti-ag-low')->row('a'));
 			$PTpresentasePotonganPt = abs($this->MasterModel->formulasData('rti-pt')->row('a'));
@@ -366,7 +366,7 @@ class TransactionController extends CI_Controller
 						'priceTotal' => $priceTotal,
 					);
                 }else if ($idMaterial == 17){
-					$price = ($rtiAU - $AUpotonganubs);
+					$price = ($rtiAU + $AUpotonganubs);
 					$priceTotal = $price*$weight;
 					$data = array(
 						'id' => $idLast,
@@ -381,8 +381,13 @@ class TransactionController extends CI_Controller
 						'priceTotal' => $priceTotal,
 					);
 				}else if ($idMaterial == 3) {
-					
+					if($weight<1){
 						$price = ($rtiAU + $AUpresentaseLMBaru)*$weight;
+						$priceTotal = round($price);
+					}else{
+						$price = $rtiAU + $AUpresentaseLMBaru;
+						$priceTotal = round($price * $weight);
+					}
 					$priceTotal = round($price);
 					$data = array(
 						'id' => $idLast,
@@ -398,10 +403,10 @@ class TransactionController extends CI_Controller
 					);
                 }else if ($idMaterial == 4) {
 					if($weight<1){
-						$price = ($rtiAU - $AUpresentaseLMLama)*$weight;
+						$price = ($rtiAU + $AUpresentaseLMLama)*$weight;
 						$priceTotal = round($price);
 					}else{
-						$price = $rtiAU - $AUpresentaseLMLama;
+						$price = $rtiAU + $AUpresentaseLMLama;
 						$priceTotal = round($price * $weight);
 					}
 					$data = array(
