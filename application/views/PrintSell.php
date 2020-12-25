@@ -97,6 +97,10 @@
                 <input type="checkbox" />
                 I Love Emas Surabaya: Cito Mall Surabaya, Lt UG Blok UB 5/10 
               </p>
+              <p style="">
+                <input type="checkbox" />
+                I Love Emas Bekasi : Lt. GF 48-49 Revo Town Mall Bekasi Lt. GF 48-49, Pekayon Jaya, Kec. Bekasi Sel., Kota Bks, Jawa Barat
+              </p>
             </div>
           </div>
           <div style="padding-left:68px; padding-right:5px; width:40%; display:inline-block;vertical-align:text-top;margin-top: 27px;">
