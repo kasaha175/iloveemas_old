@@ -382,7 +382,8 @@ class TransactionController extends CI_Controller
 					);
 				}else if ($idMaterial == 3) {
 					// if($weight<1){
-						$price = ($rtiAU + $AUpresentaseLMBaru)*$weight;
+						$pricepergram = $rtiAU + $AUpresentaseLMBaru;
+						$price = $pricepergram*$weight;
 						$priceTotal = round($price);
 					// }else{
 					// 	$price = $rtiAU;
@@ -392,8 +393,8 @@ class TransactionController extends CI_Controller
 					$data = array(
 						'id' => $idLast,
 						'qty' => $weight,
-						'price' => $price,
-						'prices' => $price,
+						'price' => $pricepergram,
+						'prices' => $pricepergram,
 						'name' => 'T-Shirt',
 						'materialName' => $materialName,
 						'materialType' => '-',
@@ -403,7 +404,8 @@ class TransactionController extends CI_Controller
 					);
                 }else if ($idMaterial == 4) {
 					// if($weight<1){
-						$price = ($rtiAU + $AUpresentaseLMLama)*$weight;
+                		$pricepergram = $rtiAU + $AUpresentaseLMLama;
+						$price = $pricepergram*$weight;
 						$priceTotal = round($price);
 					// }else{
 					// 	$price = $rtiAU + $AUpresentaseLMLama;
@@ -412,8 +414,8 @@ class TransactionController extends CI_Controller
 					$data = array(
 						'id' => $idLast,
 						'qty' => $weight,
-						'price' => $price,
-						'prices' => $price,
+						'price' => $pricepergram,
+						'prices' => $pricepergram,
 						'name' => 'T-Shirt',
 						'materialName' => $materialName,
 						'materialType' => '-',

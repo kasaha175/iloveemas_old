@@ -119,65 +119,29 @@ error_reporting(0);
 								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size:15px;">
 									<thead>
 										<tr>
-											<th>
-												No
-											</th>
-											<th>
-												Material
-											</th>
-											<th>
-												Type
-											</th>
-											<th style="min-width:85px;">
-												Carat
-											</th>
-											<th>
-												Weight
-											</th>
-											<th>
-												Price/Gr
-											</th>
-											<th>
-												Total Price
-											</th>
-											<th>
-												Type Material
-											</th>
-											<th>
-												Action
-											</th>
+											<th>No</th>
+											<th>Material</th>
+											<th>Type</th>
+											<th style="min-width:85px;">Carat</th>
+											<th>Weight</th>
+											<th>Price/Gr</th>
+											<th>Total Price</th>
+											<th>Type Material</th>
+											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
 										<?php $no=0; foreach($this->cart->contents() as $a){ $no++; ?>
 										<tr>
-											<td>
-												<?=$no?>
-											</td>
-											<td>
-												<?=$a['materialName']?>
-											</td>
-											<td>
-												<?=$a['materialType']?>
-											</td>
-											<td>
-												<?=$a['carat']?>
-											</td>
-											<td>
-												<?=$a['weight']?>
-											</td>
-											<td>
-												<?php if($a['materialName']!='DIAMOND'){echo nominal($a['prices']);}else{echo ($a['prices']);}?>
-											</td>
-											<td>
-												<?=nominal($a['priceTotal'])?>
-											</td>
-											<td>
-												<?=$a['types']?>
-											</td>
-											<td>
-												<a href="<?=base_url()?>transaction/buy-add-to-cart-reset/?idMaterial=<?=$this->uri->segment(3);?>&idRow=<?=$a['rowid']?>&t=<?=$_GET['t'];?>" class="btn btn-danger btn-circle btn-sm">
-													<i class="fas fa-trash"></i>
+											<td><?=$no?></td>
+											<td><?=$a['materialName']?></td>
+											<td><?=$a['materialType']?></td>
+											<td><?=$a['carat']?></td>
+											<td><?=$a['weight']?></td>
+											<td><?php if($a['materialName']!='DIAMOND'){echo nominal($a['prices']);}else{echo ($a['prices']);}?></td>
+											<td><?=nominal($a['priceTotal'])?></td>
+											<td><?=$a['types']?></td>
+											<td><a href="<?=base_url()?>transaction/buy-add-to-cart-reset/?idMaterial=<?=$this->uri->segment(3);?>&idRow=<?=$a['rowid']?>&t=<?=$_GET['t'];?>" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i>
 												</a>
 											</td>
 										</tr>
