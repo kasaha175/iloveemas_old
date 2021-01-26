@@ -55,11 +55,12 @@
                                         </div>
                                         <div class="form-group">
                                             <label>ADDRESS</label>
-                                            <input type="text" id="u_address" required class="form-control" name="address" value="<?=$d->c_address?>">
+                                            <input type="text">
+                                            <textarea id="u_address" required class="form-control" name="address"><?=$d->c_address?></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>RESIDENT ADDRESS</label>
-                                            <input id="u_resident_address" type="text" required class="form-control" name="resident_address" value="<?=$d->c_resident_address?>">
+                                            <textarea id="u_resident_address" required class="form-control" name="resident_address" value=""><?=$d->c_resident_address?></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>PHONE</label>

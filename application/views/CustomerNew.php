@@ -36,11 +36,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label>ADDRESS</label>
-                                            <input id="u_address" type="text" required class="form-control" name="address">
+                                            <textarea id="u_address" required class="form-control" name="address" value=""></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>RESIDENT ADDRESS</label>
-                                            <input id="u_resident_address" type="text" required class="form-control" name="resident_address">
+                                            <textarea id="u_resident_address" required class="form-control" name="resident_address" value=""></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>PHONE</label>
