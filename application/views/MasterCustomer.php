@@ -64,20 +64,6 @@ function nominal($angka){
                                                     <th style="min-width:100px;">Created By</th>
                                                 </tr>
                                             </thead>
-                                            <tfoot>
-                                            <tr>
-                                            <th>No</th>
-                                                    <th style="min-width:100px;">Action</th>
-                                                    <!-- <th style="min-width:100px;">Id User</th> -->
-                                                    <th style="min-width:100px;">No Order</th>
-                                                    <th style="min-width:100px;">Name</th>
-                                                    <th style="min-width:100px;">Address</th>
-                                                    <th style="min-width:100px;">Resident Address</th>
-                                                    <th style="min-width:100px;">Phone</th>
-                                                    <th style="min-width:100px;">Date Created</th>
-                                                    <th style="min-width:100px;">Created By</th>
-                                                </tr>
-                                            </tfoot>
                                             <tbody>
                                             <?php $no=0; foreach($customer as $a){ $no++; ?>
                                                 <tr>

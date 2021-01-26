@@ -41,8 +41,6 @@ class MasterModel extends CI_Model {
     function customerData(){
         $query = $this->db->query("SELECT *
         FROM tb_customer a
-        LEFT OUTER JOIN tb_user b
-        ON a.c_u_id = b.u_id
         WHERE a.c_id_number!='999999999999999'
         ORDER BY a.c_name ASC");
         return $query;
