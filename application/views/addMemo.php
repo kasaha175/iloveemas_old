@@ -5,10 +5,10 @@
         > 
         <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>transaction/">Transaction</a> 
         > 
-        <a style="color:#fff;text-decoration:none;" href="">New Customer</a> 
+        <a style="color:#fff;text-decoration:none;" href="">New Memo</a> 
     </div>
     <h3 class="text-center" style="color:#fff">TRANSACTION</h3>
-    <h3 class="text-center" style="color:#fff">New Customer</h3>
+    <h3 class="text-center" style="color:#fff">New Memo</h3>
     <br>
     <div class="col-md-12" style="padding:0px 150px;">
         <div class="row">
@@ -19,53 +19,37 @@
                             <!-- Card Header - Accordion -->
                             <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
                                 aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">NEW CUSTOMER</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">NEW Memo</h6>
                             </a>
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="collapseCardExample" style="">
                                 <div class="card-body">
-                                    <form action="<?=base_url()?>transaction/new-customer-process/" method="post" id="myForm">
+                                    <form action="<?=base_url('master/save-memo')?>" method="post" id="myForm">
                                         <div class="form-group">
-                                            <label>NAME</label>
-                                            <input type="hidden" class="form-control" name="key" value="<?=$this->input->get('key')?>">
-                                            <input id="u_name" type="text" required class="form-control" name="name">
+                                            <label>Isi Memo</label>
+                                            <input id="tm_value" type="text" required class="form-control" name="dt[tm_value]">
                                         </div>
                                         <div class="form-group">
-                                            <label>ID NUMBER (KTP)</label>
-                                            <input type="text" id="u_id_number" required class="form-control" name="idNumber">
+                                            <label>Priority</label>
+                                            <input type="number" id="tm_priority" required class="form-control" name="dt[tm_priority]">
                                         </div>
-                                        <div class="form-group">
-                                            <label>ADDRESS</label>
-                                            <input id="u_address" type="text" required class="form-control" name="address">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>RESIDENT ADDRESS</label>
-                                            <input id="u_resident_address" type="text" required class="form-control" name="resident_address">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>PHONE</label>
-                                            <input id="u_phone" type="text" required class="form-control" name="phone">
-                                        </div>
-                                        
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="row">
-                                                        <div class="col-md-12 mb-3">
-                                                        <a href="#" onclick="document.getElementById('myForm').submit();" 
-                                                            class="btn btn-primary btn-icon-split btn-lg btn-block">
-                                                            <span class="text">Save</span>
-                                                        </a>
-                                                        </div>
-                                                        
-                                                        <div class="col-md-4">
-                                                        <a href="<?=base_url()?>master/customer/"
-                                                            class="btn btn-primary btn-icon-split btn-lg btn-block">
-                                                           <span class="text">Back</span>
-                                                        </a>
-                                                        </div>
-                                                        
-                                                   </div>
-                                            </div>
+                                                    <div class="col-md-12 mb-3">
+                                                    <a href="#" onclick="document.getElementById('myForm').submit();" 
+                                                        class="btn btn-primary btn-icon-split btn-lg btn-block">
+                                                        <span class="text">Save</span>
+                                                    </a>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                    <a href="<?=base_url()?>master/customer/"
+                                                        class="btn btn-primary btn-icon-split btn-lg btn-block">
+                                                       <span class="text">Back</span>
+                                                    </a>
+                                                    </div>
+                                               </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -73,41 +57,25 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
-
 </div>
 <script type="text/javascript">
     $("#materialType").select2();
     $(".select2").select2();
 </script>
-
 <script>
     jQuery(function ($) {
-
         // QWERTY Text Input
         // The bottom of this file is where the autocomplete extension is added
         // ********************
-        $('#u_name').keyboard({
+        $('#tm_value').keyboard({
             layout: 'qwerty'
         });
-        $('#u_address').keyboard({
+        $('#tm_priority').keyboard({
             layout: 'qwerty'
         });
-         $('#u_resident_address').keyboard({
-            layout: 'qwerty'
-        });
-        $('#u_phone').keyboard({
-            layout: 'qwerty'
-        });
-        $('#u_id_number').keyboard({
-            layout: 'qwerty'
-        });
-
         $('.version').html('(v' + $('#u_name').getkeyboard().version + ')');
-
         // Contenteditable
         // ********************
         $.keyboard.keyaction.undo = function (base) {
@@ -118,7 +86,6 @@
             base.execCommand('redo');
             return false;
         };
-
         $('#contenteditable').keyboard({
             usePreview: false,
             useCombos: false,
@@ -147,6 +114,5 @@
             }
         });
         prettyPrint();
-
     });
 </script>

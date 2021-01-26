@@ -328,10 +328,13 @@
                 </tr>
                 <tr>
                     <td style="padding:10px 0px 10px 10px; min-width:465px; border: 1px solid black;" colspan="5">
-                        <p>1.	Barang	yang	sudah	dibeli/dijual	tidak	dapat	dikembalikan.</p>
-                        <p>2.	Tidak	menerima	penjualan/pembelian	untuk	anak	dibawah	usia	18th,	kecuali	dengan						disertai	surat	lengkap	dan/atau	disertai	dengan	persetujuan	orang	tua/wali	secara	 tertulis	</p>
-                        <p>3.	Hanya	membeli/menjual	barang	(perhiasan/logam	mulia)	yang	legal	berdasarkan							data	keterangan	penjual/pembeli	saat	transaksi	jual/beli	</p>
-                        <p>4.	Tidak	bertanggung	jawab	baik	secara	hukum	pidana	maupun	perdata	atas	transaksi 						penjualan/pembelian	barang	(perhiasan/Logam	Mulia)	jika	dikemudian	hari	barang								tersebut	hasil	curian,	penipuan,	penggelapan,	dll		</p>
+                        <?php 
+                        $this->db->order_by('tm_priority', 'asc');
+                        $memo = $this->db->get('tb_memo'); ?>
+                        <?php foreach ($memo as $key => $value): ?>
+                            
+                            <p><?= $key+1 ?>.	<?= $value->tm_value ?>.</p>
+                        <?php endforeach ?>
                     </td>
                     <td style="vertical-align:top; padding-left:5px; min-width:145px;">
                         <p style="text-align:center;">

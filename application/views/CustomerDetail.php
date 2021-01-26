@@ -58,6 +58,10 @@
                                             <input type="text" id="u_address" required class="form-control" name="address" value="<?=$d->c_address?>">
                                         </div>
                                         <div class="form-group">
+                                            <label>RESIDENT ADDRESS</label>
+                                            <input id="u_resident_address" type="text" required class="form-control" name="resident_address" value="<?=$d->c_resident_address?>">
+                                        </div>
+                                        <div class="form-group">
                                             <label>PHONE</label>
                                             <input type="text"  id="u_phone" required class="form-control" name="phone" value="<?=$d->c_phone?>">
                                         </div>
@@ -110,6 +114,9 @@
         $('#u_address').keyboard({
             layout: 'qwerty'
         });
+        $('#u_resident_address').keyboard({
+            layout: 'qwerty'
+        });
         $('#u_id_number').keyboard({
             layout: 'qwerty'
         });
@@ -117,6 +124,9 @@
             layout: 'qwerty'
         });
         $('#u_no_order').keyboard({
+            layout: 'qwerty'
+        });
+        $('#c_id_number').keyboard({
             layout: 'qwerty'
         });
 

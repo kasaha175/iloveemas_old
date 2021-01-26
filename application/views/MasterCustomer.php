@@ -44,7 +44,7 @@ function nominal($angka){
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="collapseCardExample" style="">
                                 <div class="card-body">
-                                <a href="http://localhost:1996/iloveemas/transaction/new-customer/?key=add" class="text-info float-right mb-2">
+                                <a href="<?= base_url('transaction/new-customer/?key=add') ?>" class="text-info float-right mb-2">
                                     <span class="text"><span class="fas fa-user-plus"></span> Add Customer</span>
                                 </a>
                                     <div class="table-responsive">
@@ -58,6 +58,7 @@ function nominal($angka){
                                                     <th style="min-width:100px;">No Order</th>
                                                     <th style="min-width:100px;">Name</th>
                                                     <th style="min-width:100px;">Address</th>
+                                                    <th style="min-width:100px;">Resident Address</th>
                                                     <th style="min-width:100px;">Phone</th>
                                                     <th style="min-width:100px;">Date Created</th>
                                                     <th style="min-width:100px;">Created By</th>
@@ -71,6 +72,7 @@ function nominal($angka){
                                                     <th style="min-width:100px;">No Order</th>
                                                     <th style="min-width:100px;">Name</th>
                                                     <th style="min-width:100px;">Address</th>
+                                                    <th style="min-width:100px;">Resident Address</th>
                                                     <th style="min-width:100px;">Phone</th>
                                                     <th style="min-width:100px;">Date Created</th>
                                                     <th style="min-width:100px;">Created By</th>
@@ -88,6 +90,7 @@ function nominal($angka){
                                                      <td><?=$a->c_no_order?></td>
                                                     <td><?=$a->c_name?></td>
                                                     <td><?=$a->c_address?></td>
+                                                    <td><?=$a->c_resident_address?></td>
                                                     <td><?=$a->c_phone?></td>
                                                     <td><?=$a->c_date_created?></td>
                                                     <td><?=$a->u_name?></td>

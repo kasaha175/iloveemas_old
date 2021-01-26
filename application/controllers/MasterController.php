@@ -65,6 +65,7 @@ class MasterController extends CI_Controller
                 'c_name' => strtoupper($this->input->post("name")),
                 'c_id_number' => strtoupper($this->input->post("idNumber")),
                 'c_address' => strtoupper($this->input->post("address")),
+                'c_resident_address' => strtoupper($this->input->post("resident_address")),
                 'c_phone' => $this->input->post("phone"),
                 'c_u_id' => $idUser,
                 'c_no_order' => $this->input->post("noOrder"),
@@ -405,6 +406,97 @@ class MasterController extends CI_Controller
         else {
             redirect(base_url());
         }
+    }
+    public function memo()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        $this->data["title"] = "MASTER";
+        if ($authUser == true) {
+            $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+            $this->data['content'] = $this->load->view('Memo', $this->data, true);
+            $this->load->view("UserTemplate", $this->data);
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function addmemo()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        $this->data["title"] = "MASTER";
+        if ($authUser == true) {
+            $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+            $this->data['content'] = $this->load->view('addMemo', $this->data, true);
+            $this->load->view("UserTemplate", $this->data);
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function saveMemo()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        if ($authUser == true) {
+            $datapost = $this->input->post();
+            $this->db->insert('tb_memo', $datapost['dt']);
+            $data_session = array(
+                'status' => 'success',
+                'message' => "Add Memo is success!",
+            );
+            $this->session->set_userdata($data_session);
+            redirect(base_url()."master/memo");
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function detailMemo($idmemo='')
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        if ($authUser == true) {
+            $this->db->where('tm_id', $idmemo);
+            $this->data['memo'] = $this->db->get('tb_memo')->row();
+            $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+            $this->data['content'] = $this->load->view('editMemo', $this->data, true);
+            $this->load->view("UserTemplate", $this->data);
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function saveUpdateMemo()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        if ($authUser == true) {
+            $datapost = $this->input->post();
+            $this->db->where('tm_id', $datapost['id']);
+            $this->db->update('tb_memo', $datapost['dt']);
+            $data_session = array(
+                'status' => 'success',
+                'message' => "Update Memo is success!",
+            );
+            $this->session->set_userdata($data_session);
+            redirect(base_url()."master/memo");
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function deleteMemo($idmemo='')
+    {
+        $this->db->where('tm_id', $idmemo);
+        $this->db->delete('tb_memo');
+        $data_session = array(
+            'status' => 'success',
+            'message' => "Memo Is Deleted!",
+        );
+        $this->session->set_userdata($data_session);
+        redirect(base_url()."master/memo");
     }
 }
 ?>

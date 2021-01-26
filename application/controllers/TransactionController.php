@@ -167,6 +167,7 @@ class TransactionController extends CI_Controller
 				'c_name' => strtoupper($this->input->post("name")),
 				'c_id_number' => strtoupper($this->input->post("idNumber")),
 				'c_address' => strtoupper($this->input->post("address")),
+				'c_resident_address' => strtoupper($this->input->post("resident_address")),
 				'c_phone' => $this->input->post("phone"),
 				'c_u_id' => $idUser,
 				'c_no_order' => $noOrder,

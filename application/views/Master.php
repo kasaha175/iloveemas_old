@@ -15,6 +15,11 @@
                     <span class="text">CUSTOMER</span>
                 </a>
             </div>
+            <div class="col-md-6" style="padding:10px 10px">
+                <a href="<?=base_url()?>master/memo/" class="btn btn-lg btn-custom menu-box">
+                    <span class="text">MEMO</span>
+                </a>
+            </div>
             <!-- <div class="col-md-6" style="padding:10px 10px">
                 <a href="<?=base_url()?>master/material-type/" class="btn btn-lg btn-custom menu-box">
                     <span class="text">MATERIAL TYPE</span>

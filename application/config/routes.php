@@ -50,6 +50,13 @@ $route['master/delete-customer-process/(:any)'] = 'MasterController/deleteCustom
 $route['master/edit-customer-process'] = 'MasterController/editCustomerProcess';
 $route['master/customer/(:any)'] = 'MasterController/detailCustomer/$1';
 
+// master Memo
+$route['master/memo'] = 'MasterController/memo';
+$route['master/addMemo'] = 'MasterController/addmemo';
+$route['master/save-memo'] = 'MasterController/saveMemo';
+$route['master/detailMemo/(:any)'] = 'MasterController/detailMemo/$1';
+$route['master/update-memo'] = 'MasterController/saveUpdateMemo';
+$route['master/deleteMemo/(:any)'] = 'MasterController/deleteMemo/$1';
 //report
 $route['report'] = 'ReportController/report';
 $route['report/buy'] = 'ReportController/buy';
