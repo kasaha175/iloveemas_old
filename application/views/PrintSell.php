@@ -151,6 +151,9 @@
                 Address : <?=ucwords(strtolower($a->c_address))?>
               </p>
               <p style="margin:5px; ;">
+                Resident Address :  <?=$a->c_resident_address?>
+              </p>
+              <p style="margin:5px; ;">
                 Phone Number :  <?=$a->c_phone?>
               </p>
             </div>
@@ -330,7 +333,8 @@
                     <td style="padding:10px 0px 10px 10px; min-width:465px; border: 1px solid black;" colspan="5">
                         <?php 
                         $this->db->order_by('tm_priority', 'asc');
-                        $memo = $this->db->get('tb_memo'); ?>
+                        $memo = $this->db->get('tb_memo')->result(); 
+                        ?>
                         <?php foreach ($memo as $key => $value): ?>
                             
                             <p><?= $key+1 ?>.	<?= $value->tm_value ?>.</p>

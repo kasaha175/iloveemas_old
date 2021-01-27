@@ -151,6 +151,9 @@
               <p style="margin:5px; ">
                 Address : <?=ucwords(strtolower($a->c_address))?>
               </p>
+              <p style="margin:5px; ;">
+                Resident Address :  <?=$a->c_resident_address?>
+              </p>
               <p style="margin:5px; ">
                 Phone Number :  <?=$a->c_phone?>
               </p>
