@@ -326,7 +326,7 @@
                 </tr>
                 <tr>
                     <td style="padding:10px 0px 10px 10px; min-width:465px; border: 1px solid black;" colspan="5">
-                    Memo
+                    Syarat & Ketentuan
                     </td>
                 </tr>
                 <tr>
