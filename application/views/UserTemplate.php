@@ -16,6 +16,7 @@
 			<link href="<?=base_url()?>assets/css/sb-admin-2.min.css" rel="stylesheet">
 			<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 			<link href="<?=base_url()?>assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+			<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 			<script src="<?=base_url()?>assets/offline/jquery.min.js"></script>
 			<script src="<?=base_url()?>assets/offline/jquery-ui.min.js"></script>
 			<script src="<?=base_url()?>assets/offline/jqkeyboard.js"></script>
@@ -44,6 +45,7 @@
 			<script src='<?=base_url()?>assets/offline/buttons.html5.min.js'></script>
 			<script src='<?=base_url()?>assets/offline/buttons.print.min.js'></script>
 			<script src='<?=base_url()?>assets/offline/buttons.colVis.min.js'></script>
+
 			<style>
 			body{
 			font-family: 'Poppins', 'sans-serif';
@@ -142,6 +144,8 @@
 <link href="<?=base_url()?>assets/keyboard/docs/css/prettify.css" rel="stylesheet">
 <script src="<?=base_url()?>assets/keyboard/docs/js/jquery.tipsy.min.js"></script>
 <script src="<?=base_url()?>assets/keyboard/docs/js/prettify.js"></script> <!-- syntax highlighting -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 			<?=$content?>
 		</div>
 	</div>
@@ -165,5 +169,30 @@
 			$(function () {
 			jqKeyboard.init();
 			});
+			function renderTextArea() {
+    $('.summernote').summernote({
+          popover: {
+            image: [
+              ['image', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
+              ['float', ['floatLeft', 'floatRight', 'floatNone']],
+              ['remove', ['removeMedia']]
+            ],
+            link: [
+              ['link', ['linkDialogShow', 'unlink']]
+            ],
+            table: [
+              ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+              ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
+            ],
+            air: [
+              ['color', ['color']],
+              ['font', ['bold', 'underline', 'clear']],
+              ['para', ['ul', 'paragraph']],
+              ['table', ['table']],
+              ['insert', ['link', 'picture']]
+            ]
+          }
+      });
+  }
 			</script>
 		</html>

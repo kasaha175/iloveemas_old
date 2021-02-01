@@ -12,7 +12,7 @@
     <br>
     <div class="col-md-12" style="padding:0px 150px;">
         <div class="row">
-            <div class="col-md-6 offset-md-3" style="padding:10px 10px">
+            <div class="col-md-8 offset-md-2" style="padding:10px 10px">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card shadow mb-4">
@@ -27,7 +27,7 @@
                                     <form action="<?=base_url('master/save-memo')?>" method="post" id="myForm">
                                         <div class="form-group">
                                             <label>Isi Memo</label>
-                                            <input id="tm_value" type="text" required class="form-control" name="dt[tm_value]">
+                                            <textarea class="form-control summernote" name="dt[tm_value]"></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>Priority</label>
@@ -66,6 +66,7 @@
 </script>
 <script>
     jQuery(function ($) {
+        renderTextArea();
         // QWERTY Text Input
         // The bottom of this file is where the autocomplete extension is added
         // ********************

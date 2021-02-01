@@ -1,3 +1,4 @@
+
 <div class="col-md-12" style="margin-top:110px;">
     <div style="color:#fff;margin-top:-30px;">
         <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>dashboard/" class="fa fa-home"></a>
@@ -12,7 +13,7 @@
     <br>
     <div class="col-md-12" style="padding:0px 150px;">
         <div class="row">
-            <div class="col-md-6 offset-md-3" style="padding:10px 10px">
+            <div class="col-md-8 offset-md-2" style="padding:10px 10px">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card shadow mb-4">
@@ -28,7 +29,7 @@
                                         <input type="hidden" name="id" value="<?= $memo->tm_id ?>">
                                         <div class="form-group">
                                             <label>Isi Memo</label>
-                                            <input id="tm_value" type="text" required class="form-control" name="dt[tm_value]" value="<?= $memo->tm_value ?>">
+                                            <textarea class="form-control summernote" name="dt[tm_value]"><?= $memo->tm_value ?></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>Priority</label>
@@ -61,12 +62,14 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     $("#materialType").select2();
     $(".select2").select2();
-</script>
+</script> -->
 <script>
+
     jQuery(function ($) {
+        renderTextArea();
         // QWERTY Text Input
         // The bottom of this file is where the autocomplete extension is added
         // ********************
