@@ -337,7 +337,7 @@
                         ?>
                         <?php foreach ($memo as $key => $value): ?>
                             
-                            <div><?= $key+1 ?>.	<?= $value->tm_value ?>.</div>
+                            <div><?= $value->tm_value ?>.</div>
                         <?php endforeach ?>
                     </td>
                     <td style="vertical-align:top; padding-left:5px; min-width:145px;">
