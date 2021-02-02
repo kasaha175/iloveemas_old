@@ -444,7 +444,7 @@ class MasterController extends CI_Controller
             $this->db->insert('tb_memo', $datapost['dt']);
             $data_session = array(
                 'status' => 'success',
-                'message' => "Add Memo is success!",
+                'message' => "Syarat & Ketentuan Berhasil Disimpan",
             );
             $this->session->set_userdata($data_session);
             redirect(base_url()."master/memo");
@@ -478,7 +478,7 @@ class MasterController extends CI_Controller
             $this->db->update('tb_memo', $datapost['dt']);
             $data_session = array(
                 'status' => 'success',
-                'message' => "Update Memo is success!",
+                'message' => "Syarat & Ketentuan Berhasil Disimpan",
             );
             $this->session->set_userdata($data_session);
             redirect(base_url()."master/memo");

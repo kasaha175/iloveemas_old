@@ -338,7 +338,7 @@
                         $memo = $this->db->get('tb_memo')->result(); ?>
                         <?php foreach ($memo as $key => $value): ?>
                             
-                            <p><?= $key+1 ?>.   <?= $value->tm_value ?>.</p>
+                            <div><?= $key+1 ?>. <?= $value->tm_value ?>.</div>
                         <?php endforeach ?>
                     </td>
                     <td style="vertical-align:top; padding-left:5px; min-width:145px;">

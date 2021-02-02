@@ -11,10 +11,10 @@ function nominal($angka){
         > 
         <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>master/">Master</a> 
         > 
-        <a style="color:#fff;text-decoration:none;" href="">Master Memo</a> 
+        <a style="color:#fff;text-decoration:none;" href="">Master  Syarat & Ketentuan</a> 
     </div>
     <h3 class="text-center" style="color:#fff">MASTER</h3>
-    <h3 class="text-center" style="color:#fff">Master Memo</h3>
+    <h3 class="text-center" style="color:#fff">Master Syarat & Ketentuan</h3>
     <br>
     <div class="col-md-12" style="padding:0px 150px;">
         <div class="row">
@@ -25,7 +25,7 @@ function nominal($angka){
                             <!-- Card Header - Accordion -->
                             <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
                                 aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">Memo Data </h6>
+                                <h6 class="m-0 font-weight-bold text-primary"> Syarat & Ketentuan Data </h6>
                             </a>
                             <?php if($this->session->userdata('status')=='success'){ ?>
                             <div class="col-md-12 mt-3">
@@ -47,7 +47,7 @@ function nominal($angka){
                             <div class="collapse show" id="collapseCardExample" style="">
                                 <div class="card-body">
                                 <a href="<?= base_url('master/addMemo') ?>" class="text-info float-right mb-2">
-                                    <span class="text"><span class="fas fa-user-plus"></span> Add Memo</span>
+                                    <span class="text"><span class="fas fa-user-plus"></span> Add Syarat & Ketentuan</span>
                                 </a>
                                     <div class="table-responsive">
                                         <table style="overflow:scroll; width: 100%;"  class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -56,7 +56,7 @@ function nominal($angka){
                                                     <th style="width:5px;">No</th>
                                                     <th style="width:100px;">Action</th>
                                                     <!-- <th style="min-width:100px;">Id User</th> -->
-                                                    <th style="min-width:100px;">Memo</th>
+                                                    <th style="min-width:100px;">Syarat & Ketentuan</th>
                                                     <th style="min-width:100px;">Priority</th>
                                                 </tr>
                                             </thead>

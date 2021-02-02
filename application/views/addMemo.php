@@ -5,10 +5,10 @@
         > 
         <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>transaction/">Transaction</a> 
         > 
-        <a style="color:#fff;text-decoration:none;" href="">New Memo</a> 
+        <a style="color:#fff;text-decoration:none;" href="">New Syarat & Ketentuan</a> 
     </div>
     <h3 class="text-center" style="color:#fff">TRANSACTION</h3>
-    <h3 class="text-center" style="color:#fff">New Memo</h3>
+    <h3 class="text-center" style="color:#fff">New Syarat & Ketentuan</h3>
     <br>
     <div class="col-md-12" style="padding:0px 150px;">
         <div class="row">
@@ -19,14 +19,14 @@
                             <!-- Card Header - Accordion -->
                             <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
                                 aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">NEW Memo</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">NEW Syarat & Ketentuan</h6>
                             </a>
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="collapseCardExample" style="">
                                 <div class="card-body">
                                     <form action="<?=base_url('master/save-memo')?>" method="post" id="myForm">
                                         <div class="form-group">
-                                            <label>Isi Memo</label>
+                                            <label>Isi Syarat & Ketentuan</label>
                                             <textarea class="form-control summernote" name="dt[tm_value]"></textarea>
                                         </div>
                                         <div class="form-group">
