@@ -109,39 +109,43 @@
 		<div class="container" id="printNow">
 			<div class="row">
 				<div class="col-md-6">
-					<table class="table table-sm table-borderless" border="2">
-						<thead class="text-center">
-							<tr>
-								<th style="font-size: 18px; border-bottom: 2px solid">PT Muara Logam Indonesia</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									<p style="">
-										<input type="checkbox" />
+					<div style="border: 2px solid">
+						<table class="table table-sm table-borderless" border="0">
+							<thead class="text-center">
+								<tr>
+									<th colspan="3" style="font-size: 18px; border-bottom: 2px solid">Vendor</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="width: 25px;"><input type="checkbox" /></td>
+									<td>
 										I Love Emas Jakarta : Ruko Sky Terrace Blok B, Jl. Tanah Lot,
-										Daan Mogot Baru
-									</p>
-									<p style="">
-										<input type="checkbox" />
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 25px;"><input type="checkbox" /></td>
+									<td>
 										I Love Emas Bali : Jl. Gunung Soputan 36B, Denpasar Barat, Bali
-									</p>
-									<p style="">
-										<input type="checkbox" />
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 25px;"><input type="checkbox" /></td>
+									<td>
 										I Love Emas Surabaya: Cito Mall Surabaya, Lt UG Blok UB 5/10
-									</p>
-									<p style="">
-										<input type="checkbox" />
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 25px;"><input type="checkbox" /></td>
+									<td>
 										I Love Emas Bekasi : Lt. GF 48-49 Revo Town Mall Bekasi Lt. GF 48-49, Pekayon Jaya, Kec. Bekasi Sel., Kota Bks, Jawa Barat
-									</p>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 				<div class="col-md-6">
-					
 					<b>Purchase Payment</b><br>
 					<div class="row">
 						<div class="col-6">
@@ -187,22 +191,22 @@
 							<tbody>
 								<tr>
 									<td style="width: 150px;">Name</td>
-									<td style="width: 5px;"></td>
+									<td style="width: 5px;"> : </td>
 									<td><?=ucwords(strtolower($a->nameCustomer))?> (<?=strtoupper($a->c_id_number)?>)</td>
 								</tr>
 								<tr>
 									<td style="width: 150px;">Address</td>
-									<td style="width: 5px;"></td>
+									<td style="width: 5px;"> : </td>
 									<td><?=ucwords(strtolower($a->c_address))?></td>
 								</tr>
 								<tr>
 									<td style="width: 150px;">Resident Address</td>
-									<td style="width: 5px;"></td>
+									<td style="width: 5px;"> : </td>
 									<td><?=$a->c_resident_address?></td>
 								</tr>
 								<tr>
 									<td style="width: 150px;">Phone Number</td>
-									<td style="width: 5px;"></td>
+									<td style="width: 5px;"> : </td>
 									<td><?=$a->c_phone?></td>
 								</tr>
 							</tbody>
@@ -294,7 +298,6 @@
 									$this->db->order_by('tm_priority', 'asc');
                         			$memo = $this->db->get('tb_memo')->result();
 									foreach ($memo as $key => $value): ?>
-
 										<div class="no-margin text-justify"><?= $value->tm_value ?></div>
 									<?php endforeach ?>
 								</td>
@@ -304,7 +307,7 @@
 				</div>
 			</div>
 			<div class="row justify-content-md-center text-center">
-				<div class="col-3">
+				<div class="col-4">
 					Received By
 					<br>
 					<br>
@@ -314,7 +317,7 @@
 					<br>
 					--------------
 				</div>
-				<div class="col-3">
+				<div class="col-4">
 					Paid By
 					<br>
 					<br>
