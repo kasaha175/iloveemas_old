@@ -57,6 +57,9 @@
       input[type=checkbox] {
         transform: scale(1.5);
       }
+	  .no-margin p{
+		  margin: 0px !important; 
+	  }
     </style>
     <title><?=$title?></title>
   </head>
@@ -337,7 +340,7 @@
                         ?>
                         <?php foreach ($memo as $key => $value): ?>
                             
-                            <div><?= $value->tm_value ?>.</div>
+                            <div class="no-margin"><?= $value->tm_value ?></div>
                         <?php endforeach ?>
                     </td>
                     <td style="vertical-align:top; padding-left:5px; min-width:145px;">
