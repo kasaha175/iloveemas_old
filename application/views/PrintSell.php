@@ -50,15 +50,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="<?= base_url('assets/bootstrap-4/css/bootstrap.min.css') ?>">
-    <link href="https://fonts.googleapis.com/css?family=Gothic+A1:700&display=swap" rel="stylesheet">
+    
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="<?= base_url('assets/bootstrap-4/js/bootstrap.min.js') ?>"></script>
     <title><?=$title?></title>
   </head>
   <body vlink="blue" link="blue" style="background-color:#A0A0A0;">
     <style>
+        @font-face {
+          font-family: 'Poppins';
+          src: url(<?= base_url('assets/Poppins-SemiBold.ttf') ?>);
+        }
         body{
-            font-family: 'Gothic A1', sans-serif;
+            font-family: 'Poppins' !important;
             font-size: 15px;
         }
         .table-bordered {
