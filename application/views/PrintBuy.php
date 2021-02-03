@@ -55,14 +55,15 @@
   </head>
   <body vlink="blue" link="blue" style="background-color:#A0A0A0;">
 	<style>
-		@font-face {
-		  font-family: 'Poppins';
-		  src: url(<?= base_url('assets/Poppins-SemiBold.ttf') ?>);
-		}
-		body{
-			font-family: 'Poppins' !important;
-			font-size: 15px;
-		}
+		/*@font-face {
+          font-family: 'Poppins';
+          src: url(<?= base_url('assets/Poppins-SemiBold.ttf') ?>);
+        }*/
+        body{
+            font-family: 'calibri' !important;
+            font-weight: 600;
+            font-size: 15px;
+        }
 		.table-bordered {
 		    border: 2px solid !important;
 		}
