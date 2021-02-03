@@ -5,14 +5,14 @@
         > 
         <a style="color:#fff;text-decoration:none;" href="">Master</a> 
     </div>
-        <h3 class="text-center" style="color:#fff">MASTER</h3>
+        <h3 class="text-center" style="color:#fff">Master</h3>
     
     <br>
     <div class="col-md-12" style="padding:0px 350px;">
         <div class="row">
             <div class="col-md-6" style="padding:10px 10px">
                 <a href="<?=base_url()?>master/customer/" class="btn btn-lg btn-custom menu-box">
-                    <span class="text">CUSTOMER</span>
+                    <span class="text">Customer</span>
                 </a>
             </div>
             <div class="col-md-6" style="padding:10px 10px">
