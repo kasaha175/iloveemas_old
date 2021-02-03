@@ -51,7 +51,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Gothic+A1:700&display=swap" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script src="<?= base_url('assets/bootstrap-4/js/bootstrap.min.js') ?>"></script>
-	<title>Hello, world!</title>
+	<title>Print Buy</title>
   </head>
   <body vlink="blue" link="blue" style="background-color:#A0A0A0;">
 	<style>
@@ -141,37 +141,7 @@
 					</table>
 				</div>
 				<div class="col-md-6">
-					<div style="border: 2px solid">
-						<table class="table table-sm table-borderless" border="0">
-							<thead class="text-center">
-								<tr>
-									<th colspan="3" style="font-size: 18px; border-bottom: 2px solid">Vendor</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td style="width: 150px;">Name</td>
-									<td style="width: 5px;"></td>
-									<td><?=ucwords(strtolower($a->nameCustomer))?> (<?=strtoupper($a->c_id_number)?>)</td>
-								</tr>
-								<tr>
-									<td style="width: 150px;">Address</td>
-									<td style="width: 5px;"></td>
-									<td><?=ucwords(strtolower($a->c_address))?></td>
-								</tr>
-								<tr>
-									<td style="width: 150px;">Resident Address</td>
-									<td style="width: 5px;"></td>
-									<td><?=$a->c_resident_address?></td>
-								</tr>
-								<tr>
-									<td style="width: 150px;">Phone Number</td>
-									<td style="width: 5px;"></td>
-									<td><?=$a->c_phone?></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					
 					<b>Purchase Payment</b><br>
 					<div class="row">
 						<div class="col-6">
@@ -207,11 +177,42 @@
 							</table>
 						</div>
 					</div>
+					<div style="border: 2px solid">
+						<table class="table table-sm table-borderless" border="0">
+							<thead class="text-center">
+								<tr>
+									<th colspan="3" style="font-size: 18px; border-bottom: 2px solid">Vendor</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="width: 150px;">Name</td>
+									<td style="width: 5px;"></td>
+									<td><?=ucwords(strtolower($a->nameCustomer))?> (<?=strtoupper($a->c_id_number)?>)</td>
+								</tr>
+								<tr>
+									<td style="width: 150px;">Address</td>
+									<td style="width: 5px;"></td>
+									<td><?=ucwords(strtolower($a->c_address))?></td>
+								</tr>
+								<tr>
+									<td style="width: 150px;">Resident Address</td>
+									<td style="width: 5px;"></td>
+									<td><?=$a->c_resident_address?></td>
+								</tr>
+								<tr>
+									<td style="width: 150px;">Phone Number</td>
+									<td style="width: 5px;"></td>
+									<td><?=$a->c_phone?></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
-					<table class="table table-sm table-bordered" border="2" style="border: 2px solid !important">
+					<table class="table table-sm table-bordered" border="2" style="border: 2px solid !important; margin-top: 10px;">
 						<thead class="text-center">
 							<tr style="border-bottom: 2px solid;">
 								<th style="width: 15px;border: 2px solid !important">No</th>
@@ -338,18 +339,18 @@
           // ajaxdestroy();
           clickBack();
         });
-        // function ajaxdestroy() {
-        //     jQuery.ajax({
-        //       url: '<?= base_url('transaction/chart-destroy') ?>',
-        //       success: function(data, textStatus, xhr) {
-        //         window.location.href = '<?=base_url()?>report/buy';
-        //       },
-        //     });
-        // }
-        // function clickBack() {
-        //     // window.history.back();
-        //     window.location.href = "<?= base_url('dashboard') ?>";
-        // }
+        function ajaxdestroy() {
+            jQuery.ajax({
+              url: '<?= base_url('transaction/chart-destroy') ?>',
+              success: function(data, textStatus, xhr) {
+                window.location.href = '<?=base_url()?>report/buy';
+              },
+            });
+        }
+        function clickBack() {
+            // window.history.back();
+            window.location.href = "<?= base_url('dashboard') ?>";
+        }
       </script>
     </div>
   </body>
