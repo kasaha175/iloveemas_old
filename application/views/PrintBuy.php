@@ -91,7 +91,7 @@
 	<div style="width:918px;min-height:1188px;background-color:#fff;">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-12">
 					<div style="padding:5px;margin:0px;" id="printHide">
 						<a id="doPrint" href="#!"
 						  ><img
@@ -108,12 +108,12 @@
 		</div>
 		<div class="container" id="printNow">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-6">
 					<div style="border: 2px solid">
 						<table class="table table-sm table-borderless" border="0">
 							<thead class="text-center">
 								<tr>
-									<th colspan="3" style="font-size: 18px; border-bottom: 2px solid">Vendor</th>
+									<th colspan="3" style="font-size: 18px; border-bottom: 2px solid">PT Muara Logam Indonesia</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -145,7 +145,7 @@
 						</table>
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-6">
 					<b>Purchase Payment</b><br>
 					<div class="row">
 						<div class="col-6">
@@ -215,7 +215,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-12">
 					<table class="table table-sm table-bordered" border="2" style="border: 2px solid !important; margin-top: 10px;">
 						<thead class="text-center">
 							<tr style="border-bottom: 2px solid;">
