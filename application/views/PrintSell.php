@@ -61,7 +61,7 @@ function penyebut($nilai) {
 		</style>
 		<title><?=$title?></title>
 	</head>
-	<body vlink="blue" link="blue" style="background-color:#A0A0A0;">
+	<body vlink="blue" link="blue" style="background-color:#A0A0A0;margin: 0px;">
 		<div style="width:918px;min-height:1188px;background-color:#fff;">
 			<div style="padding:5px;margin:0px;" id="printHide">
 				<a id="doPrint" href="#!"
@@ -186,31 +186,31 @@ function penyebut($nilai) {
 							</td>
 						</tr>
 						<?php $no=0; foreach($detail as $d){ $no++; ?>
-						<?php if($no>27){ break; }else{ ?>
-						<tr>
-							<td style="padding-left:5px; min-width:30px; border: 1px solid black;">
-								<?=$no?>
-							</td>
-							<td style="padding-left:5px; min-width:125px; border: 1px solid black;">
-								<?php if($d->ti_material=='Cust. Profesion'){ echo 'Gold'; }else{ echo $d->ti_material;} ?>
-							</td>
-							<td style="padding-left:5px; min-width:110px; border: 1px solid black;">
-								<?=$d->ti_material_type?>
-							</td>
-							<td style="padding-left:5px; min-width:50px; border: 1px solid black;">
-								<?=$d->ti_carat?>
-							</td>
-							<td style="padding-left:5px; min-width:100px; border: 1px solid black;">
-								<?=$d->ti_weight?>
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;">
-								<?php if($d->ti_price!='-'){ echo nominal($d->ti_price);}else{echo $d->ti_price;}?>
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;text-align:right;">
-								<?=nominal($d->ti_price_total)?>
-							</td>
-						</tr>
-						<?php }} ?>
+						
+							<tr>
+								<td style="padding-left:5px; min-width:30px; border: 1px solid black;">
+									<?=$no?>
+								</td>
+								<td style="padding-left:5px; min-width:125px; border: 1px solid black;">
+									<?php if($d->ti_material=='Cust. Profesion'){ echo 'Gold'; }else{ echo $d->ti_material;} ?>
+								</td>
+								<td style="padding-left:5px; min-width:110px; border: 1px solid black;">
+									<?=$d->ti_material_type?>
+								</td>
+								<td style="padding-left:5px; min-width:50px; border: 1px solid black;">
+									<?=$d->ti_carat?>
+								</td>
+								<td style="padding-left:5px; min-width:100px; border: 1px solid black;">
+									<?=$d->ti_weight?>
+								</td>
+								<td style="padding-left:5px; min-width:145px; border: 1px solid black;">
+									<?php if($d->ti_price!='-'){ echo nominal($d->ti_price);}else{echo $d->ti_price;}?>
+								</td>
+								<td style="padding-left:5px; min-width:145px; border: 1px solid black;text-align:right;">
+									<?=nominal($d->ti_price_total)?>
+								</td>
+							</tr>
+						<?php } ?>
 						<tr>
 							<td style="padding-left:5px; min-width:30px; border: 1px solid black;">
 								#
@@ -239,136 +239,7 @@ function penyebut($nilai) {
 						</tr>
 					</table>
 				</div>
-				<?php if(count($detail)>27){?>
-				<div style="width:100%;margin-top:0px;">
-					<table style="padding-right:5px; width:96%; display:inline-block;vertical-align:text-top;">
-						<?php $no=0; foreach($detail as $d){ $no++; ?>
-						<?php if($no>=74){break;}else if($no<=27){ }else{ ?>
-						<tr>
-							<td style="padding-left:5px; min-width:30px; border: 1px solid black;">
-								<?=$no?>
-							</td>
-							<td style="padding-left:5px; min-width:125px; border: 1px solid black;">
-								<?=$d->ti_material?>
-							</td>
-							<td style="padding-left:5px; min-width:110px; border: 1px solid black;">
-								<?=$d->ti_material_type?>
-							</td>
-							<td style="padding-left:5px; min-width:136px; border: 1px solid black;">
-								<?=$d->ti_carat?>
-							</td>
-							<td style="padding-left:5px; min-width:100px; border: 1px solid black;">
-								<?=$d->ti_weight?>
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;">
-								<?php if($d->ti_price!='-'){ echo nominal($d->ti_price);}else{echo $d->ti_price;}?>
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;text-align:right;">
-								<?=nominal($d->ti_price_total)?>
-							</td>
-						</tr>
-						<?php }} ?>
-						<tr>
-							<td style="padding-left:5px; min-width:30px; border: 1px solid black;">
-								#
-							</td>
-							<td style="padding-left:5px; min-width:125px; border: 1px solid black;">
-								ADMIN
-							</td>
-							<td style="padding-left:5px; min-width:110px; border: 1px solid black;">
-							</td>
-							<td style="padding-left:5px; min-width:136px; border: 1px solid black;">
-							</td>
-							<td style="padding-left:5px; min-width:100px; border: 1px solid black;">
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;">
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;text-align:right;">
-								<?=nominal($a->t_price_admin)?>
-							</td>
-						</tr>
-						<tr>
-							<td style="; border: 1px solid black;" colspan="5">
-								<span><input style="margin:10px 5px 10px 5px;" type="checkbox"><span>Cash</span></span>
-								<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Credit</span></span>
-								<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Debit</span></span>
-								<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Transfer</span></span>
-							</td>
-							<td style="min-width:145px; border: 1px solid black;text-align:center;">
-								TOTAL
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;text-align:right;">
-								<?=nominal($a->t_price_total+$a->t_price_admin)?>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<?php } ?>
-				<?php if(count($detail)>74){?>
-				<div style="width:100%;margin-top:0px;">
-					<table style="padding-right:5px; width:96%; display:inline-block;vertical-align:text-top;">
-						<?php $no=0; foreach($detail as $d){ $no++; ?>
-						<?php if($no<74){ }else{ ?>
-						<tr>
-							<td style="padding-left:5px; min-width:30px; border: 1px solid black;text-align:right;">
-								<?=$no?>
-							</td>
-							<td style="padding-left:5px; min-width:125px; border: 1px solid black;">
-								<?=$d->ti_material?>
-							</td>
-							<td style="padding-left:5px; min-width:110px; border: 1px solid black;">
-								<?=$d->ti_material_type?>
-							</td>
-							<td style="padding-left:5px; min-width:136px; border: 1px solid black;">
-								<?=$d->ti_carat?>
-							</td>
-							<td style="padding-left:5px; min-width:100px; border: 1px solid black;">
-								<?=$d->ti_weight?>
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;">
-								<?php if($d->ti_price!='-'){ echo nominal($d->ti_price);}else{echo $d->ti_price;}?>
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;">
-								<?=nominal($d->ti_price_total)?>
-							</td>
-						</tr>
-						<?php }} ?>
-						<tr>
-							<td style="padding-left:5px; min-width:30px; border: 1px solid black;">
-								#
-							</td>
-							<td style="padding-left:5px; min-width:125px; border: 1px solid black;">
-								ADMIN
-							</td>
-							<td style="padding-left:5px; min-width:110px; border: 1px solid black;">
-							</td>
-							<td style="padding-left:5px; min-width:136px; border: 1px solid black;">
-							</td>
-							<td style="padding-left:5px; min-width:100px; border: 1px solid black;">
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;">
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;text-align:right;">
-								<?=nominal($a->t_price_admin)?>
-							</td>
-						</tr>
-						<tr>
-							<td style="; border: 1px solid black;" colspan="5">
-								<span><input style="margin:10px 5px 10px 5px;" type="checkbox"><span>Cash</span></span>
-								<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Credit</span></span>
-								<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Debit</span></span>
-								<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Transfer</span></span>
-							</td>
-							<td style="min-width:145px; border: 1px solid black;text-align:center;">
-								TOTAL
-							</td>
-							<td style="padding-left:5px; min-width:145px; border: 1px solid black;text-align:right;">
-								<?=nominal($a->t_price_total+$a->t_price_admin)?>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<?php } ?>
+				
 				<div style="width:100%;margin-top:0px;">
 					
 					<table style="padding-right:5px; width:100%; display:inline-block;vertical-align:text-top;">
