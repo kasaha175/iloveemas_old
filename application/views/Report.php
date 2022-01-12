@@ -9,14 +9,15 @@
     
     <br>
     <div class="col-md-12" style="padding:0px 350px;">
+	
         <div class="row">
             <div class="col-md-6" style="padding:10px 10px">
-                <a href="<?=base_url()?>report/buy/" class="btn btn-lg btn-custom menu-box">
+                <a href="<?=base_url()?>report/buy/?dateStart=<?= date('Y-m-01'); ?>&dateEnd=<?= date('Y-m-t'); ?>" class="btn btn-lg btn-custom menu-box">
                     <span class="text">BUY</span>
                 </a>
             </div>
             <div class="col-md-6" style="padding:10px 10px">
-                <a href="<?=base_url()?>report/sell/" class="btn btn-lg btn-custom menu-box">
+                <a href="<?=base_url()?>report/sell/?dateStart=<?= date('Y-m-01'); ?>&dateEnd=<?= date('Y-m-t'); ?>" class="btn btn-lg btn-custom menu-box">
                     <span class="text">SELL</span>
                 </a>
             </div>

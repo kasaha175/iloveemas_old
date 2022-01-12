@@ -159,7 +159,6 @@ function penyebut($nilai) {
 						</div>
 					</div>
 				</div>
-				
 				<div style="width:100%;margin-top:15px;">
 					<table style="padding-right:5px; width:100%; display:inline-block;vertical-align:text-top;">
 						<tr>
@@ -186,7 +185,6 @@ function penyebut($nilai) {
 							</td>
 						</tr>
 						<?php $no=0; foreach($detail as $d){ $no++; ?>
-						
 							<tr>
 								<td style="padding-left:5px; min-width:30px; border: 1px solid black;">
 									<?=$no?>
@@ -218,7 +216,6 @@ function penyebut($nilai) {
 							<td style="padding-left:5px; border: 1px solid black;" colspan="5">
 								ADMIN
 							</td>
-							
 							<td style="padding-left:5px; min-width:145px; border: 1px solid black;text-align:right;">
 								<?=nominal($a->t_price_admin)?>
 							</td>
@@ -239,9 +236,7 @@ function penyebut($nilai) {
 						</tr>
 					</table>
 				</div>
-				
 				<div style="width:100%;margin-top:0px;">
-					
 					<table style="padding-right:5px; width:100%; display:inline-block;vertical-align:text-top;">
 						<tr>
 							<td style="padding:10px 0px 10px 10px; min-width:465px; border: 1px solid black; text-align: center;" colspan="5">
@@ -268,7 +263,6 @@ function penyebut($nilai) {
 								</p>
 								<p style="text-align:center;margin-top:100px;">
 									I LOVE EMAS
-									
 								</p>
 								<p style="text-align:center;margin-top:-25px;">
 									--------------
@@ -293,7 +287,6 @@ function penyebut($nilai) {
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 			<script>
 			$("#doPrint").click(function() {
-			
 			window.print();
 			// ajaxdestroy();
 			clickBack();
