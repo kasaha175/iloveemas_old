@@ -26,6 +26,13 @@ class MaterialModel extends CI_Model {
     ORDER BY a.c_id DESC");
     return $query;
   }
+  function potonganData($idMaterial){
+    $query = $this->db->query("SELECT *
+    FROM tb_potongan a
+    WHERE a.material_id='$idMaterial'
+    ORDER BY a.id DESC");
+    return $query;
+  }
   function formulaData(){
     $query = $this->db->query("SELECT *
     FROM tb_formula a

@@ -19,7 +19,7 @@
                 <div class="box-type">
                     <img src="<?=base_url()?>assets/img/sell-icon/lm-baru.png" class="img-responsive" style="width:100%;">
                     <br>
-                    <span>LM Baru</span>
+                    <span>LM Certi </span>
                 </div>
             </div>
             
@@ -28,7 +28,7 @@
                 <div class="box-type">
                     <img src="<?=base_url()?>assets/img/sell-icon/lm-lama.png" class="img-responsive" style="width:100%;">
                     <br>
-                    <span>LM Lama</span>
+                    <span>LM Retro</span>
                 </div>
             </div>
             <div class="col-md-2" style="padding:10px 10px">
@@ -39,10 +39,17 @@
                     <span>UBS</span>
                 </div>
             </div>
-            
+            <div class="col-md-2" style="padding:10px 10px">
+                <a href="<?=base_url()?>transaction/buy/23/" style="text-decoration: none;">
+                <div class="box-type">
+                    <img src="<?=base_url()?>assets/img/sell-icon/lm-lama.png" class="img-responsive" style="width:100%;">
+                    <br>
+                    <span>Gold Bar</span>
+                </div>
+            </div>
           
             
-                        <div class="col-md-12 mt-3">
+            <div class="col-md-12 mt-3">
                 <a href="<?=base_url()?>transaction/buy/" class="btn btn-primary btn-icon-split btn-lg">
                     <span class="icon text-white-50">
                     <i class="fas fa-arrow-left"></i>

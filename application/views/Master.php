@@ -20,6 +20,16 @@
                     <span class="text">Syarat & Ketentuan</span>
                 </a>
             </div>
+            <div class="col-md-6" style="padding:10px 10px">
+                <a href="<?=base_url()?>master/cabang/" class="btn btn-lg btn-custom menu-box">
+                    <span class="text">Daftar Cabang</span>
+                </a>
+            </div>
+            <div class="col-md-6" style="padding:10px 10px">
+                <a href="<?=base_url()?>master/potongan/" class="btn btn-lg btn-custom menu-box">
+                    <span class="text">Potongan LM</span>
+                </a>
+            </div>
             <!-- <div class="col-md-6" style="padding:10px 10px">
                 <a href="<?=base_url()?>master/material-type/" class="btn btn-lg btn-custom menu-box">
                     <span class="text">MATERIAL TYPE</span>

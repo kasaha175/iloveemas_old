@@ -498,5 +498,194 @@ class MasterController extends CI_Controller
         $this->session->set_userdata($data_session);
         redirect(base_url()."master/memo");
     }
+    public function potongan()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        $this->data["title"] = "MASTER";
+        if ($authUser == true) {
+            $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+            $this->data['content'] = $this->load->view('Potongan', $this->data, true);
+            $this->load->view("UserTemplate", $this->data);
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function addPotongan()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        $this->data["title"] = "MASTER";
+        if ($authUser == true) {
+            $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+            $this->data['content'] = $this->load->view('addPotongan', $this->data, true);
+            $this->load->view("UserTemplate", $this->data);
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function savePotongan()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        if ($authUser == true) {
+            $datapost = $this->input->post();
+            $datapost['dt']['status'] = 'ENABLE';
+            $datapost['dt']['created_at'] = date("Y-m-d H:i:s");
+            $this->db->insert('tb_potongan', $datapost['dt']);
+            $data_session = array(
+                'status' => 'success',
+                'message' => "Potongan Berhasil Disimpan",
+            );
+            $this->session->set_userdata($data_session);
+            redirect(base_url()."master/potongan");
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function deletePotongan($idpotongan='')
+    {
+        $this->db->update('tb_potongan', ['status' => 'DISABLE'], ['id' => $idpotongan]);
+        $data_session = array(
+            'status' => 'success',
+            'message' => "Potongan Berhasil Dihapus",
+        );
+        $this->session->set_userdata($data_session);
+        redirect(base_url()."master/memo");
+    }
+    public function detailPotongan($idpotongan='')
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        if ($authUser == true) {
+            $this->db->where('id', $idpotongan);
+            $this->data['potongan'] = $this->db->get('tb_potongan')->row();
+            $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+            $this->data['content'] = $this->load->view('editPotongan', $this->data, true);
+            $this->load->view("UserTemplate", $this->data);
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function saveUpdatePotongan()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        if ($authUser == true) {
+            $datapost = $this->input->post();
+            $datapost['dt']['status'] = 'ENABLE';
+            $datapost['dt']['updated_at'] = date("Y-m-d H:i:s");
+            $this->db->where('id', $datapost['id']);
+            $this->db->update('tb_potongan', $datapost['dt']);
+            $data_session = array(
+                'status' => 'success',
+                'message' => "Potongan Berhasil Disimpan",
+            );
+            $this->session->set_userdata($data_session);
+            redirect(base_url()."master/potongan");
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function cabang()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        $this->data["title"] = "MASTER";
+        if ($authUser == true) {
+            $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+            $this->data['content'] = $this->load->view('Cabang', $this->data, true);
+            $this->load->view("UserTemplate", $this->data);
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function addCabang()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        $this->data["title"] = "MASTER";
+        if ($authUser == true) {
+            $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+            $this->data['content'] = $this->load->view('addCabang', $this->data, true);
+            $this->load->view("UserTemplate", $this->data);
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function saveCabang()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        if ($authUser == true) {
+            $datapost = $this->input->post();
+            $datapost['dt']['status'] = 'ENABLE';
+            $datapost['dt']['created_at'] = date("Y-m-d H:i:s");
+            // print_r($datapost['dt']);
+            $this->db->insert('tb_cabang', $datapost['dt']);
+            $data_session = array(
+                'status' => 'success',
+                'message' => "Cabang Berhasil Disimpan",
+            );
+            $this->session->set_userdata($data_session);
+            redirect(base_url()."master/cabang");
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function deleteCabang($idcabang='')
+    {
+        $this->db->update('tb_cabang', ['status' => 'DISABLE'], ['id' => $idcabang]);
+        $data_session = array(
+            'status' => 'success',
+            'message' => "Cabang Berhasil Dihapus",
+        );
+        $this->session->set_userdata($data_session);
+        redirect(base_url()."master/memo");
+    }
+    public function detailCabang($idcabang='')
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        if ($authUser == true) {
+            $this->db->where('id', $idcabang);
+            $this->data['cabang'] = $this->db->get('tb_cabang')->row();
+            $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+            $this->data['content'] = $this->load->view('editCabang', $this->data, true);
+            $this->load->view("UserTemplate", $this->data);
+        }
+        else {
+            redirect(base_url());
+        }
+    }
+    public function saveUpdateCabang()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        if ($authUser == true) {
+            $datapost = $this->input->post();
+            $datapost['dt']['status'] = 'ENABLE';
+            $datapost['dt']['updated_at'] = date("Y-m-d H:i:s");
+            $this->db->where('id', $datapost['id']);
+            $this->db->update('tb_cabang', $datapost['dt']);
+            $data_session = array(
+                'status' => 'success',
+                'message' => "Cabang Berhasil Disimpan",
+            );
+            $this->session->set_userdata($data_session);
+            redirect(base_url()."master/cabang");
+        }
+        else {
+            redirect(base_url());
+        }
+    }
 }
 ?>

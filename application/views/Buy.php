@@ -21,84 +21,103 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2" style="padding:10px 10px">
+			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/1/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/diamond.png" class="img-fluid mt-3" style="width:100%;">
+						<img src="<?=base_url()?>assets/img/buy-icon/diamond.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
 						<span>Diamond</span>
 					</div>
 				</a>
 			</div>
-			<div class="col-md-2" style="padding:10px 10px">
+			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/2/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/gold-k24.png" class="img-fluid mt-3" style="width:100%;">
+						<img src="<?=base_url()?>assets/img/buy-icon/gold-k24.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
 						<span>Gold</span>
 					</div>
 				</a>
 			</div>
-			<div class="col-md-2" style="padding:10px 10px">
+			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/lm/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/gold.png" class="img-fluid mt-3" style="width:100%;">
+						<img src="<?=base_url()?>assets/img/gold.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
 						<span>LM & UBS</span>
 					</div>
 				</a>
 			</div>
-			<div class="col-md-2" style="padding:10px 10px">
+			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/silver/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/material-ag.png" class="img-fluid mt-3" style="width:100%;">
+						<img src="<?=base_url()?>assets/img/buy-icon/material-ag.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
 						<span>Silver</span>
 					</div>
 				</a>
 			</div>
-			<div class="col-md-2" style="padding:10px 10px">
+			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/platinum/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/platinum.png" class="img-fluid mt-3" style="width:100%;">
+						<img src="<?=base_url()?>assets/img/buy-icon/platinum.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
 						<span>Platinum</span>
 					</div>
 				</a>
 			</div>
-			<div class="col-md-2" style="padding:10px 10px">
+			<div class="col-md-3" style="padding:10px 10px">
 			<a href="<?=base_url()?>transaction/buy/paladium/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/palladium.png" class="img-fluid mt-3" style="width:100%;">
+						<img src="<?=base_url()?>assets/img/buy-icon/palladium.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
 						<span>Paladium</span>
 					</div>
 				</a>
 			</div>
-			<div class="col-md-2" style="padding:10px 10px">
+			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/iridium/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/Iridium.png" class="img-fluid mt-3" style="width:100%;">
+						<img src="<?=base_url()?>assets/img/buy-icon/Iridium.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
 						<span>Iridium</span>
 					</div>
 				</a>
 			</div>
-			<div class="col-md-2" style="padding:10px 10px">
+			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/rhodium/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/rhodium.png" class="img-fluid mt-3" style="width:100%;">
+						<img src="<?=base_url()?>assets/img/buy-icon/rhodium.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
 						<span>Rhodium</span>
 					</div>
 				</a>
 			</div>
-			<div class="col-md-2" style="padding:10px 10px">
+			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/10/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/sell-icon/material-au.png" class="img-fluid mt-3" style="width:100%;">
+						<img src="<?=base_url()?>assets/img/sell-icon/material-au.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
 						<span>C. Profesional</span>
+					</div>
+				</a>
+			</div>
+			<!-- Pengembangan 2022 -->
+			<div class="col-md-3" style="padding:10px 10px">
+				<a href="<?=base_url()?>transaction/buy/19/" style="text-decoration: none;">
+					<div class="box-type">
+						<img src="<?=base_url()?>comingsoon.png" class="img-fluid mt-3" style="width: 50%;">
+						<br><br>
+						<span>Ru (Ruthenium)</span>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-3" style="padding:10px 10px">
+				<a href="<?=base_url()?>transaction/buy/21/" style="text-decoration: none;">
+					<div class="box-type">
+						<img src="<?=base_url()?>comingsoon.png" class="img-fluid mt-3" style="width: 50%;">
+						<br><br>
+						<span>Ta (Tantalum)</span>
 					</div>
 				</a>
 			</div>

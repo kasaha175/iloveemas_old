@@ -32,19 +32,19 @@
 			<script src="<?=base_url()?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 			<script src="<?=base_url()?>assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 			<script src="<?=base_url()?>assets/js/sb-admin-2.min.js"></script>
-			<link rel="stylesheet" href="<?=base_url()?>/assets/css/select2.min.css">
-			<script type="text/javascript" src="https://playon-id.com/assets/select2/js/select2.min.js"></script>
+			<link rel="stylesheet" href="<?=base_url()?>/assets/select2/css/select2.min.css">
+			<script type="text/javascript" src="<?=base_url()?>/assets/select2/js/select2.min.js"></script>
 			<script src="<?=base_url()?>assets/vendor/datatables/jquery.dataTables.min.js"></script>
 			<script src="<?=base_url()?>assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 			<script src="<?=base_url()?>assets/vendor/chart.js/Chart.min.js"></script>
 			<script src='<?=base_url()?>assets/offline/dataTables.buttons.min.js'></script>
 			<script src='<?=base_url()?>assets/offline/buttons.bootstrap4.min.js'></script>
 			<script src='<?=base_url()?>assets/offline/jszip.min.js'></script>
-			<script src='<?=base_url()?>assets/offline/pdfmake.min.js'></script>
-			<script src='<?=base_url()?>assets/offline/vfs_fonts.js'></script>
+			<!-- <script src='<?=base_url()?>assets/offline/pdfmake.min.js'></script> -->
+			<!-- <script src='<?=base_url()?>assets/offline/vfs_fonts.js'></script> -->
 			<script src='<?=base_url()?>assets/offline/buttons.html5.min.js'></script>
 			<script src='<?=base_url()?>assets/offline/buttons.print.min.js'></script>
-			<script src='<?=base_url()?>assets/offline/buttons.colVis.min.js'></script>
+			<!-- <script src='<?=base_url()?>assets/offline/buttons.colVis.min.js'></script> -->
 
 			<style>
 			body{

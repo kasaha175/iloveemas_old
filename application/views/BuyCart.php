@@ -66,7 +66,7 @@ error_reporting(0);
 										</div>
 										<?php } ?>
 										
-										<?php if(in_array($this->uri->segment(3), array("2", "2"))){ ?>
+										<?php if(in_array($this->uri->segment(3), array("2", "23"))){ ?>
 										<div class="form-group">
 											<label>CARAT</label>
 											<select name="carat" required class="zein form-control select2">
@@ -83,17 +83,28 @@ error_reporting(0);
 											<input type="number" step="any" name="percentage" required class="aang form-control">
 										</div>
 										<?php } ?>
-										<?php if(in_array($this->uri->segment(3), array("2", "3", "4", "5", "6", "7", "8", "9", "10", "17", "18"))){ ?>
+										<?php if(in_array($this->uri->segment(3), array("2", "3", "4", "5", "6", "7", "8", "9", "10", "17", "18", "19", "23"))){ ?>
 										<div class="form-group">
 											<label>WEIGHT</label>
 											<input type="number" step="any" name="weight" required class="aang form-control">
 										</div>
 										<?php } ?>
 										
-										<?php if(in_array($this->uri->segment(3), array("1"))){ ?>
+										<?php if(in_array($this->uri->segment(3), array("1", "21"))){ ?>
 										<div class="form-group">
 											<label>PRICE</label>
 											<input type="number" step="any" name="price" required class="aang form-control">
+										</div>
+										<?php } ?>
+										<?php if(in_array($this->uri->segment(3), array("3"))){ ?>
+										<div class="form-group">
+											<label>Potongan</label>
+											<select name="carat" required class="zein form-control select2">
+												<option value="">Pilih Potongan</option>
+												<?php foreach($potongan as $c){ ?>
+												<option><?=$c->nama?></option>
+												<?php } ?>
+											</select>
 										</div>
 										<?php } ?>
 										<div class="form-group">

@@ -57,6 +57,23 @@ $route['master/save-memo'] = 'MasterController/saveMemo';
 $route['master/detailMemo/(:any)'] = 'MasterController/detailMemo/$1';
 $route['master/update-memo'] = 'MasterController/saveUpdateMemo';
 $route['master/deleteMemo/(:any)'] = 'MasterController/deleteMemo/$1';
+
+// potongan-lm
+$route['master/potongan'] = 'MasterController/potongan';
+$route['master/addpotongan'] = 'MasterController/addPotongan';
+$route['master/save-potongan'] = 'MasterController/savePotongan';
+$route['master/detailPotongan/(:any)'] = 'MasterController/detailPotongan/$1';
+$route['master/save-update-potongan'] = 'MasterController/saveUpdatePotongan';
+$route['master/deletePotongan/(:any)'] = 'MasterController/deletePotongan/$1';
+
+// 
+$route['master/cabang'] = 'MasterController/cabang';
+$route['master/addcabang'] = 'MasterController/addCabang';
+$route['master/save-cabang'] = 'MasterController/saveCabang';
+$route['master/detailCabang/(:any)'] = 'MasterController/detailCabang/$1';
+$route['master/save-update-cabang'] = 'MasterController/saveUpdateCabang';
+$route['master/deleteCabang/(:any)'] = 'MasterController/deleteCabang/$1';
+
 //report
 $route['report'] = 'ReportController/report';
 $route['report/buy'] = 'ReportController/buy';

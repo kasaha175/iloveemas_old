@@ -13,7 +13,7 @@ class TransactionController extends CI_Controller
 		date_default_timezone_set("Asia/Jakarta");
 		$this->dateToday = date("Y-m-d H:i:s");
 		$this->load->library('Pdf');
-		$this->load->library('cart');
+		// $this->load->library('cart');
     }
     function index()
     {
@@ -220,6 +220,7 @@ class TransactionController extends CI_Controller
 				$this->data['materianName'] = $materialName;
 				$this->data['materialType'] = $this->MaterialModel->materialTypeData()->result();
 				$this->data['carat'] = $this->MaterialModel->caratData($idMaterial)->result();
+				$this->data['potongan'] = $this->MaterialModel->potonganData($idMaterial)->result();
 				$this->data['content'] = $this->load->view('BuyCart', $this->data, true);
 				$this->load->view("UserTemplate", $this->data);
 			}
@@ -266,6 +267,7 @@ class TransactionController extends CI_Controller
 			$PTpresentasePotonganIr = abs($this->MasterModel->formulasData('rti-pt')->row('d'));
 			$PTpresentasePotonganIrLow = abs($this->MasterModel->formulasData('rti-pt-low')->row('d'));
 			//cart
+			
 			foreach($this->cart->contents() as $a) {
 				$idLast = ($a['id']);
 			}
@@ -275,7 +277,7 @@ class TransactionController extends CI_Controller
 			else {
 				$idLast = 1;
 			}
-			if ($idMaterial != 1) {
+			if ($idMaterial != 1 && $idMaterial != 21) {
 				if ($idMaterial == 2) {
 					if ($carat == '24(99.9)') {
 						$price = round($rtiAU - $AUpotonganK2499);
@@ -686,10 +688,10 @@ class TransactionController extends CI_Controller
 			if($idMaterial <= 10 || $idMaterial == 17){
 			$this->cart->insert($data);
 			}
-			// echo "<pre>";
-			// print_r ($data);
-			// echo "</pre>";
-			redirect(base_url()."transaction/buy/$idMaterial/?t=$types");
+			echo "<pre>";
+			print_r ($this->cart->contents());
+			echo "</pre>";
+			// redirect(base_url()."transaction/buy/$idMaterial/?t=$types");
 		}else {
 			redirect(base_url());
 		}

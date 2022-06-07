@@ -7,7 +7,7 @@
         > 
         <a style="color:#fff;text-decoration:none;" href="">New Syarat & Ketentuan</a> 
     </div>
-    <h3 class="text-center" style="color:#fff">TRANSACTION</h3>
+    <!-- <h3 class="text-center" style="color:#fff">TRANSACTION</h3> -->
     <h3 class="text-center" style="color:#fff">New Syarat & Ketentuan</h3>
     <br>
     <div class="col-md-12" style="padding:0px 150px;">
