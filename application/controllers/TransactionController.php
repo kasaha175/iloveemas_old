@@ -13,7 +13,7 @@ class TransactionController extends CI_Controller
 		date_default_timezone_set("Asia/Jakarta");
 		$this->dateToday = date("Y-m-d H:i:s");
 		$this->load->library('Pdf');
-		// $this->load->library('cart');
+		$this->load->library('cart');
     }
     function index()
     {
@@ -249,6 +249,7 @@ class TransactionController extends CI_Controller
 			$rtiAU = abs($this->MaterialModel->formulaData()->row("f_rti_au"));
 			$rtiAG = abs($this->MaterialModel->formulaData()->row("f_rti_ag"));
 			$rtiPT = abs($this->MaterialModel->formulaData()->row("f_rti_pt"));
+			$rtiRU = abs($this->MaterialModel->formulaData()->row("f_rti_ru"));
 			$AUpotonganK24 = abs($this->MasterModel->formulasData('rti-au')->row('a'));
 			$AUpotonganK2499 = abs($this->MasterModel->formulasData('rti-au')->row('h'));
 			$AUpresentasePotonganK24 = abs($this->MasterModel->formulasData('rti-au')->row('b'));
@@ -256,6 +257,8 @@ class TransactionController extends CI_Controller
 			$AUpresentaseLMBaru = $this->MasterModel->formulasData('rti-au')->row('d');
 			$AUpresentaseLMLama = $this->MasterModel->formulasData('rti-au')->row('e');
 			$AUpotonganubs = $this->MasterModel->formulasData('rti-au')->row('g');
+			$AUgb_99 = $this->MasterModel->formulasData('rti-au')->row('gb_99');
+			$AUgb_99_9 = $this->MasterModel->formulasData('rti-au')->row('gb_99_9');
 			$AGpresentasePotonganAG = abs($this->MasterModel->formulasData('rti-ag')->row('a'));
 			$AGpresentasePotonganAGLow = abs($this->MasterModel->formulasData('rti-ag-low')->row('a'));
 			$PTpresentasePotonganPt = abs($this->MasterModel->formulasData('rti-pt')->row('a'));
@@ -384,14 +387,25 @@ class TransactionController extends CI_Controller
 						'priceTotal' => $priceTotal,
 					);
 				}else if ($idMaterial == 3) {
-					// if($weight<1){
-						$pricepergram = $rtiAU + $AUpresentaseLMBaru;
-						$price = $pricepergram*$weight;
-						$priceTotal = round($price);
-					// }else{
-					// 	$price = $rtiAU;
-					// 	$priceTotal = round($price * $weight);
-					// }
+					
+					// Rumus Lama
+					// // if($weight<1){
+					// 	$pricepergram = $rtiAU + $AUpresentaseLMBaru;
+					// 	$price = $pricepergram*$weight;
+						
+					// // }else{
+					// // 	$price = $rtiAU;
+					// // 	$priceTotal = round($price * $weight);
+					// // }
+					// End Rumus Lama
+					// Rumus Baru
+					$this->db->where('id', $this->input->post('id_potongan'));
+            		$cek_harga = $this->db->get('tb_potongan')->row();
+					print_r($this->input->post('id_potongan'));
+					$pricepergram = $rtiAU + $cek_harga->harga_buy;
+					$price = $pricepergram*$weight;
+					
+					// End Rumus Baru
 					$priceTotal = round($price);
 					$data = array(
 						'id' => $idLast,
@@ -668,6 +682,61 @@ class TransactionController extends CI_Controller
 						'priceTotal' => $priceTotal,
 					);
 				}
+				else if ($idMaterial == 19){
+					$quality = $this->input->post('quality');
+					if($quality == 'High Quality'){
+
+						$pricepergram = $rtiRU * $percentage / 100;
+					}
+					else{
+						$pricepergram = ($rtiRU - ($rtiRU * $AGpresentasePotonganAGLow / 100)) * $percentage / 100;
+					}
+					
+					$price = $pricepergram*$weight;
+					
+					// End Rumus Baru
+					$priceTotal = round($price);
+					$data = array(
+						'id' => $idLast,
+						'qty' => $weight,
+						'price' => $pricepergram,
+						'prices' => $pricepergram,
+						'name' => 'T-Shirt',
+						'materialName' => $materialName,
+						'materialType' => '-',
+						'carat' => '-',
+						'weight' => $weight,
+						'priceTotal' => $priceTotal,
+					);
+				}
+				else if ($idMaterial == 23){
+					if ($carat == '24(99.9)') {
+						
+
+						$pricepergram = $rtiAU + $AUgb_99_9;
+						// $price = round(($rtiAU + ($rtiAU * - (16/100))) * $percentage/100);
+						// $priceTotal = ($price * $weight);
+					}
+					else{
+						$pricepergram = $rtiAU + $AUgb_99;
+					}
+					$price = $pricepergram*$weight;
+					
+					// End Rumus Baru
+					$priceTotal = round($price);
+					$data = array(
+						'id' => $idLast,
+						'qty' => $weight,
+						'price' => $pricepergram,
+						'prices' => $pricepergram,
+						'name' => 'T-Shirt',
+						'materialName' => $materialName,
+						'materialType' => '-',
+						'carat' => '24',
+						'weight' => $weight,
+						'priceTotal' => $priceTotal,
+					);
+				}
 			}else{
 				$weight = 1;
 				$price = $this->input->post('price');
@@ -685,13 +754,13 @@ class TransactionController extends CI_Controller
 					'priceTotal' => $priceTotal,
 				);
 			}
-			if($idMaterial <= 10 || $idMaterial == 17){
+			// if($idMaterial <= 10 || $idMaterial == 17){
 			$this->cart->insert($data);
-			}
-			echo "<pre>";
-			print_r ($this->cart->contents());
-			echo "</pre>";
-			// redirect(base_url()."transaction/buy/$idMaterial/?t=$types");
+			// }
+			// echo "<pre>";
+			// print_r ($this->cart->contents());
+			// echo "</pre>";
+			redirect(base_url()."transaction/buy/$idMaterial/?t=$types");
 		}else {
 			redirect(base_url());
 		}

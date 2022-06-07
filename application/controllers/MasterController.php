@@ -122,7 +122,7 @@ class MasterController extends CI_Controller
         if ($authUser == true) {
             $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
             $key = $this->input->get('key');
-            if(in_array($key, array("rti-au", "rti-pt", "rti-ag", "rti-lm"))){
+            if(in_array($key, array("rti-au", "rti-pt", "rti-ag", "rti-lm", "rti-ru"))){
                 $type = $this->input->get('type');
                 if($key=="rti-au"){
                     if($type=="change"){
@@ -156,6 +156,12 @@ class MasterController extends CI_Controller
                         $this->data['content'] = $this->load->view('ArchiveBuyKey', $this->data, true);
                         $this->load->view("UserTemplate", $this->data);
                     }
+                }else if($key=="rti-ru"){
+                    
+                    $this->data['value'] = $this->MaterialModel->formulaData()->row("f_rti_ru");
+                    $this->data['content'] = $this->load->view('ArchiveBuyKey', $this->data, true);
+                    $this->load->view("UserTemplate", $this->data);
+                    
                 }
             }else{
                 $this->data['content'] = $this->load->view('ArchiveBuy', $this->data, true);
@@ -174,7 +180,7 @@ class MasterController extends CI_Controller
             $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
             $key = $this->input->get('key');
             $value = $this->input->get('value');
-            if(in_array($key, array("rti-au", "rti-pt", "rti-ag", "rti-lm"))){
+            if(in_array($key, array("rti-au", "rti-pt", "rti-ag", "rti-lm", "rti-ru"))){
                 $type = $this->input->get('type');
                 if($key=="rti-au"){
                     $parameter = 'f_'.str_replace('-','_',$key);
@@ -188,6 +194,9 @@ class MasterController extends CI_Controller
                             'f' => $this->input->get('f'),
                             'g' => $this->input->get('g'),
                             'h' => $this->input->get('h'),
+                            'gb_99' => $this->input->get('gb_99'),
+                            'gb_99_9' => $this->input->get('gb_99_9'),
+
                         );
                         $this->MasterModel->formulasUpdate($key,$data);
                         redirect(base_url()."archive/buy/?key=$key&type=change");
@@ -247,10 +256,16 @@ class MasterController extends CI_Controller
                         $this->MaterialModel->formulaUpdate($parameter,$value);
                         redirect(base_url()."archive/buy/?key=$key");
                     }
+                }else if($key=="rti-ru"){
+                    $parameter = 'f_'.str_replace('-','_',$key);
+                    
+                    $this->MaterialModel->formulaUpdate($parameter,$value);
+                    redirect(base_url()."archive/buy/?key=$key");
+                    
                 }
             }else{
                 $this->data['content'] = $this->load->view('ArchiveBuy', $this->data, true);
-               $this->load->view("UserTemplate", $this->data);
+                $this->load->view("UserTemplate", $this->data);
             }
         }
         else {

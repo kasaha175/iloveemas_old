@@ -77,7 +77,7 @@ error_reporting(0);
 										</div>
 										<?php } ?>
 										
-										<?php if(in_array($this->uri->segment(3), array("6","7","8","9","10"))){ ?>
+										<?php if(in_array($this->uri->segment(3), array("6","7","8","9","10","19"))){ ?>
 										<div class="form-group">
 											<label>PERCANTAGE</label>
 											<input type="number" step="any" name="percentage" required class="aang form-control">
@@ -98,12 +98,22 @@ error_reporting(0);
 										<?php } ?>
 										<?php if(in_array($this->uri->segment(3), array("3"))){ ?>
 										<div class="form-group">
-											<label>Potongan</label>
-											<select name="carat" required class="zein form-control select2">
+											<label>POTONGAN</label>
+											<select required class="zein form-control select2" name="id_potongan">
 												<option value="">Pilih Potongan</option>
 												<?php foreach($potongan as $c){ ?>
-												<option><?=$c->nama?></option>
+												<option value="<?=$c->id?>"><?=$c->nama?></option>
 												<?php } ?>
+											</select>
+										</div>
+										<?php } ?>
+										<?php if(in_array($this->uri->segment(3), array("19"))){ ?>
+										<div class="form-group">
+											<label>QUALITY</label>
+											<select required class="zein form-control select2" name="quality">
+												<option value="">Pilih Kualitas</option>
+												<option value="High Quality">High Quality</option>
+												<option value="Low Quality">Low Quality</option>
 											</select>
 										</div>
 										<?php } ?>

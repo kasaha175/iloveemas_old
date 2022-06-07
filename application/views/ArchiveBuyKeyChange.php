@@ -111,6 +111,14 @@
                                     <td class="bordering">Pembelian UBS</td>
                                     <td class="bordering"><input class="input-box" type="number" step="any" name="g" required  value="<?=$d->g?>"></td>
                                 </tr>
+                                <tr>
+                                    <td class="bordering">Gold Bar 99</td>
+                                    <td class="bordering"><input class="input-box" type="number" step="any" name="gb_99" required  value="<?=$d->gb_99?>"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bordering">Pembelian 99,9</td>
+                                    <td class="bordering"><input class="input-box" type="number" step="any" name="gb_99_9" required  value="<?=$d->gb_99_9?>"></td>
+                                </tr>
                             <?php }else if($this->input->get("key")=="rti-pt"){ ?>
                                 <tr>
                                 <td class="bordering">Pt</td>
