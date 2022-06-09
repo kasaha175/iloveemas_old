@@ -42,7 +42,11 @@ function nominal($angka){
                             $this->session->set_userdata($data_session); ?>
                             <!-- Card Content - Collapse -->
                             <?php 
-                            $this->db->select('*, (SELECT m_name from tb_material where m_id = material_id) as nama_material');
+                            $this->db->select('
+                                *, 
+                                (SELECT m_name from tb_material where m_id = material_id) as nama_material,
+                                (SELECT m_type from tb_material where m_id = material_id) as type_material
+                            ');
                             $this->db->where('status', 'ENABLE');
                             $potongan = $this->db->get('tb_potongan')->result();
                             ?>
@@ -79,7 +83,7 @@ function nominal($angka){
                                                             <?= $value->nama ?>
                                                         </td>
                                                         <td>
-                                                            <?= $value->nama_material ?>
+                                                            <?= $value->nama_material ?> - <?= $value->type_material ?>
                                                         </td>
                                                         <td>
                                                             <?= $value->harga_buy ?>

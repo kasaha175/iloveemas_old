@@ -25,6 +25,7 @@
 			<link href="<?=base_url()?>assets/css/login.css" rel="stylesheet">
 			<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 			<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+			<link rel="stylesheet" href="<?=base_url()?>/assets/select2/css/select2.min.css">
 			<!-- <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"> -->
 			
 			
@@ -32,8 +33,8 @@
 			<script src="<?=base_url()?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 			<script src="<?=base_url()?>assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 			<script src="<?=base_url()?>assets/js/sb-admin-2.min.js"></script>
-			<link rel="stylesheet" href="<?=base_url()?>/assets/select2/css/select2.min.css">
-			<script type="text/javascript" src="<?=base_url()?>/assets/select2/js/select2.min.js"></script>
+			
+			
 			<script src="<?=base_url()?>assets/vendor/datatables/jquery.dataTables.min.js"></script>
 			<script src="<?=base_url()?>assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 			<script src="<?=base_url()?>assets/vendor/chart.js/Chart.min.js"></script>
@@ -45,7 +46,7 @@
 			<script src='<?=base_url()?>assets/offline/buttons.html5.min.js'></script>
 			<script src='<?=base_url()?>assets/offline/buttons.print.min.js'></script>
 			<!-- <script src='<?=base_url()?>assets/offline/buttons.colVis.min.js'></script> -->
-
+			
 			<style>
 			body{
 			font-family: 'Poppins', 'sans-serif';
@@ -146,6 +147,7 @@
 <script src="<?=base_url()?>assets/keyboard/docs/js/prettify.js"></script> <!-- syntax highlighting -->
 <script src="<?=base_url()?>assets/summernote/summernote.min.js"></script>
 <script src="<?=base_url()?>assets/summernote/summernote.min.js"></script>
+<script type="text/javascript" src="<?=base_url()?>/assets/select2/js/select2.min.js"></script>
 			<?=$content?>
 		</div>
 	</div>

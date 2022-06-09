@@ -30,13 +30,18 @@
                                             <input type="text" class="form-control" name="dt[nama]">
                                         </div>
                                         <div class="form-group">
+                                            <label>Nama Potongan</label>
+                                            <input type="text" class="form-control" name="dt[nama]">
+                                        </div>
+                                        
+                                        <div class="form-group">
                                             <label>Material</label>
                                             <select class="form-control select2" name="dt[material_id]">
                                                 <option value="">-- Pilih --</option>
                                                 <?php 
                                                 $material = $this->db->get('tb_material')->result();
                                                 foreach ($material as $key => $item): ?>
-                                                    <option value="<?= $item->m_id ?>"><?= $item->m_name ?></option>
+                                                    <option value="<?= $item->m_id ?>"><?= $item->m_name ?> - <?= $item->m_type ?></option>
                                                 <?php endforeach; ?>
 
                                             </select>
@@ -83,7 +88,6 @@
     $(".select2").select2();
 </script>
 <script>
-    $('.select2').select2();
     jQuery(function ($) {
         renderTextArea();
         // QWERTY Text Input
