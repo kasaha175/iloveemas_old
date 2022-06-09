@@ -174,6 +174,9 @@ class MasterController extends CI_Controller
     }
     function buySave()
     {
+        // echo "1313";
+        // print_r($this->input->get());
+        // die();
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
         if ($authUser == true) {
@@ -196,6 +199,7 @@ class MasterController extends CI_Controller
                             'h' => $this->input->get('h'),
                             'gb_99' => $this->input->get('gb_99'),
                             'gb_99_9' => $this->input->get('gb_99_9'),
+                            'potongan_lm' => json_encode($this->input->get('potongan_lm')),
 
                         );
                         $this->MasterModel->formulasUpdate($key,$data);

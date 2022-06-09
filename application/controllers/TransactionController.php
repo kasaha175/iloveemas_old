@@ -259,6 +259,7 @@ class TransactionController extends CI_Controller
 			$AUpotonganubs = $this->MasterModel->formulasData('rti-au')->row('g');
 			$AUgb_99 = $this->MasterModel->formulasData('rti-au')->row('gb_99');
 			$AUgb_99_9 = $this->MasterModel->formulasData('rti-au')->row('gb_99_9');
+			$potongan_lm = $this->MasterModel->formulasData('rti-au')->row('potongan_lm');
 			$AGpresentasePotonganAG = abs($this->MasterModel->formulasData('rti-ag')->row('a'));
 			$AGpresentasePotonganAGLow = abs($this->MasterModel->formulasData('rti-ag-low')->row('a'));
 			$PTpresentasePotonganPt = abs($this->MasterModel->formulasData('rti-pt')->row('a'));
@@ -399,10 +400,9 @@ class TransactionController extends CI_Controller
 					// // }
 					// End Rumus Lama
 					// Rumus Baru
-					$this->db->where('id', $this->input->post('id_potongan'));
-            		$cek_harga = $this->db->get('tb_potongan')->row();
-					print_r($this->input->post('id_potongan'));
-					$pricepergram = $rtiAU + $cek_harga->harga_buy;
+					$tahun_potongan = $this->input->post('tahun_potongan');
+					$harga_potongan = json_decode($potongan_lm, true)[$tahun_potongan];
+					$pricepergram = $rtiAU + $harga_potongan;
 					$price = $pricepergram*$weight;
 					
 					// End Rumus Baru
@@ -930,6 +930,7 @@ class TransactionController extends CI_Controller
 			}
 			$rtiAU = abs($this->MaterialModel->formulaData()->row("f_rti_au_sell"));
 			$AUtambahAUG = abs($this->MasterModel->formulasData('material-au')->row('g'));
+			$potongan_lm = abs($this->MasterModel->formulasData('material-au')->row('potongan_lm'));
 			$rtiAG = $this->MaterialModel->formulaData()->row("f_rti_ag_sell");
 			$LMpresentaseLMBaru = $this->MasterModel->formulasData('lm')->row('b');
 			$LMpresentaseLMLama = $this->MasterModel->formulasData('lm')->row('a');
@@ -1076,10 +1077,15 @@ class TransactionController extends CI_Controller
 				End Rumus Lama
 				*/
 				/* Rumus Baru */
-				$this->db->where('id', $this->input->post('id_potongan'));
-				$cek_harga = $this->db->get('tb_potongan')->row();
-				print_r($this->input->post('id_potongan'));
-				$pricepergram = $rtiAU + $cek_harga->harga_buy;
+				// $this->db->where('id', $this->input->post('id_potongan'));
+				// $cek_harga = $this->db->get('tb_potongan')->row();
+				// print_r($this->input->post('id_potongan'));
+				// $pricepergram = $AUtambahAUG + $cek_harga->harga_buy;
+				// $price = $pricepergram*$weight;
+
+				$tahun_potongan = $this->input->post('tahun_potongan');
+				$harga_potongan = json_decode($potongan_lm, true)[$tahun_potongan];
+				$pricepergram = $rtiAU + $harga_potongan;
 				$price = $pricepergram*$weight;
 				/*End Rumus Baru */
 				$data = array(

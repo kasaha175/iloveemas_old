@@ -29,10 +29,7 @@
                                             <label>Nama Potongan</label>
                                             <input type="text" class="form-control" name="dt[nama]">
                                         </div>
-                                        <div class="form-group">
-                                            <label>Nama Potongan</label>
-                                            <input type="text" class="form-control" name="dt[nama]">
-                                        </div>
+                                        
                                         
                                         <div class="form-group">
                                             <label>Material</label>
@@ -48,14 +45,14 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Harga Buy</label>
-                                            <input type="text" class="form-control" name="dt[harga_buy]">
+                                            <input type="text" class="form-control" name="dt[harga]">
                                             
                                         </div>
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label>Harga Sell</label>
                                             <input type="text" class="form-control" name="dt[harga_sell]">
                                             <small><i class="fa fa-info"></i> Tambahkan "-" untuk pengurangan harga transaksi</small>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="row">

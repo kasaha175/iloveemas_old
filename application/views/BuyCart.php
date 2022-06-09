@@ -83,12 +83,7 @@ error_reporting(0);
 											<input type="number" step="any" name="percentage" required class="aang form-control">
 										</div>
 										<?php } ?>
-										<?php if(in_array($this->uri->segment(3), array("2", "3", "4", "5", "6", "7", "8", "9", "10", "17", "18", "19", "23"))){ ?>
-										<div class="form-group">
-											<label>WEIGHT</label>
-											<input type="number" step="any" name="weight" required class="aang form-control">
-										</div>
-										<?php } ?>
+										
 										
 										<?php if(in_array($this->uri->segment(3), array("1", "21"))){ ?>
 										<div class="form-group">
@@ -99,11 +94,15 @@ error_reporting(0);
 										<?php if(in_array($this->uri->segment(3), array("3"))){ ?>
 										<div class="form-group">
 											<label>POTONGAN</label>
-											<select required class="zein form-control select2" name="id_potongan">
+											<select required class="zein form-control select2" name="tahun_potongan">
 												<option value="">Pilih Potongan</option>
-												<?php foreach($potongan as $c){ ?>
-												<option value="<?=$c->id?>"><?=$c->nama?></option>
-												<?php } ?>
+												
+												<?php 
+												$tahun_mulai = 2018;
+												// $d=mktime(11, 14, 54, 8, 12, 2023);
+												while ($tahun_mulai <= date('Y')+1) { ?>
+													<option value="<?=$tahun_mulai?>">LM Certi <?=$tahun_mulai?></option>
+												<?php $tahun_mulai++; } ?>
 											</select>
 										</div>
 										<?php } ?>
@@ -115,6 +114,12 @@ error_reporting(0);
 												<option value="High Quality">High Quality</option>
 												<option value="Low Quality">Low Quality</option>
 											</select>
+										</div>
+										<?php } ?>
+										<?php if(in_array($this->uri->segment(3), array("2", "3", "4", "5", "6", "7", "8", "9", "10", "17", "18", "19", "23"))){ ?>
+										<div class="form-group">
+											<label>WEIGHT</label>
+											<input type="number" step="any" name="weight" required class="aang form-control">
 										</div>
 										<?php } ?>
 										<div class="form-group">

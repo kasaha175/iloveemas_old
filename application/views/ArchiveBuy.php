@@ -31,6 +31,11 @@
                     <span class="text">RTI RU</span>
                 </a>
             </div>
+            <!-- <div class="col-md-3" style="padding:10px 10px">
+                <a href="<?=base_url()?>archive/buy/?key=lm-certi" class="btn btn-lg btn-custom menu-box">
+                    <span class="text">LM Certi</span>
+                </a>
+            </div> -->
             <div class="col-md-12 mt-3">
                 <a href="<?=base_url()?>archive/" class="btn btn-primary btn-icon-split btn-lg">
                     <span class="icon text-white-50">

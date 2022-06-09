@@ -43,15 +43,15 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label>Harga Buy</label>
-                                            <input type="text" class="form-control" name="dt[harga_buy]" value="<?= $potongan->harga_buy ?>">
-                                            
+                                            <label>Harga</label>
+                                            <input type="text" class="form-control" name="dt[harga_buy]" value="<?= $potongan->harga ?>">
+                                            <small><i class="fa fa-info"></i> Tambahkan "-" untuk pengurangan harga transaksi</small>
                                         </div>
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label>Harga Sell</label>
                                             <input type="text" class="form-control" name="dt[harga_sell]" value="<?= $potongan->harga_sell ?>">
                                             <small><i class="fa fa-info"></i> Tambahkan "-" untuk pengurangan harga transaksi</small>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="row">
