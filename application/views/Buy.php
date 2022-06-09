@@ -106,7 +106,7 @@
 			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/19/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>tu.png" class="img-fluid mt-3" style="width: 50%;">
+						<img src="<?=base_url()?>ru.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
 						<span>Ru (Ruthenium)</span>
 					</div>

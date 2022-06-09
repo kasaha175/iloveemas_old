@@ -895,6 +895,7 @@ class TransactionController extends CI_Controller
 				$this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
 				$this->data['materianName'] = $materialName;
 				$this->data['materialType'] = $this->MaterialModel->materialTypeData()->result();
+				$this->data['potongan'] = $this->MaterialModel->potonganData($idMaterial)->result();
 				$this->data['carat'] = $this->MaterialModel->caratData($idMaterial)->result();
 				$this->data['content'] = $this->load->view('SellCart', $this->data, true);
 				$this->load->view("UserTemplate", $this->data);
@@ -1031,6 +1032,8 @@ class TransactionController extends CI_Controller
 						'priceTotal' => $priceTotal,
 					);
 	        }else if($idMaterial==13){
+				/*
+				Rumus Lama
 				if($weight==0.5){
 					$price = $this->MaterialModel->formulaData()->row("f_nol5");
 				}else if($weight==1){
@@ -1069,7 +1072,16 @@ class TransactionController extends CI_Controller
 				}else{
 					$price = $price - $LMpresentaseLMBaru;
 					$priceTotal = round(($price * $weight));
-				}
+				} 
+				End Rumus Lama
+				*/
+				/* Rumus Baru */
+				$this->db->where('id', $this->input->post('id_potongan'));
+				$cek_harga = $this->db->get('tb_potongan')->row();
+				print_r($this->input->post('id_potongan'));
+				$pricepergram = $rtiAU + $cek_harga->harga_buy;
+				$price = $pricepergram*$weight;
+				/*End Rumus Baru */
 				$data = array(
 					'id' => $idLast,
 					'qty' => $weight,
