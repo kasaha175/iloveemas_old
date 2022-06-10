@@ -46,21 +46,26 @@
 								<div class="card-body">
 									<form action="<?=base_url()?>transaction/sell-add-to-cart/" method="post">
 										<input type="hidden" name="idMaterial" value="<?=$this->uri->segment(3)?>">
+										
+										<?php if(in_array($this->uri->segment(3), array("13"))){ ?>
+											<div class="form-group">
+												<label>POTONGAN</label>
+												<select required class="zein form-control select2" name="tahun_potongan">
+													<option value="">Pilih Potongan</option>
+													
+													<?php 
+													$tahun_mulai = 2018;
+													// $d=mktime(11, 14, 54, 8, 12, 2023);
+													while ($tahun_mulai <= date('Y')+1) { ?>
+														<option value="<?=$tahun_mulai?>">LM Certi <?=$tahun_mulai?></option>
+													<?php $tahun_mulai++; } ?>
+												</select>
+											</div>
+										<?php } ?>
 										<div class="form-group">
 											<label>WEIGHT</label>
 											<input type="number" step="any" name="weight" id="weight" required class="form-control">
 										</div>
-										<?php if(in_array($this->uri->segment(3), array("13"))){ ?>
-										<div class="form-group">
-											<label>POTONGAN</label>
-											<select required class="zein form-control select2" name="id_potongan">
-												<option value="">Pilih Potongan</option>
-												<?php foreach($potongan as $c){ ?>
-												<option value="<?=$c->id?>"><?=$c->nama?></option>
-												<?php } ?>
-											</select>
-										</div>
-										<?php } ?>
 										<!-- <div class="form-group">
 											<label>PRICE</label>
 											<input disabled type="number" step="any" name="price" id="price" required class="form-control" value="0">

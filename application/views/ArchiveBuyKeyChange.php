@@ -40,9 +40,9 @@
     <div class="row">
 
     
-        <div class="col-md-6" style="">
+        <div class="<?= ($this->input->get("key")=="rti-au")?'col-md-6':'col-md-12' ?>" style="">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12" <?= ($this->input->get("key")=="rti-au")?'':'style="padding:0px 350px;"' ?>>
                     
                     
                         <input type="hidden" name="key" required class="form-control" value="<?=$this->input->get("key")?>">
@@ -167,39 +167,41 @@
                 
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="text-center">
+        <?php if($this->input->get("key")=="rti-au"){ ?>
+            <div class="col-md-6">
+                <div class="text-center">
 
-                <label style="color:#fff; text-align: center; ">Potongan LM Certi</label>
-            </div>
-            <table style="width:100%;border: 1px solid black;" cellspacing="3" cellpadding="3">
-                <thead>
-                
-                    <tr>
-                        <th style="text-align:center;" colspan="2" class="bordering">Material</th>
-                    </tr>
-                    <tr>
-                        <th class="bordering">Name</th>
-                        <th class="bordering">Value</th>
-                    </tr>
-                
-                </thead>
-                <tbody>
-                    <?php 
-                    $potongan_lm = json_decode($d->potongan_lm, true);
+                    <label style="color:#fff; text-align: center; ">Potongan LM Certi</label>
+                </div>
+                <table style="width:100%;border: 1px solid black;" cellspacing="3" cellpadding="3">
+                    <thead>
                     
-                    $tahun_mulai = 2018;
-                    // $d=mktime(11, 14, 54, 8, 12, 2023);
-                    while ($tahun_mulai <= date('Y')+1) { ?>
                         <tr>
-                            <td class="bordering">LM Certi <?= $tahun_mulai; ?></td>
-                            <td class="bordering"><input class="input-box" type="number" step="any" name="potongan_lm[<?= $tahun_mulai; ?>]" required  value="<?= $potongan_lm[$tahun_mulai] ?>"></td>
+                            <th style="text-align:center;" colspan="2" class="bordering">Material</th>
                         </tr>
+                        <tr>
+                            <th class="bordering">Name</th>
+                            <th class="bordering">Value</th>
+                        </tr>
+                    
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $potongan_lm = json_decode($d->potongan_lm, true);
                         
-                    <?php $tahun_mulai++; } ?>
-                </tbody>
-            </table>
-        </div>
+                        $tahun_mulai = 2018;
+                        // $d=mktime(11, 14, 54, 8, 12, 2023);
+                        while ($tahun_mulai <= date('Y')+1) { ?>
+                            <tr>
+                                <td class="bordering">LM Certi <?= $tahun_mulai; ?></td>
+                                <td class="bordering"><input class="input-box" type="number" step="any" name="potongan_lm[<?= $tahun_mulai; ?>]" required  value="<?= $potongan_lm[$tahun_mulai] ?>"></td>
+                            </tr>
+                            
+                        <?php $tahun_mulai++; } ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php } ?>
     </div>
     <div class="col-md-12 mt-3 text-center">
                 <a href="<?=base_url()?>archive/buy/?key=<?=$this->input->get('key')?>" class="btn btn-primary btn-icon-split btn-lg mr-3">

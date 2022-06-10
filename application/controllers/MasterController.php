@@ -360,6 +360,7 @@ class MasterController extends CI_Controller
                             'f' => $this->input->get('f'),
                             'g' => $this->input->get('g'),
                             'h' => $this->input->get('h'),
+                            
                         );
                         $this->MasterModel->formulasUpdate($key,$data);
                         redirect(base_url()."archive/sell/?key=$key&type=change");
@@ -393,6 +394,7 @@ class MasterController extends CI_Controller
                             'e' => $this->input->get('e'),
                             'f' => $this->input->get('f'),
                             'g' => $this->input->get('g'),
+                            'potongan_lm' => json_encode($this->input->get('potongan_lm')),
                         );
                         $this->MasterModel->formulasUpdate($key,$data);
                         redirect(base_url()."archive/sell/?key=$key&type=change");

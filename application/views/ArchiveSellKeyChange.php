@@ -1,3 +1,22 @@
+<style>
+    .bordering{
+        width:50%;
+        border: 1px solid #fff;
+        text-align:left;
+        padding-left:5px;
+        color:#fff;
+    }
+    .input-box{
+        height:35px;
+        padding:10px;
+        background: #EEE;
+        margin: 0px;
+        padding: 0px;
+        border: none;
+        margin-bottom: 0px;
+        width:100%;
+    }
+</style>
 <?php 
     foreach($data as $d){};  
 ?>
@@ -14,81 +33,106 @@
         ?> / GANTI POTONGAN
         </h3>
     <br>
-    <div class="col-md-12" style="padding:0px 350px;">
+    <form action="<?=base_url()?>archive/sell/save/" id="myForm">
         <div class="row">
-            <div class="col-md-12" style="padding:10px 10px">
-                <style>
-                    .bordering{
-                        width:50%;
-                        border: 1px solid #fff;
-                        text-align:left;
-                        padding-left:5px;
-                        color:#fff;
-                    }
-                    .input-box{
-                        height:35px;
-                        padding:10px;
-                        background: #EEE;
-                        margin: 0px;
-                        padding: 0px;
-                        border: none;
-                        margin-bottom: 0px;
-                        width:100%;
-                    }
-                </style>
-                <form action="<?=base_url()?>archive/sell/save/" id="myForm">
-                    <input type="hidden" name="key" required class="form-control" value="<?=$this->input->get("key")?>">
-                    <input type="hidden" name="type" required class="form-control" value="change">
-                    <div class="form-group text-center">
-                        <label style="color:#fff;">
-                        <?php 
-        if($this->input->get("key")=="lm"){
-            echo "LM";
-        }else if($this->input->get("key")=="material-au"){
-            echo "MATERIAL AU";
-        }else if($this->input->get("key")=="material-ag"){
-            echo "MATERIAL AG";
-        }
-        ?></label>
-                        <table style="width:100%;border: 1px solid black;" cellspacing="3" cellpadding="3">
-                            <thead>
-                                <tr>
-                                    <th class="bordering">Name</th>
-                                    <th class="bordering">Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php if($this->input->get("key")=="lm"){ ?>
-                                
-                                <tr>
-                                    <td class="bordering">LM Lama</td>
-                                    <td class="bordering"><input class="input-box" type="number" step="any" name="a" required  value="<?=$d->a?>"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bordering">LM Baru</td>
-                                    <td class="bordering"><input class="input-box" type="number" step="any" name="b" required  value="<?=$d->b?>"></td>
-                                </tr>
-                            <?php }else if($this->input->get("key")=="material-au"){ ?>
-                                <tr>
-                                    <td class="bordering">Potongan Material AU</td>
-                                    <td class="bordering"><input class="input-box" type="number" step="any" name="a" required  value="<?=$d->a?>"></td>
-                                </tr>
-                                <tr>
-                                    <td class="bordering">Penjualan UBS</td>
-                                    <td class="bordering"><input class="input-box" type="number" step="any" name="g" required  value="<?=$d->g?>"></td>
-                                </tr>
-                            <?php }else if($this->input->get("key")=="material-ag"){ ?>
-                                <tr>
-                                    <td class="bordering">Potongan Material AG</td>
-                                    <td class="bordering"><input class="input-box" type="number" step="any" name="a" required  value="<?=$d->a?>"></td>
-                                </tr>
-                            <?php  } ?>
-                            </tbody>
-                        </table>
-                        <!-- <input type="number" step="any" name="value" required class="form-control" value="<?=$value?>"> -->
+
+        
+            <div class="<?= ($this->input->get("key")=="material-au")?'col-md-6':'col-md-12' ?>" style="">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        
+                        <input type="hidden" name="key" required class="form-control" value="<?=$this->input->get("key")?>">
+                        <input type="hidden" name="type" required class="form-control" value="change">
+                        <div class="form-group text-center">
+                            <label style="color:#fff;">
+                                <?php 
+                                if($this->input->get("key")=="lm"){
+                                    echo "LM";
+                                }else if($this->input->get("key")=="material-au"){
+                                    echo "MATERIAL AU";
+                                }else if($this->input->get("key")=="material-ag"){
+                                    echo "MATERIAL AG";
+                                }
+                                ?>
+                            </label>
+                            <table style="width:100%;border: 1px solid black;" cellspacing="3" cellpadding="3">
+                                <thead>
+                                    <tr>
+                                        <th class="bordering">Name</th>
+                                        <th class="bordering">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php if($this->input->get("key")=="lm"){ ?>
+                                    
+                                    <tr>
+                                        <td class="bordering">LM Lama</td>
+                                        <td class="bordering"><input class="input-box" type="number" step="any" name="a" required  value="<?=$d->a?>"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bordering">LM Baru</td>
+                                        <td class="bordering"><input class="input-box" type="number" step="any" name="b" required  value="<?=$d->b?>"></td>
+                                    </tr>
+                                <?php }else if($this->input->get("key")=="material-au"){ ?>
+                                    <tr>
+                                        <td class="bordering">Potongan Material AU</td>
+                                        <td class="bordering"><input class="input-box" type="number" step="any" name="a" required  value="<?=$d->a?>"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bordering">Penjualan UBS</td>
+                                        <td class="bordering"><input class="input-box" type="number" step="any" name="g" required  value="<?=$d->g?>"></td>
+                                    </tr>
+                                <?php }else if($this->input->get("key")=="material-ag"){ ?>
+                                    <tr>
+                                        <td class="bordering">Potongan Material AG</td>
+                                        <td class="bordering"><input class="input-box" type="number" step="any" name="a" required  value="<?=$d->a?>"></td>
+                                    </tr>
+                                <?php  } ?>
+                                </tbody>
+                            </table>
+                            <!-- <input type="number" step="any" name="value" required class="form-control" value="<?=$value?>"> -->
+                        </div>
+                    
                     </div>
-                </form>
+                    
+                </div>
             </div>
+            <?php if($this->input->get("key")=="material-au"){ ?>
+                <div class="col-md-6">
+                    <div class="text-center">
+
+                        <label style="color:#fff; text-align: center; ">Potongan LM Certi</label>
+                    </div>
+                    <table style="width:100%;border: 1px solid black;" cellspacing="3" cellpadding="3">
+                        <thead>
+                        
+                            <tr>
+                                <th style="text-align:center;" colspan="2" class="bordering">Material</th>
+                            </tr>
+                            <tr>
+                                <th class="bordering">Name</th>
+                                <th class="bordering">Value</th>
+                            </tr>
+                        
+                        </thead>
+                        <tbody>
+                            <?php 
+                            $potongan_lm = json_decode($d->potongan_lm, true);
+                            
+                            $tahun_mulai = 2018;
+                            // $d=mktime(11, 14, 54, 8, 12, 2023);
+                            while ($tahun_mulai <= date('Y')+1) { ?>
+                                <tr>
+                                    <td class="bordering">LM Certi <?= $tahun_mulai; ?></td>
+                                    <td class="bordering"><input class="input-box" type="number" step="any" name="potongan_lm[<?= $tahun_mulai; ?>]" required  value="<?= $potongan_lm[$tahun_mulai] ?>"></td>
+                                </tr>
+                                
+                            <?php $tahun_mulai++; } ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php } ?>
             <div class="col-md-12 mt-3 text-center">
                 <a href="<?=base_url()?>archive/sell/?key=<?=$this->input->get('key')?>" class="btn btn-primary btn-icon-split btn-lg mr-3">
                     <span class="icon text-white-50">
@@ -104,8 +148,8 @@
                 </a>
             </div>
         </div>
-    </div>
-    </div>
+    </form>
+</div>
     <script>
     jQuery(function ($) {
         // Num Pad Input

@@ -930,7 +930,7 @@ class TransactionController extends CI_Controller
 			}
 			$rtiAU = abs($this->MaterialModel->formulaData()->row("f_rti_au_sell"));
 			$AUtambahAUG = abs($this->MasterModel->formulasData('material-au')->row('g'));
-			$potongan_lm = abs($this->MasterModel->formulasData('material-au')->row('potongan_lm'));
+			$potongan_lm = $this->MasterModel->formulasData('material-au')->row('potongan_lm');
 			$rtiAG = $this->MaterialModel->formulaData()->row("f_rti_ag_sell");
 			$LMpresentaseLMBaru = $this->MasterModel->formulasData('lm')->row('b');
 			$LMpresentaseLMLama = $this->MasterModel->formulasData('lm')->row('a');
@@ -1086,7 +1086,10 @@ class TransactionController extends CI_Controller
 				$tahun_potongan = $this->input->post('tahun_potongan');
 				$harga_potongan = json_decode($potongan_lm, true)[$tahun_potongan];
 				$pricepergram = $rtiAU + $harga_potongan;
+				// print_r($pricepergram);
+				// die();
 				$price = $pricepergram*$weight;
+
 				/*End Rumus Baru */
 				$data = array(
 					'id' => $idLast,
