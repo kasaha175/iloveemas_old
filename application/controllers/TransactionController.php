@@ -1089,13 +1089,14 @@ class TransactionController extends CI_Controller
 				// print_r($pricepergram);
 				// die();
 				$price = $pricepergram*$weight;
+				$priceTotal = round($price);
 
 				/*End Rumus Baru */
 				$data = array(
 					'id' => $idLast,
 					'qty' => $weight,
-					'price' => $price,
-					'prices' => $price,
+					'price' => $pricepergram,
+					'prices' => $pricepergram,
 					'name' => 'T-Shirt',
 					'materialName' => $materialName,
 					'materialType' => '-',
