@@ -263,6 +263,8 @@ class TransactionController extends CI_Controller
 			$rtiAG = abs($this->MaterialModel->formulaData()->row("f_rti_ag"));
 			$rtiPT = abs($this->MaterialModel->formulaData()->row("f_rti_pt"));
 			$rtiRU = abs($this->MaterialModel->formulaData()->row("f_rti_ru"));
+			$AUpotonganrulow = $this->MasterModel->formulasData('rti-ru-low')->row('a');
+			$AUpotonganruhigh = $this->MasterModel->formulasData('rti-ru')->row('a');
 			$AUpotonganK24 = $this->MasterModel->formulasData('rti-au')->row('a');
 			$AUpotonganK2499 = $this->MasterModel->formulasData('rti-au')->row('h');
 			$AUpresentasePotonganK24 = $this->MasterModel->formulasData('rti-au')->row('b');
@@ -283,6 +285,7 @@ class TransactionController extends CI_Controller
 			$PTpresentasePotonganRhLow = abs($this->MasterModel->formulasData('rti-pt-low')->row('c'));
 			$PTpresentasePotonganIr = abs($this->MasterModel->formulasData('rti-pt')->row('d'));
 			$PTpresentasePotonganIrLow = abs($this->MasterModel->formulasData('rti-pt-low')->row('d'));
+			
 			//cart
 			
 			foreach($this->cart->contents() as $a) {
@@ -697,10 +700,10 @@ class TransactionController extends CI_Controller
 				}else if ($idMaterial == 19){
 					if($types == 'high'){
 
-						$pricepergram = $rtiRU * $percentage / 100;
+						$pricepergram = ($rtiRU - ($rtiRU * $AUpotonganruhigh / 100)) * $percentage / 100;
 					}
 					else{
-						$pricepergram = ($rtiRU - ($rtiRU * $AGpresentasePotonganAGLow / 100)) * $percentage / 100;
+						$pricepergram = ($rtiRU - ($rtiRU * $AUpotonganrulow / 100)) * $percentage / 100;
 					}
 					
 					$price = $pricepergram*$weight;
