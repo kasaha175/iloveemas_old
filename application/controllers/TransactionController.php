@@ -253,7 +253,7 @@ class TransactionController extends CI_Controller
 			$AUpotonganK24 = abs($this->MasterModel->formulasData('rti-au')->row('a'));
 			$AUpotonganK2499 = abs($this->MasterModel->formulasData('rti-au')->row('h'));
 			$AUpresentasePotonganK24 = abs($this->MasterModel->formulasData('rti-au')->row('b'));
-			$AUpresentasePotonganCustProf = abs($this->MasterModel->formulasData('rti-au')->row('f'));
+			$AUpresentasePotonganCustProf = $this->MasterModel->formulasData('rti-au')->row('f');
 			$AUpresentaseLMBaru = $this->MasterModel->formulasData('rti-au')->row('d');
 			$AUpresentaseLMLama = $this->MasterModel->formulasData('rti-au')->row('e');
 			$AUpotonganubs = $this->MasterModel->formulasData('rti-au')->row('g');
@@ -667,7 +667,7 @@ class TransactionController extends CI_Controller
 					// $price = round((($percentage/100) * ($price)));
 					// $priceTotal = $price * $weight; 	
 					// }
-					$price = ($rtiAU + ($rtiAU * - ($AUpresentasePotonganCustProf/100))) * $percentage/100;
+					$price = ($rtiAU + ($rtiAU * $AUpresentasePotonganCustProf/100)) * $percentage/100;
 					$priceTotal = ($price * $weight);	
 					$data = array(
 						'id' => $idLast,
@@ -709,6 +709,27 @@ class TransactionController extends CI_Controller
 						'priceTotal' => $priceTotal,
 					);
 				}
+				else if ($idMaterial == 21){
+					
+					$price = $this->input->post('price');
+					$pricepergram = $price * $percentage / 100; 
+					$priceTotal = $pricepergram * $weight; 
+					
+					// End Rumus Baru
+					$priceTotal = round($priceTotal);
+					$data = array(
+						'id' => $idLast,
+						'qty' => $weight,
+						'price' => $price,
+						'prices' => $price,
+						'name' => 'T-Shirt',
+						'materialName' => $materialName,
+						'materialType' => '-',
+						'carat' => $percentage."%",
+						'weight' => $weight,
+						'priceTotal' => $priceTotal,
+					);
+				}
 				else if ($idMaterial == 23){
 					if ($carat == '24(99.9)') {
 						
@@ -737,27 +758,7 @@ class TransactionController extends CI_Controller
 						'priceTotal' => $priceTotal,
 					);
 				}
-				else if ($idMaterial == 21){
-					
-					$price = $this->input->post('price');
-					$pricepergram = $price * $percentage / 100; 
-					$priceTotal = $pricepergram * $weight; 
-					
-					// End Rumus Baru
-					$priceTotal = round($price);
-					$data = array(
-						'id' => $idLast,
-						'qty' => $weight,
-						'price' => $pricepergram,
-						'prices' => $pricepergram,
-						'name' => 'T-Shirt',
-						'materialName' => $materialName,
-						'materialType' => '-',
-						'carat' => $percentage."%",
-						'weight' => $weight,
-						'priceTotal' => $priceTotal,
-					);
-				}
+				
 			}else{
 				$weight = 1;
 				$price = $this->input->post('price');
