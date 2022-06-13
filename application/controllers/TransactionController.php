@@ -95,6 +95,19 @@ class TransactionController extends CI_Controller
 			redirect(base_url());
 		}
 	}
+	function ruthenium(){
+		$authUser = $this->session->userdata("authUser");
+		$idUser = $this->session->userdata("idUser");
+		$this->data["title"] = "TRANSACTION BUY";
+		if ($authUser == true) {
+			$this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+			$this->data['content'] = $this->load->view('BuyHighLow', $this->data, true);
+			$this->load->view("UserTemplate", $this->data);
+		}
+		else {
+			redirect(base_url());
+		}
+	}
 	function silver(){
 		$authUser = $this->session->userdata("authUser");
 		$idUser = $this->session->userdata("idUser");
@@ -250,9 +263,9 @@ class TransactionController extends CI_Controller
 			$rtiAG = abs($this->MaterialModel->formulaData()->row("f_rti_ag"));
 			$rtiPT = abs($this->MaterialModel->formulaData()->row("f_rti_pt"));
 			$rtiRU = abs($this->MaterialModel->formulaData()->row("f_rti_ru"));
-			$AUpotonganK24 = abs($this->MasterModel->formulasData('rti-au')->row('a'));
-			$AUpotonganK2499 = abs($this->MasterModel->formulasData('rti-au')->row('h'));
-			$AUpresentasePotonganK24 = abs($this->MasterModel->formulasData('rti-au')->row('b'));
+			$AUpotonganK24 = $this->MasterModel->formulasData('rti-au')->row('a');
+			$AUpotonganK2499 = $this->MasterModel->formulasData('rti-au')->row('h');
+			$AUpresentasePotonganK24 = $this->MasterModel->formulasData('rti-au')->row('b');
 			$AUpresentasePotonganCustProf = $this->MasterModel->formulasData('rti-au')->row('f');
 			$AUpresentaseLMBaru = $this->MasterModel->formulasData('rti-au')->row('d');
 			$AUpresentaseLMLama = $this->MasterModel->formulasData('rti-au')->row('e');
@@ -372,22 +385,7 @@ class TransactionController extends CI_Controller
 						'weight' => $weight,
 						'priceTotal' => $priceTotal,
 					);
-                }else if ($idMaterial == 17){
-					$price = ($rtiAU + $AUpotonganubs);
-					$priceTotal = $price*$weight;
-					$data = array(
-						'id' => $idLast,
-						'qty' => $weight,
-						'price' => $price,
-						'prices' => $price,
-						'name' => 'T-Shirt',
-						'materialName' => $materialName,
-						'materialType' => '-',
-						'carat' => '',
-						'weight' => $weight,
-						'priceTotal' => $priceTotal,
-					);
-				}else if ($idMaterial == 3) {
+                }else if ($idMaterial == 3){
 					
 					// Rumus Lama
 					// // if($weight<1){
@@ -419,7 +417,7 @@ class TransactionController extends CI_Controller
 						'weight' => $weight,
 						'priceTotal' => $priceTotal,
 					);
-                }else if ($idMaterial == 4) {
+                }else if ($idMaterial == 4){
 					// if($weight<1){
                 		$pricepergram = $rtiAU + $AUpresentaseLMLama;
 						$price = $pricepergram*$weight;
@@ -440,7 +438,7 @@ class TransactionController extends CI_Controller
 						'weight' => $weight,
 						'priceTotal' => $priceTotal,
 					);
-                }else if ($idMaterial == 5) {
+                }else if ($idMaterial == 5){
 					// echo $AGpresentasePotonganAGLow;
 					// die;
 					if($types=='high'){
@@ -681,10 +679,23 @@ class TransactionController extends CI_Controller
 						'weight' => $weight,
 						'priceTotal' => $priceTotal,
 					);
-				}
-				else if ($idMaterial == 19){
-					$quality = $this->input->post('quality');
-					if($quality == 'High Quality'){
+				}else if ($idMaterial == 17){
+					$price = ($rtiAU + $AUpotonganubs);
+					$priceTotal = $price*$weight;
+					$data = array(
+						'id' => $idLast,
+						'qty' => $weight,
+						'price' => $price,
+						'prices' => $price,
+						'name' => 'T-Shirt',
+						'materialName' => $materialName,
+						'materialType' => '-',
+						'carat' => '',
+						'weight' => $weight,
+						'priceTotal' => $priceTotal,
+					);
+				}else if ($idMaterial == 19){
+					if($types == 'high'){
 
 						$pricepergram = $rtiRU * $percentage / 100;
 					}
@@ -703,6 +714,7 @@ class TransactionController extends CI_Controller
 						'prices' => $pricepergram,
 						'name' => 'T-Shirt',
 						'materialName' => $materialName,
+						'types' => $types,
 						'materialType' => '-',
 						'carat' => '-',
 						'weight' => $weight,

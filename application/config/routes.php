@@ -13,6 +13,7 @@ $route['transaction/buy/platinum/select'] = 'TransactionController/platinum';
 $route['transaction/buy/paladium/select'] = 'TransactionController/paladium';
 $route['transaction/buy/iridium/select'] = 'TransactionController/iridium';
 $route['transaction/buy/rhodium/select'] = 'TransactionController/rhodium';
+$route['transaction/buy/ruthenium/select'] = 'TransactionController/ruthenium';
 $route['transaction/buy/silver/select'] = 'TransactionController/silver';
 $route['transaction/buy/(:any)'] = 'TransactionController/buyCart/$1';
 $route['transaction/buy-add-to-cart'] = 'TransactionController/buyAddToCart';

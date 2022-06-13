@@ -106,16 +106,7 @@ error_reporting(0);
 											</select>
 										</div>
 										<?php } ?>
-										<?php if(in_array($this->uri->segment(3), array("19"))){ ?>
-										<div class="form-group">
-											<label>QUALITY</label>
-											<select required class="zein form-control select2" name="quality">
-												<option value="">Pilih Kualitas</option>
-												<option value="High Quality">High Quality</option>
-												<option value="Low Quality">Low Quality</option>
-											</select>
-										</div>
-										<?php } ?>
+										
 										<?php if(in_array($this->uri->segment(3), array("2", "3", "4", "5", "6", "7", "8", "9", "10", "17", "18", "19", "23", "21"))){ ?>
 										<div class="form-group">
 											<label>WEIGHT</label>
