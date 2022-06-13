@@ -700,10 +700,10 @@ class TransactionController extends CI_Controller
 				}else if ($idMaterial == 19){
 					if($types == 'high'){
 
-						$pricepergram = ($rtiRU - ($rtiRU * $AUpotonganruhigh / 100)) * $percentage / 100;
+						$pricepergram = ($rtiRU - ($rtiRU - $AUpotonganruhigh)) * $percentage / 100;
 					}
 					else{
-						$pricepergram = ($rtiRU - ($rtiRU * $AUpotonganrulow / 100)) * $percentage / 100;
+						$pricepergram = ($rtiRU - ($rtiRU - $AUpotonganrulow)) * $percentage / 100;
 					}
 					
 					$price = $pricepergram*$weight;
