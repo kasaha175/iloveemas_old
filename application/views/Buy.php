@@ -108,7 +108,7 @@
 					<div class="box-type">
 						<img src="<?=base_url()?>ru.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
-						<span>Ru (Ruthenium)</span>
+						<span>Ruthenium</span>
 					</div>
 				</a>
 			</div>
@@ -117,7 +117,7 @@
 					<div class="box-type">
 						<img src="<?=base_url()?>ta.png" class="img-fluid mt-3" style="width: 50%;">
 						<br><br>
-						<span>Ta (Tantalum)</span>
+						<span>Tantalum</span>
 					</div>
 				</a>
 			</div>

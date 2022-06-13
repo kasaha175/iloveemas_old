@@ -157,10 +157,17 @@ class MasterController extends CI_Controller
                         $this->load->view("UserTemplate", $this->data);
                     }
                 }else if($key=="rti-ru"){
-                    
-                    $this->data['value'] = $this->MaterialModel->formulaData()->row("f_rti_ru");
+                    if($type=="change"){
+                        $this->data['data'] = $this->MasterModel->formulasData($key)->result();
+                        $this->data['data2'] = $this->MasterModel->formulasData('rti-ru-low')->result();
+                        $this->data['content'] = $this->load->view('ArchiveBuyKeyChange', $this->data, true);
+                        $this->load->view("UserTemplate", $this->data);
+                    }else{
+                        $this->data['value'] = $this->MaterialModel->formulaData()->row("f_rti_ru");
                     $this->data['content'] = $this->load->view('ArchiveBuyKey', $this->data, true);
                     $this->load->view("UserTemplate", $this->data);
+                    }
+                    
                     
                 }
             }else{
@@ -262,9 +269,24 @@ class MasterController extends CI_Controller
                     }
                 }else if($key=="rti-ru"){
                     $parameter = 'f_'.str_replace('-','_',$key);
+                    if($type=="change"){
+                        $data = array(
+                            'a' => $this->input->get('a')
+                        );
+                        $this->MasterModel->formulasUpdate($key,$data);
+                        $data = array(
+                            'a' => $this->input->get('aa'),
+                        );
+                        $this->MasterModel->formulasUpdate('rti-ru-low',$data);
+                        redirect(base_url()."archive/buy/?key=$key&type=change");
+                    }else{
+                        $this->MaterialModel->formulaUpdate($parameter,$value);
+                        redirect(base_url()."archive/buy/?key=$key");
+                    }
+
                     
-                    $this->MaterialModel->formulaUpdate($parameter,$value);
-                    redirect(base_url()."archive/buy/?key=$key");
+                    
+                    
                     
                 }
             }else{

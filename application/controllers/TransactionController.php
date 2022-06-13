@@ -281,7 +281,7 @@ class TransactionController extends CI_Controller
 			else {
 				$idLast = 1;
 			}
-			if ($idMaterial != 1 && $idMaterial != 21) {
+			if ($idMaterial != 1) {
 				if ($idMaterial == 2) {
 					if ($carat == '24(99.9)') {
 						$price = round($rtiAU - $AUpotonganK2499);
@@ -732,7 +732,28 @@ class TransactionController extends CI_Controller
 						'name' => 'T-Shirt',
 						'materialName' => $materialName,
 						'materialType' => '-',
-						'carat' => '24',
+						'carat' => 'K'.$carat,
+						'weight' => $weight,
+						'priceTotal' => $priceTotal,
+					);
+				}
+				else if ($idMaterial == 21){
+					
+					$price = $this->input->post('price');
+					$pricepergram = $price * $percentage / 100; 
+					$priceTotal = $pricepergram * $weight; 
+					
+					// End Rumus Baru
+					$priceTotal = round($price);
+					$data = array(
+						'id' => $idLast,
+						'qty' => $weight,
+						'price' => $pricepergram,
+						'prices' => $pricepergram,
+						'name' => 'T-Shirt',
+						'materialName' => $materialName,
+						'materialType' => '-',
+						'carat' => $percentage."%",
 						'weight' => $weight,
 						'priceTotal' => $priceTotal,
 					);

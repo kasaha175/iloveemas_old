@@ -77,7 +77,7 @@ error_reporting(0);
 										</div>
 										<?php } ?>
 										
-										<?php if(in_array($this->uri->segment(3), array("6","7","8","9","10","19"))){ ?>
+										<?php if(in_array($this->uri->segment(3), array("6","7","8","9","10","19","21"))){ ?>
 										<div class="form-group">
 											<label>PERCANTAGE</label>
 											<input type="number" step="any" name="percentage" required class="aang form-control">
@@ -116,7 +116,7 @@ error_reporting(0);
 											</select>
 										</div>
 										<?php } ?>
-										<?php if(in_array($this->uri->segment(3), array("2", "3", "4", "5", "6", "7", "8", "9", "10", "17", "18", "19", "23"))){ ?>
+										<?php if(in_array($this->uri->segment(3), array("2", "3", "4", "5", "6", "7", "8", "9", "10", "17", "18", "19", "23", "21"))){ ?>
 										<div class="form-group">
 											<label>WEIGHT</label>
 											<input type="number" step="any" name="weight" required class="aang form-control">

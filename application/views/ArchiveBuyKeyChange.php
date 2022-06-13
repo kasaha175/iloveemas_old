@@ -33,6 +33,8 @@
             echo "RTI AG";
         }else if($this->input->get("key")=="rti-lm"){
             echo "RTI LM";
+        }else if($this->input->get("key")=="rti-ru"){
+            echo "RTI LM";
         }
         ?> / GANTI POTONGAN
         </h3>
@@ -57,11 +59,13 @@
                                     echo "RTI AG";
                                 }else if($this->input->get("key")=="rti-lm"){
                                     echo "RTI LM";
+                                }else if($this->input->get("key")=="rti-ru"){
+                                    echo "RTI RU";
                                 }
                             ?></label>
                             <table style="width:100%;border: 1px solid black;" cellspacing="3" cellpadding="3">
                                 <thead>
-                                <?php if($this->input->get("key")=="rti-pt" || $this->input->get("key")=="rti-ag"){ ?>
+                                <?php if($this->input->get("key")=="rti-pt" || $this->input->get("key")=="rti-ag" || $this->input->get("key")=="rti-ru"){ ?>
                                     <tr>
                                         <th style="text-align:center;" colspan="2" class="bordering">High Material</th>
                                         <th style="text-align:center;" colspan="2" class="bordering">Low Material</th>
@@ -156,8 +160,15 @@
                                         <td class="bordering">Potongan Ag</td>
                                         <td class="bordering"><input class="input-box" type="number" step="any" name="aa" required  value="<?=$dd->a?>"></td>
                                     </tr>
-                                <?php  }else if($this->input->get("key")=="rti-lm"){ ?>
-                                <?php }?>
+                                <?php }else if($this->input->get("key")=="rti-lm"){ ?>
+                                <?php }else if($this->input->get("key")=="rti-ru"){ ?>
+                                    <tr>
+                                        <td class="bordering">Potongan Ru</td>
+                                        <td class="bordering"><input class="input-box" type="number" step="any" name="a" required  value="<?=$d->a?>"></td>
+                                        <td class="bordering">Potongan Ru</td>
+                                        <td class="bordering"><input class="input-box" type="number" step="any" name="aa" required  value="<?=$dd->a?>"></td>
+                                    </tr>
+                                <?php  }?>
                                 </tbody>
                             </table>
                             <!-- <input type="number" step="any" name="value" required class="form-control" value="<?=$value?>"> -->

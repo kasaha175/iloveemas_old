@@ -61,14 +61,14 @@
                     </span>
                     <span class="text">Save</span>
                 </a>
-                <?php if($this->input->get("key")!="rti-ru"): ?>
+                
                 <a href="<?=base_url()?>archive/buy/?key=<?=$this->input->get("key")?>&type=change" class="btn btn-warning btn-icon-split btn-lg">
                     <span class="icon text-white-50">
                     <i class="fas fa-arrow-left"></i>
                     </span>
                     <span class="text">Ganti Potongan</span>
                 </a>
-                <?php endif; ?>
+                
             </div>
         </div>
     </div>
