@@ -583,7 +583,9 @@ class TransactionController extends CI_Controller
 						// if($percentage<100){
 							$pricePlatinum = floor($rtiPT + ($rtiPT * ($PTpresentasePotonganPt/100)));
 							
-							$price = round(($rtiPT + ($rtiPT * - ($PTpresentasePotonganIr/100))) * $percentage/100);
+							
+							$price = round(($rtiPT + ($rtiPT * ($PTpresentasePotonganIr/100))) * $percentage/100);
+							// 451625 +/- (451625 * (80/100)) *100 / 100
 							$priceTotal = ($price * $weight);	
 						// }else{
 						// 	$priceold = $rtiPT * 40 / 100 * $percentage / 100;
