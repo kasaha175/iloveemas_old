@@ -498,12 +498,12 @@ class TransactionController extends CI_Controller
 							// $price = floor((($percentage/100) * $rtiPT) - (($percentage/100) * $rtiPT *  ($PTpresentasePotonganPt/100)));
 							// $price = floor(($percentage/100) * floor(($rtiPT) +  (($rtiPT) * $PTpresentasePotonganPt/100)));
 							// 99.98% * (373.052 - (373.052*-15%))
-							$price = floor(($percentage/100) * floor($rtiPT + ($rtiPT * -($PTpresentasePotonganPt/100))));
+							$price = floor(($percentage/100) * floor($rtiPT + ($rtiPT * ($PTpresentasePotonganPt/100))));
 							$priceTotal = floor($price * $weight);	
 						}else{
 							// $price = round((($percentage/100) * $rtiPT) - (($percentage/100) * $rtiPT *  ($PTpresentasePotonganPt/100)));
 							// $price = round(($percentage/100) * round(($rtiPT) +  (($rtiPT) * $PTpresentasePotonganPt/100)));
-							$price = round($rtiPT + ($rtiPT * -($PTpresentasePotonganPt/100)));
+							$price = round($rtiPT + ($rtiPT * ($PTpresentasePotonganPt/100)));
 							$priceTotal = round($price * $weight);	
 						}
 					}else{
@@ -511,12 +511,12 @@ class TransactionController extends CI_Controller
 							// $price = floor((($percentage/100) * $rtiPT) - (($percentage/100) * $rtiPT *  ($PTpresentasePotonganPt/100)));
 							// $price = floor(($percentage/100) * floor(($rtiPT) +  (($rtiPT) * $PTpresentasePotonganPt/100)));
 							// 99.98% * (373.052 - (373.052*-15%))
-							$price = floor(($percentage/100) * floor($rtiPT + ($rtiPT * -($PTpresentasePotonganPtLow/100))));
+							$price = floor(($percentage/100) * floor($rtiPT + ($rtiPT * ($PTpresentasePotonganPtLow/100))));
 							$priceTotal = floor($price * $weight);	
 						}else{
 							// $price = round((($percentage/100) * $rtiPT) - (($percentage/100) * $rtiPT *  ($PTpresentasePotonganPt/100)));
 							// $price = round(($percentage/100) * round(($rtiPT) +  (($rtiPT) * $PTpresentasePotonganPt/100)));
-							$price = round($rtiPT + ($rtiPT * -($PTpresentasePotonganPtLow/100)));
+							$price = round($rtiPT + ($rtiPT * ($PTpresentasePotonganPtLow/100)));
 							$priceTotal = round($price * $weight);	
 						}
 					}
