@@ -279,10 +279,10 @@ class TransactionController extends CI_Controller
 			$AGpresentasePotonganAGLow = abs($this->MasterModel->formulasData('rti-ag-low')->row('a'));
 			$PTpresentasePotonganPt = $this->MasterModel->formulasData('rti-pt')->row('a');
 			$PTpresentasePotonganPtLow = $this->MasterModel->formulasData('rti-pt-low')->row('a');
-			$PTpresentasePotonganPd = abs($this->MasterModel->formulasData('rti-pt')->row('b'));
-			$PTpresentasePotonganPdLow = abs($this->MasterModel->formulasData('rti-pt-low')->row('b'));
-			$PTpresentasePotonganRh = abs($this->MasterModel->formulasData('rti-pt')->row('c'));
-			$PTpresentasePotonganRhLow = abs($this->MasterModel->formulasData('rti-pt-low')->row('c'));
+			$PTpresentasePotonganPd = $this->MasterModel->formulasData('rti-pt')->row('b');
+			$PTpresentasePotonganPdLow = $this->MasterModel->formulasData('rti-pt-low')->row('b');
+			$PTpresentasePotonganRh = $this->MasterModel->formulasData('rti-pt')->row('c');
+			$PTpresentasePotonganRhLow = $this->MasterModel->formulasData('rti-pt-low')->row('c');
 			$PTpresentasePotonganIr = abs($this->MasterModel->formulasData('rti-pt')->row('d'));
 			$PTpresentasePotonganIrLow = abs($this->MasterModel->formulasData('rti-pt-low')->row('d'));
 			
