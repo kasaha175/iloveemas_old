@@ -85,23 +85,17 @@ function penyebut($nilai) {
 						<div
 							style="padding-left:5px; padding-top:1px; border-bottom:1px #000 solid;border-left:1px #000 solid;border-right:1px #000 solid;border-bottom:1px #000 solid"
 							>
+							<?php
+							$this->db->order_by('urutan', 'ASC');
+							$this->db->where('status', 'ENABLE');
+                            $cabang = $this->db->get('tb_cabang')->result();
+							foreach($cabang as $key => $value): ?>
 							<p style="">
 								<input type="checkbox" />
-								I Love Emas Jakarta : Ruko Sky Terrace Blok B, Jl. Tanah Lot,
-								Daan Mogot Baru
+								<?= $value->nama_cabang ?> : <?= $value->alamat_cabang ?>
 							</p>
-							<p style="">
-								<input type="checkbox" />
-								I Love Emas Bali : Jl. Gunung Soputan 36B, Denpasar Barat, Bali
-							</p>
-							<p style="">
-								<input type="checkbox" />
-								I Love Emas Surabaya: Cito Mall Surabaya, Lt UG Blok UB 5/10
-							</p>
-							<p style="">
-								<input type="checkbox" />
-								I Love Emas Bekasi : Lt. GF 48-49 Revo Town Mall Bekasi Lt. GF 48-49, Pekayon Jaya, Kec. Bekasi Sel., Kota Bks, Jawa Barat
-							</p>
+							<?php endforeach; ?>
+							
 						</div>
 					</div>
 					<div style="padding-left:15px; padding-right:5px; width:46%; display:inline-block;vertical-align:text-top;">

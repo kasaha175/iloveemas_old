@@ -263,6 +263,7 @@ class TransactionController extends CI_Controller
 			$rtiAG = abs($this->MaterialModel->formulaData()->row("f_rti_ag"));
 			$rtiPT = abs($this->MaterialModel->formulaData()->row("f_rti_pt"));
 			$rtiRU = abs($this->MaterialModel->formulaData()->row("f_rti_ru"));
+			$rtiTA = abs($this->MaterialModel->formulaData()->row("f_rti_ta"));
 			$AUpotonganrulow = $this->MasterModel->formulasData('rti-ru-low')->row('a');
 			$AUpotonganruhigh = $this->MasterModel->formulasData('rti-ru')->row('a');
 			$AUpotonganK24 = $this->MasterModel->formulasData('rti-au')->row('a');
@@ -275,16 +276,16 @@ class TransactionController extends CI_Controller
 			$AUgb_99 = $this->MasterModel->formulasData('rti-au')->row('gb_99');
 			$AUgb_99_9 = $this->MasterModel->formulasData('rti-au')->row('gb_99_9');
 			$potongan_lm = $this->MasterModel->formulasData('rti-au')->row('potongan_lm');
-			$AGpresentasePotonganAG = abs($this->MasterModel->formulasData('rti-ag')->row('a'));
-			$AGpresentasePotonganAGLow = abs($this->MasterModel->formulasData('rti-ag-low')->row('a'));
+			$AGpresentasePotonganAG = $this->MasterModel->formulasData('rti-ag')->row('a');
+			$AGpresentasePotonganAGLow = $this->MasterModel->formulasData('rti-ag-low')->row('a');
 			$PTpresentasePotonganPt = $this->MasterModel->formulasData('rti-pt')->row('a');
 			$PTpresentasePotonganPtLow = $this->MasterModel->formulasData('rti-pt-low')->row('a');
 			$PTpresentasePotonganPd = $this->MasterModel->formulasData('rti-pt')->row('b');
 			$PTpresentasePotonganPdLow = $this->MasterModel->formulasData('rti-pt-low')->row('b');
 			$PTpresentasePotonganRh = $this->MasterModel->formulasData('rti-pt')->row('c');
 			$PTpresentasePotonganRhLow = $this->MasterModel->formulasData('rti-pt-low')->row('c');
-			$PTpresentasePotonganIr = abs($this->MasterModel->formulasData('rti-pt')->row('d'));
-			$PTpresentasePotonganIrLow = abs($this->MasterModel->formulasData('rti-pt-low')->row('d'));
+			$PTpresentasePotonganIr = $this->MasterModel->formulasData('rti-pt')->row('d');
+			$PTpresentasePotonganIrLow = $this->MasterModel->formulasData('rti-pt-low')->row('d');
 			
 			//cart
 			
@@ -447,30 +448,30 @@ class TransactionController extends CI_Controller
 					if($types=='high'){
 						// echo $types;die;
 						if ($carat == 1000) { 
-							$price = round($rtiAG - ($rtiAG * $AGpresentasePotonganAG/100));
+							$price = round($rtiAG + ($rtiAG * $AGpresentasePotonganAG/100));
 						}
 						else if ($carat == 925) {
-							$price = round((0.925 * $rtiAG) - (0.925  * $rtiAG * ($AGpresentasePotonganAG/100)));
+							$price = round((0.925 * $rtiAG) + (0.925  * $rtiAG * ($AGpresentasePotonganAG/100)));
 						}
 						else if ($carat == 900) {
-							$price = round((0.90 * $rtiAG) - (0.90  * $rtiAG * ($AGpresentasePotonganAG/100)));
+							$price = round((0.90 * $rtiAG) + (0.90  * $rtiAG * ($AGpresentasePotonganAG/100)));
 						}else if ($carat == 500) {
-							$price = round((0.50 * $rtiAG) - (0.50  * $rtiAG * ($AGpresentasePotonganAG/100)));
+							$price = round((0.50 * $rtiAG) + (0.50  * $rtiAG * ($AGpresentasePotonganAG/100)));
 						}
 						else {
-					       echo $price = floor((($carat/100) * $rtiAG) - floor(($carat/100)  * $rtiAG * ($AGpresentasePotonganAG/100)));
+					       echo $price = floor((($carat/100) * $rtiAG) + floor(($carat/100)  * $rtiAG * ($AGpresentasePotonganAG/100)));
 						}
 					}else{
 						if ($carat == 1000) { 
-							$price = round($rtiAG - ($rtiAG * $AGpresentasePotonganAGLow/100));
+							$price = round($rtiAG + ($rtiAG * $AGpresentasePotonganAGLow/100));
 						}
 						else if ($carat == 925) {
-							$price = round((0.925 * $rtiAG) - (0.925  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
+							$price = round((0.925 * $rtiAG) + (0.925  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
 						}
 						else if ($carat == 900) {
-							$price = round((0.90 * $rtiAG) - (0.90  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
+							$price = round((0.90 * $rtiAG) + (0.90  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
 						}else if ($carat == 500) {
-							$price = round((0.50 * $rtiAG) - (0.50  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
+							$price = round((0.50 * $rtiAG) + (0.50  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
 						}
 						else {
 					        $price = round((($carat/100) * $rtiAG) - round(($carat/100)  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
@@ -727,8 +728,8 @@ class TransactionController extends CI_Controller
 				}
 				else if ($idMaterial == 21){
 					
-					$price = $this->input->post('price');
-					$pricepergram = $price * $percentage / 100; 
+					
+					$pricepergram = $rtiTA * $percentage / 100; 
 					$priceTotal = $pricepergram * $weight; 
 					
 					// End Rumus Baru
@@ -966,8 +967,8 @@ class TransactionController extends CI_Controller
 			else {
 				$idLast = 1;
 			}
-			$rtiAU = abs($this->MaterialModel->formulaData()->row("f_rti_au_sell"));
-			$AUtambahAUG = abs($this->MasterModel->formulasData('material-au')->row('g'));
+			$rtiAU = $this->MaterialModel->formulaData()->row("f_rti_au_sell");
+			$AUtambahAUG = $this->MasterModel->formulasData('material-au')->row('g');
 			$potongan_lm = $this->MasterModel->formulasData('material-au')->row('potongan_lm');
 			$rtiAG = $this->MaterialModel->formulaData()->row("f_rti_ag_sell");
 			$LMpresentaseLMBaru = $this->MasterModel->formulasData('lm')->row('b');

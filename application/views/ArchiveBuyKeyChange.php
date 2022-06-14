@@ -104,12 +104,12 @@
                                         <td class="bordering">material au</td>
                                         <td class="bordering"><input class="input-box" type="number" step="any" name="c" required  value="<?=$d->c?>"></td>
                                     </tr>
-                                    <tr>
+                                    <tr style="display: none">
                                         <td class="bordering">lm baru</td>
                                         <td class="bordering"><input class="input-box" type="number" step="any" name="d" required  value="<?=$d->d?>"></td>
                                     </tr>
                                     <tr>
-                                        <td class="bordering">lm lama</td>
+                                        <td class="bordering">lm retro</td>
                                         <td class="bordering"><input class="input-box" type="number" step="any" name="e" required  value="<?=$d->e?>"></td>
                                     </tr>
                                     <tr>

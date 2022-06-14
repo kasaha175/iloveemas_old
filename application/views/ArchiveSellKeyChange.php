@@ -37,9 +37,9 @@
         <div class="row">
 
         
-            <div class="<?= ($this->input->get("key")=="material-au")?'col-md-6':'col-md-12' ?>" style="">
+            <div class="<?= ($this->input->get("key")=="lm")?'col-md-6':'col-md-12' ?>" style="">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" <?= ($this->input->get("key")=="lm")?'':'style="padding:0px 350px;"' ?>>
                         
                         
                         <input type="hidden" name="key" required class="form-control" value="<?=$this->input->get("key")?>">
@@ -98,7 +98,7 @@
                     
                 </div>
             </div>
-            <?php if($this->input->get("key")=="material-au"){ ?>
+            <?php if($this->input->get("key")=="lm"){ ?>
                 <div class="col-md-6">
                     <div class="text-center">
 

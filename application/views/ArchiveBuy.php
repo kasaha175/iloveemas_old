@@ -11,31 +11,31 @@
     <br>
     <div class="col-md-12" style="padding:0px 350px;">
         <div class="row">
-            <div class="col-md-3" style="padding:10px 10px">
+            <div class="col-md-6" style="padding:10px 10px">
                 <a href="<?=base_url()?>archive/buy/?key=rti-au" class="btn btn-lg btn-custom menu-box">
                     <span class="text">RTI AU</span>
                 </a>
             </div>
-            <div class="col-md-3" style="padding:10px 10px">
+            <div class="col-md-6" style="padding:10px 10px">
                 <a href="<?=base_url()?>archive/buy/?key=rti-pt" class="btn btn-lg btn-custom menu-box">
                     <span class="text">RTI PT</span>
                 </a>
             </div>
-            <div class="col-md-3" style="padding:10px 10px">
+            <div class="col-md-6" style="padding:10px 10px">
                 <a href="<?=base_url()?>archive/buy/?key=rti-ag" class="btn btn-lg btn-custom menu-box">
                     <span class="text">RTI AG</span>
                 </a>
             </div>
-            <div class="col-md-3" style="padding:10px 10px">
+            <div class="col-md-6" style="padding:10px 10px">
                 <a href="<?=base_url()?>archive/buy/?key=rti-ru" class="btn btn-lg btn-custom menu-box">
                     <span class="text">RTI RU</span>
                 </a>
             </div>
-            <!-- <div class="col-md-3" style="padding:10px 10px">
-                <a href="<?=base_url()?>archive/buy/?key=lm-certi" class="btn btn-lg btn-custom menu-box">
-                    <span class="text">LM Certi</span>
+            <div class="col-md-6" style="padding:10px 10px">
+                <a href="<?=base_url()?>archive/buy/?key=rti-ta" class="btn btn-lg btn-custom menu-box">
+                    <span class="text">RTI TA</span>
                 </a>
-            </div> -->
+            </div>
             <div class="col-md-12 mt-3">
                 <a href="<?=base_url()?>archive/" class="btn btn-primary btn-icon-split btn-lg">
                     <span class="icon text-white-50">

@@ -122,7 +122,7 @@ class MasterController extends CI_Controller
         if ($authUser == true) {
             $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
             $key = $this->input->get('key');
-            if(in_array($key, array("rti-au", "rti-pt", "rti-ag", "rti-lm", "rti-ru"))){
+            if(in_array($key, array("rti-au", "rti-pt", "rti-ag", "rti-lm", "rti-ru", "rti-ta"))){
                 $type = $this->input->get('type');
                 if($key=="rti-au"){
                     if($type=="change"){
@@ -170,6 +170,20 @@ class MasterController extends CI_Controller
                     
                     
                 }
+                else{
+                    if($type=="change"){
+                        $this->data['data'] = $this->MasterModel->formulasData($key)->result();
+                        $this->data['content'] = $this->load->view('ArchiveBuyKeyChange', $this->data, true);
+                        $this->load->view("UserTemplate", $this->data);
+                    }else{
+                        $parameter = 'f_'.str_replace('-','_',$key);
+                        $this->data['value'] = $this->MaterialModel->formulaData()->row($parameter);
+                        $this->data['content'] = $this->load->view('ArchiveBuyKey', $this->data, true);
+                        $this->load->view("UserTemplate", $this->data);
+                    }
+                    
+                    
+                }
             }else{
                 $this->data['content'] = $this->load->view('ArchiveBuy', $this->data, true);
                 $this->load->view("UserTemplate", $this->data);
@@ -190,7 +204,7 @@ class MasterController extends CI_Controller
             $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
             $key = $this->input->get('key');
             $value = $this->input->get('value');
-            if(in_array($key, array("rti-au", "rti-pt", "rti-ag", "rti-lm", "rti-ru"))){
+            if(in_array($key, array("rti-au", "rti-pt", "rti-ag", "rti-lm", "rti-ru","rti-ta"))){
                 $type = $this->input->get('type');
                 if($key=="rti-au"){
                     $parameter = 'f_'.str_replace('-','_',$key);
@@ -278,6 +292,24 @@ class MasterController extends CI_Controller
                             'a' => $this->input->get('aa'),
                         );
                         $this->MasterModel->formulasUpdate('rti-ru-low',$data);
+                        redirect(base_url()."archive/buy/?key=$key&type=change");
+                    }else{
+                        $this->MaterialModel->formulaUpdate($parameter,$value);
+                        redirect(base_url()."archive/buy/?key=$key");
+                    }
+
+                    
+                    
+                    
+                    
+                }
+                else{
+                    $parameter = 'f_'.str_replace('-','_',$key);
+                    if($type=="change"){
+                        $data = array(
+                            'a' => $this->input->get('a')
+                        );
+                        $this->MasterModel->formulasUpdate($key,$data);
                         redirect(base_url()."archive/buy/?key=$key&type=change");
                     }else{
                         $this->MaterialModel->formulaUpdate($parameter,$value);
@@ -382,6 +414,7 @@ class MasterController extends CI_Controller
                             'f' => $this->input->get('f'),
                             'g' => $this->input->get('g'),
                             'h' => $this->input->get('h'),
+                            'potongan_lm' => json_encode($this->input->get('potongan_lm')),
                             
                         );
                         $this->MasterModel->formulasUpdate($key,$data);
@@ -415,8 +448,7 @@ class MasterController extends CI_Controller
                             'd' => $this->input->get('d'),
                             'e' => $this->input->get('e'),
                             'f' => $this->input->get('f'),
-                            'g' => $this->input->get('g'),
-                            'potongan_lm' => json_encode($this->input->get('potongan_lm')),
+                            'g' => $this->input->get('g')
                         );
                         $this->MasterModel->formulasUpdate($key,$data);
                         redirect(base_url()."archive/sell/?key=$key&type=change");

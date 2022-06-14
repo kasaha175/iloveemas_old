@@ -30,6 +30,10 @@
                                             <input type="text" class="form-control" name="dt[nama_cabang]">
                                         </div>
                                         <div class="form-group">
+                                            <label>Urutan</label>
+                                            <input type="number" class="form-control" name="dt[urutan_cabang]">
+                                        </div>
+                                        <div class="form-group">
                                             <label>Alamat</label>
                                             <textarea class="form-control" name="dt[alamat_cabang]"></textarea>
                                             

@@ -85,7 +85,7 @@ error_reporting(0);
 										<?php } ?>
 										
 										
-										<?php if(in_array($this->uri->segment(3), array("1", "21"))){ ?>
+										<?php if(in_array($this->uri->segment(3), array("1"))){ ?>
 										<div class="form-group">
 											<label>PRICE</label>
 											<input type="number" step="any" name="price" required class="aang form-control">

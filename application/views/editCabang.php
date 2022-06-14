@@ -31,6 +31,10 @@
                                             <input type="text" class="form-control" name="dt[nama_cabang]" value="<?= $cabang->nama_cabang ?>">
                                         </div>
                                         <div class="form-group">
+                                            <label>Urutan</label>
+                                            <input type="number" class="form-control" name="dt[urutan]" value="<?= $cabang->urutan ?>">
+                                        </div>
+                                        <div class="form-group">
                                             <label>Alamat</label>
                                             <textarea class="form-control" name="dt[alamat_cabang]"><?= $cabang->alamat_cabang ?></textarea>
                                             

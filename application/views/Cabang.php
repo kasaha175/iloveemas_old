@@ -60,8 +60,8 @@ function nominal($angka){
                                                 <tr>
                                                     <th style="width:5px;">No</th>
                                                     <th style="width:100px;">Action</th>
-                                                    <!-- <th style="min-width:100px;">Id User</th> -->
                                                     <th style="min-width:100px;">Cabang</th>
+                                                    <th style="min-width:100px;">Urutan</th>
                                                     
                                                 </tr>
                                             </thead>
@@ -75,6 +75,9 @@ function nominal($angka){
                                                         </td>
                                                         <td>
                                                             <?= $value->nama_cabang ?>
+                                                        </td>
+                                                        <td>
+                                                            <?= $value->urutan ?>
                                                         </td>
                                                         
                                                     </tr>
