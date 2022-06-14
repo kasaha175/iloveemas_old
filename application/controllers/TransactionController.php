@@ -277,8 +277,8 @@ class TransactionController extends CI_Controller
 			$potongan_lm = $this->MasterModel->formulasData('rti-au')->row('potongan_lm');
 			$AGpresentasePotonganAG = abs($this->MasterModel->formulasData('rti-ag')->row('a'));
 			$AGpresentasePotonganAGLow = abs($this->MasterModel->formulasData('rti-ag-low')->row('a'));
-			$PTpresentasePotonganPt = abs($this->MasterModel->formulasData('rti-pt')->row('a'));
-			$PTpresentasePotonganPtLow = abs($this->MasterModel->formulasData('rti-pt-low')->row('a'));
+			$PTpresentasePotonganPt = $this->MasterModel->formulasData('rti-pt')->row('a');
+			$PTpresentasePotonganPtLow = $this->MasterModel->formulasData('rti-pt-low')->row('a');
 			$PTpresentasePotonganPd = abs($this->MasterModel->formulasData('rti-pt')->row('b'));
 			$PTpresentasePotonganPdLow = abs($this->MasterModel->formulasData('rti-pt-low')->row('b'));
 			$PTpresentasePotonganRh = abs($this->MasterModel->formulasData('rti-pt')->row('c'));
@@ -416,7 +416,7 @@ class TransactionController extends CI_Controller
 						'name' => 'T-Shirt',
 						'materialName' => $materialName,
 						'materialType' => '-',
-						'carat' => '24',
+						'carat' => 'LM Certi '.$tahun_potongan,
 						'weight' => $weight,
 						'priceTotal' => $priceTotal,
 					);
@@ -581,7 +581,7 @@ class TransactionController extends CI_Controller
 					// = 169304
 					if($types=='high'){
 						// if($percentage<100){
-							$pricePlatinum = floor($rtiPT + ($rtiPT * -($PTpresentasePotonganPt/100)));
+							$pricePlatinum = floor($rtiPT + ($rtiPT * ($PTpresentasePotonganPt/100)));
 							
 							$price = round(($rtiPT + ($rtiPT * - ($PTpresentasePotonganIr/100))) * $percentage/100);
 							$priceTotal = ($price * $weight);	
@@ -699,11 +699,10 @@ class TransactionController extends CI_Controller
 					);
 				}else if ($idMaterial == 19){
 					if($types == 'high'){
-
-						$pricepergram = ($rtiRU - $AUpotonganruhigh) * $percentage / 100;
+						$pricepergram = floor((($percentage/100) * $rtiRU) + floor(($percentage/100)  * $rtiRU * ($AUpotonganruhigh/100)));
 					}
 					else{
-						$pricepergram = ($rtiRU - $AUpotonganrulow) * $percentage / 100;
+						$pricepergram = floor((($percentage/100) * $rtiRU) + floor(($percentage/100)  * $rtiRU * ($AUpotonganrulow/100)));
 					}
 					
 					$price = $pricepergram*$weight;
@@ -719,7 +718,7 @@ class TransactionController extends CI_Controller
 						'materialName' => $materialName,
 						'types' => $types,
 						'materialType' => '-',
-						'carat' => '-',
+						'carat' => 'RU '.$percentage.'%',
 						'weight' => $weight,
 						'priceTotal' => $priceTotal,
 					);

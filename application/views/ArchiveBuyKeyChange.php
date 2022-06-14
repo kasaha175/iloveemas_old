@@ -34,7 +34,7 @@
         }else if($this->input->get("key")=="rti-lm"){
             echo "RTI LM";
         }else if($this->input->get("key")=="rti-ru"){
-            echo "RTI LM";
+            echo "RTI RU";
         }
         ?> / GANTI POTONGAN
         </h3>
