@@ -416,8 +416,8 @@ class TransactionController extends CI_Controller
 						'prices' => $pricepergram,
 						'name' => 'T-Shirt',
 						'materialName' => $materialName,
-						'materialType' => '-',
-						'carat' => 'LM Certi '.$tahun_potongan,
+						'materialType' => $tahun_potongan,
+						'carat' => '24',
 						'weight' => $weight,
 						'priceTotal' => $priceTotal,
 					);
@@ -447,35 +447,35 @@ class TransactionController extends CI_Controller
 					// die;
 					if($types=='high'){
 						// echo $types;die;
-						if ($carat == 1000) { 
-							$price = round($rtiAG + ($rtiAG * $AGpresentasePotonganAG/100));
-						}
-						else if ($carat == 925) {
-							$price = round((0.925 * $rtiAG) + (0.925  * $rtiAG * ($AGpresentasePotonganAG/100)));
-						}
-						else if ($carat == 900) {
-							$price = round((0.90 * $rtiAG) + (0.90  * $rtiAG * ($AGpresentasePotonganAG/100)));
-						}else if ($carat == 500) {
-							$price = round((0.50 * $rtiAG) + (0.50  * $rtiAG * ($AGpresentasePotonganAG/100)));
-						}
-						else {
+						// if ($carat == 1000) { 
+						// 	$price = round($rtiAG + ($rtiAG * $AGpresentasePotonganAG/100));
+						// }
+						// else if ($carat == 925) {
+						// 	$price = round((0.925 * $rtiAG) + (0.925  * $rtiAG * ($AGpresentasePotonganAG/100)));
+						// }
+						// else if ($carat == 900) {
+						// 	$price = round((0.90 * $rtiAG) + (0.90  * $rtiAG * ($AGpresentasePotonganAG/100)));
+						// }else if ($carat == 500) {
+						// 	$price = round((0.50 * $rtiAG) + (0.50  * $rtiAG * ($AGpresentasePotonganAG/100)));
+						// }
+						// else {
 					       echo $price = floor((($carat/100) * $rtiAG) + floor(($carat/100)  * $rtiAG * ($AGpresentasePotonganAG/100)));
-						}
+						// }
 					}else{
-						if ($carat == 1000) { 
-							$price = round($rtiAG + ($rtiAG * $AGpresentasePotonganAGLow/100));
-						}
-						else if ($carat == 925) {
-							$price = round((0.925 * $rtiAG) + (0.925  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
-						}
-						else if ($carat == 900) {
-							$price = round((0.90 * $rtiAG) + (0.90  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
-						}else if ($carat == 500) {
-							$price = round((0.50 * $rtiAG) + (0.50  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
-						}
-						else {
-					        $price = round((($carat/100) * $rtiAG) - round(($carat/100)  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
-						}
+						// if ($carat == 1000) { 
+						// 	$price = round($rtiAG + ($rtiAG * $AGpresentasePotonganAGLow/100));
+						// }
+						// else if ($carat == 925) {
+						// 	$price = round((0.925 * $rtiAG) + (0.925  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
+						// }
+						// else if ($carat == 900) {
+						// 	$price = round((0.90 * $rtiAG) + (0.90  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
+						// }else if ($carat == 500) {
+						// 	$price = round((0.50 * $rtiAG) + (0.50  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
+						// }
+						// else {
+					        $price = round((($carat/100) * $rtiAG) + round(($carat/100)  * $rtiAG * ($AGpresentasePotonganAGLow/100)));
+						// }
 					}
 					$priceTotal = round($price * $weight);
 	               // echo $carat;
@@ -969,7 +969,8 @@ class TransactionController extends CI_Controller
 			}
 			$rtiAU = $this->MaterialModel->formulaData()->row("f_rti_au_sell");
 			$AUtambahAUG = $this->MasterModel->formulasData('material-au')->row('g');
-			$potongan_lm = $this->MasterModel->formulasData('material-au')->row('potongan_lm');
+			$AUPotongan = $this->MasterModel->formulasData('material-au')->row('a');
+			$potongan_lm = $this->MasterModel->formulasData('lm')->row('potongan_lm');
 			$rtiAG = $this->MaterialModel->formulaData()->row("f_rti_ag_sell");
 			$LMpresentaseLMBaru = $this->MasterModel->formulasData('lm')->row('b');
 			$LMpresentaseLMLama = $this->MasterModel->formulasData('lm')->row('a');
@@ -984,7 +985,7 @@ class TransactionController extends CI_Controller
 					'name' => 'T-Shirt',
 					'materialName' => $materialName,
 					'materialType' => '-',
-					'carat' => '1000',
+					'carat' => '100%',
 					'weight' => $weight,
 					'priceTotal' => $priceTotal,
 				);
@@ -1004,13 +1005,13 @@ class TransactionController extends CI_Controller
 					'priceTotal' => $priceTotal,
 				);
 	        }else if($idMaterial==15){
-				$price = $rtiAU;
-				$priceTotal = $price * $weight;
+				$pricePergram = $rtiAU + $AUPotongan;
+				$priceTotal = $pricePergram * $weight;
 				$data = array(
 					'id' => $idLast,
 					'qty' => $weight,
-					'price' => $price,
-					'prices' => $price,
+					'price' => $pricePergram,
+					'prices' => $pricePergram,
 					'name' => 'T-Shirt',
 					'materialName' => $materialName,
 					'materialType' => '-',
@@ -1121,11 +1122,42 @@ class TransactionController extends CI_Controller
 				// print_r($this->input->post('id_potongan'));
 				// $pricepergram = $AUtambahAUG + $cek_harga->harga_buy;
 				// $price = $pricepergram*$weight;
-
+				if($weight==0.5){
+					$get_price = $this->MaterialModel->formulaData()->row("f_nol5");
+				}else if($weight==1){
+					$get_price = $this->MaterialModel->formulaData()->row("f_1"); 
+				}else if($weight==2){
+					$get_price = $this->MaterialModel->formulaData()->row("f_2");
+				}else if($weight==2.5){
+					$get_price = $this->MaterialModel->formulaData()->row("f_2_coma_5");
+				}else if($weight==3){
+					$get_price = $this->MaterialModel->formulaData()->row("f_3");
+				}else if($weight==5){
+					$get_price = $this->MaterialModel->formulaData()->row("f_5");
+				}else if($weight==10){
+					$get_price = $this->MaterialModel->formulaData()->row("f_10");
+				}else if($weight==25){
+					$get_price = $this->MaterialModel->formulaData()->row("f_25");
+				}else if($weight==50){
+					$get_price = $this->MaterialModel->formulaData()->row("f_50");
+				}else if($weight==100){
+					$get_price = $this->MaterialModel->formulaData()->row("f_100");
+				}else if($weight==250){
+					$get_price = $this->MaterialModel->formulaData()->row("f_250");
+				}else if($weight==500){
+					$get_price = $this->MaterialModel->formulaData()->row("f_500");
+				}else if($weight==1000){
+					$get_price = $this->MaterialModel->formulaData()->row("f_1000");
+				}else{
+					$price = $rtiAU;	
+				}
 				$tahun_potongan = $this->input->post('tahun_potongan');
 				$harga_potongan = json_decode($potongan_lm, true)[$tahun_potongan];
-				$pricepergram = $rtiAU + $harga_potongan;
-				// print_r($pricepergram);
+				$pricepergram = $get_price + $harga_potongan;
+
+
+				
+				// print_r($harga_potongan);
 				// die();
 				$price = $pricepergram*$weight;
 				$priceTotal = round($price);
@@ -1138,7 +1170,7 @@ class TransactionController extends CI_Controller
 					'prices' => $pricepergram,
 					'name' => 'T-Shirt',
 					'materialName' => $materialName,
-					'materialType' => '-',
+					'materialType' => $tahun_potongan,
 					'carat' => '24',
 					'weight' => $weight,
 					'priceTotal' => $priceTotal,

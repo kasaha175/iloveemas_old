@@ -1,0 +1,124 @@
+1. harga tantalum dikeluarkan ke archive (done)
+2. sesuaikan harga price per gram nya (done)
+    net/gram tantalum = rti ta * kadar / 100
+3. cek point no 5 banyak yang terbalik
+4. penambahan cabang bandung
+5. potongan lm dipindah dari material au ke potongan lm (done)
+6. tambahkan urutan dalam master cabang
+7. potongan potong lm baru dihide (done)
+8. potongan lm lama ganti lm retro (done)
+9. keranjang belanja (not urgent)
+10. saat ada kesalahan setelah checkout, setelah di back datanya hilang (not urgent)
+11. 
+
+1. judul kontrak hilang pas abis kontrak drafting
+2. mitra id kosong
+
+Kontrak drafting
+
+PIC
+e : pic@pic.com
+p : 1234
+
+Pimpinan PIC
+e : pimpinan@pic.com
+p : 1234
+
+legal verifikasi
+e : verifikasi@legal.com
+p : 1234
+
+legal drafting
+e : drafting@legal.com
+p : 1234
+
+legal review
+e : review@legal.com
+p : 1234
+
+komite 1
+e : komite1@komite.com
+p : 1234
+
+komite 2
+e : komite2@komite.com
+p : 1234
+
+komite 3
+e : komite3@komite.com
+p : 1234
+
+legal review
+e : review@legal.com
+p : 1234
+
+PIC
+e : pic@pic.com
+p : 1234
+
+
+Perizinan
+
+PIC
+e : pic@pic.com
+p : 1234
+
+Pimpinan PIC
+e : pimpinan@pic.com
+p : 1234
+
+legal verifikasi
+e : verifikasi@legal.com
+p : 1234
+
+legal drafting
+e : drafting@legal.com
+p : 1234
+
+legal review
+e : review@legal.com
+p : 1234
+
+Pimpinan Legal
+e : pimpinan@legal.com
+p : 1234
+
+legal verifikasi
+e : verifikasi@legal.com
+p : 1234
+
+Permintaan Dokumen Legal
+
+PIC
+e : pic@pic.com
+p : 1234
+
+Pimpinan PIC
+e : pimpinan@pic.com
+p : 1234
+
+staff legal GIP
+e : staf@legal_gip.com
+p : 1234
+
+komite 1
+e : komite1@komite.com
+p : 1234
+
+komite 2
+e : komite2@komite.com
+p : 1234
+
+komite 3
+e : komite3@komite.com
+p : 1234
+
+direktur
+e : direktur@direktur.com
+p : 1234
+
+
+mockup
+ruang lingkup
+before after
+metode login

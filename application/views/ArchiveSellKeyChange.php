@@ -67,10 +67,10 @@
                                 <?php if($this->input->get("key")=="lm"){ ?>
                                     
                                     <tr>
-                                        <td class="bordering">LM Lama</td>
+                                        <td class="bordering">LM Retro</td>
                                         <td class="bordering"><input class="input-box" type="number" step="any" name="a" required  value="<?=$d->a?>"></td>
                                     </tr>
-                                    <tr>
+                                    <tr style="display: none">
                                         <td class="bordering">LM Baru</td>
                                         <td class="bordering"><input class="input-box" type="number" step="any" name="b" required  value="<?=$d->b?>"></td>
                                     </tr>
