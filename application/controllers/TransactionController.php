@@ -1054,10 +1054,10 @@ class TransactionController extends CI_Controller
 						// $weightTemp = 1;	
 						// $price = $price - $LMpresentaseLMLama;
 						// $priceTotal = ($price * $weightTemp);
-						$priceTotal = $price - ($LMpresentaseLMLama*0.5);
+						$priceTotal = $price + ($LMpresentaseLMLama*0.5);
 						$price = $priceTotal;
 						}else{
-						$price = $price - $LMpresentaseLMLama;
+						$price = $price + $LMpresentaseLMLama;
 						$priceTotal = round(($price * $weight));
 					}
 						$data = array(
