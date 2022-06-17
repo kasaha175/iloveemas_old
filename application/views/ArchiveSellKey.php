@@ -37,6 +37,9 @@
         }else if($this->input->get("key")=="material-ag"){
             echo "MATERIAL AG";
         }
+        else if($this->input->get("key")=="material-ubs"){
+            echo "MATERIAL UBS";
+        }
         ?>
         </h3>
     
@@ -55,7 +58,10 @@
             echo "MATERIAL AU";
         }else if($this->input->get("key")=="material-ag"){
             echo "MATERIAL AG";
+        }else if($this->input->get("key")=="material-ubs"){
+            echo "MATERIAL UBS";
         }
+        
         ?></label>
 
 
@@ -133,6 +139,8 @@
         <?php }else if($this->input->get("key")=="material-au"){ ?>
             <input type="number" step="any" name="value" required class="form-control" value="<?=$value?>">
         <?php }else if($this->input->get("key")=="material-ag"){ ?>
+             <input type="number" step="any" name="value" required class="form-control" value="<?=$value?>">
+        <?php }else if($this->input->get("key")=="material-ubs"){ ?>
              <input type="number" step="any" name="value" required class="form-control" value="<?=$value?>">
         <?php } ?>
                       

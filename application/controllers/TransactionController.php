@@ -288,8 +288,9 @@ class TransactionController extends CI_Controller
 		$id=$this->input->post('id'); 
 		$id = explode(" ", $id);
 		$id = $id[0];
+		$this->session->unset_userdata('idTransaction');
 		$data_session = array(
-			'idCustomer' => $id,
+			'idCustomer' => $id
 		);
 		$this->session->set_userdata($data_session);
 		$this->cart->destroy();

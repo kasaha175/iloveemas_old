@@ -338,7 +338,7 @@ class MasterController extends CI_Controller
         if ($authUser == true) {
             $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
             $key = $this->input->get('key');
-            if(in_array($key, array("lm", "material-au", "material-ag"))){
+            if(in_array($key, array("lm", "material-au", "material-ag", "material-ubs"))){
                 $type = $this->input->get('type');
                 if($key=="lm"){
                     if($type=="change"){
@@ -378,7 +378,20 @@ class MasterController extends CI_Controller
                         $this->data['content'] = $this->load->view('ArchiveSellKeyChange', $this->data, true);
                         $this->load->view("UserTemplate", $this->data);
                     }else{
+                        
                         $this->data['value'] = $this->MaterialModel->formulaData()->row("f_rti_ag_sell");
+                        $this->data['content'] = $this->load->view('ArchiveSellKey', $this->data, true);
+                        $this->load->view("UserTemplate", $this->data);
+                    }
+                }
+                else {
+                    if($type=="change"){
+                        $this->data['data'] = $this->MasterModel->formulasData($key)->result();
+                        $this->data['content'] = $this->load->view('ArchiveSellKeyChange', $this->data, true);
+                        $this->load->view("UserTemplate", $this->data);
+                    }else{
+                        $parameter = 'f_'.str_replace('-','_',$key);
+                        $this->data['value'] = $this->MaterialModel->formulaData()->row($parameter);
                         $this->data['content'] = $this->load->view('ArchiveSellKey', $this->data, true);
                         $this->load->view("UserTemplate", $this->data);
                     }
@@ -400,7 +413,7 @@ class MasterController extends CI_Controller
             $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
             $key = $this->input->get('key');
             $value = $this->input->get('value');
-            if(in_array($key, array("lm", "material-au", "material-ag"))){
+            if(in_array($key, array("lm", "material-au", "material-ag", "material-ubs"))){
                 $type = $this->input->get('type');
                 if($key=="lm"){
                     $parameter = 'f_'.str_replace('-','_',$key);
@@ -465,6 +478,19 @@ class MasterController extends CI_Controller
                             'c' => $this->input->get('c'),
                             'd' => $this->input->get('d'),
                             'e' => $this->input->get('e'),
+                        );
+                        $this->MasterModel->formulasUpdate($key,$data);
+                        redirect(base_url()."archive/sell/?key=$key&type=change");
+                    }else{
+                        $this->MaterialModel->formulaUpdate($parameter,$value);
+                        redirect(base_url()."archive/sell/?key=$key");
+                    }
+                }
+                else if($key=="material-ubs"){
+                    $parameter = 'f_material_ubs_sell';
+                    if($type=="change"){
+                        $data = array(
+                            'a' => $this->input->get('a')
                         );
                         $this->MasterModel->formulasUpdate($key,$data);
                         redirect(base_url()."archive/sell/?key=$key&type=change");

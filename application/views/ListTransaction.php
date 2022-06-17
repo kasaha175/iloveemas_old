@@ -84,6 +84,7 @@ function nominal($valuengka){
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Action</th>
+                                                    <th>Transaction</th>
                                                     <th>No Order</th>
                                                     <th>Status</th>
                                                     <th>Date</th>
@@ -96,6 +97,7 @@ function nominal($valuengka){
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Action</th>
+                                                    <th>Transaction</th>
                                                     <th>No Order</th>
                                                     <th>Status</th>
                                                     <th>Date</th>
@@ -111,8 +113,9 @@ function nominal($valuengka){
                                                     <td>
                                                         <a href="<?= base_url('transaction/redirect/'.$value->t_no_order) ?>"  class="btn btn-primary btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Resume Transaction"><i class="fa fa-arrow-right"></i></a>
                                                     </td>
+                                                    <td><?=$value->t_type?></td>
                                                     <td><?=$value->t_no_order?></td>
-                                                    <td>Pending</td>
+                                                    <td>ONPROCESS</td>
                                                     <td><?=$value->t_date_created?></td>
                                                     <td><?=$value->t_paid_by?></td>
                                                     <td><?=$value->t_qtt?></td>

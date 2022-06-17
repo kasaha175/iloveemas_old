@@ -79,13 +79,14 @@
                                         <td class="bordering">Potongan Material AU</td>
                                         <td class="bordering"><input class="input-box" type="number" step="any" name="a" required  value="<?=$d->a?>"></td>
                                     </tr>
-                                    <tr>
-                                        <td class="bordering">Penjualan UBS</td>
-                                        <td class="bordering"><input class="input-box" type="number" step="any" name="g" required  value="<?=$d->g?>"></td>
-                                    </tr>
                                 <?php }else if($this->input->get("key")=="material-ag"){ ?>
                                     <tr>
                                         <td class="bordering">Potongan Material AG</td>
+                                        <td class="bordering"><input class="input-box" type="number" step="any" name="a" required  value="<?=$d->a?>"></td>
+                                    </tr>
+                                <?php  }else if($this->input->get("key")=="material-ubs"){ ?>
+                                    <tr>
+                                        <td class="bordering">Penjualan UBS</td>
                                         <td class="bordering"><input class="input-box" type="number" step="any" name="a" required  value="<?=$d->a?>"></td>
                                     </tr>
                                 <?php  } ?>
