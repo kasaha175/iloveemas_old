@@ -35,7 +35,15 @@ class TransactionController extends CI_Controller
 		$idUser = $this->session->userdata("idUser");
 		$this->data["title"] = "TRANSACTION";
 		if ($authUser == true) {
-			// $this->db->where('id', $this->input->post('id_potongan'));
+			
+			if(@$this->input->get('dateStart')){
+				$this->db->where('t_date_created >=', $this->input->get('dateStart'));
+				
+			}
+			if(@$this->input->get('dateEnd')){
+				$this->db->where('t_date_created =<', $this->input->get('dateEnd'));
+				
+			}
 			$this->data['transaction'] = $this->db->get('all_transaction')->result();
 			$this->data['content'] = $this->load->view('ListTransaction', $this->data, true);
 			$this->load->view("UserTemplate", $this->data);

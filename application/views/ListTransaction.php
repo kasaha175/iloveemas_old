@@ -24,7 +24,7 @@ function nominal($valuengka){
                     <!-- Card Content - Collapse -->
                     <div class="collapse show" id="collapseCardExample" style="">
                         <div class="card-body">
-                            <form action="<?=base_url()?>report/sell/">
+                            <form action="<?=base_url()?>transaction-list/">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
