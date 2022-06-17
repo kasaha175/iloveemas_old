@@ -22,7 +22,7 @@ function nominal($valuengka){
                     <div class="col-md-12">
                         <div class="card shadow mb-4">
                             <!-- Card Header - Accordion -->
-                            <!-- <div class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                            <div class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <h6 class="m-0 font-weight-bold text-primary">Transaction Data</h6>
@@ -32,13 +32,13 @@ function nominal($valuengka){
                                     </div>
                                 </div>
                                 
-                            </div> -->
+                            </div>
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="collapseCardExample" style="">
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table style="overflow: scroll;" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
+                                            <thead style="text-align: center">
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Action</th>
