@@ -29,6 +29,79 @@ class TransactionController extends CI_Controller
 			redirect(base_url());
 		}
     }
+	function list()
+    {
+		$authUser = $this->session->userdata("authUser");
+		$idUser = $this->session->userdata("idUser");
+		$this->data["title"] = "TRANSACTION";
+		if ($authUser == true) {
+			// $this->db->where('id', $this->input->post('id_potongan'));
+			$this->data['transaction'] = $this->db->get('all_transaction')->result();
+			$this->data['content'] = $this->load->view('ListTransaction', $this->data, true);
+			$this->load->view("UserTemplate", $this->data);
+		}
+		else {
+			redirect(base_url());
+		}
+    }
+	function redirectTransaction($no_order)
+    {
+		$authUser = $this->session->userdata("authUser");
+		$idUser = $this->session->userdata("idUser");
+		$this->data["title"] = "TRANSACTION";
+		if ($authUser == true) {
+			$this->session->unset_userdata('idCustomer');
+			$this->session->unset_userdata('idTransaction');
+			$this->cart->destroy();
+			$this->db->where('t_no_order', $no_order);
+			$transaction = $this->db->get('all_transaction')->row();
+			if($transaction->t_type == 'SELL'){
+				$this->db->where('t_no_order', $no_order);
+				$cek_tr = $this->db->get('tb_transaction_sell')->row();
+				
+				$id = $cek_tr->t_customer;
+				$data_session = array(
+					'idCustomer' => $id,
+				);
+				$this->session->set_userdata($data_session);
+				redirect(base_url('transaction/sell/'));
+			}
+			else{
+				$this->db->where('t_no_order', $no_order);
+				$cek_tr = $this->db->get('tb_transaction')->row();
+				$id = $cek_tr->t_customer;
+				$data_session = array(
+					'idCustomer' => $id,
+					'idTransaction' => $cek_tr->t_id,
+				);
+				$this->session->set_userdata($data_session);
+				$this->db->where('ti_t_id', $cek_tr->t_id);
+				$barang = $this->db->get('tb_transaction_items')->result();
+				foreach($barang as $key => $value){
+					
+					$data = array(
+						'id' => $value->ti_id,
+						'qty' => $value->ti_weight,
+						'price' => $value->ti_price,
+						'prices' => $value->ti_price,
+						'name' => 'T-Shirt',
+						'materialName' => $value->ti_material,
+						'materialType' => $value->ti_material_type,
+						'carat' => $value->ti_carat,
+						'weight' => $value->ti_weight,
+						'priceTotal' => $value->ti_price_total,
+					);
+					$this->cart->insert($data);
+				}
+				// print_r($this->cart->contents());
+
+				redirect(base_url('transaction/buy/'));
+			}
+		}
+		else {
+			redirect(base_url());
+		}
+    }
     function lm()
     {
         $authUser = $this->session->userdata("authUser");
@@ -211,6 +284,7 @@ class TransactionController extends CI_Controller
 			'idCustomer' => $id,
 		);
 		$this->session->set_userdata($data_session);
+		$this->cart->destroy();
 	}
 	function buyCart()
 	{
@@ -796,8 +870,77 @@ class TransactionController extends CI_Controller
 			// if($idMaterial <= 10 || $idMaterial == 17){
 			$this->cart->insert($data);
 			// }
+			// Add To Transaction
+			
+			$idTransaction = $this->session->userdata("idTransaction");
+			$total = 0;
+			$qtt = 0;
+			foreach($this->cart->contents() as $a){
+				$total = $total + $a["priceTotal"];
+				$qtt=$qtt+1;
+			}
+			if(!$idTransaction){
+				$idCustomer = $this->session->userdata("idCustomer");
+				if(empty($idCustomer)){
+					$idCustomer = 7;
+				}
+				$this->data['nameCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_name");
+				$this->data['phoneCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_phone");
+				
+				$year = date('Y',strtotime($this->dateToday));
+				$noOrder = $this->db->query("SELECT COUNT(*) as count FROM tb_transaction WHERE YEAR(t_date_created)='$year'")->row('count');
+				if(!empty($noOrder)){
+					$noOrderNew = "PB-".substr(date('Y',strtotime($this->dateToday)),2).date('m',strtotime($this->dateToday))."-".($noOrder+1);
+				}else{
+					$noOrderNew = "PB-".substr(date('Y',strtotime($this->dateToday)),2).date('m',strtotime($this->dateToday))."-1";
+				}
+				$data = array(
+					't_no_order' => $noOrderNew,
+					't_date_created' => $this->dateToday,
+					't_status' => 'ONPROCESS',
+					't_created_at' => date('H:i:s',strtotime($this->dateToday)),
+					't_created_by' => $idUser,
+					't_customer' => $idCustomer,
+					't_phone' => $this->data['phoneCustomer'],
+					't_note' => '',
+					't_type' => 'BUY',
+					't_paid_by' => $this->data['nameCustomer'],
+					't_receive_by' => $idUser,
+					't_price_total' => $total,
+					't_qtt' => $qtt,
+					't_visible' => 1,
+				);
+				$idTransaction = $this->TransactionModel->buyCheckout($data);
+				$data_session = array(
+					'idTransaction' => $idTransaction,
+				);
+				$this->session->set_userdata($data_session);
+			}
+			else{
+				$data = array(
+					't_price_total' => $total,
+					't_qtt' => $qtt,
+				);
+				$this->db->update('tb_transaction', $data, ['t_id' => $idTransaction]);
+			}
+			$this->db->where('ti_t_id', $idTransaction);
+			$this->db->delete('tb_transaction_items');
+			foreach($this->cart->contents() as $a){
+				$dataItems = array(
+					'ti_t_id' => $idTransaction,
+					'ti_material' => $a['materialName'],
+					'ti_material_type' => $a['materialType'],
+					'ti_carat' => $a['carat'],
+					'ti_weight' => $a['weight'],
+					'ti_price' => $a['prices'],
+					'ti_high_low' => strval($a['types']),
+					'ti_price_total' => $a['priceTotal'],
+					'ti_date_created' => $this->dateToday,
+				);
+				$this->TransactionModel->buyCheckoutItems($dataItems);
+			}
 			// echo "<pre>";
-			// print_r ($this->cart->contents());
+			// print_r ($idTransaction);
 			// echo "</pre>";
 			redirect(base_url()."transaction/buy/$idMaterial/?t=$types");
 		}else {
@@ -813,6 +956,10 @@ class TransactionController extends CI_Controller
 			$idRow = $this->input->get('idRow');
 			$t = $this->input->get('t');
 			// die;
+			$idTransaction = $this->session->userdata("idTransaction");
+			$this->db->where('ti_t_id', $idTransaction);
+			$this->db->delete('tb_transaction_items');
+			
 			if (!empty($idRow)) {
 				$qty = 0;
 				$array = array(
@@ -821,6 +968,20 @@ class TransactionController extends CI_Controller
 				);
 				print_r($array);
 				$this->cart->update($array);
+				foreach($this->cart->contents() as $a){
+					$dataItems = array(
+						'ti_t_id' => $idTransaction,
+						'ti_material' => $a['materialName'],
+						'ti_material_type' => $a['materialType'],
+						'ti_carat' => $a['carat'],
+						'ti_weight' => $a['weight'],
+						'ti_price' => $a['prices'],
+						'ti_high_low' => strval($a['types']),
+						'ti_price_total' => $a['priceTotal'],
+						'ti_date_created' => $this->dateToday,
+					);
+					$this->TransactionModel->buyCheckoutItems($dataItems);
+				}
 			}
 			else {
 				$this->cart->destroy();
@@ -835,12 +996,9 @@ class TransactionController extends CI_Controller
 		$authUser = $this->session->userdata("authUser");
 		$idUser = $this->session->userdata("idUser");
 		if ($authUser == true) {
-			$idCustomer = $this->session->userdata("idCustomer");
-			if(empty($idCustomer)){
-				$idCustomer = 7;
-			}
-			$this->data['nameCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_name");
-			$this->data['phoneCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_phone");
+			$idTransaction = $this->session->userdata("idTransaction");
+			$this->db->where('ti_t_id', $idTransaction);
+			$this->db->delete('tb_transaction_items');
 			$biayaAdmin = $this->input->get('operator').''.$this->input->get('biayaAdmin');
 			$total = 0;
 			$qtt = 0;
@@ -848,31 +1006,13 @@ class TransactionController extends CI_Controller
 				$total = $total + $a["priceTotal"];
 				$qtt=$qtt+1;
 			}
-			$year = date('Y',strtotime($this->dateToday));
-			$noOrder = $this->db->query("SELECT COUNT(*) as count FROM tb_transaction WHERE YEAR(t_date_created)='$year'")->row('count');
-			if(!empty($noOrder)){
-				$noOrderNew = "PB-".substr(date('Y',strtotime($this->dateToday)),2).date('m',strtotime($this->dateToday))."-".($noOrder+1);
-			}else{
-				$noOrderNew = "PB-".substr(date('Y',strtotime($this->dateToday)),2).date('m',strtotime($this->dateToday))."-1";
-			}
 			$data = array(
-				't_no_order' => $noOrderNew,
-				't_date_created' => $this->dateToday,
 				't_status' => 'PENDING',
-				't_created_at' => date('H:i:s',strtotime($this->dateToday)),
-				't_created_by' => $idUser,
-				't_customer' => $idCustomer,
-				't_phone' => $this->data['phoneCustomer'],
-				't_note' => '',
-				't_type' => 'BUY',
-				't_paid_by' => $this->data['nameCustomer'],
-				't_receive_by' => $idUser,
 				't_price_total' => $total,
 				't_price_admin' => $biayaAdmin,
-				't_visible' => 1,
 				't_qtt' => $qtt,
 			);
-			$idTransaction = $this->TransactionModel->buyCheckout($data);
+			$this->db->update('tb_transaction', $data, ['t_id' => $idTransaction]);
 			foreach($this->cart->contents() as $a){
 				$dataItems = array(
 					'ti_t_id' => $idTransaction,
@@ -1196,6 +1336,76 @@ class TransactionController extends CI_Controller
             // print_r ($data);
             // echo "</pre>";
 			$this->cart->insert($data);
+			// Add To Transaction Sell
+			$idTransaction = $this->session->userdata("idTransaction");
+			$total = 0;
+			$qtt = 0;
+			foreach($this->cart->contents() as $a){
+				$total = $total + $a["priceTotal"];
+				$qtt=$qtt+1;
+			}
+			if(!$idTransaction){
+				$idCustomer = $this->session->userdata("idCustomer");
+				if(empty($idCustomer)){
+					$idCustomer = 7;
+				}
+				$this->data['nameCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_name");
+				$this->data['phoneCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_phone");
+
+				
+				$year = date('Y',strtotime($this->dateToday));
+				// $noOrder = $this->TransactionModel->lastDataSell($year)->row('t_id');
+				$noOrder = $this->db->query("SELECT COUNT(*) as count FROM tb_transaction_sell WHERE YEAR(t_date_created)='$year'")->row('count');
+				if(!empty($noOrder)){
+					echo $noOrderNew = "PJ-".substr(date('Y',strtotime($this->dateToday)),2).date('m',strtotime($this->dateToday))."-".($noOrder+1);
+				}else{
+					$noOrderNew = "PJ-".substr(date('Y',strtotime($this->dateToday)),2).date('m',strtotime($this->dateToday))."-1";
+				}
+				$data = array(
+					't_no_order' => $noOrderNew,
+					't_date_created' => $this->dateToday,
+					't_status' => 'ONPROCESS',
+					't_created_at' => date('H:i:s',strtotime($this->dateToday)),
+					't_created_by' => $idUser,
+					't_customer' => $idCustomer,
+					't_phone' => $this->data['phoneCustomer'],
+					't_note' => '',
+					't_type' => 'SELL',
+					't_paid_by' => $this->data['nameCustomer'],
+					't_receive_by' => $idUser,
+					't_price_total' => $total,
+					't_visible' => 1,
+					't_qtt' => $qtt,
+				);
+				$idTransaction = $this->TransactionModel->sellCheckout($data);
+				$data_session = array(
+					'idTransaction' => $idTransaction,
+				);
+				$this->session->set_userdata($data_session);
+			}
+			else{
+				$data = array(
+					't_price_total' => $total,
+					't_qtt' => $qtt,
+				);
+				$this->db->update('tb_transaction_sell', $data, ['t_id' => $idTransaction]);
+			}
+			$this->db->where('ti_t_id', $idTransaction);
+			$this->db->delete('tb_transaction_items_sell');
+			foreach($this->cart->contents() as $a){
+				$dataItems = array(
+					'ti_t_id' => $idTransaction,
+					'ti_material' => $a['materialName'],
+					'ti_material_type' => $a['materialType'],
+					'ti_carat' => $a['carat'],
+					'ti_weight' => $a['weight'],
+					'ti_price' => $a['prices'],
+					'ti_price_total' => $a['priceTotal'],
+					'ti_date_created' => $this->dateToday,
+				);
+				$this->TransactionModel->sellCheckoutItems($dataItems);
+			}
+			$this->session->unset_userdata('idCustomer');
 			redirect(base_url()."transaction/sell/$idMaterial/");
 		}
 		else {
@@ -1209,6 +1419,12 @@ class TransactionController extends CI_Controller
 		if ($authUser == true) {
 			$idMaterial = $this->input->get('idMaterial');
 			$idRow = $this->input->get('idRow');
+
+			$idTransaction = $this->session->userdata("idTransaction");
+			$this->db->where('ti_t_id', $idTransaction);
+			$this->db->delete('tb_transaction_items_sell');
+			
+			
 			if (!empty($idRow)) {
 				$qty = 0;
 				$array = array(
@@ -1217,6 +1433,20 @@ class TransactionController extends CI_Controller
 				);
 				print_r($array);
 				$this->cart->update($array);
+				
+				foreach($this->cart->contents() as $a){
+					$dataItems = array(
+						'ti_t_id' => $idTransaction,
+						'ti_material' => $a['materialName'],
+						'ti_material_type' => $a['materialType'],
+						'ti_carat' => $a['carat'],
+						'ti_weight' => $a['weight'],
+						'ti_price' => $a['prices'],
+						'ti_price_total' => $a['priceTotal'],
+						'ti_date_created' => $this->dateToday,
+					);
+					$this->TransactionModel->sellCheckoutItems($dataItems);
+				}
 			}
 			else {
 				$this->cart->destroy();
@@ -1232,11 +1462,9 @@ class TransactionController extends CI_Controller
 		$idUser = $this->session->userdata("idUser");
 		if ($authUser == true) {
 			$idCustomer = $this->session->userdata("idCustomer");
-			if(empty($idCustomer)){
-				$idCustomer = 7;
-			}
-			$this->data['nameCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_name");
-			$this->data['phoneCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_phone");
+			$idTransaction = $this->session->userdata("idTransaction");
+			$this->db->where('ti_t_id', $idTransaction);
+			$this->db->delete('tb_transaction_items_sell');
 			$biayaAdmin = $this->input->get('operator').''.$this->input->get('biayaAdmin');
 			$total = 0;
 			$qtt = 0;
@@ -1244,32 +1472,14 @@ class TransactionController extends CI_Controller
 				$total = $total + $a["priceTotal"];
 				$qtt=$qtt+1;
 			}
-			$year = date('Y',strtotime($this->dateToday));
-			// $noOrder = $this->TransactionModel->lastDataSell($year)->row('t_id');
-			$noOrder = $this->db->query("SELECT COUNT(*) as count FROM tb_transaction_sell WHERE YEAR(t_date_created)='$year'")->row('count');
-			if(!empty($noOrder)){
-				echo $noOrderNew = "PJ-".substr(date('Y',strtotime($this->dateToday)),2).date('m',strtotime($this->dateToday))."-".($noOrder+1);
-			}else{
-				$noOrderNew = "PJ-".substr(date('Y',strtotime($this->dateToday)),2).date('m',strtotime($this->dateToday))."-1";
-			}
+			
 			$data = array(
-				't_no_order' => $noOrderNew,
-				't_date_created' => $this->dateToday,
 				't_status' => 'PENDING',
-				't_created_at' => date('H:i:s',strtotime($this->dateToday)),
-				't_created_by' => $idUser,
-				't_customer' => $idCustomer,
-				't_phone' => $this->data['phoneCustomer'],
-				't_note' => '',
-				't_type' => 'BUY',
-				't_paid_by' => $this->data['nameCustomer'],
-				't_receive_by' => $idUser,
 				't_price_total' => $total,
 				't_price_admin' => $biayaAdmin,
-				't_visible' => 1,
 				't_qtt' => $qtt,
 			);
-			$idTransaction = $this->TransactionModel->sellCheckout($data);
+			$this->db->update('tb_transaction_sell', $data, ['t_id' => $idTransaction]);
 			foreach($this->cart->contents() as $a){
 				$dataItems = array(
 					'ti_t_id' => $idTransaction,

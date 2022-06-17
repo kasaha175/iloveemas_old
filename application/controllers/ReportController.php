@@ -28,7 +28,7 @@ class ReportController extends CI_Controller
 			redirect(base_url());
 		}
 		}
-		function buy()
+	function buy()
     {
 			$authUser = $this->session->userdata("authUser");
 			$idUser = $this->session->userdata("idUser");

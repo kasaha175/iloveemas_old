@@ -7,6 +7,9 @@ $route['dashboard'] = 'HomeController/dashboard';
 
 //transaction
 $route['transaction'] = 'TransactionController';
+$route['transaction-list'] = 'TransactionController/list';
+$route['transaction/redirect/(:any)'] = 'TransactionController/redirectTransaction/$1';
+
 $route['transaction/buy'] = 'TransactionController/buy';
 $route['transaction/buy/lm/select'] = 'TransactionController/lm';
 $route['transaction/buy/platinum/select'] = 'TransactionController/platinum';

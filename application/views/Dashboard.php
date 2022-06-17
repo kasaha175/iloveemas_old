@@ -9,7 +9,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<a href="<?=base_url()?>transaction/" class="btn btn-lg btn-custom menu-box mb-3">
+				<a href="<?=base_url()?>transaction-list/" class="btn btn-lg btn-custom menu-box mb-3">
 					<span class="text">TRANSACTION</span>
 				</a>
 			</div>
