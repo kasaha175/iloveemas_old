@@ -33,7 +33,7 @@
 			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/2/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/gold-k24.png" class="img-fluid mt-3" style="width: 50%;">
+						<img src="<?=base_url()?>assets/offline/gold.png" class="img-fluid mt-3" style="width: 66%;">
 						<br><br>
 						<span>Gold</span>
 					</div>
@@ -42,7 +42,7 @@
 			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/lm/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/gold.png" class="img-fluid mt-3" style="width: 50%;">
+						<img src="<?=base_url()?>assets/offline/ubs.png" class="img-fluid mt-3" style="width: 66%;">
 						<br><br>
 						<span>LM & UBS</span>
 					</div>
@@ -51,7 +51,7 @@
 			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/silver/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/material-ag.png" class="img-fluid mt-3" style="width: 50%;">
+						<img src="<?=base_url()?>assets/offline/silver.png" class="img-fluid mt-3" style="width: 66%;">
 						<br><br>
 						<span>Silver</span>
 					</div>
@@ -60,7 +60,7 @@
 			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/platinum/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/platinum.png" class="img-fluid mt-3" style="width: 50%;">
+						<img src="<?=base_url()?>assets/offline/platinum.png" class="img-fluid mt-3" style="width: 66%;">
 						<br><br>
 						<span>Platinum</span>
 					</div>
@@ -69,7 +69,7 @@
 			<div class="col-md-3" style="padding:10px 10px">
 			<a href="<?=base_url()?>transaction/buy/paladium/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/palladium.png" class="img-fluid mt-3" style="width: 50%;">
+						<img src="<?=base_url()?>assets/offline/paladium.png" class="img-fluid mt-3" style="width: 66%;">
 						<br><br>
 						<span>Paladium</span>
 					</div>
@@ -78,7 +78,7 @@
 			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/iridium/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/Iridium.png" class="img-fluid mt-3" style="width: 50%;">
+						<img src="<?=base_url()?>assets/offline/iridium.png" class="img-fluid mt-3" style="width: 66%;">
 						<br><br>
 						<span>Iridium</span>
 					</div>
@@ -87,7 +87,7 @@
 			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/rhodium/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/buy-icon/rhodium.png" class="img-fluid mt-3" style="width: 50%;">
+						<img src="<?=base_url()?>assets/offline/rhodium.png" class="img-fluid mt-3" style="width: 66%;">
 						<br><br>
 						<span>Rhodium</span>
 					</div>
@@ -106,7 +106,7 @@
 			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/ruthenium/select/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>ru.png" class="img-fluid mt-3" style="width: 50%;">
+						<img src="<?=base_url()?>assets/offline/ruthenium.png" class="img-fluid mt-3" style="width: 66%;">
 						<br><br>
 						<span>Ruthenium</span>
 					</div>
@@ -115,7 +115,7 @@
 			<div class="col-md-3" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/buy/21/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>ta.png" class="img-fluid mt-3" style="width: 50%;">
+						<img src="<?=base_url()?>assets/offline/tantalum.png" class="img-fluid mt-3" style="width: 66%;">
 						<br><br>
 						<span>Tantalum</span>
 					</div>

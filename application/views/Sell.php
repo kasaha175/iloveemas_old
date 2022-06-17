@@ -23,7 +23,7 @@
 			<div class="col-md-2" style="padding:10px 10px">
 				<a href="<?=base_url()?>transaction/sell/<?=$d->m_id?>/" style="text-decoration: none;">
 					<div class="box-type">
-						<img src="<?=base_url()?>assets/img/sell-icon/<?=$d->m_img?>" class="img-fluid mt-3" style="width:100%;">
+						<img src="<?=base_url()?>assets/offline/<?=$d->m_img?>" class="img-fluid mt-3" style="max-width:100%;max-height:88px;">
 						<br><br>
 						<span><?=$d->m_name?></span>
 					</div>

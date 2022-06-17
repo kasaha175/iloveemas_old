@@ -50,7 +50,7 @@
 			<style>
 			body{
 			font-family: 'Poppins', 'sans-serif';
-			background-image: url(<?=base_url()?>assets/offline/cornelia-ng-508566-unsplash.jpg);
+			background-image: url(<?=base_url()?>assets/offline/bg-black.jpg);
 			background-size: cover;
 			background-repeat: no-repeat;
 			background-position: center;
@@ -85,7 +85,9 @@
 				<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
 				<i class="fa fa-bars"></i>
 				</button>
-				<h3><a href="<?=base_url()?>" style="text-decoration: none;color:#000;">I Love Emas</a></h3>
+				<a href="<?=base_url()?>" style="text-decoration: none;color:#000;">
+				<img src="<?=base_url()?>assets/offline/icon-ilovemas.png" alt="" style="max-width: 200px;">
+				</a>
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item dropdown no-arrow d-sm-none">
 						<a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
