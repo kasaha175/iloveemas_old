@@ -15,49 +15,7 @@ function nominal($valuengka){
     <br />
     <div class="col-md-12" style="padding: 0px 150px;">
         <div class="row">
-            <div class="col-md-12">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Accordion -->
-                    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                        <h6 class="m-0 font-weight-bold text-primary">Filter Data</h6>
-                    </a>
-                    <!-- Card Content - Collapse -->
-                    <!-- <div class="collapse show" id="collapseCardExample" style="">
-                        <div class="card-body">
-                            <form action="<?=base_url()?>transaction-list/">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="">Start Date</label>
-                                            <?php if(empty($this->input->get('dateStart'))){ ?>
-                                            <input name="dateStart" required type="date" value="<?=date('Y-m-d')?>" class="form-control" />
-                                            <?php }else{ ?>
-                                            <input name="dateStart" required type="date" value="<?=$this->input->get('dateStart')?>" class="form-control" />
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="">End Date</label>
-                                            <?php if(empty($this->input->get('dateEnd'))){ ?>
-                                            <input name="dateEnd" required type="date" value="<?=date('Y-m-d')?>" class="form-control" />
-                                            <?php }else{ ?>
-                                            <input name="dateEnd" required type="date" value="<?=$this->input->get('dateEnd')?>" class="form-control" />
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="">Filter?</label>
-                                            <input required type="submit" class="btn btn-block btn-primary" value="Filter" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
+            
 
             <div class="col-md-12" style="padding: 10px 10px;">
                 <div class="row">
