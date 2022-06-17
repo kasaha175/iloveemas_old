@@ -22,7 +22,7 @@ function nominal($valuengka){
                         <h6 class="m-0 font-weight-bold text-primary">Filter Data</h6>
                     </a>
                     <!-- Card Content - Collapse -->
-                    <div class="collapse show" id="collapseCardExample" style="">
+                    <!-- <div class="collapse show" id="collapseCardExample" style="">
                         <div class="card-body">
                             <form action="<?=base_url()?>transaction-list/">
                                 <div class="row">
@@ -55,7 +55,7 @@ function nominal($valuengka){
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -64,7 +64,7 @@ function nominal($valuengka){
                     <div class="col-md-12">
                         <div class="card shadow mb-4">
                             <!-- Card Header - Accordion -->
-                            <div class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                            <!-- <div class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <h6 class="m-0 font-weight-bold text-primary">Transaction Data</h6>
@@ -74,7 +74,7 @@ function nominal($valuengka){
                                     </div>
                                 </div>
                                 
-                            </div>
+                            </div> -->
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="collapseCardExample" style="">
                                 <div class="card-body">
@@ -89,37 +89,26 @@ function nominal($valuengka){
                                                     <th>Status</th>
                                                     <th>Date</th>
                                                     <th>Customer</th>
-                                                    <th>Qtt</th>
+                                                    <th>Qty</th>
                                                     <th>Price Total</th>
                                                 </tr>
                                             </thead>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Action</th>
-                                                    <th>Transaction</th>
-                                                    <th>No Order</th>
-                                                    <th>Status</th>
-                                                    <th>Date</th>
-                                                    <th>Customer</th>
-                                                    <th>Qtt</th>
-                                                    <th>Price Total</th>
-                                                </tr>
-                                            </tfoot>
+                                            
+                                        
                                             <tbody>
                                                 <?php foreach($transaction as $key => $value){ ?>
                                                 <tr>
-                                                    <td><?=$key+1?></td>
-                                                    <td>
+                                                    <td style="text-align: center"><?=$key+1?></td>
+                                                    <td style="text-align: center">
                                                         <a href="<?= base_url('transaction/redirect/'.$value->t_no_order) ?>"  class="btn btn-primary btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Resume Transaction"><i class="fa fa-arrow-right"></i></a>
                                                     </td>
-                                                    <td><?=$value->t_type?></td>
+                                                    <td style="text-align: center"><?=$value->t_type?></td>
                                                     <td><?=$value->t_no_order?></td>
                                                     <td>ONPROCESS</td>
                                                     <td><?=$value->t_date_created?></td>
                                                     <td><?=$value->t_paid_by?></td>
-                                                    <td><?=$value->t_qtt?></td>
-                                                    <td>
+                                                    <td style="text-align: center"><?=$value->t_qtt?></td>
+                                                    <td style="text-align: right">
                                                         IDR
                                                         <?=nominal($value->t_price_total)?>
                                                     </td>

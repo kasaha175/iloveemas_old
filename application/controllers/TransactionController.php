@@ -1117,8 +1117,10 @@ class TransactionController extends CI_Controller
 				$idLast = 1;
 			}
 			$rtiAU = $this->MaterialModel->formulaData()->row("f_rti_au_sell");
+			$rtiUbs = $this->MaterialModel->formulaData()->row("f_material_ubs");
 			$AUtambahAUG = $this->MasterModel->formulasData('material-au')->row('g');
 			$AUPotongan = $this->MasterModel->formulasData('material-au')->row('a');
+			$potongan_ubs = $this->MasterModel->formulasData('material-ubs')->row('a');
 			$potongan_lm = $this->MasterModel->formulasData('lm')->row('potongan_lm');
 			$rtiAG = $this->MaterialModel->formulaData()->row("f_rti_ag_sell");
 			$LMpresentaseLMBaru = $this->MasterModel->formulasData('lm')->row('b');
@@ -1139,7 +1141,7 @@ class TransactionController extends CI_Controller
 					'priceTotal' => $priceTotal,
 				);
             }else if($idMaterial == 18){
-				$price = ($rtiAU + $AUtambahAUG);
+				$price = ($rtiUbs + $potongan_ubs);
 				$priceTotal = $price*$weight;
 				$data = array(
 					'id' => $idLast,
