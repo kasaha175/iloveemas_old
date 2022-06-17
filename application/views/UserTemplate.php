@@ -45,6 +45,8 @@
 			<!-- <script src='<?=base_url()?>assets/offline/vfs_fonts.js'></script> -->
 			<script src='<?=base_url()?>assets/offline/buttons.html5.min.js'></script>
 			<script src='<?=base_url()?>assets/offline/buttons.print.min.js'></script>
+			<script src="<?= base_url() ?>assets/offline/sweetalert2.all.js"></script>
+			<!-- <link rel="stylesheet" href="sweetalert2.min.css"> -->
 			<!-- <script src='<?=base_url()?>assets/offline/buttons.colVis.min.js'></script> -->
 			
 			<style>

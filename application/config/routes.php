@@ -9,6 +9,8 @@ $route['dashboard'] = 'HomeController/dashboard';
 $route['transaction'] = 'TransactionController';
 $route['transaction-list'] = 'TransactionController/list';
 $route['transaction/redirect/(:any)'] = 'TransactionController/redirectTransaction/$1';
+$route['transaction/confirm-edit'] = 'TransactionController/confirmEdit';
+
 
 $route['transaction/buy'] = 'TransactionController/buy';
 $route['transaction/buy/lm/select'] = 'TransactionController/lm';

@@ -72,6 +72,28 @@ class TransactionController extends CI_Controller
 					'idCustomer' => $id,
 				);
 				$this->session->set_userdata($data_session);
+				$this->db->where('ti_t_id', $cek_tr->t_id);
+				$barang = $this->db->get('tb_transaction_items')->result();
+				foreach($barang as $key => $value){
+					
+					$data = array(
+						'id' => $value->ti_id,
+						'qty' => $value->ti_weight,
+						'price' => $value->ti_price,
+						'prices' => $value->ti_price,
+						'name' => 'T-Shirt',
+						'materialName' => $value->ti_material,
+						'materialType' => $value->ti_material_type,
+						'carat' => $value->ti_carat,
+						'weight' => $value->ti_weight,
+						'priceTotal' => $value->ti_price_total,
+					);
+					
+					$this->cart->insert($data);
+					// echo "<pre>";
+					// print_r($data);
+					// echo "</pre>";
+				}
 				redirect(base_url('transaction/sell/'));
 			}
 			else{
@@ -99,8 +121,15 @@ class TransactionController extends CI_Controller
 						'weight' => $value->ti_weight,
 						'priceTotal' => $value->ti_price_total,
 					);
+					
 					$this->cart->insert($data);
+					// echo "<pre>";
+					// print_r($data);
+					// echo "</pre>";
 				}
+				// echo "<pre>";
+				// 	print_r($this->cart->contents());
+				// 	echo "</pre>";
 				// print_r($this->cart->contents());
 
 				redirect(base_url('transaction/buy/'));
@@ -110,6 +139,36 @@ class TransactionController extends CI_Controller
 			redirect(base_url());
 		}
     }
+	function confirmEdit(){
+		$datapost = $this->input->post();
+		$idUser = $this->session->userdata("idUser");
+		$userData = $this->UserModel->userDataById($idUser)->row();
+		if($userData->u_password == md5($datapost['password'])){
+			$data = array(
+				't_alasan' => $datapost['alasan']
+			);
+			if($datapost['type'] == 'sell'){
+				$this->db->update('tb_transaction_sell', $data, ['t_id' => $datapost['id']]);
+				$this->db->where('t_id', $datapost['id']);
+				$cek_data = $this->db->get('tb_transaction_sell')->row();
+			}
+			else{
+				$this->db->update('tb_transaction', $data, ['t_id' => $datapost['id']]);
+				$this->db->where('t_id', $datapost['id']);
+				$cek_data = $this->db->get('tb_transaction')->row();
+			}
+			echo json_encode([
+				'status' => 'berhasil',
+				'no_transaksi' => $cek_data->t_no_order,
+			]);
+			// $this->redirectTransaction($cek_data->t_no_order);
+		}
+		else{
+			echo json_encode([
+				'status' => 'gagal'
+			]);
+		}
+	}
     function lm()
     {
         $authUser = $this->session->userdata("authUser");
@@ -906,7 +965,7 @@ class TransactionController extends CI_Controller
 				$data = array(
 					't_no_order' => $noOrderNew,
 					't_date_created' => $this->dateToday,
-					't_status' => 'ONPROCESS',
+					't_status' => 'PROSES',
 					't_created_at' => date('H:i:s',strtotime($this->dateToday)),
 					't_created_by' => $idUser,
 					't_customer' => $idCustomer,
@@ -1016,7 +1075,7 @@ class TransactionController extends CI_Controller
 				$qtt=$qtt+1;
 			}
 			$data = array(
-				't_status' => 'PENDING',
+				't_status' => 'SELESAI',
 				't_price_total' => $total,
 				't_price_admin' => $biayaAdmin,
 				't_qtt' => $qtt,
@@ -1375,7 +1434,7 @@ class TransactionController extends CI_Controller
 				$data = array(
 					't_no_order' => $noOrderNew,
 					't_date_created' => $this->dateToday,
-					't_status' => 'ONPROCESS',
+					't_status' => 'PROSES',
 					't_created_at' => date('H:i:s',strtotime($this->dateToday)),
 					't_created_by' => $idUser,
 					't_customer' => $idCustomer,
@@ -1485,7 +1544,7 @@ class TransactionController extends CI_Controller
 			}
 			
 			$data = array(
-				't_status' => 'PENDING',
+				't_status' => 'SELESAI',
 				't_price_total' => $total,
 				't_price_admin' => $biayaAdmin,
 				't_qtt' => $qtt,
@@ -1563,7 +1622,7 @@ class TransactionController extends CI_Controller
 			$noOrder = $this->TransactionModel->buyTransactionData($idTransaction)->row("t_no_order");
 			$this->data['title'] = $noOrder;
 			$this->data['detail'] = $this->TransactionModel->buyTransactionItemsData($idTransaction)->result();
-			$this->load->view("PrintBuy", $this->data);
+			$this->load->view("PrintBuy-new", $this->data);
 		}
 		else {
 			redirect(base_url());

@@ -80,11 +80,11 @@ function nominal($angka){
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table style="overflow:scroll; display:block;"  class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
+                                            <thead style="text-align: center;">
                                                 <tr>
                                                     <th>No</th>
-                                                    <th style="min-width:150px;">Action</th>
-                                                    <th style="min-width:100px;">No Order</th>
+                                                    <th style="min-width:180px;">Action</th>
+                                                    <th style="min-width:120px;">No Order</th>
                                                     <th style="min-width:100px;">Status</th>
                                                     <th style="min-width:100px;">Date</th>
                                                     <th style="min-width:100px;">Created By</th>
@@ -94,28 +94,19 @@ function nominal($angka){
                                                     <th style="min-width:100px;">Price Total</th>
                                                 </tr>
                                             </thead>
-                                            <tfoot>
-                                            <tr>
-                                                    <th>No</th>
-                                                    <th>Action</th>
-                                                    <th>No Order</th>
-                                                    <th>Status</th>
-                                                    <th>Date</th>
-                                                    <th>Created By</th>
-                                                    <th>Receive By</th>
-                                                    <th>Customer</th>
-                                                    <th>Qtt</th>
-                                                    <th>Price Total</th>
-                                                </tr>
-                                            </tfoot>
                                             <tbody>
                                             <?php $no=0; foreach($data as $a){ $no++; ?>
                                                 <tr>
                                                     <td><?=$no?></td>
                                                     <td>
-                                                    <a href="#" data-toggle="modal" data-target="#deleteModal<?=$a->t_id?>"  class="btn btn-danger btn-circle btn-sm mr-2"><i class="fas fa-trash"></i>
-                                                    <a href="<?=base_url()?>report/sell-print/<?=$a->t_id?>/" class="btn btn-success btn-circle btn-sm mr-2"><i class="fas fa-print"></i>
-                                                    <a href="<?=base_url()?>report/sell/<?=$a->t_id?>/" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-info"></i>
+                                                    <a href="#" data-toggle="modal" data-target="#deleteModal<?=$a->t_id?>"  class="btn btn-danger btn-circle btn-sm mr-2"><i class="fas fa-trash"></i></a>
+                                                    <a href="<?=base_url()?>report/sell-print/<?=$a->t_id?>/" class="btn btn-success btn-circle btn-sm mr-2"><i class="fas fa-print"></i></a>
+                                                    <a href="<?=base_url()?>report/sell/<?=$a->t_id?>/" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-info"></i></a>
+                                                    <div 
+                                                        data-toggle="modal" 
+                                                        data-target="#modalEdit" 
+                                                        class="btn btn-warning btn-circle btn-sm" onclick="openModalEdit(<?= $a->t_id ?>)"><i class="fa fa-pencil"></i>
+                                                    </div>
                                                      </td>
                                                     <td><?=$a->t_no_order?></td>
                                                     <td><?=$a->t_status?></td>
@@ -173,8 +164,88 @@ function nominal($angka){
     </div>
 
 </div>
-
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="top: 84px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Perubahan</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="">
+                    <input type="hidden" name="type" id="type" value="sell">
+                    <input type="hidden" name="id" value="" id="edit_id">
+                    <div class="form-group">
+                        <label for="">Alasan Perubahan</label>
+                        <textarea name="alasan" id="alasan" class="form-control" ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Kata Sandi</label>
+                        <input type="password" name="password" id="password" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                <div class="btn btn-primary" onclick="submitKonfirmasi()"><i class="fa fa-save"></i> Submit</div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
+    function submitKonfirmasi(){
+        Swal.fire({
+            
+            title: 'Mohon Tunggu Sebentar',
+            html: '<i class="fa fa-spin fa-refresh"></i>',
+            showConfirmButton: false,
+        });
+        if($('#alasan').val() == null){
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: 'Alasan Tidak Boleh Kosong',
+            });
+        }
+        $.ajax({
+            url: "<?= base_url('transaction/confirm-edit') ?>",
+            method: "POST",
+            data: {
+                type: $('#type').val(),
+                id: $('#edit_id').val(),
+                alasan: $('#alasan').val(),
+                password: $('#password').val(),
+            },
+            success: function (data) {
+                var res = JSON.parse(data);
+                console.log(res);
+                if(res.status == 'gagal'){
+                    
+                    
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Kata Sandi Salah!',
+                    });
+                }
+                else{
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Mohon Tunggu Sebentar',
+                    });
+                    window.location.href="<?= base_url('transaction/redirect/') ?>"+res.no_transaksi
+                }
+            }
+        });
+    }
+    function openModalEdit(t_id){
+        $('#edit_id').val(t_id);
+        // $('#modalEdit').modal('toggle');
+    }
     $(document).ready(function () {
        
         $('#dataTable').DataTable({
