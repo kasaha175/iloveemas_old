@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-4" style="padding:10px 10px">
                 <a href="<?=base_url()?>archive/sell/?key=material-ubs" class="btn btn-lg btn-custom menu-box">
-                    <span class="text">MATERIAL UBS</span>
+                    <span class="text">UBS</span>
                 </a>
             </div>
             <div class="col-md-12 mt-3">

@@ -54,6 +54,9 @@
                                 }else if($this->input->get("key")=="material-ag"){
                                     echo "MATERIAL AG";
                                 }
+                                else if($this->input->get("key")=="material-ubs"){
+                                    echo "UBS";
+                                }
                                 ?>
                             </label>
                             <table style="width:100%;border: 1px solid black;" cellspacing="3" cellpadding="3">

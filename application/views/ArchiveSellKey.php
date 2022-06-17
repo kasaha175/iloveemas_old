@@ -38,7 +38,7 @@
             echo "MATERIAL AG";
         }
         else if($this->input->get("key")=="material-ubs"){
-            echo "MATERIAL UBS";
+            echo "UBS";
         }
         ?>
         </h3>
@@ -59,7 +59,7 @@
         }else if($this->input->get("key")=="material-ag"){
             echo "MATERIAL AG";
         }else if($this->input->get("key")=="material-ubs"){
-            echo "MATERIAL UBS";
+            echo "UBS";
         }
         
         ?></label>
