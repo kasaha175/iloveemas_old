@@ -77,7 +77,7 @@ function nominal($angka){
                                                             <?= $value->nama_cabang ?>
                                                         </td>
                                                         <td>
-                                                            <?= $value->urutan ?>
+                                                            <?= $value->urutan_cabang ?>
                                                         </td>
                                                         
                                                     </tr>

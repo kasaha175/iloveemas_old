@@ -32,7 +32,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Urutan</label>
-                                            <input type="number" class="form-control" name="dt[urutan]" value="<?= $cabang->urutan ?>">
+                                            <input type="number" class="form-control" name="dt[urutan_cabang]" value="<?= $cabang->urutan ?>">
                                         </div>
                                         <div class="form-group">
                                             <label>Alamat</label>
