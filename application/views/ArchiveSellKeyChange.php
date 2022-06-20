@@ -158,6 +158,14 @@
 </div>
     <script>
     jQuery(function ($) {
-    
+        // Num Pad Input
+    // ********************
+    $('.input-box').keyboard({
+        layout: 'num',
+        restrictInput : true, // Prevent keys not in the displayed keyboard from being typed in
+        preventPaste : true,  // prevent ctrl-v and right click
+        autoAccept : true
+    });
+    prettyPrint();
     });
 </script>

@@ -1622,7 +1622,7 @@ class TransactionController extends CI_Controller
 			$noOrder = $this->TransactionModel->buyTransactionData($idTransaction)->row("t_no_order");
 			$this->data['title'] = $noOrder;
 			$this->data['detail'] = $this->TransactionModel->buyTransactionItemsData($idTransaction)->result();
-			$this->load->view("PrintBuy-new", $this->data);
+			$this->load->view("PrintBuy", $this->data);
 		}
 		else {
 			redirect(base_url());
