@@ -86,7 +86,7 @@ function penyebut($nilai) {
 							style="padding-left:5px; padding-top:1px; border-bottom:1px #000 solid;border-left:1px #000 solid;border-right:1px #000 solid;border-bottom:1px #000 solid"
 							>
 							<?php
-							$this->db->order_by('urutan', 'ASC');
+							$this->db->order_by('urutan_cabang', 'ASC');
 							$this->db->where('status', 'ENABLE');
                             $cabang = $this->db->get('tb_cabang')->result();
 							foreach($cabang as $key => $value): ?>
