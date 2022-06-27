@@ -45,7 +45,7 @@
                                                     </a>
                                                     </div>
                                                     <div class="col-md-4">
-                                                    <a href="<?=base_url()?>master/customer/"
+                                                    <a href="<?=base_url()?>master/memo/"
                                                         class="btn btn-primary btn-icon-split btn-lg btn-block">
                                                        <span class="text">Back</span>
                                                     </a>
