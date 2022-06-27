@@ -4,7 +4,7 @@
         <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>dashboard/" class="fa fa-home"></a>
         <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>dashboard/">Dashboard</a> 
         > 
-        <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>transaction/">Transaction</a> 
+        <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>master/">Master</a> 
         > 
         <a style="color:#fff;text-decoration:none;" href="">New Syarat & ketentuan</a> 
     </div>
