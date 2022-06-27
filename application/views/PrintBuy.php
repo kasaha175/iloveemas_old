@@ -402,14 +402,14 @@ function penyebut($nilai) {
 			$("#doPrint").click(function() {
 			
 			window.print();
-			// ajaxdestroy();
-			clickBack();
+			ajaxdestroy();
+			// clickBack();
 			});
 			function ajaxdestroy() {
 			jQuery.ajax({
 			url: '<?= base_url('transaction/chart-destroy') ?>',
 			success: function(data, textStatus, xhr) {
-			window.location.href = '<?=base_url()?>report/buy';
+				window.location.href = "<?= base_url('dashboard') ?>";
 			},
 			});
 			}

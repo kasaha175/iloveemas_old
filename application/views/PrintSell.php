@@ -282,8 +282,8 @@ function penyebut($nilai) {
 			<script>
 			$("#doPrint").click(function() {
 			window.print();
-			// ajaxdestroy();
-			clickBack();
+			ajaxdestroy();
+			// clickBack();
 			});
 			function ajaxdestroy() {
 			jQuery.ajax({

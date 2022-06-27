@@ -1011,6 +1011,7 @@ class TransactionController extends CI_Controller
 				$idTransaction = $this->TransactionModel->buyCheckout($data);
 				$data_session = array(
 					'idTransaction' => $idTransaction,
+					'jenis_transaksi' => "buy"
 				);
 				$this->session->set_userdata($data_session);
 			}
@@ -1105,7 +1106,7 @@ class TransactionController extends CI_Controller
 				$qtt=$qtt+1;
 			}
 			$data = array(
-				't_status' => 'SELESAI',
+				't_status' => 'CHECKOUT',
 				't_price_total' => $total,
 				't_price_admin' => $biayaAdmin,
 				't_qtt' => $qtt,
@@ -1480,6 +1481,7 @@ class TransactionController extends CI_Controller
 				$idTransaction = $this->TransactionModel->sellCheckout($data);
 				$data_session = array(
 					'idTransaction' => $idTransaction,
+					'jenis_transaksi' => "sell"
 				);
 				$this->session->set_userdata($data_session);
 			}
@@ -1574,7 +1576,7 @@ class TransactionController extends CI_Controller
 			}
 			
 			$data = array(
-				't_status' => 'SELESAI',
+				't_status' => 'CHECKOUT',
 				't_price_total' => $total,
 				't_price_admin' => $biayaAdmin,
 				't_qtt' => $qtt,
@@ -1701,6 +1703,15 @@ class TransactionController extends CI_Controller
 	}
 	public function chartDestroy()
 	{
+		$idTransaction = $this->session->userdata("idTransaction");
+		$jenis = $this->session->userdata("jenis_transaksi");
+		if($jenis=="sell"){
+			
+			$this->db->update('tb_transaction_sell', ['t_status' => 'SELESAI'], ['t_id' => $idTransaction]);
+		}
+		else{
+			$this->db->update('tb_transaction', ['t_status' => 'SELESAI'], ['t_id' => $idTransaction]);
+		}
 		$this->cart->destroy();
 	}
 }
