@@ -73,7 +73,7 @@ function nominal($valuengka){
                                                     <td style="text-align: center"><?=$key+1?></td>
                                                     <td style="text-align: center">
                                                         <a href="<?= base_url('transaction/redirect/'.$value->t_no_order) ?>"  class="btn btn-primary btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Lanjutkan Transaction"><i class="fa fa-arrow-right"></i></a>
-                                                        <div onclick="deleteData('<?= $value->t_no_order ?>')" class="btn btn-danger btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Hapus Transaksi"><i class="fa fa-trash"></i></div>
+                                                        <!-- <div onclick="deleteData('<?= $value->t_no_order ?>')" class="btn btn-danger btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Hapus Transaksi"><i class="fa fa-trash"></i></div> -->
                                                     </td>
                                                     <td style="text-align: center"><?=$value->t_type?></td>
                                                     <td><?=$value->t_no_order?></td>
