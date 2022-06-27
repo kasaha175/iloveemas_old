@@ -36,7 +36,21 @@ function nominal($valuengka){
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="collapseCardExample" style="">
                                 <div class="card-body">
+                                <?php if($this->session->userdata('status')=='success'){ ?>
+                            <div style="margin: 15px 0px">
+                            <div class="alert alert-success alert-dismissible m-0">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <?=$this->session->userdata('message')?>
+                            </div>
+                            </div>
+                            <?php } 
+                            $data_session = array(
+                                'status' => '',
+                                'message' => "",
+                            );
+                            $this->session->set_userdata($data_session); ?>
                                     <div class="table-responsive">
+                                        
                                         <table style="overflow: scroll;" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead style="text-align: center">
                                                 <tr>
@@ -58,7 +72,8 @@ function nominal($valuengka){
                                                 <tr>
                                                     <td style="text-align: center"><?=$key+1?></td>
                                                     <td style="text-align: center">
-                                                        <a href="<?= base_url('transaction/redirect/'.$value->t_no_order) ?>"  class="btn btn-primary btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Resume Transaction"><i class="fa fa-arrow-right"></i></a>
+                                                        <a href="<?= base_url('transaction/redirect/'.$value->t_no_order) ?>"  class="btn btn-primary btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Lanjutkan Transaction"><i class="fa fa-arrow-right"></i></a>
+                                                        <div onclick="deleteData('<?= $value->t_no_order ?>')" class="btn btn-danger btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Hapus Transaksi"><i class="fa fa-trash"></i></div>
                                                     </td>
                                                     <td style="text-align: center"><?=$value->t_type?></td>
                                                     <td><?=$value->t_no_order?></td>
@@ -92,3 +107,23 @@ function nominal($valuengka){
         </div>
     </div>
 </div>
+<script>
+    function deleteData(no_order){
+        Swal.fire({
+            title: "Apakah anda yakin?",
+            text: "Transaksi yang dihapus tidak dapat dikembalikan!",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: "Batal Hapus",
+            denyButtonText: `Hapus`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isDenied) {
+                window.location.href = "<?= base_url('transaction/delete-transaction/') ?>"+no_order;
+            } else{
+                Swal.close();
+            }
+        });
+
+    }
+</script>

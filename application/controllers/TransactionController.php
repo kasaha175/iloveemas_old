@@ -44,6 +44,8 @@ class TransactionController extends CI_Controller
 				$this->db->where('t_date_created =<', $this->input->get('dateEnd'));
 				
 			}
+			$this->db->where('t_status !=', 'SELESAI');
+			$this->db->where('is_delete', null);
 			$this->data['transaction'] = $this->db->get('all_transaction')->result();
 			$this->data['content'] = $this->load->view('ListTransaction', $this->data, true);
 			$this->load->view("UserTemplate", $this->data);
@@ -167,6 +169,34 @@ class TransactionController extends CI_Controller
 			echo json_encode([
 				'status' => 'gagal'
 			]);
+		}
+	}
+	function deleteTransaction($no_order)
+    {
+        $authUser = $this->session->userdata("authUser");
+		$idUser = $this->session->userdata("idUser");
+		$this->data["title"] = "TRANSACTION BUY";
+		if ($authUser == true) {
+			$this->db->where('t_no_order', $no_order);
+			$transaction = $this->db->get('all_transaction')->row();
+			if($transaction->t_type == 'SELL'){
+				$this->db->where('t_no_order', $no_order);
+				$this->db->update('tb_transaction_sell', ['is_delete' => 'TRUE']);
+				
+			}
+			else{
+				$this->db->where('t_no_order', $no_order);
+				$this->db->update('tb_transaction', ['is_delete' => 'TRUE']);
+			}
+			$data_session = array(
+				'status' => 'success',
+				'message' => "Transaksi Berhasil Dihapus",
+			);
+			$this->session->set_userdata($data_session);
+			redirect(base_url()."transaction-list");
+		}
+		else {
+			redirect(base_url());
 		}
 	}
     function lm()
