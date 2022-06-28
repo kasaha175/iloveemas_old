@@ -72,7 +72,8 @@ class TransactionController extends CI_Controller
 				$id = $cek_tr->t_customer;
 				$data_session = array(
 					'idCustomer' => $id,
-					'idTransaction' => $cek_tr->t_id
+					'idTransaction' => $cek_tr->t_id,
+					'jenis_transaksi' => 'sell'
 				);
 				$this->session->set_userdata($data_session);
 				$this->db->where('ti_t_id', $cek_tr->t_id);
@@ -106,6 +107,7 @@ class TransactionController extends CI_Controller
 				$data_session = array(
 					'idCustomer' => $id,
 					'idTransaction' => $cek_tr->t_id,
+					'jenis_transaksi' => 'buy'
 				);
 				$this->session->set_userdata($data_session);
 				$this->db->where('ti_t_id', $cek_tr->t_id);
@@ -1707,10 +1709,8 @@ class TransactionController extends CI_Controller
 		$idTransaction = $this->session->userdata("idTransaction");
 		$jenis = $this->session->userdata("jenis_transaksi");
 		if($jenis=="sell"){
-			
 			$this->db->update('tb_transaction_sell', ['t_status' => 'SELESAI'], ['t_id' => $idTransaction]);
-		}
-		else{
+		}else{
 			$this->db->update('tb_transaction', ['t_status' => 'SELESAI'], ['t_id' => $idTransaction]);
 		}
 		$this->cart->destroy();
