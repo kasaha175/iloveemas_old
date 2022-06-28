@@ -72,6 +72,7 @@ class TransactionController extends CI_Controller
 				$id = $cek_tr->t_customer;
 				$data_session = array(
 					'idCustomer' => $id,
+					'idTransaction' => $cek_tr->t_id
 				);
 				$this->session->set_userdata($data_session);
 				$this->db->where('ti_t_id', $cek_tr->t_id);
