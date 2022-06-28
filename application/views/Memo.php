@@ -84,7 +84,7 @@ function nominal($angka){
                         </div>
                     </div>
                     <div class="col-md-12 mt-3">
-                        <a href="<?=base_url()?>/dashboard/" class="btn btn-primary btn-icon-split btn-lg">
+                        <a href="<?=base_url()?>/master/" class="btn btn-primary btn-icon-split btn-lg">
                             <span class="icon text-white-50">
                                 <i class="fas fa-arrow-left"></i>
                             </span>

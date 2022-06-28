@@ -114,14 +114,13 @@ function nominal($angka){
                     </div>
                     
                     <div class="col-md-12 mt-3">
-                <a href="<?=base_url()?>report/" class="btn btn-primary btn-icon-split btn-lg">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-arrow-left"></i>
-                    </span>
-                    <span class="text">Back</span>
-                </a>
-            </div>
-
+                        <a href="<?=base_url()?>/master/" class="btn btn-primary btn-icon-split btn-lg">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-arrow-left"></i>
+                            </span>
+                            <span class="text">Back</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
