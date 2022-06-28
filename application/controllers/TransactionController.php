@@ -1510,7 +1510,7 @@ class TransactionController extends CI_Controller
 				);
 				$this->TransactionModel->sellCheckoutItems($dataItems);
 			}
-			$this->session->unset_userdata('idCustomer');
+			//$this->session->unset_userdata('idCustomer');
 			redirect(base_url()."transaction/sell/$idMaterial/");
 		}
 		else {
