@@ -45,7 +45,7 @@ class TransactionController extends CI_Controller
 				
 			}
 			$this->db->where('t_status !=', 'SELESAI');
-			$this->db->where('is_delete', null);
+			// $this->db->where('is_delete', null);
 			$this->data['transaction'] = $this->db->get('all_transaction')->result();
 			$this->data['content'] = $this->load->view('ListTransaction', $this->data, true);
 			$this->load->view("UserTemplate", $this->data);
@@ -1715,4 +1715,3 @@ class TransactionController extends CI_Controller
 		$this->cart->destroy();
 	}
 }
-?>
