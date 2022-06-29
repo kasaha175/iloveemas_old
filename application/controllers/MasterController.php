@@ -383,6 +383,16 @@ class MasterController extends CI_Controller
                         $this->data['content'] = $this->load->view('ArchiveSellKey', $this->data, true);
                         $this->load->view("UserTemplate", $this->data);
                     }
+                }else if($key=="material-ubs"){
+                    if($type=="change"){
+                        $this->data['data'] = $this->MasterModel->formulasData($key)->result();
+                        $this->data['content'] = $this->load->view('ArchiveSellKeyChange', $this->data, true);
+                        $this->load->view("UserTemplate", $this->data);
+                    }else{
+                        $this->data['value'] = $this->MaterialModel->formulaData()->row("f_material_ubs_sell");
+                        $this->data['content'] = $this->load->view('ArchiveSellKey', $this->data, true);
+                        $this->load->view("UserTemplate", $this->data);
+                    }
                 }
                 else {
                     if($type=="change"){
