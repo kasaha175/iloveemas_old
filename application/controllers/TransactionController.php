@@ -1210,7 +1210,7 @@ class TransactionController extends CI_Controller
 				$idLast = 1;
 			}
 			$rtiAU = $this->MaterialModel->formulaData()->row("f_rti_au_sell");
-			$rtiUbs = $this->MaterialModel->formulaData()->row("f_material_ubs");
+			$rtiUbs = $this->MaterialModel->formulaData()->row("f_material_ubs_sell");
 			$AUtambahAUG = $this->MasterModel->formulasData('material-au')->row('g');
 			$AUPotongan = $this->MasterModel->formulasData('material-au')->row('a');
 			$potongan_ubs = $this->MasterModel->formulasData('material-ubs')->row('a');
