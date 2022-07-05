@@ -71,7 +71,7 @@ function penyebut($nilai) {
 					style="width:30px;float:right;"
 				/></a>
 				<!-- <a href="<?=base_url()?>report/sell/"> -->
-				<img src="<?=base_url()?>assets/offline/back.png" alt="" style="width:30px;float:right;cursor: pointer;" onclick="clickBack();"/>
+				<img src="<?=base_url()?>assets/offline/back.png" alt="" style="width:30px;float:right;cursor: pointer;" onclick="clickBack();" ontouchstart="clickBack()"/>
 				<!-- </a> -->
 			</div>
 			<div style="padding:45px;margin:0px;" id="printNow">
@@ -280,22 +280,31 @@ function penyebut($nilai) {
 			</div>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 			<script>
+			
 			$("#doPrint").click(function() {
-			window.print();
-			ajaxdestroy();
-			// clickBack();
+				window.print();
+				ajaxdestroy();
+				// clickBack();
 			});
+			
+			$("#doPrint").touches(function(){
+				window.print();
+				ajaxdestroy();
+				// clickBack();
+			});
+
 			function ajaxdestroy() {
-			jQuery.ajax({
-			url: '<?= base_url('transaction/chart-destroy') ?>',
-			success: function(data, textStatus, xhr) {
-			window.location.href = '<?=base_url()?>report/buy';
-			},
-			});
+				jQuery.ajax({
+					url: '<?= base_url('transaction/chart-destroy') ?>',
+					success: function(data, textStatus, xhr) {
+						window.location.href = '<?=base_url()?>report/buy';
+					},
+				});
 			}
+
 			function clickBack() {
-			// window.history.back();
-			window.location.href = "<?= base_url('dashboard') ?>";
+				// window.history.back();
+				window.location.href = "<?= base_url('dashboard') ?>";
 			}
 			</script>
 		</div>
