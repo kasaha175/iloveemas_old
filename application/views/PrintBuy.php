@@ -80,7 +80,7 @@ function terbilang($nilai)
 		</div>
 		<div style="padding:45px;margin:0px;" id="printNow">
 			<div style="width:100%">
-				<div style="padding-right:5px; width:50%; display:inline-block;vertical-align:text-top;">
+				<div style="padding-right:5px; width:100%; display:inline-block;vertical-align:text-top;">
 					<div style="border:1px #000 solid">
 						<p style="margin:5px; font-size:25px; text-align:center;">
 							PT Muara Logam Indonesia
@@ -97,55 +97,56 @@ function terbilang($nilai)
 								<?= $value->nama_cabang ?> : <?= $value->alamat_cabang ?>
 							</p>
 						<?php endforeach; ?>
+						<p style="text-align:center;"><a href="https://www.iloveemas.co.id/" style="text-decoration:none; color:black">www.iloveemas.co.id</a></p>
 					</div>
 				</div>
-				<div style="padding-left:15px; padding-right:5px; width:46%; display:inline-block;vertical-align:text-top;">
+				<div style="padding-right:5px; width:50%; display:inline-block;vertical-align:text-top;">
+					<div style="border:1px #000 solid">
+						<p style="margin:5px; text-align:center">
+							Vendor
+						</p>
+						<hr style="height: 1px;background-color: #000000;border: none;">
+						<p style="margin:5px; ">
+							Name : <?= ucwords(strtolower($a->nameCustomer)) ?>
+						</p>
+						<p style="margin:5px; ">
+							Id Number : <?= strtoupper($a->c_id_number) ?>
+						</p>
+						<p style="margin:5px; ">
+							Address : <?= ucwords(strtolower($a->c_address)) ?>
+						</p>
+						<p style="margin:5px; ;">
+							Resident Address : <?= $a->c_resident_address ?>
+						</p>
+						<p style="margin:5px; ">
+							Phone Number : <?= $a->c_phone ?>
+						</p>
+					</div>
+				</div>
+				
+				<div style="padding-right:5px; width:48.3%; display:inline-block;vertical-align:text-top;">
 					<div>
 						<p style="margin:5px; font-size:18px; text-align:center;">
 							<b>Purchase Payment</b>
 						</p>
 					</div>
+					<hr style="height: 1px;background-color: #000000;border: none;">
 					<div>
-						<div style="padding-right:5px; width:45%; display:inline-block;">
+						<div style="padding-right:5px; width:48%; display:inline-block;">
 							<div style="border:1px #000 solid">
 								<p style="margin:5px; text-align:center;">
 									Payment Date
 								</p>
 							</div>
-							<div style="text-align:center; min-height:55px; padding-top:1px; border-bottom:1px #000 solid;border-left:1px #000 solid;border-right:1px #000 solid;border-bottom:1px #000 solid"><?= date('Y-m-d', strtotime($a->t_date_created)) ?></div>
+							<div style="text-align:center; min-height:50px; padding-top:24px; padding-bottom:30px; border-bottom:1px #000 solid;border-left:1px #000 solid;border-right:1px #000 solid;border-bottom:1px #000 solid"><p style="padding-top:5px;"><?= date('Y-m-d', strtotime($a->t_date_created)) ?></p></div>
 						</div>
-						<div style="padding-right:5px; width:45%; display:inline-block;">
+						<div style="width:49%; display:inline-block;">
 							<div style="border:1px #000 solid">
 								<p style="margin:5px; text-align:center;">
 									Invoice Number
 								</p>
 							</div>
-							<div style="text-align:center; min-height:55px; padding-top:1px; border-bottom:1px #000 solid;border-left:1px #000 solid;border-right:1px #000 solid;border-bottom:1px #000 solid"><?= $a->t_no_order ?></div>
-						</div>
-					</div>
-					<div style="width:100%;margin-top:15px;">
-						<div style="padding-right:5px; width:100%; display:inline-block;vertical-align:text-top;">
-							<div style="border:1px #000 solid">
-								<p style="margin:5px; ">
-									Vendor :
-								</p>
-								<hr>
-								<p style="margin:5px; ">
-									Name : <?= ucwords(strtolower($a->nameCustomer)) ?>
-								</p>
-								<p style="margin:5px; ">
-									Id Number : <?= strtoupper($a->c_id_number) ?>
-								</p>
-								<p style="margin:5px; ">
-									Address : <?= ucwords(strtolower($a->c_address)) ?>
-								</p>
-								<p style="margin:5px; ;">
-									Resident Address : <?= $a->c_resident_address ?>
-								</p>
-								<p style="margin:5px; ">
-									Phone Number : <?= $a->c_phone ?>
-								</p>
-							</div>
+							<div style="text-align:center; min-height:50px; padding-top:24px; padding-bottom:30px; border-bottom:1px #000 solid;border-left:1px #000 solid;border-right:1px #000 solid;border-bottom:1px #000 solid"><p style="padding-top:5px;"><?= $a->t_no_order ?></p></div>
 						</div>
 					</div>
 				</div>
