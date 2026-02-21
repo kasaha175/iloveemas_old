@@ -498,32 +498,14 @@ class MasterController extends CI_Controller
                 }
                 else if ($key == "material-ubs")
                 {
+                    $this->data['configMaterial'] = $this->mmodel->selectWhere('config_material', ['key_material' => 'sell-ubs'])->result();
                     if ($type == "change")
                     {
-                        $formulasUbs = $this->MasterModel->formulasData($key)->result();
-                        $this->data['formulasUbs'] = $formulasUbs;
-
-                        // print_r($this->data);
-                        // die();
                         $this->data['content'] = $this->load->view('ArchiveSellKeyChange', $this->data, true);
                         $this->load->view("UserTemplate", $this->data);
                     }
                     else
                     {
-                        $rumusUBS = $this->MaterialModel->formulaData(2);
-                        $this->data["f_nol5"] = $rumusUBS->row("f_nol5");
-                        $this->data["f_1"] = $rumusUBS->row("f_1");
-                        $this->data["f_2"] = $rumusUBS->row("f_2");
-                        $this->data["f_2_coma_5"] = $rumusUBS->row("f_2_coma_5");
-                        $this->data["f_3"] = $rumusUBS->row("f_3");
-                        $this->data["f_5"] = $rumusUBS->row("f_5");
-                        $this->data["f_10"] = $rumusUBS->row("f_10");
-                        $this->data["f_25"] = $rumusUBS->row("f_25");
-                        $this->data["f_50"] = $rumusUBS->row("f_50");
-                        $this->data["f_100"] = $rumusUBS->row("f_100");
-                        $this->data["f_250"] = $rumusUBS->row("f_250");
-                        $this->data["f_500"] = $rumusUBS->row("f_500");
-                        $this->data["f_1000"] = $rumusUBS->row("f_1000");
                         $this->data['content'] = $this->load->view('ArchiveSellKey', $this->data, true);
                         $this->load->view("UserTemplate", $this->data);
                     }
@@ -656,36 +638,30 @@ class MasterController extends CI_Controller
                 }
                 else if ($key == "material-ubs")
                 {
-                    $parameter = 'f_material_ubs_sell';
+                    $dataGet = $this->input->get();
                     if ($type == "change")
                     {
-                        $data = array(
-                            'potongan_ubs' => json_encode($this->input->get('potongan_ubs')),
-                        );
-                        $this->MasterModel->formulasUpdate($key, $data);
+                        foreach ($dataGet['configMaterial'] as $keyGet => $valueGet)
+                        {
+                            $dataUpdate = array(
+                                'potongan' => $valueGet,
+                            );
+                            $this->db->update('config_material', $dataUpdate, ['id' => $keyGet]);
+                        }
                         redirect(base_url() . "archive/sell/?key=$key&type=change");
                     }
                     else
                     {
-                        $data = array(
-                            "f_nol5" => $this->input->get("f_nol5"),
-                            "f_1" => $this->input->get("f_1"),
-                            "f_2" => $this->input->get("f_2"),
-                            "f_3" => $this->input->get("f_3"),
-                            "f_2_coma_5" => $this->input->get("f_2_coma_5"),
-                            "f_5" => $this->input->get("f_5"),
-                            "f_10" => $this->input->get("f_10"),
-                            "f_25" => $this->input->get("f_25"),
-                            "f_50" => $this->input->get("f_50"),
-                            "f_100" => $this->input->get("f_100"),
-                            "f_250" => $this->input->get("f_250"),
-                            "f_500" => $this->input->get("f_500"),
-                            "f_1000" => $this->input->get("f_1000"),
-                        );
 
-                        $this->MaterialModel->formulaUpdateArray($data, 2);
+                        foreach ($dataGet['configMaterial'] as $keyGet => $valueGet)
+                        {
+                            $dataUpdate = array(
+                                'harga' => $valueGet,
+                            );
+                            $this->db->update('config_material', $dataUpdate, ['id' => $keyGet]);
+                        }
                         // echo "<pre>";
-                        // print_r($data);
+                        // print_r($dataGet);
                         // echo "</pre>";
                         // die();
                         redirect(base_url() . "archive/sell/?key=$key");

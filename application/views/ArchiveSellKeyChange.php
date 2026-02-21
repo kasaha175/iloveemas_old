@@ -52,8 +52,7 @@ $d = $data[0];
                     <div class="col-md-12" <?= ($this->input->get("key") == "lm") ? '' : 'style="padding:0px 350px;"' ?>>
 
 
-                        <input type="hidden" name="key" required class="form-control"
-                            value="<?= $this->input->get("key") ?>">
+                        <input type="hidden" name="key" required class="form-control" value="<?= $this->input->get("key") ?>">
                         <input type="hidden" name="type" required class="form-control" value="change">
                         <div class="form-group text-center">
                             <label style="color:#fff;">
@@ -116,95 +115,29 @@ $d = $data[0];
                                     <?php }
                                     else if ($this->input->get("key") == "material-ubs")
                                     {
-                                        $potongan_ubs = json_decode($formulasUbs[0]->potongan_ubs);
 
                                         ?>
 
-                                                    <tr>
-                                                        <td class="bordering">0.5 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_nol5]" required
-                                                                value="<?= $potongan_ubs->f_nol5 ?>"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">1 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_1]" required value="<?= $potongan_ubs->f_1 ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">2 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_2]" required value="<?= $potongan_ubs->f_2 ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">2.5 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_2_coma_5]" required
-                                                                value="<?= $potongan_ubs->f_2_coma_5 ?>"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">3 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_3]" required value="<?= $potongan_ubs->f_3 ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">5 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_5]" required value="<?= $potongan_ubs->f_5 ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">10 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_10]" required value="<?= $potongan_ubs->f_10 ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">25 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_25]" required value="<?= $potongan_ubs->f_25 ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">50 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_50]" required value="<?= $potongan_ubs->f_50 ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">100 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_100]" required value="<?= $potongan_ubs->f_100 ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">250 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_250]" required value="<?= $potongan_ubs->f_250 ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">500 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_500]" required value="<?= $potongan_ubs->f_500 ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bordering">1000 Gr</td>
-                                                        <td class="bordering"><input class="input-box" type="number" step="any"
-                                                                name="potongan_ubs[f_1000]" required
-                                                                value="<?= $potongan_ubs->f_1000 ?>"></td>
-                                                    </tr>
+
+                                        <?php foreach ($configMaterial as $value): ?>
+                                                        <tr>
+                                                            <td class="bordering">
+                                                    <?= $value->size ?> Gr
+                                                            </td>
+                                                            <td class="bordering">
+                                                                <input class="input-box" type="number" step="any"
+                                                                    name="configMaterial[<?= $value->id ?>]" required
+                                                                    value="<?= $value->potongan ?>">
+                                                            </td>
+                                                        </tr>
+                                        <?php endforeach; ?>
+
 
 
 
                                     <?php } ?>
                                 </tbody>
                             </table>
-                            <!-- <input type="number" step="any" name="value" required class="form-control" value="<?= $value ?>"> -->
                         </div>
 
                     </div>
@@ -239,7 +172,9 @@ $d = $data[0];
                             while ($tahun_mulai <= date('Y') + 1)
                             { ?>
                                 <tr>
-                                    <td class="bordering">LM Certi <?= $tahun_mulai; ?></td>
+                                    <td class="bordering">LM Certi
+                                        <?= $tahun_mulai; ?>
+                                    </td>
                                     <td class="bordering"><input class="input-box" type="number" step="any"
                                             name="potongan_lm[<?= $tahun_mulai; ?>]" required
                                             value="<?= $potongan_lm[$tahun_mulai] ?>"></td>

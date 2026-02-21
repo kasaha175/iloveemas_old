@@ -49,8 +49,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		https://codeigniter.com/user_guide/general/controllers.html
  */
-class CI_Controller {
-	
+class CI_Controller
+{
+
 	/**
 	 * Reference to the CI singleton
 	 *
@@ -77,6 +78,7 @@ class CI_Controller {
 
 		$this->load =& load_class('Loader', 'core');
 		$this->load->initialize();
+		$this->load->model('Mmodel', 'mmodel');
 		log_message('info', 'Controller Class Initialized');
 	}
 
