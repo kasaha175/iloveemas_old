@@ -3,11 +3,11 @@ name: Auto Deploy CI3 to VPS
 on:
   push:
     branches:
-      - master # Triggers otomatis setiap push ke branch master
+      - master
 
 jobs:
   deploy:
-    runs-on: self-hosted # Menggunakan runner yang baru kita instal (vps-iloveemas)
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
@@ -15,8 +15,8 @@ jobs:
 
       - name: Sync Files to VPS
         run: |
-          # Menggunakan rsync dengan flag -o dan -g untuk menjaga kepemilikan file
-          # Mengecualikan config database agar tidak tertimpa settingan produksi
+          # Menggunakan rsync untuk sinkronisasi file
+          # --delete akan menghapus file di VPS yang sudah tidak ada di GitHub (sinkron total)
           rsync -avz --delete \
             --exclude '.git*' \
             --exclude '.github' \
@@ -27,8 +27,7 @@ jobs:
 
       - name: Fix Permissions
         run: |
-          # Pastikan folder log dan cache bisa ditulisi oleh PHP 7.4
-          # Menggunakan sudo jika diperlukan (pastikan user ile_stg punya akses sudo)
+          # Memastikan CodeIgniter bisa menulis log dan cache
           chmod -R 777 /var/www/iloveemas/application/logs
           chmod -R 777 /var/www/iloveemas/application/cache
           echo "Deployment Berhasil dan Otomatis!"
