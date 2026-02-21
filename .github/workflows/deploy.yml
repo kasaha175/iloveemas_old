@@ -1,0 +1,35 @@
+name: Auto Deploy CI3 to VPS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Sync Files to Web Directory
+        run: |
+          # Menggunakan rsync lebih baik daripada cp -R karena:
+          # 1. Lebih cepat (hanya kirim file yang berubah)
+          # 2. Bisa mengecualikan folder logs/cache dan config database agar tidak tertimpa
+          rsync -avz --exclude '.git*' \
+                    --exclude '.github' \
+                    --exclude 'application/config/database.php' \
+                    --exclude 'application/logs/*' \
+                    --exclude 'application/cache/*' \
+                    --delete \
+                    . /var/www/iloveemas/
+
+      - name: Set Permissions
+        run: |
+          # Pastikan folder logs dan cache tetap bisa ditulis oleh web server (PHP 7.4)
+          cd /var/www/iloveemas
+          chmod -R 777 application/logs
+          chmod -R 777 application/cache
+          echo "Deployment CI3 Selesai!"
