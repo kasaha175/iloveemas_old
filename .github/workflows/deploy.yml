@@ -3,12 +3,11 @@ name: Auto Deploy CI3 to VPS
 on:
   push:
     branches:
-      - master
+      - master # Triggers otomatis setiap push ke branch master
 
 jobs:
   deploy:
-    # Kita gunakan label paling dasar agar pasti terbaca oleh runner manapun yang aktif
-    runs-on: self-hosted
+    runs-on: self-hosted # Menggunakan runner yang baru kita instal (vps-iloveemas)
 
     steps:
       - name: Checkout repository
@@ -16,18 +15,20 @@ jobs:
 
       - name: Sync Files to VPS
         run: |
-          # Sinkronisasi file ke folder tujuan
-          rsync -avz --exclude '.git*' \
-                    --exclude '.github' \
-                    --exclude 'application/config/database.php' \
-                    --exclude 'application/logs/*' \
-                    --exclude 'application/cache/*' \
-                    --delete \
-                    . /var/www/iloveemas/
+          # Menggunakan rsync dengan flag -o dan -g untuk menjaga kepemilikan file
+          # Mengecualikan config database agar tidak tertimpa settingan produksi
+          rsync -avz --delete \
+            --exclude '.git*' \
+            --exclude '.github' \
+            --exclude 'application/config/database.php' \
+            --exclude 'application/logs/*' \
+            --exclude 'application/cache/*' \
+            . /var/www/iloveemas/
 
       - name: Fix Permissions
         run: |
-          # Pastikan folder log dan cache bisa ditulisi oleh PHP
+          # Pastikan folder log dan cache bisa ditulisi oleh PHP 7.4
+          # Menggunakan sudo jika diperlukan (pastikan user ile_stg punya akses sudo)
           chmod -R 777 /var/www/iloveemas/application/logs
           chmod -R 777 /var/www/iloveemas/application/cache
-          echo "Deployment Selesai!"
+          echo "Deployment Berhasil dan Otomatis!"
