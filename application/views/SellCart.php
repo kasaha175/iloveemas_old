@@ -78,22 +78,12 @@ function nominal($angka)
 										{ ?>
 											<div class="form-group">
 												<label>WEIGHT</label>
-												<select required class="zein form-control select2" name="type_weight"
-													id="type_weight">
+												<select required class="zein form-control select2" name="idConfig"
+													id="idConfig">
 													<option value="">Pilih Berat</option>
-													<option value="f_nol5">0.5 Gr</option>
-													<option value="f_1">1 Gr</option>
-													<option value="f_2">2 Gr</option>
-													<option value="f_2_coma_5.5">2.5 Gr</option>
-													<option value="f_3">3 Gr</option>
-													<option value="f_5">5 Gr</option>
-													<option value="f_10">10 Gr</option>
-													<option value="f_25">25 Gr</option>
-													<option value="f_50">50 Gr</option>
-													<option value="f_100">100 Gr</option>
-													<option value="f_250">250 Gr</option>
-													<option value="f_500">500 Gr</option>
-													<option value="f_1000">1000 Gr</option>
+													<?php foreach ($configMaterial as $key => $value): ?>
+														<option value="<?= $value->id ?>"><?= $value->size ?> Gr</option>
+													<?php endforeach; ?>
 												</select>
 											</div>
 										<?php }

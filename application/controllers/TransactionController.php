@@ -1386,6 +1386,7 @@ class TransactionController extends CI_Controller
 				$this->data['materialType'] = $this->MaterialModel->materialTypeData()->result();
 				$this->data['potongan'] = $this->MaterialModel->potonganData($idMaterial)->result();
 				$this->data['carat'] = $this->MaterialModel->caratData($idMaterial)->result();
+				$this->data['configMaterial'] = $this->mmodel->selectWhere('config_material', ['material_id' => $idMaterial])->result();
 				$this->data['content'] = $this->load->view('SellCart', $this->data, true);
 				$this->load->view("UserTemplate", $this->data);
 			}
@@ -1401,6 +1402,11 @@ class TransactionController extends CI_Controller
 	}
 	function sellAddToCart()
 	{
+		// $datapost = $this->input->post();
+		// echo "<pre>";
+		// print_r($datapost);
+		// echo "</pre>";
+		// die();
 		$authUser = $this->session->userdata("authUser");
 		$idUser = $this->session->userdata("idUser");
 		if ($authUser == true)
@@ -1451,37 +1457,20 @@ class TransactionController extends CI_Controller
 			}
 			else if ($idMaterial == 18)
 			{
-				$type_weight = $this->input->post('type_weight');
-				$getPriceWight = $this->MaterialModel->formulaData(2)->row($type_weight);
-				$arrayPotongan = json_decode($potongan_ubs);
-				$arrayWeight = [
-				 "f_nol5" => 0.5,
-				 "f_1" => 1,
-				 "f_2" => 2,
-				 "f_2_coma_5.5" => 2.5,
-				 "f_3" => 3,
-				 "f_5" => 5,
-				 "f_10" => 10,
-				 "f_25" => 25,
-				 "f_50" => 50,
-				 "f_100" => 100,
-				 "f_250" => 250,
-				 "f_500" => 500,
-				 "f_1000" => 1000
-				];
-				$weight = $arrayWeight[$type_weight];
-				$price = ($getPriceWight + $arrayPotongan->$type_weight);
-				$priceTotal = $price * $weight;
+				$datapost = $this->input->post();
+				$detailConfig = $this->mmodel->selectWhere('config_material', ['id' => $datapost['idConfig']])->row();
+				$price = ($detailConfig->harga + $detailConfig->potongan);
+				$priceTotal = $price * $detailConfig->size;
 				$data = array(
 				 'id' => $idLast,
-				 'qty' => $weight,
+				 'qty' => $detailConfig->size,
 				 'price' => $price,
 				 'prices' => $price,
 				 'name' => 'T-Shirt',
 				 'materialName' => $materialName,
 				 'materialType' => '-',
 				 'carat' => '',
-				 'weight' => $weight,
+				 'weight' => $detailConfig->size,
 				 'priceTotal' => $priceTotal,
 				);
 			}
