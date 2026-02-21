@@ -67,7 +67,7 @@
 
 
 <?php 
-        if($this->input->get("key")=="lm"){ ?>
+        if($this->input->get("key")=="lm" || $this->input->get("key")=="material-ubs"){ ?>
          
          <table style="width:100%;border: 1px solid black;" cellspacing="3" cellpadding="3">
                             <thead>
@@ -139,8 +139,6 @@
         <?php }else if($this->input->get("key")=="material-au"){ ?>
             <input type="number" step="any" name="value" required class="form-control" value="<?=$value?>">
         <?php }else if($this->input->get("key")=="material-ag"){ ?>
-             <input type="number" step="any" name="value" required class="form-control" value="<?=$value?>">
-        <?php }else if($this->input->get("key")=="material-ubs"){ ?>
              <input type="number" step="any" name="value" required class="form-control" value="<?=$value?>">
         <?php } ?>
                       
