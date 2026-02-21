@@ -558,6 +558,7 @@ class MasterController extends CI_Controller
     }
     function sellSave()
     {
+
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
         if ($authUser == true)
@@ -666,7 +667,27 @@ class MasterController extends CI_Controller
                     }
                     else
                     {
-                        $this->MaterialModel->formulaUpdate($parameter, $value);
+                        $data = array(
+                            "f_nol5" => $this->input->get("f_nol5"),
+                            "f_1" => $this->input->get("f_1"),
+                            "f_2" => $this->input->get("f_2"),
+                            "f_3" => $this->input->get("f_3"),
+                            "f_2_coma_5" => $this->input->get("f_2_coma_5"),
+                            "f_5" => $this->input->get("f_5"),
+                            "f_10" => $this->input->get("f_10"),
+                            "f_25" => $this->input->get("f_25"),
+                            "f_50" => $this->input->get("f_50"),
+                            "f_100" => $this->input->get("f_100"),
+                            "f_250" => $this->input->get("f_250"),
+                            "f_500" => $this->input->get("f_500"),
+                            "f_1000" => $this->input->get("f_1000"),
+                        );
+
+                        $this->MaterialModel->formulaUpdateArray($data, 2);
+                        // echo "<pre>";
+                        // print_r($data);
+                        // echo "</pre>";
+                        // die();
                         redirect(base_url() . "archive/sell/?key=$key");
                     }
                 }

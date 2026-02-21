@@ -46,12 +46,12 @@ class MaterialModel extends CI_Model
     WHERE a.f_id='$f_id'");
     return $query;
   }
-  function formulaUpdate($parameter, $value)
+  function formulaUpdate($parameter, $value, $f_id = 1)
   {
     $query = $this->db->query("UPDATE 
     tb_formula a
     SET a.$parameter = '$value'
-    WHERE a.f_id=1");
+    WHERE a.f_id='$f_id'");
     return $query;
   }
   function formulaUpdateArray($data, $f_id = 1)

@@ -53,7 +53,7 @@ $dd = @$data2[0];
         <div class="row">
 
 
-            <div class="<?= ($this->input->get("key") == "rti-au") ? 'col-md-6' : 'col-md-12' ?>" style="">
+            <div class="<?= ($this->input->get("key") == "rti-au") ? 'col-md-4' : 'col-md-12' ?>" style="">
                 <div class="row">
                     <div class="col-md-12" <?= ($this->input->get("key") == "rti-au") ? '' : 'style="padding:0px 350px;"' ?>>
 
@@ -113,28 +113,6 @@ $dd = @$data2[0];
                                 <tbody>
                                     <?php if ($this->input->get("key") == "rti-au")
                                     { ?>
-                                        <tr>
-                                            <td class="bordering">k24 (99.9)</td>
-                                            <td class="bordering"><input class="input-box" type="number" step="any" name="h"
-                                                    required value="<?= $d->h ?>"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bordering">k24 (99)</td>
-                                            <td class="bordering"><input class="input-box" type="number" step="any" name="a"
-                                                    required value="<?= $d->a ?>"></td>
-                                        </tr>
-                                        <!-- <tr>
-                                        <td class="bordering">k2 k23</td>
-                                        <td class="bordering"><input class="input-box" type="number" step="any" name="b" required  value="<?= $d->b ?>"></td>
-                                    </tr> -->
-                                        <?php for ($i = 23; $i >= 2; $i--)
-                                        { ?>
-                                            <tr>
-                                                <td class="bordering">K<?= $i ?></td>
-                                                <td class="bordering"><input class="input-box" type="number" step="any"
-                                                        name="k<?= $i ?>" required value="<?php echo @$d->{'k' . $i}; ?>"></td>
-                                            </tr>
-                                        <?php } ?>
                                         <tr>
                                             <td class="bordering">material au</td>
                                             <td class="bordering"><input class="input-box" type="number" step="any" name="c"
@@ -242,7 +220,47 @@ $dd = @$data2[0];
             </div>
             <?php if ($this->input->get("key") == "rti-au")
             { ?>
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    <div class="text-center">
+
+                        <label style="color:#fff; text-align: center; ">Potongan Carat RTI AU</label>
+                    </div>
+                    <table style="width:100%;border: 1px solid black;" cellspacing="3" cellpadding="3">
+                        <thead>
+
+                            <tr>
+                                <th style="text-align:center;" colspan="2" class="bordering">Material</th>
+                            </tr>
+                            <tr>
+                                <th class="bordering">Name</th>
+                                <th class="bordering">Value</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="bordering">k24 (99.9)</td>
+                                <td class="bordering"><input class="input-box" type="number" step="any" name="h" required
+                                        value="<?= $d->h ?>"></td>
+                            </tr>
+                            <tr>
+                                <td class="bordering">k24 (99)</td>
+                                <td class="bordering"><input class="input-box" type="number" step="any" name="a" required
+                                        value="<?= $d->a ?>"></td>
+                            </tr>
+
+                            <?php for ($i = 23; $i >= 2; $i--)
+                            { ?>
+                                <tr>
+                                    <td class="bordering">K<?= $i ?></td>
+                                    <td class="bordering"><input class="input-box" type="number" step="any" name="k<?= $i ?>"
+                                            required value="<?= isset($d) ? ($d->{"k{$i}"} ?? '') : '' ?>"></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
                     <div class="text-center">
 
                         <label style="color:#fff; text-align: center; ">Potongan LM Certi</label>

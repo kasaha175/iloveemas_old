@@ -417,6 +417,7 @@ class TransactionController extends CI_Controller
 			 'c_u_id' => $idUser,
 			 'c_no_order' => $noOrder,
 			 'c_date_created' => $this->dateToday,
+			 'cabang_id' => $this->session->userdata("cabang_id")
 			);
 			$this->MasterModel->customerAdd($data);
 			$data_session = array(
@@ -512,17 +513,18 @@ class TransactionController extends CI_Controller
 			$rtiTA = abs($this->MaterialModel->formulaData()->row("f_rti_ta"));
 			$AUpotonganrulow = $this->MasterModel->formulasData('rti-ru-low')->row('a');
 			$AUpotonganruhigh = $this->MasterModel->formulasData('rti-ru')->row('a');
-			$formulaRTIAu = $this->MasterModel->formulasData('rti-au');
-			$AUpotonganK24 = $formulaRTIAu->row('a');
-			$AUpotonganK2499 = $formulaRTIAu->row('h');
-			$AUpresentasePotonganK24 = $formulaRTIAu->row('b');
-			$AUpresentasePotonganCustProf = $formulaRTIAu->row('f');
-			$AUpresentaseLMBaru = $formulaRTIAu->row('d');
-			$AUpresentaseLMLama = $formulaRTIAu->row('e');
-			$AUpotonganubs = $formulaRTIAu->row('g');
-			$AUgb_99 = $formulaRTIAu->row('gb_99');
-			$AUgb_99_9 = $formulaRTIAu->row('gb_99_9');
-			$potongan_lm = $formulaRTIAu->row('potongan_lm');
+			$formulaRTIAu = $this->MasterModel->formulasData('rti-au')->row();
+
+			$AUpotonganK24 = $formulaRTIAu->a;
+			$AUpotonganK2499 = $formulaRTIAu->h;
+			$AUpresentasePotonganK24 = $formulaRTIAu->b;
+			$AUpresentasePotonganCustProf = $formulaRTIAu->f;
+			$AUpresentaseLMBaru = $formulaRTIAu->d;
+			$AUpresentaseLMLama = $formulaRTIAu->e;
+			$AUpotonganubs = $formulaRTIAu->g;
+			$AUgb_99 = $formulaRTIAu->gb_99;
+			$AUgb_99_9 = $formulaRTIAu->gb_99_9;
+			$potongan_lm = $formulaRTIAu->potongan_lm;
 			$AGpresentasePotonganAG = $this->MasterModel->formulasData('rti-ag')->row('a');
 			$AGpresentasePotonganAGLow = $this->MasterModel->formulasData('rti-ag-low')->row('a');
 			$PTpresentasePotonganPt = $this->MasterModel->formulasData('rti-pt')->row('a');
@@ -562,98 +564,114 @@ class TransactionController extends CI_Controller
 					{
 						$price = round($rtiAU + $AUpotonganK24);
 					}
-					else if ($carat == 23)
-					{
-						$price = round((0.958 * $rtiAU) + (0.958 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 22)
-					{
-						$price = round((0.916 * $rtiAU) + (0.916 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 21)
-					{
-						$price = round((0.875 * $rtiAU) + (0.875 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 20)
-					{
-						$price = round((0.833 * $rtiAU) + (0.833 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 19)
-					{
-						$price = round((0.791 * $rtiAU) + (0.791 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 18)
-					{
-						$price = round((0.75 * $rtiAU) + (0.75 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 17)
-					{
-						$price = round((0.708 * $rtiAU) + (0.708 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 16)
-					{
-						$price = round((0.666 * $rtiAU) + (0.666 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 15)
-					{
-						$price = round((0.625 * $rtiAU) + (0.625 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 14)
-					{
-						$price = round((0.583 * $rtiAU) + (0.583 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 13)
-					{
-						$price = round((0.541 * $rtiAU) + (0.541 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 12)
-					{
-						$price = round((0.5 * $rtiAU) + (0.5 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 11)
-					{
-						$price = round((0.458 * $rtiAU) + (0.458 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 10)
-					{
-						$price = round((0.416 * $rtiAU) + (0.416 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 9)
-					{
-						$price = round((0.375 * $rtiAU) + (0.375 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 8)
-					{
-						$price = round((0.333 * $rtiAU) + (0.333 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 7)
-					{
-						$price = round((0.291 * $rtiAU) + (0.291 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 6)
-					{
-						$price = round((0.25 * $rtiAU) + (0.25 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 5)
-					{
-						$price = round((0.208 * $rtiAU) + (0.208 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 4)
-					{
-						$price = round((0.166 * $rtiAU) + (0.166 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 3)
-					{
-						$price = round((0.125 * $rtiAU) + (0.125 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
-					else if ($carat == 2)
-					{
-						$price = round((0.083 * $rtiAU) + (0.083 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					}
 					else
 					{
-						$price = 1;
+						$kadar = $carat / 24;
+						$potonganKarat = 'k' . $carat;
+						$price = round(($kadar * $rtiAU) + ($kadar * $rtiAU * ($formulaRTIAu->$potonganKarat / 100)));
+						// echo '<br>carat = ' . $carat;
+						// echo '<br>kadar = ' . $kadar;
+						// echo '<br>potonganKarat = ' . $potonganKarat;
+						// echo '<br>potongan karat = ' . $formulaRTIAu->$potonganKarat;
+						// echo '<br>price = ' . $price;
 					}
+
+
+
+					// die();
+					// else if ($carat == 23)
+					// {
+
+					// 	$price = round((0.958 * $rtiAU) + (0.958 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 22)
+					// {
+					// 	$price = round((0.916 * $rtiAU) + (0.916 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 21)
+					// {
+					// 	$price = round((0.875 * $rtiAU) + (0.875 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 20)
+					// {
+					// 	$price = round((0.833 * $rtiAU) + (0.833 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 19)
+					// {
+					// 	$price = round((0.791 * $rtiAU) + (0.791 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 18)
+					// {
+					// 	$price = round((0.75 * $rtiAU) + (0.75 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 17)
+					// {
+					// 	$price = round((0.708 * $rtiAU) + (0.708 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 16)
+					// {
+					// 	$price = round((0.666 * $rtiAU) + (0.666 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 15)
+					// {
+					// 	$price = round((0.625 * $rtiAU) + (0.625 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 14)
+					// {
+					// 	$price = round((0.583 * $rtiAU) + (0.583 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 13)
+					// {
+					// 	$price = round((0.541 * $rtiAU) + (0.541 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 12)
+					// {
+					// 	$price = round((0.5 * $rtiAU) + (0.5 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 11)
+					// {
+					// 	$price = round((0.458 * $rtiAU) + (0.458 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 10)
+					// {
+					// 	$price = round((0.416 * $rtiAU) + (0.416 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 9)
+					// {
+					// 	$price = round((0.375 * $rtiAU) + (0.375 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 8)
+					// {
+					// 	$price = round((0.333 * $rtiAU) + (0.333 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 7)
+					// {
+					// 	$price = round((0.291 * $rtiAU) + (0.291 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 6)
+					// {
+					// 	$price = round((0.25 * $rtiAU) + (0.25 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 5)
+					// {
+					// 	$price = round((0.208 * $rtiAU) + (0.208 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 4)
+					// {
+					// 	$price = round((0.166 * $rtiAU) + (0.166 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 3)
+					// {
+					// 	$price = round((0.125 * $rtiAU) + (0.125 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else if ($carat == 2)
+					// {
+					// 	$price = round((0.083 * $rtiAU) + (0.083 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
+					// }
+					// else
+					// {
+					// 	$price = 1;
+					// }
 					$priceTotal = round($price * $weight);
 					$data = array(
 					 'id' => $idLast,
@@ -1180,6 +1198,7 @@ class TransactionController extends CI_Controller
 				 't_price_total' => $total,
 				 't_qtt' => $qtt,
 				 't_visible' => 1,
+				 'cabang_id' => $this->session->userdata("cabang_id")
 				);
 				$idTransaction = $this->TransactionModel->buyCheckout($data);
 				$data_session = array(
@@ -1768,6 +1787,7 @@ class TransactionController extends CI_Controller
 				 't_price_total' => $total,
 				 't_visible' => 1,
 				 't_qtt' => $qtt,
+				 'cabang_id' => $this->session->userdata("cabang_id")
 				);
 				$idTransaction = $this->TransactionModel->sellCheckout($data);
 				$data_session = array(
