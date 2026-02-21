@@ -3,12 +3,12 @@ name: Auto Deploy CI3 to VPS
 on:
   push:
     branches:
-      - master # Triggers on push to master
+      - master
 
 jobs:
   deploy:
-    # Menggunakan label yang lebih spesifik agar tidak Queued lama
-    runs-on: [self-hosted, linux, x64]
+    # Kita gunakan label paling dasar agar pasti terbaca oleh runner manapun yang aktif
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
@@ -16,8 +16,7 @@ jobs:
 
       - name: Sync Files to VPS
         run: |
-          # rsync akan mensinkronkan file lokal ke folder VPS
-          # Menghindari overwrite config database dan folder log/cache
+          # Sinkronisasi file ke folder tujuan
           rsync -avz --exclude '.git*' \
                     --exclude '.github' \
                     --exclude 'application/config/database.php' \
@@ -28,7 +27,7 @@ jobs:
 
       - name: Fix Permissions
         run: |
-          # Pastikan user 'ile_stg' memiliki izin di folder ini agar chmod berhasil
+          # Pastikan folder log dan cache bisa ditulisi oleh PHP
           chmod -R 777 /var/www/iloveemas/application/logs
           chmod -R 777 /var/www/iloveemas/application/cache
-          echo "Deployment CI3 Selesai!"
+          echo "Deployment Selesai!"
