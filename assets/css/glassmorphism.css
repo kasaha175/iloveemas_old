@@ -1181,3 +1181,186 @@ table.dataTable tbody tr:nth-child(even) {
         font-size: 0.85rem;
     }
 }
+
+/* ================================================
+   DASHBOARD STYLES
+   ================================================ */
+.dashboard-container {
+    margin-top: 110px;
+    padding: 0 20px;
+}
+
+.dashboard-title {
+    text-align: center;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        margin-top: 90px;
+        padding: 0 15px;
+    }
+    
+    .dashboard-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* ================================================
+   MASTER PAGE STYLES
+   ================================================ */
+.master-container,
+.master-detail-container,
+.form-container {
+    padding: 100px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.master-detail-container {
+    max-width: 1400px;
+}
+
+.page-title {
+    text-align: center;
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.page-subtitle {
+    text-align: center;
+    color: var(--turquoise-surf);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.master-grid,
+.report-grid {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.master-grid .row,
+.report-grid .row {
+    gap: 20px 0;
+}
+
+.master-grid .menu-box,
+.report-grid .menu-box {
+    min-height: 120px;
+}
+
+/* Card Header */
+.card-header {
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 15px 20px;
+    cursor: pointer;
+}
+
+.card-header h6 {
+    color: var(--turquoise-surf);
+    margin: 0;
+    font-weight: 600;
+}
+
+.card-header:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Glass Input */
+.glass-input {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    color: var(--text-primary);
+    padding: 14px 18px;
+    transition: var(--transition-smooth);
+}
+
+.glass-input:focus {
+    outline: none;
+    border-color: var(--turquoise-surf);
+    box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.2), 0 4px 20px rgba(0, 0, 0, 0.2);
+    background: var(--glass-bg-hover);
+}
+
+.glass-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+/* Glass Alert */
+.glass-alert {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    padding: 16px 20px;
+}
+
+.alert-success {
+    border-color: #10b981 !important;
+    background: rgba(16, 185, 129, 0.1) !important;
+}
+
+@media (max-width: 768px) {
+    .master-container,
+    .master-detail-container,
+    .form-container {
+        padding: 90px 15px 30px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .page-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .master-grid .menu-box,
+    .report-grid .menu-box {
+        min-height: 100px;
+    }
+    
+    .action-buttons {
+        flex-wrap: wrap;
+    }
+}

@@ -52,26 +52,26 @@
     <!-- Glassmorphism CSS -->
     <link href="<?=base_url()?>assets/css/glassmorphism.css" rel="stylesheet">
     
+    <!-- Glassmorphism JS -->
+    <script src="<?=base_url()?>assets/js/glassmorphism.js"></script>
+    
     <style>
         /* ===== LAYOUT STRUCTURE ===== */
-        /* Flex column wrapper - kunci untuk footer sticky */
         .app-wrapper {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            min-height: 100dvh; /* Dynamic viewport height for mobile */
+            min-height: 100dvh;
         }
 
-        /* Main content area - grow to fill space */
         .app-content {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
-            padding-top: 80px; /* Offset untuk fixed navbar */
+            padding-top: 80px;
             padding-bottom: 0;
         }
 
-        /* Content container - flex-grow to push footer */
         .content-flex {
             flex: 1 1 auto;
             display: flex;
@@ -191,7 +191,7 @@
                 <i class="fa fa-bars text-white"></i>
             </button>
             <a href="<?=base_url()?>">
-                <img src="<?=base_url()?>assets/img/logo.png" alt="ILoveEmas" class="navbar-logo">
+                <img src="<?=base_url()?>assets/img/logo-new.webp" alt="ILoveEmas" class="navbar-logo">
             </a>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown no-arrow">
