@@ -99,14 +99,43 @@ body {
 body::before {
     content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 20% 80%, rgba(0, 180, 216, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(0, 119, 182, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(30, 30, 30, 0.5) 0%, transparent 100%);
+
+    right: -40px;
+    bottom: -30px;
+
+    width: 700px;
+    height: 520px;
+
+    background: url('../img/bg-login-pattern.webp') no-repeat bottom right;
+    background-size: contain;
+
+    opacity: 0.9;
+    filter: drop-shadow(0 0 40px rgba(255, 200, 80, 0.25));
+
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+
+    top: -120px;      /* lebih keluar */
+    left: -120px;
+
+    width: 850px;     /* sedikit lebih besar */
+    height: 650px;
+
+    background: url('../img/bg-login-pattern.webp') no-repeat center;
+    background-size: contain;
+
+    transform: rotate(180deg);
+    transform-origin: center;
+
+    opacity: 0.9;    /* sedikit lebih subtle dari bawah */
+
+    filter: drop-shadow(0 0 60px rgba(255, 200, 80, 0.2));
+
     pointer-events: none;
     z-index: 0;
 }

@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title><?=$title?></title>
+    <link rel="icon" type="image/x-icon" href="<?=base_url()?>favicon.ico">
 
     <!-- Core CSS -->
     <link href="<?=base_url()?>assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -52,134 +53,11 @@
     <!-- Glassmorphism CSS -->
     <link href="<?=base_url()?>assets/css/glassmorphism.css" rel="stylesheet">
     
+    <!-- DataTables Custom CSS -->
+    <link href="<?=base_url()?>assets/css/datatables.css" rel="stylesheet">
+    
     <!-- Glassmorphism JS -->
     <script src="<?=base_url()?>assets/js/glassmorphism.js"></script>
-    
-    <style>
-        /* ===== LAYOUT STRUCTURE ===== */
-        .app-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            min-height: 100dvh;
-        }
-
-        .app-content {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-            padding-top: 80px;
-            padding-bottom: 0;
-        }
-
-        .content-flex {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ===== NAVBAR FIXES ===== */
-        .glass-navbar {
-            position: fixed !important;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1030;
-            height: 70px;
-        }
-
-        /* ===== FOOTER STICKY ===== */
-        .glass-footer {
-            flex-shrink: 0;
-            margin-top: auto;
-        }
-
-        /* ===== SELECT2 STYLING ===== */
-        .select2 { width: 100%!important; }
-        .select2-container--default .select2-selection--single {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 10px;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__rendered { color: var(--text-primary); }
-        .select2-dropdown {
-            background: rgba(3, 4, 94, 0.95);
-            backdrop-filter: var(--glass-blur-strong);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-        }
-        .select2-results__option { color: var(--text-primary); }
-        .select2-container--default .select2-results__option--highlighted[aria-selected] { background: var(--glass-bg-hover); }
-
-        /* ===== DATATABLES STYLING ===== */
-        .dataTables_wrapper { color: var(--text-primary); }
-        table.dataTable {
-            background: var(--card-gradient);
-            border-radius: 16px;
-        }
-        table.dataTable thead th, table.dataTable thead td {
-            background: var(--glass-bg-hover);
-            color: var(--text-primary);
-            border-bottom: 1px solid var(--glass-border);
-        }
-        table.dataTable tbody tr { color: var(--text-primary); }
-        table.dataTable tbody tr:hover { background: var(--glass-bg-hover); }
-
-        /* ===== CARD STYLING ===== */
-        .card {
-            background: var(--card-gradient);
-            backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
-            border-radius: 24px 24px 0 0;
-            pointer-events: none;
-        }
-
-        /* ===== MODAL STYLING ===== */
-        .modal-content {
-            background: rgba(3, 4, 94, 0.9);
-            backdrop-filter: var(--glass-blur-strong);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            color: var(--text-primary);
-        }
-
-        /* ===== FORM STYLING ===== */
-        .form-control {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-            border-radius: 14px;
-            padding: 14px 18px;
-        }
-        .form-control:focus {
-            background: var(--glass-bg-hover);
-            border-color: var(--turquoise-surf);
-            box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.2);
-            color: var(--text-primary);
-        }
-
-        /* ===== RESPONSIVE PADDING ===== */
-        @media (max-width: 768px) {
-            .app-content {
-                padding-top: 70px;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- App Wrapper - Flex Column Layout -->
@@ -223,9 +101,10 @@
         <!-- Footer - Sticky Bottom -->
         <footer class="glass-footer">
             <div class="footer-content">
-                <div class="footer-left">
-                    <span class="footer-brand"><i class="fas fa-gem"></i> ILoveEmas</span>
-                    <span class="footer-version">v3.0.0</span>
+<div class="footer-left">
+                    <a href="<?=base_url()?>">
+                        <img src="<?=base_url()?>assets/img/logo-new.webp" alt="ILoveEmas" class="navbar-logo">
+                    </a>
                 </div>
                 <div class="footer-center">
                     <span>&copy; <?=date('Y')?> ILoveEmas. All rights reserved.</span>
@@ -258,6 +137,11 @@
         </div>
     </div>
 
+   <div class="bg-characters">
+        <img src="<?= base_url('assets/img/female.webp'); ?>" class="bg-female" alt="Female Character">
+        <img src="<?= base_url('assets/img/male.webp'); ?>" class="bg-male" alt="Male Character">
+    </div>
+    
     <!-- Script Initialization -->
     <script>
         $(function () {
