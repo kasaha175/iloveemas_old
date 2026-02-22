@@ -101,7 +101,7 @@
         <!-- Footer - Sticky Bottom -->
         <footer class="glass-footer">
             <div class="footer-content">
-<div class="footer-left">
+                <div class="footer-left">
                     <a href="<?=base_url()?>">
                         <img src="<?=base_url()?>assets/img/logo-new.webp" alt="ILoveEmas" class="navbar-logo">
                     </a>
@@ -135,11 +135,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-   <div class="bg-characters">
-        <img src="<?= base_url('assets/img/female.webp'); ?>" class="bg-female" alt="Female Character">
-        <img src="<?= base_url('assets/img/male.webp'); ?>" class="bg-male" alt="Male Character">
     </div>
     
     <!-- Script Initialization -->
