@@ -1,46 +1,115 @@
-<div class="col-md-12" style="margin-top:110px;">
+<link rel="stylesheet" href="<?=base_url()?>assets/css/transaction.css">
+
+<div class="col-md-12 page-container">
+
+    <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb fixed-top bg-transparent w-50" style="margin-top:5rem">
-            <li class="breadcrumb-item">
-                <a class="text-decoration-none text-white" href="<?=base_url()?>dashboard/">
-                    <i class="fas fa-home fa-fw"></i> Dashboard
-                </a>
-            </li>
-            <li class="breadcrumb-item">
-                <a class="text-decoration-none text-secondary" href="<?=base_url()?>transaction/">Transaction</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a class="text-decoration-none text-secondary" href="<?=base_url()?>">Sell</a>
-            </li>
+        <ol class="breadcrumb glass-breadcrumb">
+            <li class="breadcrumb-item"><a href="<?=base_url()?>dashboard/"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="<?=base_url()?>transaction/">Transaction</a></li>
+            <li class="breadcrumb-item active">Sell</li>
         </ol>
     </nav>
-    <h3 class="text-center" style="color:#fff;">SELL</h3>
-    <h3 class="text-center" style="color:#fff;">Choose Material</h3>
-    <br>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 mt-3 mb-5">
-                <a href="<?=base_url()?>transaction/" class="btn btn-light btn-icon-split btn-lg">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-arrow-left text-dark"></i>
-                    </span>
-                    <span class="text">Back</span>
-                </a>
-            </div>
-            <?php foreach($data as $d){ ?>
-            <div class="col-md-3" style="padding:15px;">
-                <a href="<?=base_url()?>transaction/sell/<?=$d->m_id?>/" style="text-decoration: none;">
-                    <div class="card shadow text-center h-100" style="border-radius: 10px;">
-                        <div class="card-body">
-                            <img src="<?=base_url()?>assets/offline/<?=$d->m_img?>" class="img-fluid mt-3" style="max-width:100%; max-height:120px; object-fit:cover; border-radius: 5px;">
-                        </div>
-                        <div class="card-footer bg-light">
-                            <span class="font-weight-bold text-dark"><?=$d->m_name?></span>
-                        </div>
+
+    <!-- Page Title -->
+    <h3 class="page-title">SELL</h3>
+    <h3 class="page-subtitle">Choose Material</h3>
+
+    <!-- Back Button -->
+    <div class="mb-3">
+        <a href="<?=base_url()?>transaction/" class="btn btn-back">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back</span>
+        </a>
+    </div>
+
+    <!-- Material Grid -->
+    <div class="material-grid">
+        <div class="row g-3">
+            <?php 
+            $delay = 1;
+            foreach($data as $d){ ?>
+            <div class="col-4 col-md-3 col-lg-2">
+                <a href="<?=base_url()?>transaction/sell/<?=$d->m_id?>/" class="material-card animate-fade-in-up" style="animation-delay: <?=$delay?>00ms">
+                    <div class="material-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="material-image">
+                        <img src="<?=base_url()?>assets/offline/<?=$d->m_img?>" alt="<?=$d->m_name?>">
+                    </div>
+                    <div class="material-name">
+                        <span><?=$d->m_name?></span>
                     </div>
                 </a>
             </div>
-            <?php } ?>
+            <?php $delay++; } ?>
         </div>
     </div>
 </div>
+
+<style>
+/* Compact Material Card Override */
+.material-card {
+    min-height: 110px;
+    padding: 14px 10px;
+    border-radius: 12px;
+}
+
+.material-card::before {
+    height: 35%;
+}
+
+.material-icon {
+    font-size: 0.85rem;
+    top: 8px;
+    right: 8px;
+}
+
+.material-image {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+}
+
+.material-name span {
+    font-size: 0.75rem;
+}
+
+.material-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35), 0 0 16px rgba(0, 180, 216, 0.15);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.4s ease-out both;
+}
+
+@media (max-width: 576px) {
+    .material-card {
+        min-height: 90px;
+        padding: 10px 8px;
+        border-radius: 10px;
+    }
+    
+    .material-image {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 6px;
+    }
+    
+    .material-name span {
+        font-size: 0.65rem;
+    }
+}
+</style>

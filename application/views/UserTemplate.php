@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title><?=$title?></title>
+    <link rel="icon" type="image/x-icon" href="<?=base_url()?>favicon.ico">
 
     <!-- Core CSS -->
     <link href="<?=base_url()?>assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -16,7 +17,6 @@
     <link href="<?=base_url()?>assets/css/keyboard.css" rel="stylesheet">
     <link href="<?=base_url()?>/assets/select2/css/select2.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>assets/summernote/summernote.min.css" rel="stylesheet">
-	<!-- <link href="<?= base_url() ?>assets/offline/custom.css" rel="stylesheet"> -->
 
     <!-- Keyboard Plugin -->
     <link href="<?=base_url()?>assets/keyboard/docs/css/jquery-ui.min.css" rel="stylesheet">
@@ -27,7 +27,7 @@
 
     <!-- Core JavaScript -->
     <script src="<?=base_url()?>assets/vendor/jquery/jquery.min.js"></script>
-	<script src="<?=base_url()?>assets/select2/js/select2.min.js"></script>
+    <script src="<?=base_url()?>assets/select2/js/select2.min.js"></script>
     <script src="<?=base_url()?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- DataTables -->
@@ -50,77 +50,77 @@
     <script src="<?=base_url()?>assets/offline/buttons.html5.min.js"></script>
     <script src="<?=base_url()?>assets/offline/buttons.print.min.js"></script>
 
-    <!-- Custom Styles -->
-    <style>
-        body {
-            font-family: 'Poppins', 'sans-serif';
-            background-image: url(<?=base_url()?>assets/offline/bg-black.jpg);
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            width: 100%;
-            min-height: 750px;
-        }
-        body:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            background: rgba(0,0,0,.45);
-        }
-        .btn-custom {
-            color: #000;
-            padding: 16px 0;
-            width: 100%;
-            background: #fff;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16pt;
-            box-shadow: 0 5px 15px -5px rgba(0,0,0,0.1);
-            transition: all 250ms ease-in-out;
-        }
-        .select2 {
-            width: 100%!important;
-        }
-    </style>
+    <!-- Glassmorphism CSS -->
+    <link href="<?=base_url()?>assets/css/glassmorphism.css" rel="stylesheet">
+    
+    <!-- DataTables Custom CSS -->
+    <link href="<?=base_url()?>assets/css/datatables.css" rel="stylesheet">
+    
+    <!-- Glassmorphism JS -->
+    <script src="<?=base_url()?>assets/js/glassmorphism.js"></script>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand navbar-light topbar mb-4 fixed-top shadow" style="background-color:#9de4ff;">
-        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-        </button>
-        <a href="<?=base_url()?>" style="text-decoration: none;color:#000;">
-            <img src="<?=base_url()?>assets/offline/icon-ilovemas.png" alt="" style="max-width: 200px;">
-        </a>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline small" style="color:#000;">Administrator</span>
-                    <img class="img-profile rounded-circle" src="<?=base_url()?>assets/img/user/logo.png">
-                </a>
-                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Logout
+    <!-- App Wrapper - Flex Column Layout -->
+    <div class="app-wrapper">
+        
+        <!-- Navbar - Fixed Position -->
+        <nav class="navbar navbar-expand navbar-light topbar shadow glass-navbar">
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                <i class="fa fa-bars text-white"></i>
+            </button>
+            <a href="<?=base_url()?>">
+                <img src="<?=base_url()?>assets/img/logo-new.webp" alt="ILoveEmas" class="navbar-logo">
+            </a>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown no-arrow">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <span class="mr-2 d-none d-lg-inline small">Administrator</span>
+                        <img class="img-profile rounded-circle" src="<?=base_url()?>assets/img/user/logo.png">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in glass-dropdown" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="app-content">
+            <div class="content-flex">
+                <!-- Dynamic Content -->
+                <div class="container-fluid">
+                    <?=$content?>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer - Sticky Bottom -->
+        <footer class="glass-footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <a href="<?=base_url()?>">
+                        <img src="<?=base_url()?>assets/img/logo-new.webp" alt="ILoveEmas" class="navbar-logo">
                     </a>
                 </div>
-            </li>
-        </ul>
-    </nav>
+                <div class="footer-center">
+                    <span>&copy; <?=date('Y')?> ILoveEmas. All rights reserved.</span>
+                </div>
+                <div class="footer-right">
+                    <span>Made with <i class="fas fa-heart" style="color: #ef4444;"></i> for Indonesia</span>
+                </div>
+            </div>
+        </footer>
 
-    <!-- Content -->
-    <div class="container-fluid">
-        <?=$content?>
     </div>
 
     <!-- Logout Modal -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document" style="top: 84px;">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
@@ -136,7 +136,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Script Initialization -->
     <script>
         $(function () {
