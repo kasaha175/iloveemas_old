@@ -1,123 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><?=$title?></title>
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <title>
-    <?=$title?>
-  </title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="<?=base_url()?>assets/css/login.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/gh/hawkgs/jqKeyboard/development/build/jqkeyboard.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/hawkgs/jqKeyboard/layouts/jqk.layout.en.js"></script>
-  <link href="<?=base_url()?>assets/css/keyboard.css" rel="stylesheet">
-  <link href="<?=base_url()?>assets/css/login.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-  <style>
-  .bg-image {
-    background-image: url('assets/img/back.jpg');
-    background-size: cover;
-    background-position: center;
-  }
-  body{
-  font-family: 'Poppins', 'sans-serif';
-  }
-  </style>
 </head>
-	<!-- jQuery (required) & jQuery UI + theme (optional) -->
-  <link href="<?=base_url()?>assets/keyboard/docs/css/jquery-ui.min.css" rel="stylesheet">
-<!-- still using jQuery v2.2.4 because Bootstrap doesn't support v3+ -->
-<script src="<?=base_url()?>assets/keyboard/docs/js/jquery-latest.min.js"></script>
-<script src="<?=base_url()?>assets/keyboard/docs/js/jquery-ui.min.js"></script>
-<!-- <script src="<?=base_url()?>assets/keyboard/docs/js/jquery-migrate-3.0.0.min.js"></script> -->
-
-<!-- keyboard widget css & script (required) -->
-<link href="<?=base_url()?>assets/keyboard/css/keyboard.css" rel="stylesheet">
-<script src="<?=base_url()?>assets/keyboard/js/jquery.keyboard.js"></script>
-
-<!-- keyboard extensions (optional) -->
-<script src="<?=base_url()?>assets/keyboard/js/jquery.mousewheel.js"></script>
-<script src="<?=base_url()?>assets/keyboard/js/jquery.keyboard.extension-typing.js"></script>
-<script src="<?=base_url()?>assets/keyboard/js/jquery.keyboard.extension-autocomplete.js"></script>
-<script src="<?=base_url()?>assets/keyboard/js/jquery.keyboard.extension-caret.js"></script>
-
-<!-- demo only -->
-<link rel="stylesheet" href="<?=base_url()?>assets/keyboard/docs/css/font-awesome.min.css">
-
-<link href="<?=base_url()?>assets/keyboard/docs/css/tipsy.css" rel="stylesheet">
-<link href="<?=base_url()?>assets/keyboard/docs/css/prettify.css" rel="stylesheet">
-<script src="<?=base_url()?>assets/keyboard/docs/js/jquery.tipsy.min.js"></script>
-<script src="<?=base_url()?>assets/keyboard/docs/js/prettify.js"></script> <!-- syntax highlighting -->
 <body>
-  <div class="container-fluid">
-    <div class="row no-gutter">
-      <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
-      <div class="col-md-8 col-lg-6">
-        <div class="login d-flex align-items-center py-5">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-9 col-lg-8 mx-auto">
-                <h3 class="login-heading mb-4">
-                  <img src="<?=base_url()?>assets/img/logo.png" alt="" class="img-responsive">
-                </h3>
-                <form action="<?php echo base_url() ?>login-process/" method="post">
-                  <div class="form-label-group">
-                    <input name="username" type="text" id="inputEmail" class="form-control" placeholder="Username" required
-                      autofocus>
-                    <label for="inputEmail">Username</label>
-                  </div>
-                  <div class="form-label-group">
-                    <input  name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                    <label for="inputPassword">Password</label>
-                  </div>
-                  <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Sign
-                    in</button>
-                </form>
-                <hr>
-                <div style="color:red;" class="text-center">
-                  <?php if($this->session->userdata("failedLogin")==true){ ?>
-                  <p>Username atau password salah!</p>
-                  <?php 
-                  $data_session = array(
-                    'failedLogin' => false
-                  );
-                  $this->session->set_userdata($data_session);
-                  }else{ ?>
-                  <!-- <p>Username atau password tidak boleh kosong!</p> -->
-                  <?php } ?>
-                </div>
 
-              </div>
-            </div>
-          </div>
+<div class="login-wrapper">
+
+    <div class="login-left">
+        <div class="left-content">
+            <h1>ILoveEmas</h1>
+            <p>Kelola emas Anda dengan mudah dan aman</p>
         </div>
-      </div>
     </div>
-  </div>
-</body>
-<script type="text/javascript">
-  $(function () {
-    jqKeyboard.init();
-  });
-</script>
 
-</html>
-   
-<script>
-    jQuery(function ($) {
-
+    <div class="login-right">
         
-      
+        <div class="login-header">
+            <div class="logo">
+                <img src="<?=base_url()?>assets/img/logo-new.webp" alt="Logo">
+            </div>
+            <h2>Selamat Datang</h2>
+            <p>Masukkan username dan password Anda</p>
+        </div>
 
-    });
+        <form action="<?=base_url()?>login-process" method="post" id="loginForm">
+            
+            <div class="form-label-group">
+                <input type="text" name="username" id="username" placeholder=" " required autofocus autocomplete="off">
+                <label for="username">Username</label>
+            </div>
+
+            <div class="form-label-group">
+                <input type="password" name="password" id="password" placeholder=" " required autocomplete="off">
+                <label for="password">Password</label>
+            </div>
+
+            <!-- Captcha Section -->
+            <?php 
+                $num1 = rand(1, 10);
+                $num2 = rand(1, 10);
+                $result = $num1 + $num2;
+            ?>
+            <div class="captcha-section">
+                <div class="captcha-box">
+                    <span class="captcha-num" id="num1"><?php echo $num1; ?></span>
+                    <span class="captcha-operator">+</span>
+                    <span class="captcha-num" id="num2"><?php echo $num2; ?></span>
+                    <span class="captcha-operator">=</span>
+                    <input type="number" id="captcha-input" placeholder="?" min="1" max="20" required>
+                    <input type="hidden" id="captcha-result" value="<?php echo $result; ?>">
+                    <button type="button" class="btn-refresh" onclick="refreshCaptcha()" title="Refresh Captcha">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                    </button>
+                </div>
+                <p class="captcha-hint">Isikan hasil penjumlahan di atas</p>
+            </div>
+
+            <button type="submit" class="btn-login" id="loginBtn">
+                <span class="btn-text">Masuk</span>
+                <span class="btn-loader">
+                    <svg class="spinner" viewBox="0 0 50 50">
+                        <circle cx="25" cy="25" r="20" fill="none" stroke-width="4"></circle>
+                    </svg>
+                </span>
+                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+
+        </form>
+
+        <?php if($this->session->userdata("failedLogin")==true){ ?>
+        <div class="error-msg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+            <span>Username atau password salah!</span>
+        </div>
+        <?php 
+            $this->session->set_userdata(['failedLogin'=>false]);
+        } ?>
+
+        <!-- Version -->
+        <div class="app-version">
+            ILoveEmas v3.0.0
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function refreshCaptcha() {
+    var num1 = Math.floor(Math.random() * 10) + 1;
+    var num2 = Math.floor(Math.random() * 10) + 1;
+    var result = num1 + num2;
+    
+    document.getElementById('num1').textContent = num1;
+    document.getElementById('num2').textContent = num2;
+    document.getElementById('captcha-result').value = result;
+    document.getElementById('captcha-input').value = '';
+}
+
+document.querySelector('form').addEventListener('submit', function(e) {
+    var userAnswer = parseInt(document.getElementById('captcha-input').value);
+    var correctAnswer = parseInt(document.getElementById('captcha-result').value);
+    
+    if (userAnswer !== correctAnswer) {
+        e.preventDefault();
+        alert('Jawaban captcha salah! Silakan coba lagi.');
+        refreshCaptcha();
+        return false;
+    }
+    
+    // Show loading state
+    var btn = document.getElementById('loginBtn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+});
 </script>
+
+</body>
+</html>
