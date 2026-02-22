@@ -842,3 +842,342 @@ button[type="submit"]:hover, input[type="submit"]:hover {
     background: linear-gradient(135deg, #00b4d8 0%, #90e0ef 100%) !important;
     box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3) !important;
 }
+
+/* ================================================
+   DATA TABLES STYLING
+   ================================================ */
+.dataTables_wrapper {
+    padding: 20px 0;
+}
+
+.dataTables_length select,
+.dataTables_filter input {
+    background: var(--glass-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-primary) !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+}
+
+.dataTables_length select:focus,
+.dataTables_filter input:focus {
+    border-color: var(--turquoise-surf) !important;
+    outline: none;
+}
+
+.dataTables_info {
+    color: var(--text-secondary) !important;
+}
+
+.dataTables_paginate {
+    margin-top: 15px !important;
+}
+
+.dataTables_paginate .paginate_button {
+    background: var(--glass-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-primary) !important;
+    border-radius: 8px !important;
+    margin: 0 2px !important;
+}
+
+.dataTables_paginate .paginate_button.current {
+    background: linear-gradient(135deg, #0077b6, #00b4d8) !important;
+    border-color: #0077b6 !important;
+    color: white !important;
+}
+
+.dataTables_paginate .paginate_button:hover {
+    background: var(--glass-bg-hover) !important;
+    border-color: var(--turquoise-surf) !important;
+}
+
+/* Table Styling */
+table.dataTable {
+    border-collapse: collapse !important;
+    width: 100% !important;
+}
+
+table.dataTable thead th {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-bottom: 2px solid var(--glass-border) !important;
+    color: var(--turquoise-surf) !important;
+    padding: 14px 16px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+table.dataTable tbody tr {
+    background: transparent !important;
+    border-bottom: 1px solid var(--glass-border) !important;
+    transition: var(--transition-smooth);
+}
+
+table.dataTable tbody tr:hover {
+    background: var(--glass-bg-hover) !important;
+}
+
+table.dataTable tbody td {
+    padding: 12px 16px !important;
+    color: var(--text-primary) !important;
+    border: none !important;
+    vertical-align: middle;
+}
+
+table.dataTable tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* ================================================
+   SELECT2 STYLING
+   ================================================ */
+.select2-container--default .select2-selection--single {
+    background: var(--glass-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 14px !important;
+    padding: 12px 16px !important;
+    height: auto !important;
+}
+
+.select2-container--default .select2-selection--single:focus {
+    border-color: var(--turquoise-surf) !important;
+    outline: none;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: var(--text-primary) !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    background: transparent !important;
+    border: none !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: var(--text-primary) transparent transparent transparent !important;
+}
+
+.select2-dropdown {
+    background: rgba(3, 4, 94, 0.95) !important;
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 14px !important;
+    overflow: hidden;
+}
+
+.select2-search--dropdown {
+    padding: 12px !important;
+}
+
+.select2-search--dropdown input {
+    background: var(--glass-bg) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 8px !important;
+    color: var(--text-primary) !important;
+    padding: 10px 14px !important;
+}
+
+.select2-results__option {
+    color: var(--text-primary) !important;
+    padding: 12px 16px !important;
+    transition: var(--transition-smooth);
+}
+
+.select2-results__option--highlighted {
+    background: var(--glass-bg-hover) !important;
+    color: var(--frosted-blue) !important;
+}
+
+.select2-results__option[aria-selected="true"] {
+    background: rgba(0, 180, 216, 0.2) !important;
+}
+
+/* ================================================
+   REPORT PAGE SPECIFIC STYLES
+   ================================================ */
+.report-container {
+    padding: 100px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.report-detail-container {
+    padding: 100px 20px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.page-title {
+    text-align: center;
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.page-subtitle {
+    text-align: center;
+    color: var(--turquoise-surf);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+/* Report Grid */
+.report-grid {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.report-grid .row {
+    gap: 20px 0;
+}
+
+.report-grid .menu-box {
+    min-height: 120px;
+}
+
+/* Report Card */
+.report-card {
+    background: var(--card-gradient);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.report-card .card-header {
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 20px 24px;
+}
+
+.report-card .card-header h6 {
+    color: var(--turquoise-surf);
+    font-weight: 600;
+    margin: 0;
+}
+
+.report-card .card-body {
+    padding: 24px;
+}
+
+/* Badge Styles */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-success,
+.badge-completed {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.badge-warning,
+.badge-pending {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.badge-danger,
+.badge-cancelled,
+.badge-failed {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.badge-info,
+.badge-processing {
+    background: linear-gradient(135deg, #00b4d8, #0077b6);
+    color: white;
+}
+
+/* Action Buttons in Tables */
+.action-buttons {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
+.action-buttons .btn {
+    padding: 6px 10px;
+    min-width: 32px;
+}
+
+.action-buttons .btn i {
+    font-size: 0.85rem;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .report-detail-container {
+        padding: 90px 20px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .report-container,
+    .report-detail-container {
+        padding: 85px 15px 25px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .page-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+    
+    .report-grid .menu-box {
+        min-height: 100px;
+    }
+    
+    .action-buttons {
+        flex-wrap: wrap;
+    }
+    
+    table.dataTable thead th,
+    table.dataTable tbody td {
+        padding: 10px 12px !important;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.25rem;
+    }
+    
+    .page-subtitle {
+        font-size: 1rem;
+    }
+    
+    .report-grid .menu-box {
+        min-height: 80px;
+        font-size: 0.85rem;
+    }
+}

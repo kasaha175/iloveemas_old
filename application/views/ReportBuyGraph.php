@@ -4,39 +4,35 @@ function nominal($angka){
     return $jd;
 }
 ?>
-<div class="col-md-12" style="margin-top:110px;">
-    <div style="color:#fff;margin-top:-30px;">
-        <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>dashboard/" class="fa fa-home"></a>
-        <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>dashboard/">Dashboard</a> 
-        > 
-        <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>report/">Report</a> 
-        > 
-        <a style="color:#fff;text-decoration:none;" href="">Buy Graph</a> 
-    </div>
-    <h3 class="text-center" style="color:#fff">REPORT</h3>
-    <h3 class="text-center" style="color:#fff">Transaction Buy Graph</h3>
-    <br>
-    <div class="col-md-12" style="padding:0px 150px;">
-        <div class="row">
-            <div class="col-md-12" style="padding:10px 10px">
-                <div class="row">
-                <div class="col-md-12">
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Accordion -->
-                            <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
-                                aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">Filter Data</h6>
-                            </a>
-                            <!-- Card Content - Collapse -->
-                            <div class="collapse show" id="collapseCardExample" style="">
-                                <div class="card-body">
-                                <form action="<?=base_url()?>report/buy-graph/">
-                                <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="">Material</label>
-                                        <select class="form-control select2" name="material">
-                                            <option value="">ALL</option>
+<div class="col-md-12 report-detail-container">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb glass-breadcrumb">
+            <li class="breadcrumb-item"><a href="<?=base_url()?>dashboard/"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="<?=base_url()?>report/">Report</a></li>
+            <li class="breadcrumb-item active">Buy Graph</li>
+        </ol>
+    </nav>
+    
+    <!-- Page Title -->
+    <h3 class="page-title">REPORT</h3>
+    <h3 class="page-subtitle">Transaction Buy Graph</h3>
+    
+    <!-- Filter Card -->
+    <div class="col-md-12">
+        <div class="card glass-card">
+            <div class="card-header" data-toggle="collapse" data-target="#filterCard">
+                <h6 class="m-0 font-weight-bold"><i class="fas fa-filter"></i> Filter Data</h6>
+            </div>
+            <div class="collapse show" id="filterCard">
+                <div class="card-body">
+                    <form action="<?=base_url()?>report/buy-graph/">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Material</label>
+                                    <select class="form-control glass-input select2" name="material">
+                                        <option value="">ALL</option>
                                         <?php foreach($materialData as $y){ ?>
                                             <?php if($this->input->get('material')!=$y->m_name){ ?>
                                             <option><?=$y->m_name?></option>
@@ -44,14 +40,14 @@ function nominal($angka){
                                               <option selected><?=$y->m_name?></option>
                                             <?php } ?>
                                         <?php } ?>
-                                        </select>
-                                    </div>
+                                    </select>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="">Year</label>
-                                        <select class="form-control select2" name="year">
-                                            <option value="">ALL</option>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Year</label>
+                                    <select class="form-control glass-input select2" name="year">
+                                        <option value="">ALL</option>
                                         <?php foreach($yearData as $y){ ?>
                                             <?php if($this->input->get('year')!=$y->y_name){ ?>
                                             <option><?=$y->y_name?></option>
@@ -59,66 +55,121 @@ function nominal($angka){
                                               <option selected><?=$y->y_name?></option>
                                             <?php } ?>
                                         <?php } ?>
-                                        </select>
-                                    </div>
+                                    </select>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="">Filter?</label>
-                                        <input required type="submit" class="btn btn-block btn-primary" value="Filter">
-                                    </div>
-                                </div>
-                                </div>
-                                </form>    
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        <i class="fas fa-filter"></i> Filter
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Accordion -->
-                            <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
-                                aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">Transaction Data <?= (!$this->input->get('year'))?date('Y') : $this->input->get('year') ?></h6>
-                            </a>
-                            <!-- Card Content - Collapse -->
-                            <div class="collapse show" id="collapseCardExample" style="">
-                                <div class="card-body">
-                                <div class="data" style="height: 300px; width: 100%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Accordion -->
-                            <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
-                                aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">Customer Data <?= (!$this->input->get('year'))?date('Y') : $this->input->get('year') ?></h6>
-                            </a>
-                            <!-- Card Content - Collapse -->
-                            <div class="collapse show" id="collapseCardExample" style="">
-                                <div class="card-body">
-                                <div class="customer" style="height: 300px; width: 100%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 mt-3">
-                <a href="<?=base_url()?>report/" class="btn btn-primary btn-icon-split btn-lg">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-arrow-left"></i>
-                    </span>
-                    <span class="text">Back</span>
-                </a>
-            </div>
+                    </form>    
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Transaction Graph Card -->
+    <div class="col-md-12 mt-4">
+        <div class="card glass-card">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold"><i class="fas fa-chart-line"></i> Transaction Data <?= (!$this->input->get('year'))?date('Y') : $this->input->get('year') ?></h6>
+            </div>
+            <div class="card-body">
+                <div class="data" style="height: 350px; width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Graph Card -->
+    <div class="col-md-12 mt-4">
+        <div class="card glass-card">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold"><i class="fas fa-users"></i> Customer Data <?= (!$this->input->get('year'))?date('Y') : $this->input->get('year') ?></h6>
+            </div>
+            <div class="card-body">
+                <div class="customer" style="height: 350px; width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Back Button -->
+    <div class="col-md-12 mt-4 text-center">
+        <a href="<?=base_url()?>report/" class="btn btn-primary btn-lg">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Report</span>
+        </a>
+    </div>
 </div>
+
+<style>
+.report-detail-container {
+    padding: 100px 20px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.page-title {
+    text-align: center;
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.page-subtitle {
+    text-align: center;
+    color: var(--turquoise-surf);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.card.glass-card {
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 15px 20px;
+    cursor: pointer;
+}
+
+.card-header h6 {
+    color: var(--turquoise-surf);
+    margin: 0;
+}
+
+.card-header:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .report-detail-container {
+        padding: 90px 15px 30px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .page-subtitle {
+        font-size: 1.2rem;
+    }
+}
+</style>
+
 <script type="text/javascript">
-    // Call the dataTables jQuery plugin
 $(document).ready(function() {
   $('#dataTable').DataTable();
 });
@@ -127,13 +178,6 @@ $(document).ready(function() {
 <script type="text/javascript">
 $(function() {
     $(".data").CanvasJSChart({
-        // title: {
-        //  text: "Customer Transaction"
-        // },
-        // axisY: {
-        //  title: "Total",
-        //  includeZero: false
-        // },
         axisX: {
             interval: 1
         },
@@ -143,7 +187,7 @@ $(function() {
         indexLabelOrientation: "horizontal",
         data: [
         {
-            type: "line", //try changing to column, area
+            type: "line",
             indexLabel: "{label}, {y}",
             dataPoints: [
                 <?php foreach($data as $d){ ?>
@@ -158,23 +202,16 @@ $(function() {
 <script type="text/javascript">
 $(function() {
     $(".customer").CanvasJSChart({
-        // title: {
-        //  text: "Customer Transaction"
-        // },
-        // axisY: {
-        //  title: "Total",
-        //  includeZero: false
-        // },
         axisX: {
             interval: 1
         },
-    animationEnabled: true,
-      exportEnabled: true,
-      indexLabelPlacement: "outside",  
+        animationEnabled: true,
+        exportEnabled: true,
+        indexLabelPlacement: "outside",  
         indexLabelOrientation: "horizontal",
         data: [
         {
-            type: "line", //try changing to column, area
+            type: "line",
             indexLabel: "{label}: {y} ",
             dataPoints: [
                 <?php foreach($dataCustomer as $d){ ?>
