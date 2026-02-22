@@ -1,665 +1,635 @@
-/* ================================
-   ROOT & GLOBAL
-================================ */
+/* ================================================
+   LOGIN PAGE - ILoveEmas
+   Menggunakan Design Tokens dari design-system.css
+   ================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ================================================
+   1. DESIGN TOKENS (Sama dengan design-system.css)
+   ================================================ */
+
 :root {
-  --deep-twilight: #03045e;
-  --bright-teal-blue: #0077b6;
-  --turquoise-surf: #00b4d8;
-  --frosted-blue: #90e0ef;
-  --light-cyan: #caf0f8;
-  
-  --primary: var(--bright-teal-blue);
-  --primary-dark: var(--deep-twilight);
-  --primary-light: var(--turquoise-surf);
-  --bg-dark: #0a0f1a;
-  --bg-card: #0d1526;
-  --bg-input: #132035;
-  --glass: rgba(255, 255, 255, 0.03);
-  --border: rgba(255, 255, 255, 0.08);
-  --border-focus: rgba(0, 180, 216, 0.5);
-  --text: #ffffff;
-  --text-muted: #8899aa;
-  --text-light: #aabbcc;
-  --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-  --shadow-glow: 0 0 40px rgba(0, 180, 216, 0.15);
+    /* --- Color Palette --- */
+    --deep-twilight: #03045e;
+    --bright-teal-blue: #0077b6;
+    --turquoise-surf: #00b4d8;
+    --frosted-blue: #90e0ef;
+    --light-cyan: #caf0f8;
+    
+    /* --- Color Aliases --- */
+    --primary: var(--bright-teal-blue);
+    --primary-dark: var(--deep-twilight);
+    --primary-light: var(--turquoise-surf);
+    --primary-lighter: var(--frosted-blue);
+    
+    /* --- Background Colors --- */
+    --bg-dark: #0a0f1a;
+    --bg-card: #0d1526;
+    --bg-input: #132035;
+    
+    /* --- Glass Effects --- */
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-bg-hover: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-hover: rgba(255, 255, 255, 0.15);
+    --glass-border-focus: rgba(0, 180, 216, 0.5);
+    --glass-blur: blur(10px);
+    
+    /* --- Text Colors --- */
+    --text: #ffffff;
+    --text-light: #aabbcc;
+    --text-muted: #8899aa;
+    
+    /* --- Shadows --- */
+    --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    --shadow-glow: 0 0 40px rgba(0, 180, 216, 0.15);
+    
+    /* --- Gradients --- */
+    --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    --gradient-bg: linear-gradient(135deg, var(--bg-dark), var(--bg-card));
+    --gradient-card: linear-gradient(145deg, rgba(13, 21, 38, 0.95) 0%, rgba(10, 15, 26, 0.98) 100%);
+    
+    /* --- Typography --- */
+    --font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, sans-serif;
+    
+    /* --- Spacing --- */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    
+    /* --- Border Radius --- */
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 20px;
+    --radius-3xl: 24px;
+    
+    /* --- Transitions --- */
+    --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+
+/* ================================================
+   2. BASE STYLES
+   ================================================ */
+
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif;
-  background: var(--bg-dark);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text);
-  overflow-x: hidden;
+    font-family: var(--font-family);
+    background: var(--bg-dark);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    overflow-x: hidden;
 }
 
 /* Background Pattern */
 body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(0, 180, 216, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(0, 180, 216, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(30, 30, 50, 0.5) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 0;
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(0, 180, 216, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 119, 182, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(30, 30, 30, 0.5) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
 }
 
-/* ================================
-   WRAPPER LAYOUT
-================================ */
+
+/* ================================================
+   3. LOGIN WRAPPER
+   ================================================ */
 
 .login-wrapper {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 1000px;
-  min-height: 600px;
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: var(--shadow), var(--shadow-glow);
-  animation: fadeIn 0.6s ease-out;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 600px;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    background: var(--gradient-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-3xl);
+    overflow: hidden;
+    box-shadow: var(--shadow), var(--shadow-glow);
+    animation: fadeIn 0.6s ease-out;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* LEFT SIDE - Visual */
+
+/* ================================================
+   4. LEFT SIDE - VISUAL
+   ================================================ */
+
 .login-left {
-  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .login-left::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: 
-    url('../img/background.jpg') center/cover no-repeat;
-  opacity: 0.6;
-  transition: transform 0.5s ease;
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('../img/background.jpg') center/cover no-repeat;
+    opacity: 0.6;
+    transition: transform 0.5s ease;
 }
 
 .login-wrapper:hover .login-left::before {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .login-left::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(10, 10, 10, 0.9) 0%,
-    rgba(10, 10, 10, 0.7) 50%,
-    rgba(10, 10, 10, 0.85) 100%
-  );
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.7) 50%, rgba(10, 10, 10, 0.85) 100%);
 }
 
 .left-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: 40px;
-  animation: slideInLeft 0.8s ease-out 0.2s both;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: var(--space-8);
+    animation: slideInLeft 0.8s ease-out 0.2s both;
 }
 
 @keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .left-content h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--turquoise-surf);
-  margin-bottom: 16px;
-  letter-spacing: 2px;
-  text-shadow: 0 0 30px rgba(0, 180, 216, 0.5);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-light);
+    margin-bottom: var(--space-4);
+    letter-spacing: 2px;
+    text-shadow: 0 0 30px rgba(0, 180, 216, 0.5);
 }
 
 .left-content p {
-  font-size: 1.1rem;
-  color: var(--text-light);
-  font-weight: 300;
-  max-width: 280px;
-  margin: 0 auto;
-  line-height: 1.6;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 300;
+    max-width: 280px;
+    margin: 0 auto;
+    line-height: 1.6;
 }
 
-/* Decorative elements */
-.login-left .decoration {
-  position: absolute;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 50%;
-}
 
-.login-left .decoration:nth-child(1) {
-  width: 300px;
-  height: 300px;
-  top: -50px;
-  right: -50px;
-}
+/* ================================================
+   5. RIGHT SIDE - FORM
+   ================================================ */
 
-.login-left .decoration:nth-child(2) {
-  width: 200px;
-  height: 200px;
-  bottom: -30px;
-  left: -30px;
-}
-
-/* RIGHT SIDE - Form */
 .login-right {
-  padding: 50px 45px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 180, 216, 0.02) 100%);
-  animation: slideInRight 0.8s ease-out 0.3s both;
+    padding: var(--space-6) var(--space-5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 180, 216, 0.02) 100%);
+    animation: slideInRight 0.8s ease-out 0.3s both;
 }
 
 @keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-/* ================================
-   LOGO & HEADER
-================================ */
+
+/* ================================================
+   6. LOGO & HEADER
+   ================================================ */
 
 .login-header {
-  text-align: center;
-  margin-bottom: 40px;
+    text-align: center;
+    margin-bottom: var(--space-8);
 }
 
 .logo {
-  margin-bottom: 24px;
+    margin-bottom: var(--space-6);
 }
 
 .logo img {
-  max-width: 140px;
-  height: auto;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
-  transition: transform 0.3s ease;
+    max-width: 140px;
+    height: auto;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
 }
 
 .logo img:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .login-header h2 {
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 8px;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: var(--space-2);
 }
 
 .login-header p {
-  font-size: 0.95rem;
-  color: var(--text-muted);
+    font-size: 0.95rem;
+    color: var(--text-muted);
 }
 
-/* ================================
-   FORM FLOATING LABEL
-================================ */
+
+/* ================================================
+   7. FORM - FLOATING LABEL
+   ================================================ */
 
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
 }
 
 .form-label-group {
-  position: relative;
+    position: relative;
 }
 
 .form-label-group input {
-  width: 100%;
-  padding: 18px 20px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: var(--bg-input);
-  color: var(--text);
-  font-size: 1rem;
-  font-family: inherit;
-  outline: none;
-  transition: all 0.3s ease;
+    width: 100%;
+    padding: 18px 20px;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--glass-border);
+    background: var(--bg-input);
+    color: var(--text);
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    transition: var(--transition-smooth);
 }
 
 .form-label-group input:focus {
-  border-color: var(--primary);
-  background: rgba(0, 180, 216, 0.08);
-  box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15), 0 4px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--primary-light);
+    background: rgba(0, 180, 216, 0.05);
+    box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.1), var(--shadow);
 }
 
 .form-label-group input::placeholder {
-  color: transparent;
+    color: transparent;
 }
 
 .form-label-group label {
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
-  color: var(--text-muted);
-  font-size: 1rem;
-  pointer-events: none;
-  transition: all 0.25s ease;
-  background: transparent;
-  padding: 0 4px;
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    background: transparent;
+    padding: 0 4px;
 }
 
 /* Floating effect */
 .form-label-group input:focus ~ label,
 .form-label-group input:not(:placeholder-shown) ~ label {
-  top: 0;
-  font-size: 0.8rem;
-  color: var(--primary);
-  background: var(--bg-card);
+    top: 0;
+    font-size: 0.8rem;
+    color: var(--primary-light);
+    background: var(--bg-card);
 }
 
-/* ================================
-   BUTTON
-================================ */
+
+/* ================================================
+   8. BUTTON
+   ================================================ */
 
 .btn-login {
-  width: 100%;
-  padding: 16px 24px;
-  border-radius: 14px;
-  border: none;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: #000;
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 8px;
-  position: relative;
-  overflow: hidden;
+    width: 100%;
+    padding: 16px 24px;
+    border-radius: var(--radius-xl);
+    border: none;
+    background: var(--gradient-primary);
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: var(--space-2);
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-login::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
 }
 
 .btn-login:hover::before {
-  left: 100%;
+    left: 100%;
 }
 
 .btn-login:hover {
-  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 180, 216, 0.3);
+    background: linear-gradient(135deg, var(--frosted-blue) 0%, var(--primary-light) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 180, 216, 0.3);
 }
 
 .btn-login:active {
-  transform: translateY(0);
+    transform: translateY(0);
 }
 
 .btn-login svg {
-  transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .btn-login:hover svg {
-  transform: translateX(4px);
+    transform: translateX(4px);
 }
 
-/* Loading state */
-.btn-login .btn-text,
-.btn-login .btn-icon {
-  transition: opacity 0.3s ease;
-}
 
-.btn-login .btn-loader {
-  display: none;
-}
-
-.btn-login.loading .btn-text,
-.btn-login.loading .btn-icon {
-  opacity: 0;
-}
-
-.btn-login.loading .btn-loader {
-  display: block;
-  position: absolute;
-}
-
-.btn-login.loading {
-  pointer-events: none;
-}
-
-.btn-login .spinner {
-  width: 24px;
-  height: 24px;
-  animation: rotate 1.5s linear infinite;
-}
-
-.btn-login .spinner circle {
-  stroke: #000;
-  stroke-linecap: round;
-  animation: dash 1.5s ease-in-out infinite;
-}
-
-@keyframes rotate {
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes dash {
-  0% {
-    stroke-dasharray: 1, 150;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -35;
-  }
-  100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -124;
-  }
-}
-
-/* ================================
-   ERROR MESSAGE
-================================ */
+/* ================================================
+   9. ERROR MESSAGE
+   ================================================ */
 
 .error-msg {
-  margin-top: 24px;
-  padding: 14px 18px;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 12px;
-  color: #ef4444;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  animation: shake 0.5s ease;
+    margin-top: var(--space-5);
+    padding: 14px 18px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: var(--radius-lg);
+    color: #ef4444;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: shake 0.5s ease;
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-5px); }
-  40%, 80% { transform: translateX(5px); }
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
 }
 
 .error-msg svg {
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
 
-/* ================================
-   RESPONSIVE - Tablet
-================================ */
+
+/* ================================================
+   10. CAPTCHA SECTION
+   ================================================ */
+
+.captcha-section {
+    margin-top: var(--space-5);
+}
+
+.captcha-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 14px 18px;
+    background: var(--bg-input);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+}
+
+.captcha-num {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-light);
+    min-width: 24px;
+    text-align: center;
+}
+
+.captcha-operator {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.captcha-box input {
+    width: 60px;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.captcha-box input:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+}
+
+.btn-refresh {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--glass-bg);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    margin-left: var(--space-1);
+}
+
+.btn-refresh:hover {
+    background: var(--primary-light);
+    color: var(--text);
+    transform: rotate(180deg);
+}
+
+.captcha-hint {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: var(--space-2);
+}
+
+
+/* ================================================
+   11. VERSION
+   ================================================ */
+
+.app-version {
+    text-align: center;
+    margin-top: var(--space-5);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+
+/* ================================================
+   12. RESPONSIVE - TABLET
+   ================================================ */
+
 @media (max-width: 900px) {
-  .login-wrapper {
-    max-width: 480px;
-    min-height: auto;
-    grid-template-columns: 1fr;
-    margin: 20px;
-  }
+    .login-wrapper {
+        max-width: 480px;
+        min-height: auto;
+        grid-template-columns: 1fr;
+        margin: var(--space-4);
+    }
 
-  .login-left {
-    display: none;
-  }
+    .login-left {
+        display: none;
+    }
 
-  .login-right {
-    padding: 45px 35px;
-  }
+    .login-right {
+        padding: var(--space-6) var(--space-5);
+    }
 }
 
-/* ================================
-   RESPONSIVE - Mobile Large
-================================ */
+
+/* ================================================
+   13. RESPONSIVE - MOBILE LARGE
+   ================================================ */
+
 @media (max-width: 500px) {
-  .login-wrapper {
-    margin: 15px;
-    border-radius: 20px;
-  }
+    .login-wrapper {
+        margin: var(--space-3);
+        border-radius: var(--radius-2xl);
+    }
 
-  .login-right {
-    padding: 35px 25px;
-  }
+    .login-right {
+        padding: var(--space-5) var(--space-4);
+    }
 
-  .login-header h2 {
-    font-size: 1.5rem;
-  }
+    .login-header h2 {
+        font-size: 1.5rem;
+    }
 
-  .logo img {
-    max-width: 120px;
-  }
+    .logo img {
+        max-width: 120px;
+    }
 
-  .form-label-group input {
-    padding: 16px 18px;
-    font-size: 0.95rem;
-  }
+    .form-label-group input {
+        padding: 16px 18px;
+        font-size: 0.95rem;
+    }
 
-  .btn-login {
-    padding: 14px 20px;
-    font-size: 0.95rem;
-  }
+    .btn-login {
+        padding: 14px 20px;
+        font-size: 0.95rem;
+    }
 }
 
-/* ================================
-   RESPONSIVE - Mobile Small
-================================ */
+
+/* ================================================
+   14. RESPONSIVE - MOBILE SMALL
+   ================================================ */
+
 @media (max-width: 380px) {
-  .login-right {
-    padding: 30px 20px;
-  }
+    .login-right {
+        padding: var(--space-5) var(--space-3);
+    }
 
-  .login-header {
-    margin-bottom: 30px;
-  }
+    .login-header {
+        margin-bottom: var(--space-5);
+    }
 
-  .login-header h2 {
-    font-size: 1.35rem;
-  }
+    .login-header h2 {
+        font-size: 1.35rem;
+    }
 
-  .form-label-group input {
-    padding: 14px 16px;
-    border-radius: 12px;
-  }
+    .form-label-group input {
+        padding: 14px 16px;
+        border-radius: var(--radius-lg);
+    }
 
-  .form-label-group label {
-    left: 16px;
-    font-size: 0.9rem;
-  }
+    .form-label-group label {
+        left: 16px;
+        font-size: 0.9rem;
+    }
 
-  .btn-login {
-    border-radius: 12px;
-  }
+    .btn-login {
+        border-radius: var(--radius-lg);
+    }
 
-  .error-msg {
-    padding: 12px 14px;
-    font-size: 0.85rem;
-  }
+    .error-msg {
+        padding: 12px 14px;
+        font-size: 0.85rem;
+    }
 }
 
-/* ================================
-   EXISTING COMPONENT SUPPORT
-================================ */
 
-.box-type {
-  background: #fff;
-  cursor: pointer;
-  color: #2f2f2f;
-  padding: 8px 24px;
-  text-align: center;
-  border-radius: 16px;
-  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
-  transition: all 250ms ease-in-out;
-}
-
-.box-type:hover { 
-  background-color: #ffe34b; 
-}
-
-.menu-box:hover { 
-  background-color: #ffe34b; 
-  color: #000;
-}
-
-/* ================================
-   ACCESSIBILITY
-================================ */
+/* ================================================
+   15. ACCESSIBILITY
+   ================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 
 /* Focus visible for keyboard navigation */
 .btn-login:focus-visible,
 .form-label-group input:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-}
-
-/* ================================
-   CAPTCHA SECTION
-================================ */
-
-.captcha-section {
-  margin-top: 24px;
-}
-
-.captcha-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 18px;
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-}
-
-.captcha-num {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--primary);
-  min-width: 24px;
-  text-align: center;
-}
-
-.captcha-operator {
-  font-size: 1rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.captcha-box input {
-  width: 60px;
-  padding: 8px 10px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--bg-card);
-  color: var(--text);
-  font-size: 1rem;
-  font-weight: 600;
-  text-align: center;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.captcha-box input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
-}
-
-.btn-refresh {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border: none;
-  border-radius: 8px;
-  background: var(--glass);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-left: 4px;
-}
-
-.btn-refresh:hover {
-  background: var(--primary);
-  color: #000;
-  transform: rotate(180deg);
-}
-
-.captcha-hint {
-  text-align: center;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  margin-top: 8px;
-}
-
-/* ================================
-   VERSION
-================================ */
-
-.app-version {
-  text-align: center;
-  margin-top: 24px;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  opacity: 0.7;
+    outline: 2px solid var(--primary-light);
+    outline-offset: 2px;
 }

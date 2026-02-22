@@ -1,62 +1,128 @@
-<div class="col-md-12" style="margin-top:110px;">
+<link rel="stylesheet" href="<?=base_url()?>assets/css/transaction.css">
+
+<div class="col-md-12 page-container">
+
+    <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb fixed-top bg-transparent w-50" style="margin-top:5rem">
-            <li class="breadcrumb-item">
-                <a class="text-decoration-none text-white" href="<?=base_url()?>dashboard/">
-                    <i class="fas fa-home fa-fw"></i> Dashboard
-                </a>
-            </li>
-            <li class="breadcrumb-item">
-                <a class="text-decoration-none text-secondary" href="<?=base_url()?>transaction/">Transaction</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a class="text-decoration-none text-secondary" href="<?=base_url()?>">Buy</a>
-            </li>
+        <ol class="breadcrumb glass-breadcrumb">
+            <li class="breadcrumb-item"><a href="<?=base_url()?>dashboard/"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="<?=base_url()?>transaction/">Transaction</a></li>
+            <li class="breadcrumb-item active">Buy</li>
         </ol>
     </nav>
-    <h3 class="text-center text-white">BUY</h3>
-    <h3 class="text-center text-white">Choose Material</h3>
-    <br>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 mt-3 mb-5">
-                <a href="<?=base_url()?>transaction/" class="btn btn-light btn-icon-split btn-lg">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-arrow-left text-dark"></i>
-                    </span>
-                    <span class="text">Back</span>
-                </a>
-            </div>
-        </div>
-        <div class="row">
+
+    <!-- Page Title -->
+    <h3 class="page-title">BUY</h3>
+    <h3 class="page-subtitle">Choose Material</h3>
+
+    <!-- Back Button -->
+    <div class="mb-3">
+        <a href="<?=base_url()?>transaction/" class="btn btn-back">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back</span>
+        </a>
+    </div>
+
+    <!-- Material Grid -->
+    <div class="material-grid">
+        <div class="row g-3">
             <?php 
             $materials = [
-                ["url" => "buy/1", "img" => "diamond.png", "name" => "Diamond"],
-                ["url" => "buy/2", "img" => "gold.png", "name" => "Gold"],
-                ["url" => "buy/lm/select", "img" => "ubs.png", "name" => "LM & UBS"],
-                ["url" => "buy/silver/select", "img" => "silver.png", "name" => "Silver"],
-                ["url" => "buy/platinum/select", "img" => "platinum.png", "name" => "Platinum"],
-                ["url" => "buy/paladium/select", "img" => "paladium.png", "name" => "Paladium"],
-                ["url" => "buy/iridium/select", "img" => "iridium.png", "name" => "Iridium"],
-                ["url" => "buy/rhodium/select", "img" => "rhodium.png", "name" => "Rhodium"],
-                ["url" => "buy/10", "img" => "material-au.png", "name" => "C. Profesional"],
-                ["url" => "buy/ruthenium/select", "img" => "ruthenium.png", "name" => "Ruthenium"],
-                ["url" => "buy/21", "img" => "tantalum.png", "name" => "Tantalum"],
+                ["url" => "buy/1", "img" => "diamond.png", "name" => "Diamond", "icon" => "fa-gem"],
+                ["url" => "buy/2", "img" => "gold.png", "name" => "Gold", "icon" => "fa-coins"],
+                ["url" => "buy/lm/select", "img" => "ubs.png", "name" => "LM & UBS", "icon" => "fa-university"],
+                ["url" => "buy/silver/select", "img" => "silver.png", "name" => "Silver", "icon" => "fa-circle"],
+                ["url" => "buy/platinum/select", "img" => "platinum.png", "name" => "Platinum", "icon" => "fa-star"],
+                ["url" => "buy/paladium/select", "img" => "paladium.png", "name" => "Paladium", "icon" => "fa-gem"],
+                ["url" => "buy/iridium/select", "img" => "iridium.png", "name" => "Iridium", "icon" => "fa-gem"],
+                ["url" => "buy/rhodium/select", "img" => "rhodium.png", "name" => "Rhodium", "icon" => "fa-gem"],
+                ["url" => "buy/10", "img" => "material-au.png", "name" => "C. Profesional", "icon" => "fa-user-tie"],
+                ["url" => "buy/ruthenium/select", "img" => "ruthenium.png", "name" => "Ruthenium", "icon" => "fa-gem"],
+                ["url" => "buy/21", "img" => "tantalum.png", "name" => "Tantalum", "icon" => "fa-gem"],
             ];
+            $delay = 1;
             foreach ($materials as $material) { ?>
-            <div class="col-md-3 mb-4">
-                <a href="<?=base_url()?>transaction/<?=$material['url']?>/" class="text-decoration-none">
-                    <div class="card shadow text-center h-100" style="border-radius: 10px;">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <img src="<?=base_url()?>assets/offline/<?=$material['img']?>" class="img-fluid" style="max-width: 80%; max-height: 120px; object-fit: contain; border-radius: 5px;">
-                        </div>
-                        <div class="card-footer bg-light">
-                            <span class="font-weight-bold text-dark"><?=$material['name']?></span>
-                        </div>
+            <div class="col-4 col-md-3 col-lg-2">
+                <a href="<?=base_url()?>transaction/<?=$material['url']?>/" class="material-card animate-fade-in-up" style="animation-delay: <?=$delay?>00ms">
+                    <div class="material-icon">
+                        <i class="fas <?=$material['icon']?>"></i>
+                    </div>
+                    <div class="material-image">
+                        <img src="<?=base_url()?>assets/offline/<?=$material['img']?>" alt="<?=$material['name']?>">
+                    </div>
+                    <div class="material-name">
+                        <span><?=$material['name']?></span>
                     </div>
                 </a>
             </div>
-            <?php } ?>
+            <?php $delay++; } ?>
         </div>
     </div>
 </div>
+
+<style>
+/* Compact Material Card Override */
+.material-card {
+    min-height: 110px;
+    padding: 14px 10px;
+    border-radius: 12px;
+}
+
+.material-card::before {
+    height: 35%;
+}
+
+.material-icon {
+    font-size: 0.85rem;
+    top: 8px;
+    right: 8px;
+}
+
+.material-image {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+}
+
+.material-name span {
+    font-size: 0.75rem;
+}
+
+.material-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35), 0 0 16px rgba(0, 180, 216, 0.15);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.4s ease-out both;
+}
+
+@media (max-width: 576px) {
+    .material-card {
+        min-height: 90px;
+        padding: 10px 8px;
+        border-radius: 10px;
+    }
+    
+    .material-image {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 6px;
+    }
+    
+    .material-name span {
+        font-size: 0.65rem;
+    }
+}
+</style>
