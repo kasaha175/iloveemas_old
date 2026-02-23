@@ -12,7 +12,7 @@
     
     <!-- Master Menu Grid -->
     <div class="master-grid">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center master-row">
             <div class="col-md-6 col-lg-4">
                 <a href="<?=base_url()?>master/customer/" class="menu-box">
                     <i class="fas fa-users icon"></i>
@@ -28,14 +28,14 @@
             <div class="col-md-6 col-lg-4">
                 <a href="<?=base_url()?>master/cabang/" class="menu-box">
                     <i class="fas fa-store icon"></i>
-                    <span>Daftar Cabin</span>
+                    <span>Daftar Cabang</span>
                 </a>
             </div>
         </div>
         
         <!-- Back Button -->
         <div class="mt-4 text-center">
-            <a href="<?=base_url()?>dashboard/" class="btn btn-primary btn-lg">
+            <a href="<?=base_url()?>dashboard/" class="btn btn-primary btn-lg btn-back-standard">
                 <i class="fas fa-arrow-left"></i>
                 <span>Back to Dashboard</span>
             </a>

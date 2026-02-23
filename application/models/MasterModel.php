@@ -42,7 +42,7 @@ class MasterModel extends CI_Model {
         $query = $this->db->query("SELECT *
         FROM tb_customer a
         WHERE a.c_id_number!='999999999999999'
-        ORDER BY a.c_name ASC");
+        ORDER BY a.c_id DESC");
         return $query;
     }
     function customerAdd($data){

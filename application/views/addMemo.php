@@ -8,6 +8,12 @@
         </ol>
     </nav>
     
+    <!-- Back Button -->
+    <a href="<?=base_url()?>master/memo/" class="btn btn-secondary btn-back-standard mb-3">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+    </a>
+    
     <!-- Page Title -->
     <h3 class="page-title">NEW SYARAT & KETENTUAN</h3>
     

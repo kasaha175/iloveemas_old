@@ -56,10 +56,40 @@
     <!-- DataTables Custom CSS -->
     <link href="<?=base_url()?>assets/css/datatables.css" rel="stylesheet">
     
+    <!-- Custom Modular CSS -->
+    <link href="<?=base_url()?>assets/css/base.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/layout.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/components.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/datatables-custom.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pages/master.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pages/memo.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pages/cabang.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pages/customer.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pages/transaction.css" rel="stylesheet">
+    
     <!-- Glassmorphism JS -->
     <script src="<?=base_url()?>assets/js/glassmorphism.js"></script>
+    
+    <!-- Custom Modular JS -->
+    <script src="<?=base_url()?>assets/js/app.js"></script>
+    <script src="<?=base_url()?>assets/js/datatables-init.js"></script>
+    <script src="<?=base_url()?>assets/js/master.js"></script>
+    <script src="<?=base_url()?>assets/js/memo.js"></script>
+    <script src="<?=base_url()?>assets/js/cabang.js"></script>
+    <script src="<?=base_url()?>assets/js/transaction.js"></script>
 </head>
-<body>
+<?php 
+$uri = $this->uri->segment(1);
+$body_class = 'page-dashboard';
+if ($uri == 'archive') {
+    $body_class = 'page-archive';
+} elseif ($uri == 'master') {
+    $body_class = 'page-master';
+} elseif ($uri == 'report') {
+    $body_class = 'page-report';
+}
+?>
+<body class="<?=$body_class?>">
     <!-- App Wrapper - Flex Column Layout -->
     <div class="app-wrapper">
         

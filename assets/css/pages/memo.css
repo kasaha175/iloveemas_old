@@ -1,0 +1,174 @@
+/* ================================================
+   MEMO PAGE STYLES
+   Page-specific styles for Memo/Syarat Ketentuan views
+   ================================================ */
+
+/* Memo Container */
+.memo-container {
+    padding: 90px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Memo Card */
+.memo-card {
+    background: var(--card-gradient);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--glass-shadow);
+}
+
+.memo-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.memo-card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--turquoise-surf);
+    margin: 0;
+}
+
+.memo-card-body {
+    padding: 20px;
+}
+
+/* Memo Item */
+.memo-item {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: var(--transition-smooth);
+}
+
+.memo-item:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+}
+
+.memo-item:last-child {
+    margin-bottom: 0;
+}
+
+.memo-priority {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    background: rgba(0, 180, 216, 0.2);
+    border: 1px solid rgba(0, 180, 216, 0.3);
+    border-radius: 8px;
+    color: var(--turquoise-surf);
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 12px;
+}
+
+.memo-content {
+    flex: 1;
+}
+
+.memo-value {
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.memo-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: 12px;
+}
+
+/* Form Styles for Memo */
+.memo-form-container {
+    padding: 90px 20px 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.memo-form-card {
+    background: var(--card-gradient);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--glass-shadow);
+}
+
+.memo-form-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.memo-form-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--turquoise-surf);
+    margin: 0;
+}
+
+.memo-form-body {
+    padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .memo-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .memo-form-container {
+        padding: 80px 15px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .memo-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .memo-form-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .memo-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .memo-priority {
+        margin-bottom: 8px;
+    }
+    
+    .memo-actions {
+        margin-left: 0;
+        margin-top: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .memo-container {
+        padding: 70px 12px 20px;
+    }
+    
+    .memo-form-container {
+        padding: 70px 12px 20px;
+    }
+}

@@ -1,103 +1,160 @@
 <?php foreach($detail as $d){}?>
-<div class="col-md-12" style="margin-top:110px;">
-    <div style="color:#fff;margin-top:-30px;">
-        <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>dashboard/" class="fa fa-home"></a>
-        <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>dashboard/">Dashboard</a> 
-        > 
-        <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>master/">Master</a> 
-        > 
-        <a style="color:#fff;text-decoration:none;" href="">Detail Customer</a> 
+<div class="col-md-12 edit-customer-container">
+    <!-- Breadcrumb - Consistent Format with / -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb glass-breadcrumb">
+            <li class="breadcrumb-item"><a href="<?=base_url()?>dashboard/"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="<?=base_url()?>master/">Master</a></li>
+            <li class="breadcrumb-item"><a href="<?=base_url()?>master/customer/">Customer</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+        </ol>
+    </nav>
+    
+    <!-- Page Header Container -->
+    <div class="page-header-container">
+        <div class="page-header-row">
+            <!-- Page Title Group -->
+            <div class="page-title-group">
+                <h1 class="page-title-main">Edit Customer</h1>
+                <div class="page-title-sub">
+                    <span class="context-badge context-badge-master">
+                        <i class="fas fa-database"></i> Master Data
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
-    <h3 class="text-center" style="color:#fff">CUSTOMER</h3>
-    <h3 class="text-center" style="color:#fff">Detail Customer</h3>
-    <br>
-    <div class="col-md-12" style="padding:0px 150px;">
-        <div class="row">
-            <div class="col-md-6 offset-md-3" style="padding:10px 10px">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Accordion -->
-                            <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
-                                aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">DETAIL CUSTOMER</h6>
-                            </a>
-                            
-                            <?php if($this->session->userdata('status')=='success'){ ?>
-                            <div class="col-md-12 mt-3">
-                            <div class="alert alert-success alert-dismissible m-0">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <?=$this->session->userdata('message')?>
+    
+    <!-- Alert Messages -->
+    <?php if($this->session->userdata('status')=='success'){ ?>
+    <div class="enterprise-alert enterprise-alert-success">
+        <i class="fas fa-check-circle"></i>
+        <?=$this->session->userdata('message')?>
+    </div>
+    <?php } 
+    $data_session = array(
+        'status' => '',
+        'message' => "",
+    );
+    $this->session->set_userdata($data_session); ?>
+    
+    <!-- Form Card -->
+    <div class="col-md-12">
+        <div class="enterprise-card">
+            <div class="enterprise-card-header">
+                <h3 class="enterprise-card-title">
+                    <i class="fas fa-user-edit"></i> Customer Information
+                </h3>
+            </div>
+            <div class="enterprise-card-body">
+                <form action="<?=base_url()?>master/save-customer-edit-validation/" method="post" id="myForm">
+                    <input type="hidden" name="idCustomer" value="<?=$d->c_id?>">
+                    
+                    <!-- Form Fields - 20px spacing -->
+                    <div class="form-field-row">
+                        <label class="enterprise-form-label">
+                            NAME <span class="required-mark">*</span>
+                        </label>
+                        <input type="text" id="u_name" class="enterprise-input" name="name" value="<?=$d->c_name?>" placeholder="Enter customer name">
+                        <small class="error-message" id="error-name"></small>
+                    </div>
+                    
+                    <div class="form-field-row">
+                        <label class="enterprise-form-label">
+                            ID NUMBER (KTP) <span class="required-mark">*</span>
+                        </label>
+                        <input type="text" id="c_id_number" class="enterprise-input" name="idNumber" value="<?=$d->c_id_number?>" placeholder="Enter ID number">
+                        <small class="error-message" id="error-idNumber"></small>
+                    </div>
+                    
+                    <div class="form-field-row">
+                        <label class="enterprise-form-label">
+                            NO ORDER
+                        </label>
+                        <input type="text" id="u_no_order" class="enterprise-input" name="noOrder" value="<?=$d->c_no_order?>" readonly>
+                    </div>
+                    
+                    <div class="form-field-row">
+                        <label class="enterprise-form-label">
+                            ADDRESS <span class="required-mark">*</span>
+                        </label>
+                        <textarea id="u_address" class="enterprise-input enterprise-textarea" name="address" placeholder="Enter address"><?=$d->c_address?></textarea>
+                    </div>
+                    
+                    <div class="form-field-row">
+                        <label class="enterprise-form-label">
+                            RESIDENT ADDRESS <span class="required-mark">*</span>
+                        </label>
+                        <textarea id="u_resident_address" class="enterprise-input enterprise-textarea" name="resident_address" placeholder="Enter resident address"><?=$d->c_resident_address?></textarea>
+                    </div>
+                    
+                    <div class="form-field-row">
+                        <label class="enterprise-form-label">
+                            PHONE <span class="required-mark">*</span>
+                        </label>
+                        <input type="text" id="u_phone" class="enterprise-input" name="phone" value="<?=$d->c_phone?>" placeholder="Enter phone number">
+                        <small class="error-message" id="error-phone"></small>
+                    </div>
+                    
+                    <!-- Button Group -->
+                    <div class="form-field-row" style="margin-top: 32px;">
+                        <div class="row">
+                            <div class="col-md-6 mb-16">
+                                <button type="submit" class="btn-primary-enterprise btn-lg-enterprise btn-block" id="btnSave">
+                                    <i class="fas fa-save"></i> Save Changes
+                                </button>
                             </div>
-                            </div>
-                            <?php } 
-                            $data_session = array(
-                                'status' => '',
-                                'message' => "",
-                            );
-                            $this->session->set_userdata($data_session); ?>
-                            <!-- Card Content - Collapse -->
-                            <div class="collapse show" id="collapseCardExample" style="">
-                                <div class="card-body">
-                                    <form action="<?=base_url()?>master/edit-customer-process/" method="post" id="myForm">
-                                        <div class="form-group">
-                                            <label>NAME</label>
-                                            <input type="hidden" name="idCustomer" value="<?=$d->c_id?>">
-                                            <input type="text" id="u_name" required class="form-control" name="name" value="<?=$d->c_name?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>ID NUMBER (KTP)</label>
-                                            <input type="text" id="c_id_number" required class="form-control" name="idNumber" value="<?=$d->c_id_number?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>NO ORDER</label>
-                                            <input type="text" id="u_no_order" required class="form-control" name="noOrder" value="<?=$d->c_no_order?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>ADDRESS</label>
-                                            <input type="text">
-                                            <textarea id="u_address" required class="form-control" name="address"><?=$d->c_address?></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>RESIDENT ADDRESS</label>
-                                            <textarea id="u_resident_address" required class="form-control" name="resident_address" value=""><?=$d->c_resident_address?></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>PHONE</label>
-                                            <input type="text"  id="u_phone" required class="form-control" name="phone" value="<?=$d->c_phone?>">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                        <div class="col-md-12 mb-3">
-                                                        <a href="#" onclick="document.getElementById('myForm').submit();" 
-                                                            class="btn btn-primary btn-icon-split btn-lg btn-block">
-                                                            <span class="text">Save</span>
-                                                        </a>
-                                                        </div>
-                                                        
-                                                        <div class="col-md-4">
-                                                        <a href="<?=base_url()?>master/customer/"
-                                                            class="btn btn-primary btn-icon-split btn-lg btn-block">
-                                                           <span class="text">Back</span>
-                                                        </a>
-                                                        </div>
-                                                        
-                                                   </div>
-                                            </div>
-                                            </div> </div>
+                            <div class="col-md-6">
+                                <a href="<?=base_url()?>master/customer/" class="btn-secondary-enterprise btn-lg-enterprise btn-block">
+                                    <i class="fas fa-arrow-left"></i> Cancel
+                                </a>
                             </div>
                         </div>
                     </div>
-
-                </div>
+                </form>
             </div>
-
         </div>
-
     </div>
-
 </div>
+
+<style>
+.edit-customer-container {
+    padding: 90px 20px 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-field-row .row {
+    margin: 0 -8px;
+}
+
+.form-field-row .col-md-6 {
+    padding: 0 8px;
+}
+
+.mb-16 {
+    margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    .edit-customer-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .form-field-row .row {
+        flex-direction: column;
+    }
+    
+    .form-field-row .col-md-6 {
+        margin-bottom: 12px;
+    }
+    
+    .form-field-row .col-md-6:last-child {
+        margin-bottom: 0;
+    }
+}
+</style>
+
 <script type="text/javascript">
     $("#materialType").select2();
     $(".select2").select2();
@@ -107,8 +164,6 @@
     jQuery(function ($) {
 
         // QWERTY Text Input
-        // The bottom of this file is where the autocomplete extension is added
-        // ********************
         $('#u_name').keyboard({
             layout: 'qwerty'
         });
@@ -134,7 +189,6 @@
         $('.version').html('(v' + $('#u_name').getkeyboard().version + ')');
 
         // Contenteditable
-        // ********************
         $.keyboard.keyaction.undo = function (base) {
             base.execCommand('undo');
             return false;
@@ -173,5 +227,93 @@
         });
         prettyPrint();
 
+    });
+
+    // Form submission with validation and SWAL
+    $('#myForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Add loading state
+        $('#btnSave').addClass('loading').prop('disabled', true);
+        
+        // Clear previous errors
+        $('#error-name').text('');
+        $('#error-idNumber').text('');
+        $('#error-phone').text('');
+        
+        Swal.fire({
+            title: 'Mengupdate Data...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            customClass: {
+                popup: 'glass-swal-popup'
+            }
+        });
+        
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            dataType: 'json',
+            data: $(this).serialize(),
+            success: function(response) {
+                // Remove loading state
+                $('#btnSave').removeClass('loading').prop('disabled', false);
+                
+                if (response.status === 'success') {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#10b981',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    }).then((result) => {
+                        window.location.href = '<?=base_url()?>master/customer/';
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Gagal!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#ef4444',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    });
+                    
+                    // Show field-specific errors
+                    if (response.message.includes('Nama')) {
+                        $('#error-name').text(response.message);
+                    } else if (response.message.includes('KTP')) {
+                        $('#error-idNumber').text(response.message);
+                    } else if (response.message.includes('HP')) {
+                        $('#error-phone').text(response.message);
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                // Remove loading state
+                $('#btnSave').removeClass('loading').prop('disabled', false);
+                
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat mengupdate data',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#ef4444',
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                });
+            }
+        });
     });
 </script>

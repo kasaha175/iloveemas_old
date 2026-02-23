@@ -154,10 +154,10 @@
                     <span>Kembali</span>
                 </a>
                 
-                <a href="#" onclick="document.getElementById('myForm').submit();" class="btn btn-success btn-lg">
+                <button type="submit" form="myForm" class="btn btn-success btn-lg btn-save">
                     <i class="fas fa-save"></i>
                     <span>Simpan</span>
-                </a>
+                </button>
                 
                 <a href="<?=base_url()?>archive/sell/?key=<?=$this->input->get("key")?>&type=change" class="btn btn-warning btn-lg">
                     <i class="fas fa-exchange-alt"></i>
@@ -431,6 +431,61 @@ jQuery(function ($) {
         preventPaste : true,
         autoAccept : true
     });
-    prettyPrint();
+    
+    // Form submission with AJAX and SweetAlert loading
+    $('#myForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Show loading SweetAlert
+        Swal.fire({
+            title: 'Menyimpan Data...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            customClass: {
+                popup: 'glass-swal-popup'
+            }
+        });
+        
+        // Submit form via AJAX
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                // Show success message
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Data berhasil disimpan',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#00b4d8',
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                }).then((result) => {
+                    // Redirect after success
+                    window.location.href = '<?=base_url()?>archive/sell/?key=<?=$this->input->get("key")?>';
+                });
+            },
+            error: function(xhr, status, error) {
+                // Show error message
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat menyimpan data',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#dc3545',
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                });
+            }
+        });
+    });
 });
 </script>

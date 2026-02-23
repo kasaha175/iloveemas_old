@@ -8,6 +8,12 @@
         </ol>
     </nav>
     
+    <!-- Back Button -->
+    <a href="<?=base_url()?>master/memo/" class="btn btn-secondary btn-back-standard mb-3">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+    </a>
+    
     <!-- Page Title -->
     <h3 class="page-title">EDIT SYARAT & KETENTUAN</h3>
     
@@ -24,16 +30,17 @@
                             <form action="<?=base_url('master/update-memo')?>" method="post" id="myForm">
                                 <input type="hidden" name="id" value="<?= $memo->tm_id ?>">
                                 <div class="form-group">
-                                    <label>Isi Syarat & Ketentuan</label>
+                                    <label>Isi Syarat & Ketentuan <span class="text-danger">*</span></label>
                                     <textarea class="form-control glass-input summernote" name="dt[tm_value]"><?= $memo->tm_value ?></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>Priority</label>
-                                    <input type="number" id="tm_priority" required class="form-control glass-input" name="dt[tm_priority]" value="<?= $memo->tm_priority ?>">
+                                    <label>Priority <span class="text-danger">*</span></label>
+                                    <input type="number" id="tm_priority" class="form-control glass-input" name="dt[tm_priority]" value="<?= $memo->tm_priority ?>">
+                                    <small class="text-danger" id="error-priority"></small>
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-md-6 mb-3">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                        <button type="submit" class="btn btn-success btn-lg btn-block">
                                             <i class="fas fa-save"></i> Save
                                         </button>
                                     </div>

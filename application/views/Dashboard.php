@@ -32,7 +32,7 @@
     <h3 class="dashboard-title">MENU UTAMA</h3>
     
     <div class="container">
-        <div class="row g-4">
+        <div class="row g-4 dashboard-grid">
             <div class="col-12 col-md-6 col-lg-3">
                 <a href="<?=base_url()?>transaction-list/" class="menu-box animate-fade-in-up stagger-1">
                     <i class="fas fa-exchange-alt icon"></i>
@@ -60,3 +60,68 @@
         </div>
     </div>
 </div>
+
+<style>
+.dashboard-container {
+    margin-top: 80px;
+    padding: 0 20px;
+}
+
+.dashboard-grid {
+    gap: 24px 0;
+}
+
+.dashboard-grid .menu-box {
+    min-height: 140px;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        margin-top: 70px;
+        padding: 0 16px;
+    }
+    
+    .dashboard-grid {
+        gap: 16px 0;
+    }
+    
+    .dashboard-grid .menu-box {
+        min-height: 100px;
+        padding: 24px 16px;
+    }
+    
+    .dashboard-grid .menu-box .icon {
+        font-size: 1.3rem;
+        margin-right: 10px;
+    }
+    
+    .dashboard-grid .menu-box span {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-container {
+        margin-top: 70px;
+        padding: 0 12px;
+    }
+    
+    .dashboard-grid {
+        gap: 12px 0;
+    }
+    
+    .dashboard-grid .menu-box {
+        min-height: 90px;
+        padding: 20px 12px;
+    }
+    
+    .dashboard-grid .menu-box .icon {
+        font-size: 1.1rem;
+        margin-right: 8px;
+    }
+    
+    .dashboard-grid .menu-box span {
+        font-size: 0.75rem;
+    }
+}
+</style>
