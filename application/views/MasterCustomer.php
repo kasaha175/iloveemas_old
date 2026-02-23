@@ -69,7 +69,7 @@ function nominal($angka){
                                         <a href="<?=base_url()?>master/customer/<?=$a->c_id?>/" class="btn btn-info btn-circle btn-sm" title="Detail">
                                             <i class="fas fa-info"></i>
                                         </a>
-                                        <a href="#" data-toggle="modal" data-target="#deleteModal<?=$a->c_id?>" class="btn btn-danger btn-circle btn-sm" title="Delete">
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle btn-sm btn-delete-customer" data-id="<?=$a->c_id?>" data-name="<?=$a->c_no_order?>" title="Delete">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -81,27 +81,6 @@ function nominal($angka){
                                     <td><?=$a->c_date_created?></td>
                                     <td><?=$a->u_name?></td>
                                 </tr>
-                                
-                                <!-- Delete Modal -->
-                                <div class="modal fade" id="deleteModal<?=$a->c_id?>" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Ready to Delete?</h5>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Delete data <b><?=$a->c_no_order?></b>?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                <a href="<?=base_url()?>master/delete-customer-process/<?=$a->c_id?>/" class="btn btn-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             <?php } ?>
                             </tbody>
                         </table>
@@ -119,3 +98,31 @@ function nominal($angka){
         </a>
     </div>
 </div>
+
+<script>
+jQuery(function($) {
+    $('.btn-delete-customer').on('click', function(e) {
+        e.preventDefault();
+        
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+        var deleteUrl = '<?=base_url()?>master/delete-customer-process/' + id + '/';
+        
+        Swal.fire({
+            title: 'Menghapus Data...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            customClass: {
+                popup: 'glass-swal-popup'
+            }
+        });
+        
+        window.location.href = deleteUrl;
+    });
+});
+</script>

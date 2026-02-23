@@ -55,3 +55,57 @@
         </div>
     </div>
 </div>
+
+<script>
+jQuery(function($) {
+    $('#myForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        Swal.fire({
+            title: 'Mengupdate Data...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            customClass: {
+                popup: 'glass-swal-popup'
+            }
+        });
+        
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Data berhasil diupdate',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#00b4d8',
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                }).then((result) => {
+                    window.location.href = '<?=base_url()?>master/cabang/';
+                });
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat mengupdate data',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#dc3545',
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                });
+            }
+        });
+    });
+});
+</script>

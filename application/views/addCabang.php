@@ -21,7 +21,7 @@
                     </div>
                     <div class="collapse show" id="formCard">
                         <div class="card-body">
-                            <form action="<?=base_url('master/save-cabang')?>" method="post" id="myForm">
+                            <form action="<?=base_url('master/save-cabang')?>" method="post" id="myForm" class="ajax-form">
                                 <div class="form-group">
                                     <label>Nama Cabin</label>
                                     <input type="text" class="form-control glass-input" name="dt[nama_cabang]">
@@ -54,3 +54,57 @@
         </div>
     </div>
 </div>
+
+<script>
+jQuery(function($) {
+    $('#myForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        Swal.fire({
+            title: 'Menyimpan Data...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            customClass: {
+                popup: 'glass-swal-popup'
+            }
+        });
+        
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Data berhasil disimpan',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#00b4d8',
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                }).then((result) => {
+                    window.location.href = '<?=base_url()?>master/cabang/';
+                });
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat menyimpan data',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#dc3545',
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                });
+            }
+        });
+    });
+});
+</script>

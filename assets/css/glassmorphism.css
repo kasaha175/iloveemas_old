@@ -836,6 +836,45 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 /* ================================================
+   Reusable Menu Grid System (Global)
+   Use this class for any page with menu cards
+   ================================================ */
+.menu-grid {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.menu-grid > .row {
+    gap: 24px 0;
+}
+
+.menu-grid .menu-box {
+    min-height: 120px;
+}
+
+/* Tablet breakpoint */
+@media (max-width: 768px) {
+    .menu-grid > .row {
+        gap: 16px 0;
+    }
+    
+    .menu-grid .menu-box {
+        min-height: 100px;
+    }
+}
+
+/* Mobile breakpoint */
+@media (max-width: 576px) {
+    .menu-grid > .row {
+        gap: 12px 0;
+    }
+    
+    .menu-grid .menu-box {
+        min-height: 90px;
+    }
+}
+
+/* ================================================
    Badge Styles
    ================================================ */
 .badge {
@@ -980,4 +1019,70 @@ table.dataTable tbody tr:nth-child(even) {
 /* Extra large screens */
 @media (min-width: 1600px) {
     .container-fluid { max-width: 1520px; margin: 0 auto; }
+}
+
+/* ================================================
+   SweetAlert Glassmorphism Style
+   ================================================ */
+.glass-swal-popup {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 32px 0 rgba(3, 4, 94, 0.3) !important;
+}
+
+.glass-swal-popup .swal2-title {
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.glass-swal-popup .swal2-content {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.glass-swal-popup .swal2-html-container {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.glass-swal-popup .swal2-icon.swal2-success {
+    border-color: #00b4d8 !important;
+    color: #00b4d8 !important;
+}
+
+.glass-swal-popup .swal2-icon.swal2-error {
+    border-color: #dc3545 !important;
+    color: #dc3545 !important;
+}
+
+.glass-swal-popup .swal2-icon .swal2-icon-content {
+    color: inherit !important;
+}
+
+.glass-swal-popup .swal2-actions .swal2-confirm {
+    background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif !important;
+    padding: 10px 24px !important;
+}
+
+.glass-swal-popup .swal2-actions .swal2-confirm:hover {
+    background: linear-gradient(135deg, #00b4d8 0%, #90e0ef 100%) !important;
+}
+
+.glass-swal-popup .swal2-actions .swal2-cancel {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 8px !important;
+    color: #ffffff !important;
+    font-family: 'Poppins', sans-serif !important;
+    padding: 10px 24px !important;
+}
+
+.glass-swal-popup .swal2-loader {
+    border-color: rgba(0, 180, 216, 0.3) !important;
+    border-top-color: #00b4d8 !important;
 }
