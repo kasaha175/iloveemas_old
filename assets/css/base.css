@@ -1,0 +1,171 @@
+/* ================================================
+   BASE STYLES
+   Typography, Reset, Root Variables
+   ================================================ */
+
+/* CSS Variables - Color Tokens */
+:root {
+    /* Primary Colors */
+    --bg-dark: #0a0f1a;
+    --deep-twilight: #03045e;
+    --bright-teal-blue: #0077b6;
+    --turquoise-surf: #00b4d8;
+    --frosted-blue: #90e0ef;
+    --light-cyan: #caf0f8;
+    
+    /* Glass Effect Variables */
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-bg-hover: rgba(255, 255, 255, 0.15);
+    --glass-bg-active: rgba(255, 255, 255, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-border-hover: rgba(255, 255, 255, 0.35);
+    --glass-shadow: 0 8px 32px 0 rgba(3, 4, 94, 0.3);
+    --glass-shadow-hover: 0 20px 50px 0 rgba(3, 4, 94, 0.4);
+    --glass-blur: blur(20px);
+    --glass-blur-strong: blur(40px);
+    
+    /* Background Gradients */
+    --ocean-gradient: linear-gradient(135deg, #03045e 0%, #0077b6 50%, #00b4d8 100%);
+    --ocean-gradient-soft: linear-gradient(135deg, rgba(3, 4, 94, 0.8) 0%, rgba(0, 119, 182, 0.6) 50%, rgba(0, 180, 216, 0.4) 100%);
+    --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 100%);
+    
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-muted: rgba(255, 255, 255, 0.5);
+    --text-dark: #03045e;
+    
+    /* Transitions */
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-liquid: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Reset & Base Styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--ocean-gradient);
+    background-attachment: fixed;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    color: var(--text-primary);
+    overflow-x: hidden;
+    position: relative;
+    z-index: 0;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 0.5em 0;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text-primary);
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+p {
+    margin: 0 0 1em 0;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+a {
+    color: var(--turquoise-surf);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+a:hover {
+    color: var(--frosted-blue);
+}
+
+/* Form Elements Base */
+input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/* Utility Classes */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-success { color: #10b981; }
+.text-danger { color: #ef4444; }
+.text-warning { color: #f59e0b; }
+.text-info { color: var(--turquoise-surf); }
+
+.bg-glass { background: var(--glass-bg); }
+.bg-glass-hover { background: var(--glass-bg-hover); }
+
+/* Spacing */
+.m-0 { margin: 0; }
+.mt-0 { margin-top: 0; }
+.mb-0 { margin-bottom: 0; }
+.ml-0 { margin-left: 0; }
+.mr-0 { margin-right: 0; }
+
+.p-0 { padding: 0; }
+.pt-0 { padding-top: 0; }
+.pb-0 { padding-bottom: 0; }
+.pl-0 { padding-left: 0; }
+.pr-0 { padding-right: 0; }
+
+/* Display */
+.d-none { display: none; }
+.d-block { display: block; }
+.d-flex { display: flex; }
+.d-inline-flex { display: inline-flex; }
+
+/* Flexbox */
+.flex-row { flex-direction: row; }
+.flex-column { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+.align-start { align-items: flex-start; }
+.align-center { align-items: center; }
+.align-end { align-items: flex-end; }
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Visibility */
+@media (max-width: 768px) {
+    html { font-size: 14px; }
+}
+
+@media (max-width: 576px) {
+    html { font-size: 13px; }
+}

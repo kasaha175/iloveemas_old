@@ -73,16 +73,45 @@ function validateCaptcha(formSelector) {
     }
 }
 
-// Initialize DataTables
-function initDataTable(tableId) {
+// Initialize DataTables with reinitialization check
+// This function can be called manually by views that need DataTables
+// Usage: initDataTable('#dataTable', { /* custom options */ });
+function initDataTable(tableId, options) {
     const table = document.querySelector(tableId);
     if (table && typeof jQuery !== 'undefined' && jQuery().DataTable) {
-        jQuery(table).DataTable({
-            paging: true,
-            searching: true,
-            lengthChange: true,
-            autoWidth: false,
-        });
+        // Check if DataTable is already initialized to prevent reinitialization error
+        if (!jQuery.fn.DataTable.isDataTable(tableId)) {
+            const defaultOptions = {
+                paging: true,
+                searching: true,
+                lengthChange: true,
+                autoWidth: false,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search data...",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: "Showing 0 to 0 of 0 entries",
+                    infoFiltered: "(filtered from _MAX_ total entries)",
+                    paginate: {
+                        first: "First",
+                        last: "Last",
+                        next: "Next",
+                        previous: "Previous"
+                    },
+                    emptyTable: "No data available in table",
+                    zeroRecords: "No matching records found"
+                }
+            };
+            
+            // Merge default options with custom options
+            const mergedOptions = { ...defaultOptions, ...options };
+            
+            jQuery(table).DataTable(mergedOptions);
+            console.log('DataTable initialized for ' + tableId);
+        } else {
+            console.log('DataTable already initialized for ' + tableId + ', skipping');
+        }
     }
 }
 
@@ -94,6 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize captcha validation if form exists
     validateCaptcha('form');
     
-    // Initialize DataTables
-    initDataTable('#dataTable');
+    // Note: DataTable initialization is now handled by each view individually
+    // to avoid reinitialization errors. Use initDataTable('#dataTable') in views.
 });

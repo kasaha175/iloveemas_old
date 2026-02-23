@@ -8,6 +8,12 @@
         </ol>
     </nav>
     
+    <!-- Back Button -->
+    <a href="<?=base_url()?>master/memo/" class="btn btn-secondary btn-back-standard mb-3">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+    </a>
+    
     <!-- Page Title -->
     <h3 class="page-title">EDIT SYARAT & KETENTUAN</h3>
     
@@ -52,79 +58,3 @@
         </div>
     </div>
 </div>
-
-<script>
-jQuery(function($) {
-    $('#myForm').on('submit', function(e) {
-        e.preventDefault();
-        
-        // Clear previous errors
-        $('#error-priority').text('');
-        
-        Swal.fire({
-            title: 'Mengupdate Data...',
-            text: 'Mohon tunggu sebentar',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            showConfirmButton: false,
-            didOpen: () => {
-                Swal.showLoading();
-            },
-            customClass: {
-                popup: 'glass-swal-popup'
-            }
-        });
-        
-        $.ajax({
-            url: $(this).attr('action'),
-            type: 'POST',
-            dataType: 'json',
-            data: $(this).serialize(),
-            success: function(response) {
-                if (response.status === 'success') {
-                    Swal.fire({
-                        title: 'Berhasil!',
-                        text: response.message,
-                        icon: 'success',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#28a745',
-                        customClass: {
-                            popup: 'glass-swal-popup'
-                        }
-                    }).then((result) => {
-                        window.location.href = '<?=base_url()?>master/memo/';
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Gagal!',
-                        text: response.message,
-                        icon: 'error',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#dc3545',
-                        customClass: {
-                            popup: 'glass-swal-popup'
-                        }
-                    });
-                    
-                    // Show field-specific errors
-                    if (response.message.includes('Priority')) {
-                        $('#error-priority').text(response.message);
-                    }
-                }
-            },
-            error: function(xhr, status, error) {
-                Swal.fire({
-                    title: 'Gagal!',
-                    text: 'Terjadi kesalahan saat mengupdate data',
-                    icon: 'error',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '#dc3545',
-                    customClass: {
-                        popup: 'glass-swal-popup'
-                    }
-                });
-            }
-        });
-    });
-});
-</script>

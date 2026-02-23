@@ -17,8 +17,12 @@ function nominal($angka){
     <!-- Page Header Container -->
     <div class="page-header-container">
         <div class="page-header-row">
-            <!-- Page Title Group -->
+            <!-- Back Button and Page Title Group -->
             <div class="page-title-group">
+                <a href="<?=base_url()?>master/" class="btn btn-secondary btn-back-standard mb-3">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back</span>
+                </a>
                 <h1 class="page-title-main">Cabang</h1>
                 <div class="page-title-sub">
                     <span class="context-badge context-badge-master">
@@ -27,10 +31,10 @@ function nominal($angka){
                 </div>
             </div>
             
-            <!-- Primary Action - Add Cabang -->
+            <!-- Primary Action - Add cabang -->
             <div class="action-toolbar-right">
-                <a href="<?= base_url('master/addcabang') ?>" class="btn-primary-enterprise">
-                    <i class="fas fa-plus"></i> Add Cabang
+                <a href="<?= base_url('master/addcabang') ?>" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Add cabang
                 </a>
             </div>
         </div>
@@ -52,6 +56,7 @@ function nominal($angka){
     <!-- Data Card -->
     <?php 
     $this->db->where('status', 'ENABLE');
+    $this->db->order_by('id', 'DESC');
     $cabang = $this->db->get('tb_cabang')->result();
     ?>
     <div class="col-md-12">
@@ -67,8 +72,8 @@ function nominal($angka){
                     <table class="table table-bordered dataTable enterprise-table" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th style="width: 50px;">No</th>
-                                <th style="width: 120px; text-align: center;">Action</th>
+                                <th class="text-center" style="width: 50px;">No</th>
+                                <th class="text-center" style="width: 120px;">Action</th>
                                 <th>Cabang</th>
                                 <th>Urutan</th>
                             </tr>
@@ -105,54 +110,35 @@ function nominal($angka){
         </div>
     </div>
     
-    <!-- Back Button - Secondary -->
-    <div class="col-md-12 mt-4 text-center">
-        <a href="<?=base_url()?>master/" class="btn-secondary-enterprise btn-lg-enterprise">
-            <i class="fas fa-arrow-left"></i>
-            <span>Back to Master</span>
-        </a>
-    </div>
 </div>
 
-<style>
-/* Override table styles for enterprise look */
-#dataTable thead th {
-    background: rgba(255, 255, 255, 0.08) !important;
-    border-bottom: 2px solid var(--glass-border) !important;
-    color: var(--turquoise-surf) !important;
-    padding: 14px 16px !important;
-    font-weight: 600 !important;
-    text-transform: uppercase;
-    font-size: 12px !important;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-#dataTable tbody tr {
-    border-bottom: 1px solid var(--glass-border) !important;
-    transition: all 0.2s ease;
-}
-
-#dataTable tbody tr:hover {
-    background: var(--glass-bg-hover) !important;
-}
-
-#dataTable tbody td {
-    padding: 12px 16px !important;
-    color: var(--text-primary) !important;
-    border: none !important;
-    vertical-align: middle;
-    font-size: 14px;
-}
-
-.master-detail-container {
-    padding: 90px 20px 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.mt-4 {
-    margin-top: 24px;
-}
-</style>
+<!-- DataTable Initialization -->
+<script>
+$(document).ready(function() {
+    // Initialize DataTable with reinitialization check
+    if (!$.fn.DataTable.isDataTable('#dataTable')) {
+        $('#dataTable').DataTable({
+            responsive: true,
+            autoWidth: false,
+            pageLength: 10,
+            lengthMenu: [10, 25, 50, 100],
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search data...",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                infoEmpty: "Showing 0 to 0 of 0 entries",
+                infoFiltered: "(filtered from _MAX_ total entries)",
+                paginate: {
+                    first: "First",
+                    last: "Last",
+                    next: "Next",
+                    previous: "Previous"
+                },
+                emptyTable: "No data available in table",
+                zeroRecords: "No matching records found"
+            }
+        });
+    }
+});
+</script>

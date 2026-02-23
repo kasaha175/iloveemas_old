@@ -56,8 +56,27 @@
     <!-- DataTables Custom CSS -->
     <link href="<?=base_url()?>assets/css/datatables.css" rel="stylesheet">
     
+    <!-- Custom Modular CSS -->
+    <link href="<?=base_url()?>assets/css/base.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/layout.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/components.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/datatables-custom.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pages/master.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pages/memo.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pages/cabang.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pages/customer.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pages/transaction.css" rel="stylesheet">
+    
     <!-- Glassmorphism JS -->
     <script src="<?=base_url()?>assets/js/glassmorphism.js"></script>
+    
+    <!-- Custom Modular JS -->
+    <script src="<?=base_url()?>assets/js/app.js"></script>
+    <script src="<?=base_url()?>assets/js/datatables-init.js"></script>
+    <script src="<?=base_url()?>assets/js/master.js"></script>
+    <script src="<?=base_url()?>assets/js/memo.js"></script>
+    <script src="<?=base_url()?>assets/js/cabang.js"></script>
+    <script src="<?=base_url()?>assets/js/transaction.js"></script>
 </head>
 <?php 
 $uri = $this->uri->segment(1);

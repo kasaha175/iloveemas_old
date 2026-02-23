@@ -17,8 +17,12 @@ function nominal($angka){
     <!-- Page Header Container -->
     <div class="page-header-container">
         <div class="page-header-row">
-            <!-- Page Title Group -->
+            <!-- Back Button and Page Title Group -->
             <div class="page-title-group">
+                <a href="<?=base_url()?>master/" class="btn btn-secondary btn-back-standard mb-3">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back</span>
+                </a>
                 <h1 class="page-title-main">Customer</h1>
                 <div class="page-title-sub">
                     <span class="context-badge context-badge-master">
@@ -29,7 +33,7 @@ function nominal($angka){
             
             <!-- Primary Action - Add Customer -->
             <div class="action-toolbar-right">
-                <a href="<?= base_url('transaction/new-customer/?key=add') ?>" class="btn-primary-enterprise">
+                <a href="<?= base_url('transaction/new-customer/?key=add') ?>" class="btn btn-success">
                     <i class="fas fa-user-plus"></i> Add Customer
                 </a>
             </div>
@@ -63,8 +67,8 @@ function nominal($angka){
                     <table class="table table-bordered dataTable enterprise-table" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th style="width: 50px;">No</th>
-                                <th style="width: 120px; text-align: center;">Action</th>
+                                <th class="text-center" style="width: 50px;">No</th>
+                                <th class="text-center" style="width: 120px;">Action</th>
                                 <th>No Order</th>
                                 <th>Name</th>
                                 <th>Address</th>
@@ -112,141 +116,35 @@ function nominal($angka){
         </div>
     </div>
     
-    <!-- Back Button - Secondary -->
-    <div class="col-md-12 mt-4 text-center">
-        <a href="<?=base_url()?>master/" class="btn-secondary-enterprise btn-lg-enterprise">
-            <i class="fas fa-arrow-left"></i>
-            <span>Back to Master</span>
-        </a>
-    </div>
 </div>
 
-<style>
-/* Override table styles for enterprise look */
-#dataTable thead th {
-    background: rgba(255, 255, 255, 0.08) !important;
-    border-bottom: 2px solid var(--glass-border) !important;
-    color: var(--turquoise-surf) !important;
-    padding: 14px 16px !important;
-    font-weight: 600 !important;
-    text-transform: uppercase;
-    font-size: 12px !important;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-#dataTable tbody tr {
-    border-bottom: 1px solid var(--glass-border) !important;
-    transition: all 0.2s ease;
-}
-
-#dataTable tbody tr:hover {
-    background: var(--glass-bg-hover) !important;
-}
-
-#dataTable tbody td {
-    padding: 12px 16px !important;
-    color: var(--text-primary) !important;
-    border: none !important;
-    vertical-align: middle;
-    font-size: 14px;
-}
-
-.master-detail-container {
-    padding: 90px 20px 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.mt-4 {
-    margin-top: 24px;
-}
-</style>
-
+<!-- DataTable Initialization -->
 <script>
-jQuery(function($) {
-    $('.btn-delete-customer').on('click', function(e) {
-        e.preventDefault();
-        
-        var id = $(this).data('id');
-        var name = $(this).data('name');
-        
-        Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: 'Data customer akan dihapus secara permanen!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc3545',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal',
-            customClass: {
-                popup: 'glass-swal-popup'
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'Menghapus Data...',
-                    text: 'Mohon tunggu sebentar',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    showConfirmButton: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    },
-                    customClass: {
-                        popup: 'glass-swal-popup'
-                    }
-                });
-                
-                $.ajax({
-                    url: '<?=base_url()?>master/delete-customer-swal/',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: { id: id },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            Swal.fire({
-                                title: 'Berhasil!',
-                                text: response.message,
-                                icon: 'success',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#28a745',
-                                customClass: {
-                                    popup: 'glass-swal-popup'
-                                }
-                            }).then((result) => {
-                                window.location.href = '<?=base_url()?>master/customer/';
-                            });
-                        } else {
-                            Swal.fire({
-                                title: 'Gagal!',
-                                text: response.message,
-                                icon: 'error',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#dc3545',
-                                customClass: {
-                                    popup: 'glass-swal-popup'
-                                }
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        Swal.fire({
-                            title: 'Gagal!',
-                            text: 'Terjadi kesalahan saat menghapus data',
-                            icon: 'error',
-                            confirmButtonText: 'OK',
-                            confirmButtonColor: '#dc3545',
-                            customClass: {
-                                popup: 'glass-swal-popup'
-                            }
-                        });
-                    }
-                });
+$(document).ready(function() {
+    // Initialize DataTable with reinitialization check
+    if (!$.fn.DataTable.isDataTable('#dataTable')) {
+        $('#dataTable').DataTable({
+            responsive: true,
+            autoWidth: false,
+            pageLength: 10,
+            lengthMenu: [10, 25, 50, 100],
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search data...",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                infoEmpty: "Showing 0 to 0 of 0 entries",
+                infoFiltered: "(filtered from _MAX_ total entries)",
+                paginate: {
+                    first: "First",
+                    last: "Last",
+                    next: "Next",
+                    previous: "Previous"
+                },
+                emptyTable: "No data available in table",
+                zeroRecords: "No matching records found"
             }
         });
-    });
+    }
 });
 </script>

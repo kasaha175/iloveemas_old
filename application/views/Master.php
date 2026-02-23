@@ -35,77 +35,10 @@
         
         <!-- Back Button -->
         <div class="mt-4 text-center">
-            <a href="<?=base_url()?>dashboard/" class="btn btn-primary btn-lg">
+            <a href="<?=base_url()?>dashboard/" class="btn btn-primary btn-lg btn-back-standard">
                 <i class="fas fa-arrow-left"></i>
                 <span>Back to Dashboard</span>
             </a>
         </div>
     </div>
 </div>
-
-<style>
-.master-container {
-    padding: 90px 20px 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.master-grid {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.master-row {
-    gap: 24px 0;
-}
-
-.master-row .menu-box {
-    min-height: 120px;
-}
-
-@media (max-width: 768px) {
-    .master-container {
-        padding: 80px 15px 30px;
-    }
-    
-    .master-row {
-        gap: 16px 0;
-    }
-    
-    .master-row .menu-box {
-        min-height: 100px;
-        padding: 24px 16px;
-    }
-    
-    .master-row .menu-box .icon {
-        font-size: 1.3rem;
-    }
-    
-    .master-row .menu-box span {
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .master-container {
-        padding: 80px 12px 20px;
-    }
-    
-    .master-row {
-        gap: 12px 0;
-    }
-    
-    .master-row .menu-box {
-        min-height: 90px;
-        padding: 20px 12px;
-    }
-    
-    .master-row .menu-box .icon {
-        font-size: 1.1rem;
-    }
-    
-    .master-row .menu-box span {
-        font-size: 0.85rem;
-    }
-}
-</style>

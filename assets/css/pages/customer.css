@@ -1,0 +1,213 @@
+/* ================================================
+   CUSTOMER PAGE STYLES
+   Page-specific styles for Customer views
+   ================================================ */
+
+/* Customer Container */
+.customer-container {
+    padding: 90px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Customer Card */
+.customer-card {
+    background: var(--card-gradient);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--glass-shadow);
+}
+
+.customer-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.customer-card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--turquoise-surf);
+    margin: 0;
+}
+
+.customer-card-body {
+    padding: 20px;
+}
+
+/* Customer Detail View */
+.customer-detail-container {
+    padding: 90px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.customer-profile {
+    background: var(--card-gradient);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.customer-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.customer-avatar {
+    width: 80px;
+    height: 80px;
+    background: rgba(0, 180, 216, 0.2);
+    border: 2px solid var(--turquoise-surf);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: var(--turquoise-surf);
+}
+
+.customer-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.customer-no-order {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.customer-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+.customer-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.customer-info-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.customer-info-value {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+/* Form Styles for Customer */
+.customer-form-container {
+    padding: 90px 20px 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.customer-form-card {
+    background: var(--card-gradient);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--glass-shadow);
+}
+
+.customer-form-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.customer-form-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--turquoise-surf);
+    margin: 0;
+}
+
+.customer-form-body {
+    padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .customer-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .customer-detail-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .customer-form-container {
+        padding: 80px 15px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .customer-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .customer-detail-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .customer-form-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .customer-profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .customer-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .customer-container {
+        padding: 70px 12px 20px;
+    }
+    
+    .customer-detail-container {
+        padding: 70px 12px 20px;
+    }
+    
+    .customer-form-container {
+        padding: 70px 12px 20px;
+    }
+    
+    .customer-name {
+        font-size: 20px;
+    }
+    
+    .customer-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+    }
+}
