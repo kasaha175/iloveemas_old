@@ -77,20 +77,34 @@ jQuery(function($) {
         $.ajax({
             url: $(this).attr('action'),
             type: 'POST',
+            dataType: 'json',
             data: $(this).serialize(),
             success: function(response) {
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: 'Data berhasil disimpan',
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '#00b4d8',
-                    customClass: {
-                        popup: 'glass-swal-popup'
-                    }
-                }).then((result) => {
-                    window.location.href = '<?=base_url()?>master/cabang/';
-                });
+                if (response.status === 'success') {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#00b4d8',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    }).then((result) => {
+                        window.location.href = '<?=base_url()?>master/cabang/';
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Gagal!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#dc3545',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    });
+                }
             },
             error: function(xhr, status, error) {
                 Swal.fire({

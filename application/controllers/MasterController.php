@@ -711,26 +711,66 @@ class MasterController extends CI_Controller
             redirect(base_url());
         }
     }
+    
     public function saveMemo()
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        if ($authUser == true)
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
         {
-            $datapost = $this->input->post();
-            $this->db->insert('tb_memo', $datapost['dt']);
-            $data_session = array(
-                'status' => 'success',
-                'message' => "Syarat & Ketentuan Berhasil Disimpan",
-            );
-            $this->session->set_userdata($data_session);
-            redirect(base_url() . "master/memo");
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
         }
-        else
+        
+        $datapost = $this->input->post();
+        
+        // Validation: Check required fields
+        if (empty($datapost['dt']['tm_value']))
         {
-            redirect(base_url());
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Isi Syarat & Ketentuan tidak boleh kosong!'
+            ]);
+            return;
         }
+        
+        if (empty($datapost['dt']['tm_priority']))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Priority tidak boleh kosong!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate priority
+        $this->db->where('tm_priority', $datapost['dt']['tm_priority']);
+        $duplicate = $this->db->get('tb_memo')->row();
+        
+        if ($duplicate)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Priority "' . $datapost['dt']['tm_priority'] . '" sudah digunakan!'
+            ]);
+            return;
+        }
+        
+        // Save data
+        $this->db->insert('tb_memo', $datapost['dt']);
+        
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Syarat & Ketentuan Berhasil Disimpan!'
+        ]);
     }
+
     public function detailMemo($idmemo = '')
     {
         $authUser = $this->session->userdata("authUser");
@@ -920,24 +960,76 @@ class MasterController extends CI_Controller
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        if ($authUser == true)
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
         {
-            $datapost = $this->input->post();
-            $datapost['dt']['status'] = 'ENABLE';
-            $datapost['dt']['created_at'] = date("Y-m-d H:i:s");
-            // print_r($datapost['dt']);
-            $this->db->insert('tb_cabang', $datapost['dt']);
-            $data_session = array(
-                'status' => 'success',
-                'message' => "Cabang Berhasil Disimpan",
-            );
-            $this->session->set_userdata($data_session);
-            redirect(base_url() . "master/cabang");
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
         }
-        else
+        
+        $datapost = $this->input->post();
+        
+        // Validation: Check required fields
+        if (empty($datapost['dt']['nama_cabang']))
         {
-            redirect(base_url());
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nama Cabin tidak boleh kosong!'
+            ]);
+            return;
         }
+        
+        if (empty($datapost['dt']['urutan_cabang']))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Urutan tidak boleh kosong!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate nama_cabang
+        $this->db->where('nama_cabang', $datapost['dt']['nama_cabang']);
+        $this->db->where('status', 'ENABLE');
+        $duplicate = $this->db->get('tb_cabang')->row();
+        
+        if ($duplicate)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nama Cabin "' . $datapost['dt']['nama_cabang'] . '" sudah ada!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate urutan_cabang
+        $this->db->where('urutan_cabang', $datapost['dt']['urutan_cabang']);
+        $this->db->where('status', 'ENABLE');
+        $duplicateUrutan = $this->db->get('tb_cabang')->row();
+        
+        if ($duplicateUrutan)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Urutan "' . $datapost['dt']['urutan_cabang'] . '" sudah digunakan!'
+            ]);
+            return;
+        }
+        
+        // Save data
+        $datapost['dt']['status'] = 'ENABLE';
+        $datapost['dt']['created_at'] = date("Y-m-d H:i:s");
+        $this->db->insert('tb_cabang', $datapost['dt']);
+        
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Cabang Berhasil Disimpan!'
+        ]);
     }
     public function deleteCabang($idcabang = '')
     {
