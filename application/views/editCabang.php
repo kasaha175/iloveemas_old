@@ -21,15 +21,17 @@
                     </div>
                     <div class="collapse show" id="formCard">
                         <div class="card-body">
-                            <form action="<?=base_url('master/update-cabang')?>" method="post" id="myForm">
+                            <form action="<?=base_url('master/save-update-cabang')?>" method="post" id="myForm">
                                 <input type="hidden" name="id" value="<?= $cabang->id ?>">
                                 <div class="form-group">
-                                    <label>Nama Cabin</label>
+                                    <label>Nama Cabin <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control glass-input" name="dt[nama_cabang]" value="<?= $cabang->nama_cabang ?>">
+                                    <small class="text-danger" id="error-nama_cabang"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label>Urutan</label>
+                                    <label>Urutan <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control glass-input" name="dt[urutan_cabang]" value="<?= $cabang->urutan_cabang ?>">
+                                    <small class="text-danger" id="error-urutan_cabang"></small>
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat</label>
@@ -37,7 +39,7 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-md-6 mb-3">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                        <button type="submit" class="btn btn-success btn-lg btn-block">
                                             <i class="fas fa-save"></i> Save
                                         </button>
                                     </div>
@@ -78,20 +80,41 @@ jQuery(function($) {
         $.ajax({
             url: $(this).attr('action'),
             type: 'POST',
+            dataType: 'json',
             data: $(this).serialize(),
             success: function(response) {
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: 'Data berhasil diupdate',
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '#00b4d8',
-                    customClass: {
-                        popup: 'glass-swal-popup'
+                if (response.status === 'success') {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#28a745',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    }).then((result) => {
+                        window.location.href = '<?=base_url()?>master/cabang/';
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Gagal!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#dc3545',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    });
+                    
+                    // Show field-specific errors
+                    if (response.message.includes('Nama')) {
+                        $('#error-nama_cabang').text(response.message);
+                    } else if (response.message.includes('Urutan')) {
+                        $('#error-urutan_cabang').text(response.message);
                     }
-                }).then((result) => {
-                    window.location.href = '<?=base_url()?>master/cabang/';
-                });
+                }
             },
             error: function(xhr, status, error) {
                 Swal.fire({

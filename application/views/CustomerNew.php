@@ -24,49 +24,50 @@
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="collapseCardExample" style="">
                                 <div class="card-body">
-                                    <form action="<?=base_url()?>transaction/new-customer-process/" method="post" id="myForm">
+                                    <form action="<?=base_url()?>master/save-customer-validation/" method="post" id="myForm">
+                                        <input type="hidden" class="form-control" name="key" value="<?=$this->input->get('key')?>">
                                         <div class="form-group">
-                                            <label>NAME</label>
-                                            <input type="hidden" class="form-control" name="key" value="<?=$this->input->get('key')?>">
-                                            <input id="u_name" type="text" required class="form-control" name="name">
+                                            <label>NAME <span class="text-danger">*</span></label>
+                                            <input id="u_name" type="text" class="form-control" name="name">
+                                            <small class="text-danger" id="error-name"></small>
                                         </div>
                                         <div class="form-group">
-                                            <label>ID NUMBER (KTP)</label>
-                                            <input type="text" id="u_id_number" required class="form-control" name="idNumber">
+                                            <label>ID NUMBER (KTP) <span class="text-danger">*</span></label>
+                                            <input type="text" id="u_id_number" class="form-control" name="idNumber">
+                                            <small class="text-danger" id="error-idNumber"></small>
                                         </div>
                                         <div class="form-group">
-                                            <label>ADDRESS</label>
-                                            <textarea id="u_address" required class="form-control" name="address" value=""></textarea>
+                                            <label>ADDRESS <span class="text-danger">*</span></label>
+                                            <textarea id="u_address" class="form-control" name="address"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>RESIDENT ADDRESS</label>
-                                            <textarea id="u_resident_address" required class="form-control" name="resident_address" value=""></textarea>
+                                            <label>RESIDENT ADDRESS <span class="text-danger">*</span></label>
+                                            <textarea id="u_resident_address" class="form-control" name="resident_address"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>PHONE</label>
-                                            <input id="u_phone" type="text" required class="form-control" name="phone">
+                                            <label>PHONE <span class="text-danger">*</span></label>
+                                            <input id="u_phone" type="text" class="form-control" name="phone">
+                                            <small class="text-danger" id="error-phone"></small>
                                         </div>
                                         
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="row">
-                                                        <div class="col-md-12 mb-3">
-                                                        <a href="#" onclick="document.getElementById('myForm').submit();" 
-                                                            class="btn btn-primary btn-icon-split btn-lg btn-block">
-                                                            <span class="text">Save</span>
-                                                        </a>
-                                                        </div>
-                                                        
-                                                        <div class="col-md-4">
+                                                    <div class="col-md-12 mb-3">
+                                                        <button type="submit" class="btn btn-success btn-lg btn-block">
+                                                            <i class="fas fa-save"></i> Save
+                                                        </button>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-12">
                                                         <a href="<?=base_url()?>master/customer/"
-                                                            class="btn btn-primary btn-icon-split btn-lg btn-block">
-                                                           <span class="text">Back</span>
+                                                            class="btn btn-secondary btn-lg btn-block">
+                                                            <i class="fas fa-arrow-left"></i> Back
                                                         </a>
-                                                        </div>
-                                                        
-                                                   </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                    </div>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -148,5 +149,84 @@
         });
         prettyPrint();
 
+    });
+
+    // Form submission with validation and SWAL
+    $('#myForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Clear previous errors
+        $('#error-name').text('');
+        $('#error-idNumber').text('');
+        $('#error-phone').text('');
+        
+        Swal.fire({
+            title: 'Menyimpan Data...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            customClass: {
+                popup: 'glass-swal-popup'
+            }
+        });
+        
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            dataType: 'json',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#28a745',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    }).then((result) => {
+                        window.location.href = '<?=base_url()?>master/customer/';
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Gagal!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#dc3545',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    });
+                    
+                    // Show field-specific errors
+                    if (response.message.includes('Nama')) {
+                        $('#error-name').text(response.message);
+                    } else if (response.message.includes('KTP')) {
+                        $('#error-idNumber').text(response.message);
+                    } else if (response.message.includes('HP')) {
+                        $('#error-phone').text(response.message);
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat menyimpan data',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#dc3545',
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                });
+            }
+        });
     });
 </script>

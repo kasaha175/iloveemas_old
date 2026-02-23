@@ -204,8 +204,6 @@ class MasterController extends CI_Controller
                         $this->data['content'] = $this->load->view('ArchiveBuyKey', $this->data, true);
                         $this->load->view("UserTemplate", $this->data);
                     }
-
-
                 }
                 else
                 {
@@ -222,8 +220,6 @@ class MasterController extends CI_Controller
                         $this->data['content'] = $this->load->view('ArchiveBuyKey', $this->data, true);
                         $this->load->view("UserTemplate", $this->data);
                     }
-
-
                 }
             }
             else
@@ -239,12 +235,6 @@ class MasterController extends CI_Controller
     }
     function buySave()
     {
-        // echo "<pre>";
-        // print_r($this->input->get());
-        // echo "</pre>";
-        // echo "1313";
-        // print_r($this->input->get());
-        // die();
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
         if ($authUser == true)
@@ -262,7 +252,6 @@ class MasterController extends CI_Controller
                     {
                         $data = array(
                             'a' => $this->input->get('a'),
-                            // 'b' => $this->input->get('b'), command potongan global k2 - k23
                             'c' => $this->input->get('c'),
                             'd' => $this->input->get('d'),
                             'e' => $this->input->get('e'),
@@ -308,7 +297,7 @@ class MasterController extends CI_Controller
                 }
                 else if ($key == "rti-ag")
                 {
-                    echo $parameter = 'f_' . str_replace('-', '_', $key);
+                    $parameter = 'f_' . str_replace('-', '_', $key);
                     if ($type == "change")
                     {
                         $data = array(
@@ -386,11 +375,6 @@ class MasterController extends CI_Controller
                         $this->MaterialModel->formulaUpdate($parameter, $value);
                         redirect(base_url() . "archive/buy/?key=$key");
                     }
-
-
-
-
-
                 }
                 else
                 {
@@ -408,11 +392,6 @@ class MasterController extends CI_Controller
                         $this->MaterialModel->formulaUpdate($parameter, $value);
                         redirect(base_url() . "archive/buy/?key=$key");
                     }
-
-
-
-
-
                 }
             }
             else
@@ -490,7 +469,6 @@ class MasterController extends CI_Controller
                     }
                     else
                     {
-
                         $this->data['value'] = $this->MaterialModel->formulaData()->row("f_rti_ag_sell");
                         $this->data['content'] = $this->load->view('ArchiveSellKey', $this->data, true);
                         $this->load->view("UserTemplate", $this->data);
@@ -540,7 +518,6 @@ class MasterController extends CI_Controller
     }
     function sellSave()
     {
-
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
         if ($authUser == true)
@@ -566,7 +543,6 @@ class MasterController extends CI_Controller
                             'g' => $this->input->get('g'),
                             'h' => $this->input->get('h'),
                             'potongan_lm' => json_encode($this->input->get('potongan_lm')),
-
                         );
                         $this->MasterModel->formulasUpdate($key, $data);
                         redirect(base_url() . "archive/sell/?key=$key&type=change");
@@ -652,7 +628,6 @@ class MasterController extends CI_Controller
                     }
                     else
                     {
-
                         foreach ($dataGet['configMaterial'] as $keyGet => $valueGet)
                         {
                             $dataUpdate = array(
@@ -660,10 +635,6 @@ class MasterController extends CI_Controller
                             );
                             $this->db->update('config_material', $dataUpdate, ['id' => $keyGet]);
                         }
-                        // echo "<pre>";
-                        // print_r($dataGet);
-                        // echo "</pre>";
-                        // die();
                         redirect(base_url() . "archive/sell/?key=$key");
                     }
                 }
@@ -792,22 +763,61 @@ class MasterController extends CI_Controller
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        if ($authUser == true)
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
         {
-            $datapost = $this->input->post();
-            $this->db->where('tm_id', $datapost['id']);
-            $this->db->update('tb_memo', $datapost['dt']);
-            $data_session = array(
-                'status' => 'success',
-                'message' => "Syarat & Ketentuan Berhasil Disimpan",
-            );
-            $this->session->set_userdata($data_session);
-            redirect(base_url() . "master/memo");
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
         }
-        else
+        
+        $datapost = $this->input->post();
+        
+        // Validation: Check required fields
+        if (empty($datapost['dt']['tm_value']))
         {
-            redirect(base_url());
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Isi Syarat & Ketentuan tidak boleh kosong!'
+            ]);
+            return;
         }
+        
+        if (empty($datapost['dt']['tm_priority']))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Priority tidak boleh kosong!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate priority (exclude current ID)
+        $this->db->where('tm_priority', $datapost['dt']['tm_priority']);
+        $this->db->where('tm_id !=', $datapost['id']);
+        $duplicate = $this->db->get('tb_memo')->row();
+        
+        if ($duplicate)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Priority "' . $datapost['dt']['tm_priority'] . '" sudah digunakan!'
+            ]);
+            return;
+        }
+        
+        // Update data
+        $this->db->where('tm_id', $datapost['id']);
+        $this->db->update('tb_memo', $datapost['dt']);
+        
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Syarat & Ketentuan Berhasil Diupdate!'
+        ]);
     }
     public function deleteMemo($idmemo = '')
     {
@@ -1062,24 +1072,598 @@ class MasterController extends CI_Controller
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        if ($authUser == true)
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
         {
-            $datapost = $this->input->post();
-            $datapost['dt']['status'] = 'ENABLE';
-            $datapost['dt']['updated_at'] = date("Y-m-d H:i:s");
-            $this->db->where('id', $datapost['id']);
-            $this->db->update('tb_cabang', $datapost['dt']);
-            $data_session = array(
-                'status' => 'success',
-                'message' => "Cabang Berhasil Disimpan",
-            );
-            $this->session->set_userdata($data_session);
-            redirect(base_url() . "master/cabang");
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
+        }
+        
+        $datapost = $this->input->post();
+        
+        // Validation: Check required fields
+        if (empty($datapost['dt']['nama_cabang']))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nama Cabin tidak boleh kosong!'
+            ]);
+            return;
+        }
+        
+        if (empty($datapost['dt']['urutan_cabang']))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Urutan tidak boleh kosong!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate nama_cabang (exclude current ID)
+        $this->db->where('nama_cabang', $datapost['dt']['nama_cabang']);
+        $this->db->where('status', 'ENABLE');
+        $this->db->where('id !=', $datapost['id']);
+        $duplicate = $this->db->get('tb_cabang')->row();
+        
+        if ($duplicate)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nama Cabin "' . $datapost['dt']['nama_cabang'] . '" sudah ada!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate urutan_cabang (exclude current ID)
+        $this->db->where('urutan_cabang', $datapost['dt']['urutan_cabang']);
+        $this->db->where('status', 'ENABLE');
+        $this->db->where('id !=', $datapost['id']);
+        $duplicateUrutan = $this->db->get('tb_cabang')->row();
+        
+        if ($duplicateUrutan)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Urutan "' . $datapost['dt']['urutan_cabang'] . '" sudah digunakan!'
+            ]);
+            return;
+        }
+        
+        // Update data
+        $datapost['dt']['status'] = 'ENABLE';
+        $datapost['dt']['updated_at'] = date("Y-m-d H:i:s");
+        $this->db->where('id', $datapost['id']);
+        $this->db->update('tb_cabang', $datapost['dt']);
+        
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Cabang Berhasil Diupdate!'
+        ]);
+    }
+    
+    // API: Check duplicate customer for add
+    public function checkDuplicateCustomer()
+    {
+        $authUser = $this->session->userdata("authUser");
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
+        }
+        
+        $type = $this->input->post('type');
+        $value = $this->input->post('value');
+        
+        if (empty($type) || empty($value))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Parameter tidak valid!'
+            ]);
+            return;
+        }
+        
+        // Check based on type
+        if ($type == 'name')
+        {
+            $this->db->where('c_name', strtoupper($value));
+        }
+        else if ($type == 'id_number')
+        {
+            $this->db->where('c_id_number', strtoupper($value));
+        }
+        else if ($type == 'phone')
+        {
+            $this->db->where('c_phone', $value);
         }
         else
         {
-            redirect(base_url());
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Tipe validasi tidak valid!'
+            ]);
+            return;
         }
+        
+        $result = $this->db->get('tb_customer')->row();
+        
+        if ($result)
+        {
+            echo json_encode([
+                'status' => 'duplicate',
+                'message' => 'Data "' . $value . '" sudah digunakan!'
+            ]);
+        }
+        else
+        {
+            echo json_encode([
+                'status' => 'available',
+                'message' => 'Data tersedia!'
+            ]);
+        }
+    }
+    
+    // API: Check duplicate customer for edit
+    public function checkDuplicateCustomerEdit()
+    {
+        $authUser = $this->session->userdata("authUser");
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
+        }
+        
+        $type = $this->input->post('type');
+        $value = $this->input->post('value');
+        $idCustomer = $this->input->post('idCustomer');
+        
+        if (empty($type) || empty($value) || empty($idCustomer))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Parameter tidak valid!'
+            ]);
+            return;
+        }
+        
+        // Check based on type (exclude current customer)
+        if ($type == 'name')
+        {
+            $this->db->where('c_name', strtoupper($value));
+        }
+        else if ($type == 'id_number')
+        {
+            $this->db->where('c_id_number', strtoupper($value));
+        }
+        else if ($type == 'phone')
+        {
+            $this->db->where('c_phone', $value);
+        }
+        else
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Tipe validasi tidak valid!'
+            ]);
+            return;
+        }
+        
+        $this->db->where('c_id !=', $idCustomer);
+        $result = $this->db->get('tb_customer')->row();
+        
+        if ($result)
+        {
+            echo json_encode([
+                'status' => 'duplicate',
+                'message' => 'Data "' . $value . '" sudah digunakan!'
+            ]);
+        }
+        else
+        {
+            echo json_encode([
+                'status' => 'available',
+                'message' => 'Data tersedia!'
+            ]);
+        }
+    }
+    
+    // API: Check duplicate memo for edit
+    public function checkDuplicateMemoEdit()
+    {
+        $authUser = $this->session->userdata("authUser");
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
+        }
+        
+        $priority = $this->input->post('priority');
+        $idMemo = $this->input->post('idMemo');
+        
+        if (empty($priority) || empty($idMemo))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Parameter tidak valid!'
+            ]);
+            return;
+        }
+        
+        // Check duplicate priority (exclude current memo)
+        $this->db->where('tm_priority', $priority);
+        $this->db->where('tm_id !=', $idMemo);
+        $result = $this->db->get('tb_memo')->row();
+        
+        if ($result)
+        {
+            echo json_encode([
+                'status' => 'duplicate',
+                'message' => 'Priority "' . $priority . '" sudah digunakan!'
+            ]);
+        }
+        else
+        {
+            echo json_encode([
+                'status' => 'available',
+                'message' => 'Data tersedia!'
+            ]);
+        }
+    }
+    
+    // Save customer with validation
+    public function saveCustomerWithValidation()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
+        }
+        
+        $name = strtoupper($this->input->post('name'));
+        $idNumber = strtoupper($this->input->post('idNumber'));
+        $phone = $this->input->post('phone');
+        
+        // Validation: Check required fields
+        if (empty($name))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nama tidak boleh kosong!'
+            ]);
+            return;
+        }
+        
+        if (empty($idNumber))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nomor KTP tidak boleh kosong!'
+            ]);
+            return;
+        }
+        
+        if (empty($phone))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nomor HP tidak boleh kosong!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate name
+        $this->db->where('c_name', $name);
+        $duplicateName = $this->db->get('tb_customer')->row();
+        
+        if ($duplicateName)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nama "' . $name . '" sudah digunakan!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate id number
+        $this->db->where('c_id_number', $idNumber);
+        $duplicateIdNumber = $this->db->get('tb_customer')->row();
+        
+        if ($duplicateIdNumber)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nomor KTP "' . $idNumber . '" sudah digunakan!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate phone
+        $this->db->where('c_phone', $phone);
+        $duplicatePhone = $this->db->get('tb_customer')->row();
+        
+        if ($duplicatePhone)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nomor HP "' . $phone . '" sudah digunakan!'
+            ]);
+            return;
+        }
+        
+        // Get max no_order
+        $this->db->select_max('c_no_order');
+        $maxOrder = $this->db->get('tb_customer')->row()->c_no_order;
+        $newNoOrder = $maxOrder ? $maxOrder + 1 : 1;
+        
+        // Save data
+        $data = array(
+            'c_name' => $name,
+            'c_id_number' => $idNumber,
+            'c_address' => strtoupper($this->input->post('address')),
+            'c_resident_address' => strtoupper($this->input->post('resident_address')),
+            'c_phone' => $phone,
+            'c_u_id' => $idUser,
+            'c_no_order' => $newNoOrder,
+            'c_date_created' => date("Y-m-d H:i:s"),
+        );
+        
+        $this->db->insert('tb_customer', $data);
+        
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Customer Berhasil Disimpan!'
+        ]);
+    }
+    
+    // Save customer edit with validation
+    public function saveCustomerEditWithValidation()
+    {
+        $authUser = $this->session->userdata("authUser");
+        $idUser = $this->session->userdata("idUser");
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
+        }
+        
+        $idCustomer = $this->input->post('idCustomer');
+        $name = strtoupper($this->input->post('name'));
+        $idNumber = strtoupper($this->input->post('idNumber'));
+        $phone = $this->input->post('phone');
+        
+        // Validation: Check required fields
+        if (empty($name))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nama tidak boleh kosong!'
+            ]);
+            return;
+        }
+        
+        if (empty($idNumber))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nomor KTP tidak boleh kosong!'
+            ]);
+            return;
+        }
+        
+        if (empty($phone))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nomor HP tidak boleh kosong!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate name (exclude current customer)
+        $this->db->where('c_name', $name);
+        $this->db->where('c_id !=', $idCustomer);
+        $duplicateName = $this->db->get('tb_customer')->row();
+        
+        if ($duplicateName)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nama "' . $name . '" sudah digunakan!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate id number (exclude current customer)
+        $this->db->where('c_id_number', $idNumber);
+        $this->db->where('c_id !=', $idCustomer);
+        $duplicateIdNumber = $this->db->get('tb_customer')->row();
+        
+        if ($duplicateIdNumber)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nomor KTP "' . $idNumber . '" sudah digunakan!'
+            ]);
+            return;
+        }
+        
+        // Validation: Check duplicate phone (exclude current customer)
+        $this->db->where('c_phone', $phone);
+        $this->db->where('c_id !=', $idCustomer);
+        $duplicatePhone = $this->db->get('tb_customer')->row();
+        
+        if ($duplicatePhone)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Nomor HP "' . $phone . '" sudah digunakan!'
+            ]);
+            return;
+        }
+        
+        // Update data
+        $data = array(
+            'c_name' => $name,
+            'c_id_number' => $idNumber,
+            'c_address' => strtoupper($this->input->post('address')),
+            'c_resident_address' => strtoupper($this->input->post('resident_address')),
+            'c_phone' => $phone,
+            'c_u_id' => $idUser,
+            'c_no_order' => $this->input->post('noOrder'),
+        );
+        
+        $this->db->where('c_id', $idCustomer);
+        $this->db->update('tb_customer', $data);
+        
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Customer Berhasil Diupdate!'
+        ]);
+    }
+    
+    // Delete customer with SWAL response
+    public function deleteCustomerWithSwal()
+    {
+        $authUser = $this->session->userdata("authUser");
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
+        }
+        
+        $id = $this->input->post('id');
+        
+        if (empty($id))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'ID tidak valid!'
+            ]);
+            return;
+        }
+        
+        $this->db->where('c_id', $id);
+        $this->db->delete('tb_customer');
+        
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Customer Berhasil Dihapus!'
+        ]);
+    }
+    
+    // Delete memo with SWAL response
+    public function deleteMemoWithSwal()
+    {
+        $authUser = $this->session->userdata("authUser");
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
+        }
+        
+        $id = $this->input->post('id');
+        
+        if (empty($id))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'ID tidak valid!'
+            ]);
+            return;
+        }
+        
+        $this->db->where('tm_id', $id);
+        $this->db->delete('tb_memo');
+        
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Syarat & Ketentuan Berhasil Dihapus!'
+        ]);
+    }
+    
+    // Delete cabang with SWAL response
+    public function deleteCabangWithSwal()
+    {
+        $authUser = $this->session->userdata("authUser");
+        
+        header('Content-Type: application/json');
+        
+        if ($authUser != true)
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
+        }
+        
+        $id = $this->input->post('id');
+        
+        if (empty($id))
+        {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'ID tidak valid!'
+            ]);
+            return;
+        }
+        
+        $this->db->update('tb_cabang', ['status' => 'DISABLE'], ['id' => $id]);
+        
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Cabang Berhasil Dihapus!'
+        ]);
     }
 }
 ?>

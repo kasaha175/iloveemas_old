@@ -24,16 +24,17 @@
                             <form action="<?=base_url('master/update-memo')?>" method="post" id="myForm">
                                 <input type="hidden" name="id" value="<?= $memo->tm_id ?>">
                                 <div class="form-group">
-                                    <label>Isi Syarat & Ketentuan</label>
+                                    <label>Isi Syarat & Ketentuan <span class="text-danger">*</span></label>
                                     <textarea class="form-control glass-input summernote" name="dt[tm_value]"><?= $memo->tm_value ?></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>Priority</label>
-                                    <input type="number" id="tm_priority" required class="form-control glass-input" name="dt[tm_priority]" value="<?= $memo->tm_priority ?>">
+                                    <label>Priority <span class="text-danger">*</span></label>
+                                    <input type="number" id="tm_priority" class="form-control glass-input" name="dt[tm_priority]" value="<?= $memo->tm_priority ?>">
+                                    <small class="text-danger" id="error-priority"></small>
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-md-6 mb-3">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                        <button type="submit" class="btn btn-success btn-lg btn-block">
                                             <i class="fas fa-save"></i> Save
                                         </button>
                                     </div>
@@ -51,3 +52,79 @@
         </div>
     </div>
 </div>
+
+<script>
+jQuery(function($) {
+    $('#myForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Clear previous errors
+        $('#error-priority').text('');
+        
+        Swal.fire({
+            title: 'Mengupdate Data...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            customClass: {
+                popup: 'glass-swal-popup'
+            }
+        });
+        
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            dataType: 'json',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#28a745',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    }).then((result) => {
+                        window.location.href = '<?=base_url()?>master/memo/';
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Gagal!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#dc3545',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    });
+                    
+                    // Show field-specific errors
+                    if (response.message.includes('Priority')) {
+                        $('#error-priority').text(response.message);
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat mengupdate data',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#dc3545',
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                });
+            }
+        });
+    });
+});
+</script>

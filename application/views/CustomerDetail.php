@@ -39,53 +39,53 @@
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="collapseCardExample" style="">
                                 <div class="card-body">
-                                    <form action="<?=base_url()?>master/edit-customer-process/" method="post" id="myForm">
+                                    <form action="<?=base_url()?>master/save-customer-edit-validation/" method="post" id="myForm">
+                                        <input type="hidden" name="idCustomer" value="<?=$d->c_id?>">
                                         <div class="form-group">
-                                            <label>NAME</label>
-                                            <input type="hidden" name="idCustomer" value="<?=$d->c_id?>">
-                                            <input type="text" id="u_name" required class="form-control" name="name" value="<?=$d->c_name?>">
+                                            <label>NAME <span class="text-danger">*</span></label>
+                                            <input type="text" id="u_name" class="form-control" name="name" value="<?=$d->c_name?>">
+                                            <small class="text-danger" id="error-name"></small>
                                         </div>
                                         <div class="form-group">
-                                            <label>ID NUMBER (KTP)</label>
-                                            <input type="text" id="c_id_number" required class="form-control" name="idNumber" value="<?=$d->c_id_number?>">
+                                            <label>ID NUMBER (KTP) <span class="text-danger">*</span></label>
+                                            <input type="text" id="c_id_number" class="form-control" name="idNumber" value="<?=$d->c_id_number?>">
+                                            <small class="text-danger" id="error-idNumber"></small>
                                         </div>
                                         <div class="form-group">
                                             <label>NO ORDER</label>
-                                            <input type="text" id="u_no_order" required class="form-control" name="noOrder" value="<?=$d->c_no_order?>">
+                                            <input type="text" id="u_no_order" class="form-control" name="noOrder" value="<?=$d->c_no_order?>">
                                         </div>
                                         <div class="form-group">
-                                            <label>ADDRESS</label>
-                                            <input type="text">
-                                            <textarea id="u_address" required class="form-control" name="address"><?=$d->c_address?></textarea>
+                                            <label>ADDRESS <span class="text-danger">*</span></label>
+                                            <textarea id="u_address" class="form-control" name="address"><?=$d->c_address?></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>RESIDENT ADDRESS</label>
-                                            <textarea id="u_resident_address" required class="form-control" name="resident_address" value=""><?=$d->c_resident_address?></textarea>
+                                            <label>RESIDENT ADDRESS <span class="text-danger">*</span></label>
+                                            <textarea id="u_resident_address" class="form-control" name="resident_address"><?=$d->c_resident_address?></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>PHONE</label>
-                                            <input type="text"  id="u_phone" required class="form-control" name="phone" value="<?=$d->c_phone?>">
+                                            <label>PHONE <span class="text-danger">*</span></label>
+                                            <input type="text" id="u_phone" class="form-control" name="phone" value="<?=$d->c_phone?>">
+                                            <small class="text-danger" id="error-phone"></small>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="row">
-                                                        <div class="col-md-12 mb-3">
-                                                        <a href="#" onclick="document.getElementById('myForm').submit();" 
-                                                            class="btn btn-primary btn-icon-split btn-lg btn-block">
-                                                            <span class="text">Save</span>
-                                                        </a>
-                                                        </div>
-                                                        
-                                                        <div class="col-md-4">
+                                                    <div class="col-md-12 mb-3">
+                                                        <button type="submit" class="btn btn-success btn-lg btn-block">
+                                                            <i class="fas fa-save"></i> Save
+                                                        </button>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-12">
                                                         <a href="<?=base_url()?>master/customer/"
-                                                            class="btn btn-primary btn-icon-split btn-lg btn-block">
-                                                           <span class="text">Back</span>
+                                                            class="btn btn-secondary btn-lg btn-block">
+                                                            <i class="fas fa-arrow-left"></i> Back
                                                         </a>
-                                                        </div>
-                                                        
-                                                   </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            </div> </div>
+                                        </div>
                             </div>
                         </div>
                     </div>
@@ -173,5 +173,84 @@
         });
         prettyPrint();
 
+    });
+
+    // Form submission with validation and SWAL
+    $('#myForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Clear previous errors
+        $('#error-name').text('');
+        $('#error-idNumber').text('');
+        $('#error-phone').text('');
+        
+        Swal.fire({
+            title: 'Mengupdate Data...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            customClass: {
+                popup: 'glass-swal-popup'
+            }
+        });
+        
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            dataType: 'json',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#28a745',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    }).then((result) => {
+                        window.location.href = '<?=base_url()?>master/customer/';
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Gagal!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#dc3545',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    });
+                    
+                    // Show field-specific errors
+                    if (response.message.includes('Nama')) {
+                        $('#error-name').text(response.message);
+                    } else if (response.message.includes('KTP')) {
+                        $('#error-idNumber').text(response.message);
+                    } else if (response.message.includes('HP')) {
+                        $('#error-phone').text(response.message);
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Terjadi kesalahan saat mengupdate data',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#dc3545',
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                });
+            }
+        });
     });
 </script>

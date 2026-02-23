@@ -106,23 +106,82 @@ jQuery(function($) {
         
         var id = $(this).data('id');
         var name = $(this).data('name');
-        var deleteUrl = '<?=base_url()?>master/delete-customer-process/' + id + '/';
         
         Swal.fire({
-            title: 'Menghapus Data...',
-            text: 'Mohon tunggu sebentar',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            showConfirmButton: false,
-            didOpen: () => {
-                Swal.showLoading();
-            },
+            title: 'Apakah Anda yakin?',
+            text: 'Data customer akan dihapus secara permanen!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
             customClass: {
                 popup: 'glass-swal-popup'
             }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Menghapus Data...',
+                    text: 'Mohon tunggu sebentar',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    },
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                });
+                
+                $.ajax({
+                    url: '<?=base_url()?>master/delete-customer-swal/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { id: id },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#28a745',
+                                customClass: {
+                                    popup: 'glass-swal-popup'
+                                }
+                            }).then((result) => {
+                                window.location.href = '<?=base_url()?>master/customer/';
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#dc3545',
+                                customClass: {
+                                    popup: 'glass-swal-popup'
+                                }
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: 'Terjadi kesalahan saat menghapus data',
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                            confirmButtonColor: '#dc3545',
+                            customClass: {
+                                popup: 'glass-swal-popup'
+                            }
+                        });
+                    }
+                });
+            }
         });
-        
-        window.location.href = deleteUrl;
     });
 });
 </script>

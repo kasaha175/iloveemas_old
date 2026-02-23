@@ -83,6 +83,16 @@ $route['master/detailCabang/(:any)'] = 'MasterController/detailCabang/$1';
 $route['master/save-update-cabang'] = 'MasterController/saveUpdateCabang';
 $route['master/deleteCabang/(:any)'] = 'MasterController/deleteCabang/$1';
 
+// API routes for validation and AJAX operations
+$route['master/check-duplicate-customer'] = 'MasterController/checkDuplicateCustomer';
+$route['master/check-duplicate-customer-edit'] = 'MasterController/checkDuplicateCustomerEdit';
+$route['master/check-duplicate-memo-edit'] = 'MasterController/checkDuplicateMemoEdit';
+$route['master/save-customer-validation'] = 'MasterController/saveCustomerWithValidation';
+$route['master/save-customer-edit-validation'] = 'MasterController/saveCustomerEditWithValidation';
+$route['master/delete-customer-swal'] = 'MasterController/deleteCustomerWithSwal';
+$route['master/delete-memo-swal'] = 'MasterController/deleteMemoWithSwal';
+$route['master/delete-cabang-swal'] = 'MasterController/deleteCabangWithSwal';
+
 //report
 $route['report'] = 'ReportController/report';
 $route['report/buy'] = 'ReportController/buy';
