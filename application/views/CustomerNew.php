@@ -1,85 +1,153 @@
-<div class="col-md-12" style="margin-top:110px;">
-    <div style="color:#fff;margin-top:-30px;">
-        <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>dashboard/" class="fa fa-home"></a>
-        <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>dashboard/">Dashboard</a> 
-        > 
-        <a style="color:#fff;text-decoration:none;" href="<?=base_url()?>transaction/">Transaction</a> 
-        > 
-        <a style="color:#fff;text-decoration:none;" href="">New Customer</a> 
+<?php 
+function nominal($angka){
+    $jd = number_format($angka, 2, ',', '.');
+    return $jd;
+}
+?>
+<div class="col-md-12 transaction-customer-container">
+    <!-- Breadcrumb - Consistent Format with / -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb glass-breadcrumb">
+            <li class="breadcrumb-item"><a href="<?=base_url()?>dashboard/"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="<?=base_url()?>transaction/">Transaction</a></li>
+            <li class="breadcrumb-item active">New Customer</li>
+        </ol>
+    </nav>
+    
+    <!-- Page Header Container -->
+    <div class="page-header-container">
+        <div class="page-header-row">
+            <!-- Page Title Group -->
+            <div class="page-title-group">
+                <h1 class="page-title-main">New Transaction Customer</h1>
+                <div class="page-title-sub">
+                    <span class="context-badge context-badge-transaction">
+                        <i class="fas fa-exchange-alt"></i> Transaction Module
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
-    <h3 class="text-center" style="color:#fff">TRANSACTION</h3>
-    <h3 class="text-center" style="color:#fff">New Customer</h3>
-    <br>
-    <div class="col-md-12" style="padding:0px 150px;">
-        <div class="row">
-            <div class="col-md-6 offset-md-3" style="padding:10px 10px">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Accordion -->
-                            <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
-                                aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">NEW CUSTOMER</h6>
-                            </a>
-                            <!-- Card Content - Collapse -->
-                            <div class="collapse show" id="collapseCardExample" style="">
-                                <div class="card-body">
-                                    <form action="<?=base_url()?>master/save-customer-validation/" method="post" id="myForm">
-                                        <input type="hidden" class="form-control" name="key" value="<?=$this->input->get('key')?>">
-                                        <div class="form-group">
-                                            <label>NAME <span class="text-danger">*</span></label>
-                                            <input id="u_name" type="text" class="form-control" name="name">
-                                            <small class="text-danger" id="error-name"></small>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>ID NUMBER (KTP) <span class="text-danger">*</span></label>
-                                            <input type="text" id="u_id_number" class="form-control" name="idNumber">
-                                            <small class="text-danger" id="error-idNumber"></small>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>ADDRESS <span class="text-danger">*</span></label>
-                                            <textarea id="u_address" class="form-control" name="address"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>RESIDENT ADDRESS <span class="text-danger">*</span></label>
-                                            <textarea id="u_resident_address" class="form-control" name="resident_address"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>PHONE <span class="text-danger">*</span></label>
-                                            <input id="u_phone" type="text" class="form-control" name="phone">
-                                            <small class="text-danger" id="error-phone"></small>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="col-md-12 mb-3">
-                                                        <button type="submit" class="btn btn-success btn-lg btn-block">
-                                                            <i class="fas fa-save"></i> Save
-                                                        </button>
-                                                    </div>
-                                                    
-                                                    <div class="col-md-12">
-                                                        <a href="<?=base_url()?>master/customer/"
-                                                            class="btn btn-secondary btn-lg btn-block">
-                                                            <i class="fas fa-arrow-left"></i> Back
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                </div>
+    
+    <!-- Info Banner - Transaction Context -->
+    <div class="info-banner">
+        <i class="fas fa-info-circle info-banner-icon"></i>
+        <span class="info-banner-text">
+            Customer baru akan otomatis tersimpan ke <strong>Master Data</strong>. 
+            Anda dapat mengelola data customer di menu <em>Master > Customer</em>.
+        </span>
+    </div>
+    
+    <!-- Form Card -->
+    <div class="col-md-12">
+        <div class="enterprise-card">
+            <div class="enterprise-card-header">
+                <h3 class="enterprise-card-title">
+                    <i class="fas fa-user-plus"></i> New Customer Form
+                </h3>
+            </div>
+            <div class="enterprise-card-body">
+                <form action="<?=base_url()?>master/save-customer-validation/" method="post" id="myForm">
+                    <input type="hidden" class="enterprise-input" name="key" value="<?=$this->input->get('key')?>">
+                    
+                    <!-- Form Fields - 20px spacing -->
+                    <div class="form-field-row">
+                        <label class="enterprise-form-label">
+                            NAME <span class="required-mark">*</span>
+                        </label>
+                        <input id="u_name" type="text" class="enterprise-input" name="name" placeholder="Enter customer name">
+                        <small class="error-message" id="error-name"></small>
+                    </div>
+                    
+                    <div class="form-field-row">
+                        <label class="enterprise-form-label">
+                            ID NUMBER (KTP) <span class="required-mark">*</span>
+                        </label>
+                        <input type="text" id="u_id_number" class="enterprise-input" name="idNumber" placeholder="Enter ID number">
+                        <small class="error-message" id="error-idNumber"></small>
+                    </div>
+                    
+                    <div class="form-field-row">
+                        <label class="enterprise-form-label">
+                            ADDRESS <span class="required-mark">*</span>
+                        </label>
+                        <textarea id="u_address" class="enterprise-input enterprise-textarea" name="address" placeholder="Enter address"></textarea>
+                    </div>
+                    
+                    <div class="form-field-row">
+                        <label class="enterprise-form-label">
+                            RESIDENT ADDRESS <span class="required-mark">*</span>
+                        </label>
+                        <textarea id="u_resident_address" class="enterprise-input enterprise-textarea" name="resident_address" placeholder="Enter resident address"></textarea>
+                    </div>
+                    
+                    <div class="form-field-row">
+                        <label class="enterprise-form-label">
+                            PHONE <span class="required-mark">*</span>
+                        </label>
+                        <input id="u_phone" type="text" class="enterprise-input" name="phone" placeholder="Enter phone number">
+                        <small class="error-message" id="error-phone"></small>
+                    </div>
+                    
+                    <!-- Button Group -->
+                    <div class="form-field-row" style="margin-top: 32px;">
+                        <div class="row">
+                            <div class="col-md-6 mb-16">
+                                <button type="submit" class="btn-primary-enterprise btn-lg-enterprise btn-block" id="btnSave">
+                                    <i class="fas fa-save"></i> Save Customer
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="<?=base_url()?>master/customer/" class="btn-secondary-enterprise btn-lg-enterprise btn-block">
+                                    <i class="fas fa-arrow-left"></i> Cancel
+                                </a>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
-
         </div>
-
     </div>
-
 </div>
+
+<style>
+.transaction-customer-container {
+    padding: 90px 20px 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-field-row .row {
+    margin: 0 -8px;
+}
+
+.form-field-row .col-md-6 {
+    padding: 0 8px;
+}
+
+.mb-16 {
+    margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    .transaction-customer-container {
+        padding: 80px 15px 30px;
+    }
+    
+    .form-field-row .row {
+        flex-direction: column;
+    }
+    
+    .form-field-row .col-md-6 {
+        margin-bottom: 12px;
+    }
+    
+    .form-field-row .col-md-6:last-child {
+        margin-bottom: 0;
+    }
+}
+</style>
+
 <script type="text/javascript">
     $("#materialType").select2();
     $(".select2").select2();
@@ -89,15 +157,13 @@
     jQuery(function ($) {
 
         // QWERTY Text Input
-        // The bottom of this file is where the autocomplete extension is added
-        // ********************
         $('#u_name').keyboard({
             layout: 'qwerty'
         });
         $('#u_address').keyboard({
             layout: 'qwerty'
         });
-         $('#u_resident_address').keyboard({
+        $('#u_resident_address').keyboard({
             layout: 'qwerty'
         });
         $('#u_phone').keyboard({
@@ -110,7 +176,6 @@
         $('.version').html('(v' + $('#u_name').getkeyboard().version + ')');
 
         // Contenteditable
-        // ********************
         $.keyboard.keyaction.undo = function (base) {
             base.execCommand('undo');
             return false;
@@ -155,6 +220,9 @@
     $('#myForm').on('submit', function(e) {
         e.preventDefault();
         
+        // Add loading state
+        $('#btnSave').addClass('loading').prop('disabled', true);
+        
         // Clear previous errors
         $('#error-name').text('');
         $('#error-idNumber').text('');
@@ -180,13 +248,16 @@
             dataType: 'json',
             data: $(this).serialize(),
             success: function(response) {
+                // Remove loading state
+                $('#btnSave').removeClass('loading').prop('disabled', false);
+                
                 if (response.status === 'success') {
                     Swal.fire({
                         title: 'Berhasil!',
                         text: response.message,
                         icon: 'success',
                         confirmButtonText: 'OK',
-                        confirmButtonColor: '#28a745',
+                        confirmButtonColor: '#10b981',
                         customClass: {
                             popup: 'glass-swal-popup'
                         }
@@ -199,7 +270,7 @@
                         text: response.message,
                         icon: 'error',
                         confirmButtonText: 'OK',
-                        confirmButtonColor: '#dc3545',
+                        confirmButtonColor: '#ef4444',
                         customClass: {
                             popup: 'glass-swal-popup'
                         }
@@ -216,12 +287,15 @@
                 }
             },
             error: function(xhr, status, error) {
+                // Remove loading state
+                $('#btnSave').removeClass('loading').prop('disabled', false);
+                
                 Swal.fire({
                     title: 'Gagal!',
                     text: 'Terjadi kesalahan saat menyimpan data',
                     icon: 'error',
                     confirmButtonText: 'OK',
-                    confirmButtonColor: '#dc3545',
+                    confirmButtonColor: '#ef4444',
                     customClass: {
                         popup: 'glass-swal-popup'
                     }

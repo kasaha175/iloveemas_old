@@ -989,7 +989,7 @@ class MasterController extends CI_Controller
         {
             echo json_encode([
                 'status' => 'error',
-                'message' => 'Nama Cabin tidak boleh kosong!'
+                'message' => 'Nama Cabang tidak boleh kosong!'
             ]);
             return;
         }
@@ -1012,7 +1012,7 @@ class MasterController extends CI_Controller
         {
             echo json_encode([
                 'status' => 'error',
-                'message' => 'Nama Cabin "' . $datapost['dt']['nama_cabang'] . '" sudah ada!'
+                'message' => 'Nama Cabang "' . $datapost['dt']['nama_cabang'] . '" sudah ada!'
             ]);
             return;
         }
@@ -1091,7 +1091,7 @@ class MasterController extends CI_Controller
         {
             echo json_encode([
                 'status' => 'error',
-                'message' => 'Nama Cabin tidak boleh kosong!'
+                'message' => 'Nama Cabang tidak boleh kosong!'
             ]);
             return;
         }
@@ -1115,7 +1115,7 @@ class MasterController extends CI_Controller
         {
             echo json_encode([
                 'status' => 'error',
-                'message' => 'Nama Cabin "' . $datapost['dt']['nama_cabang'] . '" sudah ada!'
+                'message' => 'Nama Cabang "' . $datapost['dt']['nama_cabang'] . '" sudah ada!'
             ]);
             return;
         }

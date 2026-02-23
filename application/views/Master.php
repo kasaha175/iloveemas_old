@@ -28,7 +28,7 @@
             <div class="col-md-6 col-lg-4">
                 <a href="<?=base_url()?>master/cabang/" class="menu-box">
                     <i class="fas fa-store icon"></i>
-                    <span>Daftar Cabin</span>
+                    <span>Daftar Cabang</span>
                 </a>
             </div>
         </div>

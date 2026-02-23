@@ -4,12 +4,12 @@
         <ol class="breadcrumb glass-breadcrumb">
             <li class="breadcrumb-item"><a href="<?=base_url()?>dashboard/"><i class="fas fa-home"></i> Dashboard</a></li>
             <li class="breadcrumb-item"><a href="<?=base_url()?>master/">Master</a></li>
-            <li class="breadcrumb-item active">Edit Cabin</li>
+            <li class="breadcrumb-item active">Edit Cabang</li>
         </ol>
     </nav>
     
     <!-- Page Title -->
-    <h3 class="page-title">EDIT CABIN</h3>
+    <h3 class="page-title">EDIT CABANG</h3>
     
     <!-- Form Card -->
     <div class="col-md-12">
@@ -17,14 +17,14 @@
             <div class="col-md-8">
                 <div class="card glass-card">
                     <div class="card-header" data-toggle="collapse" data-target="#formCard">
-                        <h6 class="m-0 font-weight-bold"><i class="fas fa-edit"></i> Cabin Information</h6>
+                        <h6 class="m-0 font-weight-bold"><i class="fas fa-edit"></i> Cabang Information</h6>
                     </div>
                     <div class="collapse show" id="formCard">
                         <div class="card-body">
                             <form action="<?=base_url('master/save-update-cabang')?>" method="post" id="myForm">
                                 <input type="hidden" name="id" value="<?= $cabang->id ?>">
                                 <div class="form-group">
-                                    <label>Nama Cabin <span class="text-danger">*</span></label>
+                                    <label>Nama Cabang <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control glass-input" name="dt[nama_cabang]" value="<?= $cabang->nama_cabang ?>">
                                     <small class="text-danger" id="error-nama_cabang"></small>
                                 </div>

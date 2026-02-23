@@ -59,7 +59,18 @@
     <!-- Glassmorphism JS -->
     <script src="<?=base_url()?>assets/js/glassmorphism.js"></script>
 </head>
-<body>
+<?php 
+$uri = $this->uri->segment(1);
+$body_class = 'page-dashboard';
+if ($uri == 'archive') {
+    $body_class = 'page-archive';
+} elseif ($uri == 'master') {
+    $body_class = 'page-master';
+} elseif ($uri == 'report') {
+    $body_class = 'page-report';
+}
+?>
+<body class="<?=$body_class?>">
     <!-- App Wrapper - Flex Column Layout -->
     <div class="app-wrapper">
         
