@@ -1,6 +1,10 @@
 /* ================================================
    CABANG.JS - cabang Page Scripts
-   ================================================ */
+   ================================================
+   
+   IMPORTANT: DataTable initialization is handled in datatables-init.js
+   This file only contains page-specific logic.
+*/
 
 // Wait for DOM to be ready
 document.addEventListener("DOMContentLoaded", function() {
@@ -13,20 +17,8 @@ document.addEventListener("DOMContentLoaded", function() {
 function initCabangPage() {
     console.log("cabang page initialized");
     
-    // Initialize DataTables if present
-    initCabangDataTables();
-    
     // Initialize form handlers
     initCabangForms();
-}
-
-/**
- * Initialize DataTables for cabang pages
- */
-function initCabangDataTables() {
-    if ($('#dataTable').length) {
-        initStandardDataTable('#dataTable');
-    }
 }
 
 /**

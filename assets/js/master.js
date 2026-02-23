@@ -1,10 +1,13 @@
 /* ================================================
    MASTER.JS - Master Page Scripts
-   ================================================ */
+   ================================================
+   
+   IMPORTANT: DataTable initialization is handled in datatables-init.js
+   This file only contains page-specific logic.
+*/
 
 // Wait for DOM to be ready
 document.addEventListener("DOMContentLoaded", function() {
-    // Initialize Master page functionality
     initMasterPage();
 });
 
@@ -13,19 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
  */
 function initMasterPage() {
     console.log("Master page initialized");
-    
-    // Initialize DataTables if present
-    initMasterDataTables();
-}
-
-/**
- * Initialize DataTables for Master pages
- */
-function initMasterDataTables() {
-    // Check if DataTable exists
-    if ($('#dataTable').length) {
-        initStandardDataTable('#dataTable');
-    }
+    // Add Master-specific initialization here if needed
 }
 
 /**

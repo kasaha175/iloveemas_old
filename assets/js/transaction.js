@@ -1,6 +1,10 @@
 /* ================================================
    TRANSACTION.JS - Transaction Page Scripts
-   ================================================ */
+   ================================================
+   
+   IMPORTANT: DataTable initialization is handled in datatables-init.js
+   This file only contains page-specific logic.
+*/
 
 // Wait for DOM to be ready
 document.addEventListener("DOMContentLoaded", function() {
@@ -13,47 +17,8 @@ document.addEventListener("DOMContentLoaded", function() {
 function initTransactionPage() {
     console.log("Transaction page initialized");
     
-    // Initialize DataTables if present
-    initTransactionDataTables();
-    
     // Initialize any event handlers
     initTransactionEvents();
-}
-
-/**
- * Initialize DataTables for Transaction pages
- */
-function initTransactionDataTables() {
-    // Check if DataTable exists
-    if ($('#dataTable').length) {
-        $('#dataTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: baseUrl + 'transaction/getTransactions',
-                type: "POST",
-            },
-            columns: [
-                { data: 'no', orderable: false, searchable: false },
-                { data: 'action', orderable: false, searchable: false },
-                { data: 'transaction' },
-                { data: 'no_order' },
-                { data: 'status' },
-                { data: 'date' },
-                { data: 'customer' },
-                { data: 'qty' },
-                {
-                    data: 'price_total',
-                    render: function (data, type, row) {
-                        if (type === 'display' || type === 'filter') {
-                            return 'IDR ' + new Intl.NumberFormat('id-ID').format(data || 0);
-                        }
-                        return data;
-                    }
-                }
-            ]
-        });
-    }
 }
 
 /**

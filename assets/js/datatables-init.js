@@ -1,19 +1,45 @@
 /* ================================================
-   DATATABLES-INIT.JS - Reusable DataTable Configuration
-   ================================================ */
+   DATATABLES-INIT.JS - Centralized DataTable Configuration
+   ================================================
+   
+   IMPORTANT: This is the ONLY file that should initialize DataTables.
+   All other JS files should NOT call DataTable initialization.
+   
+   Usage in views:
+   <script>
+       $(document).ready(function() {
+           initDataTable('#dataTable');
+       });
+   </script>
+   
+   Or with custom options:
+   <script>
+       $(document).ready(function() {
+           initDataTable('#dataTable', {
+               pageLength: 25,
+               order: [[0, 'desc']]
+           });
+       });
+   </script>
+*/
 
 /**
- * Initialize a standard DataTable with custom styling
- * Checks if already initialized to prevent reinitialization errors
+ * Initialize a DataTable with safe reinitialization check
+ * This is the SINGLE point of DataTable initialization
  * @param {string} selector - jQuery selector for the table
  * @param {object} options - Additional DataTable options
  * @returns {object|null} DataTable instance or null if already initialized
  */
-function initStandardDataTable(selector, options = {}) {
-    // Check if DataTable is already initialized
+function initDataTable(selector, options = {}) {
+    // Check if DataTable is already initialized to prevent reinitialization error
+    if ($(selector).length === 0) {
+        console.warn('Table not found for selector: ' + selector);
+        return null;
+    }
+    
     if ($.fn.DataTable.isDataTable(selector)) {
-        console.log('DataTable already initialized for ' + selector + ', skipping');
-        return $(selector).DataTable();
+        console.log('DataTable already initialized for ' + selector + ', destroying and reinitializing...');
+        $(selector).DataTable().destroy();
     }
     
     const defaultOptions = {
@@ -36,11 +62,6 @@ function initStandardDataTable(selector, options = {}) {
             },
             emptyTable: "No data available in table",
             zeroRecords: "No matching records found"
-        },
-        dom: '<"dataTables_length"l>f<"dataTables_info"i>t<"dataTables_paginate"p>',
-        initComplete: function(settings, json) {
-            // Add custom styling after initialization
-            $(selector + '_wrapper').addClass('dataTables-custom-wrapper');
         }
     };
 
@@ -52,18 +73,21 @@ function initStandardDataTable(selector, options = {}) {
 
 /**
  * Initialize DataTable with server-side processing
- * Checks if already initialized to prevent reinitialization errors
  * @param {string} selector - jQuery selector for the table
  * @param {string} ajaxUrl - URL for AJAX data source
  * @param {array} columns - Column definitions
  * @param {object} options - Additional DataTable options
- * @returns {object|null} DataTable instance or null if already initialized
+ * @returns {object|null} DataTable instance or null
  */
 function initServerDataTable(selector, ajaxUrl, columns, options = {}) {
-    // Check if DataTable is already initialized
+    if ($(selector).length === 0) {
+        console.warn('Table not found for selector: ' + selector);
+        return null;
+    }
+    
     if ($.fn.DataTable.isDataTable(selector)) {
-        console.log('DataTable already initialized for ' + selector + ', skipping');
-        return $(selector).DataTable();
+        console.log('DataTable already initialized for ' + selector + ', destroying and reinitializing...');
+        $(selector).DataTable().destroy();
     }
     
     const defaultOptions = {
@@ -97,10 +121,6 @@ function initServerDataTable(selector, ajaxUrl, columns, options = {}) {
             },
             emptyTable: "No data available in table",
             zeroRecords: "No matching records found"
-        },
-        dom: '<"dataTables_length"l>f<"dataTables_info"i>t<"dataTables_paginate"p>',
-        initComplete: function(settings, json) {
-            $(selector + '_wrapper').addClass('dataTables-custom-wrapper');
         }
     };
 
@@ -110,22 +130,12 @@ function initServerDataTable(selector, ajaxUrl, columns, options = {}) {
 }
 
 /**
- * Destroy and reinitialize a DataTable
+ * Destroy a DataTable instance
  * @param {string} selector - jQuery selector for the table
  */
 function destroyDataTable(selector) {
     if ($.fn.DataTable.isDataTable(selector)) {
         $(selector).DataTable().destroy();
-    }
-}
-
-/**
- * Reload DataTable data
- * @param {string} selector - jQuery selector for the table
- */
-function reloadDataTable(selector) {
-    if ($.fn.DataTable.isDataTable(selector)) {
-        $(selector).DataTable().ajax.reload(null, false);
     }
 }
 
@@ -139,6 +149,17 @@ function getDataTable(selector) {
         return $(selector).DataTable();
     }
     return null;
+}
+
+/**
+ * Reload DataTable data (for AJAX DataTables)
+ * @param {string} selector - jQuery selector for the table
+ */
+function reloadDataTable(selector) {
+    const dt = getDataTable(selector);
+    if (dt && dt.ajax) {
+        dt.ajax.reload(null, false);
+    }
 }
 
 /**
@@ -165,30 +186,3 @@ function orderDataTable(selector, columnIndex, direction) {
         dt.order([columnIndex, direction]).draw();
     }
 }
-
-/**
- * Change DataTable page length
- * @param {string} selector - jQuery selector for the table
- * @param {number} length - Number of rows per page
- */
-function changePageLength(selector, length) {
-    const dt = getDataTable(selector);
-    if (dt) {
-        dt.page.len(length).draw();
-    }
-}
-
-// Auto-initialize standard DataTables when DOM is ready
-// Only initializes tables with class 'dataTable-autoinit'
-document.addEventListener("DOMContentLoaded", function() {
-    // Initialize any tables with class 'dataTable-autoinit'
-    $('.dataTable-autoinit').each(function() {
-        const $table = $(this);
-        const selector = '#' + this.id;
-        
-        // Skip if already initialized
-        if (!$.fn.DataTable.isDataTable(selector)) {
-            initStandardDataTable(selector);
-        }
-    });
-});

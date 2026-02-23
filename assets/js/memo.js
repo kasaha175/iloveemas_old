@@ -1,6 +1,10 @@
 /* ================================================
    MEMO.JS - Memo Page Scripts
-   ================================================ */
+   ================================================
+   
+   IMPORTANT: DataTable initialization is handled in datatables-init.js
+   This file only contains page-specific logic.
+*/
 
 // Wait for DOM to be ready
 document.addEventListener("DOMContentLoaded", function() {
@@ -13,20 +17,8 @@ document.addEventListener("DOMContentLoaded", function() {
 function initMemoPage() {
     console.log("Memo page initialized");
     
-    // Initialize DataTables if present
-    initMemoDataTables();
-    
     // Initialize form handlers
     initMemoForms();
-}
-
-/**
- * Initialize DataTables for Memo pages
- */
-function initMemoDataTables() {
-    if ($('#dataTable').length) {
-        initStandardDataTable('#dataTable');
-    }
 }
 
 /**

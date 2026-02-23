@@ -111,33 +111,11 @@ function nominal($angka){
     
 </div>
 
-<!-- DataTable Initialization -->
+<!-- DataTable Initialization - Using centralized datatables-init.js -->
 <script>
 $(document).ready(function() {
-    // Initialize DataTable with reinitialization check
-    if (!$.fn.DataTable.isDataTable('#dataTable')) {
-        $('#dataTable').DataTable({
-            responsive: true,
-            autoWidth: false,
-            pageLength: 10,
-            lengthMenu: [10, 25, 50, 100],
-            language: {
-                search: "_INPUT_",
-                searchPlaceholder: "Search data...",
-                lengthMenu: "Show _MENU_ entries",
-                info: "Showing _START_ to _END_ of _TOTAL_ entries",
-                infoEmpty: "Showing 0 to 0 of 0 entries",
-                infoFiltered: "(filtered from _MAX_ total entries)",
-                paginate: {
-                    first: "First",
-                    last: "Last",
-                    next: "Next",
-                    previous: "Previous"
-                },
-                emptyTable: "No data available in table",
-                zeroRecords: "No matching records found"
-            }
-        });
-    }
+    initDataTable('#dataTable', {
+        order: [[3, 'desc']] // Order by priority (newest/highest first)
+    });
 });
 </script>
