@@ -33,11 +33,8 @@ jobs:
             --exclude='.git' \
             --exclude='.github' \
             --exclude='node_modules' \
-            --exclude='application/config/database.php' \
-            --exclude='*.log' \
-            --exclude='.DS_Store' \
-            -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes" \
-            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/iloveemas/
+            -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o PubkeyAuthentication=yes" \
+            ./ root@${{ secrets.SSH_HOST }}:/var/www/iloveemasAction
 
       - name: SSH to server and deploy with Docker
         run: |
