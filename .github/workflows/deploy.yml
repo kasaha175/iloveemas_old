@@ -36,12 +36,14 @@ jobs:
             --exclude='application/config/database.php' \
             --exclude='*.log' \
             --exclude='.DS_Store' \
-            -e "ssh -o StrictHostKeyChecking=no" \
+            -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes" \
             ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/iloveemas/
 
       - name: SSH to server and deploy with Docker
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            # Pastikan folder ada
+            mkdir -p /var/www/iloveemas
             cd /var/www/iloveemas
             
             # Membangun dan menjalankan container
@@ -51,10 +53,11 @@ jobs:
             sleep 5
             
             # Atur izin folder log dan cache di dalam container
-            docker exec ci3-iloveemas chmod -R 777 /var/www/html/application/logs
-            docker exec ci3-iloveemas chmod -R 777 /var/www/html/application/cache
+            # Kita gunakan || true agar job tidak fail jika folder belum ada
+            docker exec ci3-iloveemas chmod -R 777 /var/www/html/application/logs || true
+            docker exec ci3-iloveemas chmod -R 777 /var/www/html/application/cache || true
             
-            # Bersihkan image yang menggantung (menghemat disk VPS)
+            # Bersihkan image yang menggantung (menghemat disk VPS 2GB)
             docker image prune -f
             
             echo "Status Container:"
@@ -63,7 +66,7 @@ jobs:
       
       - name: Verify deployment
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             echo "=== Check Container Status ==="
             docker ps -f name=ci3-iloveemas
             
