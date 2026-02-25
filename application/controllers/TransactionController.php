@@ -1229,6 +1229,7 @@ class TransactionController extends CI_Controller
 				 'ti_high_low' => strval($a['types']),
 				 'ti_price_total' => $a['priceTotal'],
 				 'ti_date_created' => $this->dateToday,
+				 'ti_rumus' => @$a['rumus'],
 				);
 				$this->TransactionModel->buyCheckoutItems($dataItems);
 			}
@@ -1277,6 +1278,7 @@ class TransactionController extends CI_Controller
 					 'ti_high_low' => strval($a['types']),
 					 'ti_price_total' => $a['priceTotal'],
 					 'ti_date_created' => $this->dateToday,
+					 'ti_rumus' => @$a['rumus'],
 					);
 					$this->TransactionModel->buyCheckoutItems($dataItems);
 				}
@@ -1328,6 +1330,7 @@ class TransactionController extends CI_Controller
 				 'ti_high_low' => strval($a['types']),
 				 'ti_price_total' => $a['priceTotal'],
 				 'ti_date_created' => $this->dateToday,
+				 'ti_rumus' => @$a['rumus'],
 				);
 				$this->TransactionModel->buyCheckoutItems($dataItems);
 			}
@@ -1472,6 +1475,7 @@ class TransactionController extends CI_Controller
 				 'carat' => '',
 				 'weight' => $detailConfig->size,
 				 'priceTotal' => $priceTotal,
+				 'rumus' => "price = (" . $detailConfig->harga . " + " . $detailConfig->potongan . "); priceTotal = " . $price . " * " . $detailConfig->size . ";",
 				);
 			}
 			else if ($idMaterial == 15)
@@ -1806,6 +1810,8 @@ class TransactionController extends CI_Controller
 				 'ti_price' => $a['prices'],
 				 'ti_price_total' => $a['priceTotal'],
 				 'ti_date_created' => $this->dateToday,
+				 'ti_rumus' => @$a['rumus'],
+
 				);
 				$this->TransactionModel->sellCheckoutItems($dataItems);
 			}
@@ -1852,6 +1858,7 @@ class TransactionController extends CI_Controller
 					 'ti_price' => $a['prices'],
 					 'ti_price_total' => $a['priceTotal'],
 					 'ti_date_created' => $this->dateToday,
+					 'ti_rumus' => @$a['rumus'],
 					);
 					$this->TransactionModel->sellCheckoutItems($dataItems);
 				}
@@ -1904,6 +1911,7 @@ class TransactionController extends CI_Controller
 				 'ti_price' => $a['prices'],
 				 'ti_price_total' => $a['priceTotal'],
 				 'ti_date_created' => $this->dateToday,
+				 'ti_rumus' => @$a['rumus'],
 				);
 				$this->TransactionModel->sellCheckoutItems($dataItems);
 			}

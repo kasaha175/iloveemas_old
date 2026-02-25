@@ -682,14 +682,14 @@ class MasterController extends CI_Controller
             redirect(base_url());
         }
     }
-    
+
     public function saveMemo()
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -698,9 +698,9 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $datapost = $this->input->post();
-        
+
         // Validation: Check required fields
         if (empty($datapost['dt']['tm_value']))
         {
@@ -710,7 +710,7 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         if (empty($datapost['dt']['tm_priority']))
         {
             echo json_encode([
@@ -719,11 +719,11 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate priority
         $this->db->where('tm_priority', $datapost['dt']['tm_priority']);
         $duplicate = $this->db->get('tb_memo')->row();
-        
+
         if ($duplicate)
         {
             echo json_encode([
@@ -732,10 +732,10 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Save data
         $this->db->insert('tb_memo', $datapost['dt']);
-        
+
         echo json_encode([
             'status' => 'success',
             'message' => 'Syarat & Ketentuan Berhasil Disimpan!'
@@ -763,9 +763,9 @@ class MasterController extends CI_Controller
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -774,9 +774,9 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $datapost = $this->input->post();
-        
+
         // Validation: Check required fields
         if (empty($datapost['dt']['tm_value']))
         {
@@ -786,7 +786,7 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         if (empty($datapost['dt']['tm_priority']))
         {
             echo json_encode([
@@ -795,12 +795,12 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate priority (exclude current ID)
         $this->db->where('tm_priority', $datapost['dt']['tm_priority']);
         $this->db->where('tm_id !=', $datapost['id']);
         $duplicate = $this->db->get('tb_memo')->row();
-        
+
         if ($duplicate)
         {
             echo json_encode([
@@ -809,11 +809,11 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Update data
         $this->db->where('tm_id', $datapost['id']);
         $this->db->update('tb_memo', $datapost['dt']);
-        
+
         echo json_encode([
             'status' => 'success',
             'message' => 'Syarat & Ketentuan Berhasil Diupdate!'
@@ -970,9 +970,9 @@ class MasterController extends CI_Controller
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -981,9 +981,9 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $datapost = $this->input->post();
-        
+
         // Validation: Check required fields
         if (empty($datapost['dt']['nama_cabang']))
         {
@@ -993,7 +993,7 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         if (empty($datapost['dt']['urutan_cabang']))
         {
             echo json_encode([
@@ -1002,12 +1002,12 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate nama_cabang
         $this->db->where('nama_cabang', $datapost['dt']['nama_cabang']);
         $this->db->where('status', 'ENABLE');
         $duplicate = $this->db->get('tb_cabang')->row();
-        
+
         if ($duplicate)
         {
             echo json_encode([
@@ -1016,12 +1016,12 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate urutan_cabang
         $this->db->where('urutan_cabang', $datapost['dt']['urutan_cabang']);
         $this->db->where('status', 'ENABLE');
         $duplicateUrutan = $this->db->get('tb_cabang')->row();
-        
+
         if ($duplicateUrutan)
         {
             echo json_encode([
@@ -1030,12 +1030,12 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Save data
         $datapost['dt']['status'] = 'ENABLE';
         $datapost['dt']['created_at'] = date("Y-m-d H:i:s");
         $this->db->insert('tb_cabang', $datapost['dt']);
-        
+
         echo json_encode([
             'status' => 'success',
             'message' => 'Cabang Berhasil Disimpan!'
@@ -1072,9 +1072,9 @@ class MasterController extends CI_Controller
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -1083,9 +1083,9 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $datapost = $this->input->post();
-        
+
         // Validation: Check required fields
         if (empty($datapost['dt']['nama_cabang']))
         {
@@ -1095,7 +1095,7 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         if (empty($datapost['dt']['urutan_cabang']))
         {
             echo json_encode([
@@ -1104,13 +1104,13 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate nama_cabang (exclude current ID)
         $this->db->where('nama_cabang', $datapost['dt']['nama_cabang']);
         $this->db->where('status', 'ENABLE');
         $this->db->where('id !=', $datapost['id']);
         $duplicate = $this->db->get('tb_cabang')->row();
-        
+
         if ($duplicate)
         {
             echo json_encode([
@@ -1119,13 +1119,13 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate urutan_cabang (exclude current ID)
         $this->db->where('urutan_cabang', $datapost['dt']['urutan_cabang']);
         $this->db->where('status', 'ENABLE');
         $this->db->where('id !=', $datapost['id']);
         $duplicateUrutan = $this->db->get('tb_cabang')->row();
-        
+
         if ($duplicateUrutan)
         {
             echo json_encode([
@@ -1134,26 +1134,26 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Update data
         $datapost['dt']['status'] = 'ENABLE';
         $datapost['dt']['updated_at'] = date("Y-m-d H:i:s");
         $this->db->where('id', $datapost['id']);
         $this->db->update('tb_cabang', $datapost['dt']);
-        
+
         echo json_encode([
             'status' => 'success',
             'message' => 'Cabang Berhasil Diupdate!'
         ]);
     }
-    
+
     // API: Check duplicate customer for add
     public function checkDuplicateCustomer()
     {
         $authUser = $this->session->userdata("authUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -1162,10 +1162,10 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $type = $this->input->post('type');
         $value = $this->input->post('value');
-        
+
         if (empty($type) || empty($value))
         {
             echo json_encode([
@@ -1174,7 +1174,7 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Check based on type
         if ($type == 'name')
         {
@@ -1196,9 +1196,9 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $result = $this->db->get('tb_customer')->row();
-        
+
         if ($result)
         {
             echo json_encode([
@@ -1214,14 +1214,14 @@ class MasterController extends CI_Controller
             ]);
         }
     }
-    
+
     // API: Check duplicate customer for edit
     public function checkDuplicateCustomerEdit()
     {
         $authUser = $this->session->userdata("authUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -1230,11 +1230,11 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $type = $this->input->post('type');
         $value = $this->input->post('value');
         $idCustomer = $this->input->post('idCustomer');
-        
+
         if (empty($type) || empty($value) || empty($idCustomer))
         {
             echo json_encode([
@@ -1243,7 +1243,7 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Check based on type (exclude current customer)
         if ($type == 'name')
         {
@@ -1265,10 +1265,10 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $this->db->where('c_id !=', $idCustomer);
         $result = $this->db->get('tb_customer')->row();
-        
+
         if ($result)
         {
             echo json_encode([
@@ -1284,14 +1284,14 @@ class MasterController extends CI_Controller
             ]);
         }
     }
-    
+
     // API: Check duplicate memo for edit
     public function checkDuplicateMemoEdit()
     {
         $authUser = $this->session->userdata("authUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -1300,10 +1300,10 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $priority = $this->input->post('priority');
         $idMemo = $this->input->post('idMemo');
-        
+
         if (empty($priority) || empty($idMemo))
         {
             echo json_encode([
@@ -1312,12 +1312,12 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Check duplicate priority (exclude current memo)
         $this->db->where('tm_priority', $priority);
         $this->db->where('tm_id !=', $idMemo);
         $result = $this->db->get('tb_memo')->row();
-        
+
         if ($result)
         {
             echo json_encode([
@@ -1333,15 +1333,15 @@ class MasterController extends CI_Controller
             ]);
         }
     }
-    
+
     // Save customer with validation
     public function saveCustomerWithValidation()
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -1350,11 +1350,11 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $name = strtoupper($this->input->post('name'));
         $idNumber = strtoupper($this->input->post('idNumber'));
         $phone = $this->input->post('phone');
-        
+
         // Validation: Check required fields
         if (empty($name))
         {
@@ -1364,7 +1364,7 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         if (empty($idNumber))
         {
             echo json_encode([
@@ -1373,7 +1373,7 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         if (empty($phone))
         {
             echo json_encode([
@@ -1382,11 +1382,11 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate name
         $this->db->where('c_name', $name);
         $duplicateName = $this->db->get('tb_customer')->row();
-        
+
         if ($duplicateName)
         {
             echo json_encode([
@@ -1395,11 +1395,11 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate id number
         $this->db->where('c_id_number', $idNumber);
         $duplicateIdNumber = $this->db->get('tb_customer')->row();
-        
+
         if ($duplicateIdNumber)
         {
             echo json_encode([
@@ -1408,11 +1408,11 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate phone
         $this->db->where('c_phone', $phone);
         $duplicatePhone = $this->db->get('tb_customer')->row();
-        
+
         if ($duplicatePhone)
         {
             echo json_encode([
@@ -1421,12 +1421,12 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Get max no_order
         $this->db->select_max('c_no_order');
         $maxOrder = $this->db->get('tb_customer')->row()->c_no_order;
         $newNoOrder = $maxOrder ? $maxOrder + 1 : 1;
-        
+
         // Save data
         $data = array(
             'c_name' => $name,
@@ -1438,23 +1438,23 @@ class MasterController extends CI_Controller
             'c_no_order' => $newNoOrder,
             'c_date_created' => date("Y-m-d H:i:s"),
         );
-        
+
         $this->db->insert('tb_customer', $data);
-        
+
         echo json_encode([
             'status' => 'success',
             'message' => 'Customer Berhasil Disimpan!'
         ]);
     }
-    
+
     // Save customer edit with validation
     public function saveCustomerEditWithValidation()
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -1463,12 +1463,12 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $idCustomer = $this->input->post('idCustomer');
         $name = strtoupper($this->input->post('name'));
         $idNumber = strtoupper($this->input->post('idNumber'));
         $phone = $this->input->post('phone');
-        
+
         // Validation: Check required fields
         if (empty($name))
         {
@@ -1478,7 +1478,7 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         if (empty($idNumber))
         {
             echo json_encode([
@@ -1487,7 +1487,7 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         if (empty($phone))
         {
             echo json_encode([
@@ -1496,12 +1496,12 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate name (exclude current customer)
         $this->db->where('c_name', $name);
         $this->db->where('c_id !=', $idCustomer);
         $duplicateName = $this->db->get('tb_customer')->row();
-        
+
         if ($duplicateName)
         {
             echo json_encode([
@@ -1510,12 +1510,12 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate id number (exclude current customer)
         $this->db->where('c_id_number', $idNumber);
         $this->db->where('c_id !=', $idCustomer);
         $duplicateIdNumber = $this->db->get('tb_customer')->row();
-        
+
         if ($duplicateIdNumber)
         {
             echo json_encode([
@@ -1524,12 +1524,12 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Validation: Check duplicate phone (exclude current customer)
         $this->db->where('c_phone', $phone);
         $this->db->where('c_id !=', $idCustomer);
         $duplicatePhone = $this->db->get('tb_customer')->row();
-        
+
         if ($duplicatePhone)
         {
             echo json_encode([
@@ -1538,7 +1538,7 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         // Update data
         $data = array(
             'c_name' => $name,
@@ -1549,23 +1549,23 @@ class MasterController extends CI_Controller
             'c_u_id' => $idUser,
             'c_no_order' => $this->input->post('noOrder'),
         );
-        
+
         $this->db->where('c_id', $idCustomer);
         $this->db->update('tb_customer', $data);
-        
+
         echo json_encode([
             'status' => 'success',
             'message' => 'Customer Berhasil Diupdate!'
         ]);
     }
-    
+
     // Delete customer with SWAL response
     public function deleteCustomerWithSwal()
     {
         $authUser = $this->session->userdata("authUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -1574,9 +1574,9 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $id = $this->input->post('id');
-        
+
         if (empty($id))
         {
             echo json_encode([
@@ -1585,23 +1585,23 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $this->db->where('c_id', $id);
         $this->db->delete('tb_customer');
-        
+
         echo json_encode([
             'status' => 'success',
             'message' => 'Customer Berhasil Dihapus!'
         ]);
     }
-    
+
     // Delete memo with SWAL response
     public function deleteMemoWithSwal()
     {
         $authUser = $this->session->userdata("authUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -1610,9 +1610,9 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $id = $this->input->post('id');
-        
+
         if (empty($id))
         {
             echo json_encode([
@@ -1621,23 +1621,23 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $this->db->where('tm_id', $id);
         $this->db->delete('tb_memo');
-        
+
         echo json_encode([
             'status' => 'success',
             'message' => 'Syarat & Ketentuan Berhasil Dihapus!'
         ]);
     }
-    
+
     // Delete cabang with SWAL response
     public function deleteCabangWithSwal()
     {
         $authUser = $this->session->userdata("authUser");
-        
+
         header('Content-Type: application/json');
-        
+
         if ($authUser != true)
         {
             echo json_encode([
@@ -1646,9 +1646,9 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $id = $this->input->post('id');
-        
+
         if (empty($id))
         {
             echo json_encode([
@@ -1657,9 +1657,9 @@ class MasterController extends CI_Controller
             ]);
             return;
         }
-        
+
         $this->db->update('tb_cabang', ['status' => 'DISABLE'], ['id' => $id]);
-        
+
         echo json_encode([
             'status' => 'success',
             'message' => 'Cabang Berhasil Dihapus!'
