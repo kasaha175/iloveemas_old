@@ -19,15 +19,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Set up SSH key
-        uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # ✅ PREPARE SSH KEY (BASE64 FIX)
+      - name: Prepare SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY_B64 }}" | base64 -d > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+      # ✅ START SSH AGENT
+      - name: Start ssh-agent
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_ed25519
       
       - name: Install rsync
         run: sudo apt-get update && sudo apt-get install -y rsync
       
-      # ✅ SYNC (FIXED)
+      # ✅ SYNC
       - name: Sync files to server
         run: |
           rsync -avz --delete \
