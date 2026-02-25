@@ -1,6 +1,6 @@
 RewriteEngine on
 # Beritahu Apache bahwa kita berada di subfolder /iloveemas/
-RewriteBase /iloveemas/
+RewriteBase /
 
 RewriteCond $1 !^(index\.php|resources|robots\.txt)
 RewriteCond %{REQUEST_FILENAME} !-f
