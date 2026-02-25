@@ -598,7 +598,10 @@ $dd = @$data2[0];
 
         $('#myForm').off('submit').on('submit', function (e) {
             e.preventDefault();
-            e.stopImmediatePropagation(); // tambahan pengaman
+            e.stopImmediatePropagation();
+
+            // Disable submit button to prevent double click
+            $('.btn-save').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Menyimpan...');
 
             Swal.fire({
                 title: 'Menyimpan Data...',
@@ -616,9 +619,10 @@ $dd = @$data2[0];
 
             $.ajax({
                 url: $(this).attr('action'),
-                type: 'get', // ganti ke POST
+                type: 'POST',
                 data: $(this).serialize(),
                 success: function (response) {
+                    console.log('Form submitted successfully:', response);
                     Swal.fire({
                         title: 'Berhasil!',
                         text: 'Data berhasil disimpan',
@@ -633,7 +637,11 @@ $dd = @$data2[0];
                         window.location.href = '<?= base_url() ?>archive/buy/?key=<?= $this->input->get("key") ?>&type=change';
                     });
                 },
-                error: function () {
+                error: function (xhr, status, error) {
+                    console.error('Form submission error:', error);
+                    // Re-enable submit button on error
+                    $('.btn-save').prop('disabled', false).html('<i class="fas fa-save"></i> <span>Simpan</span>');
+                    
                     Swal.fire({
                         title: 'Gagal!',
                         text: 'Terjadi kesalahan saat menyimpan data',

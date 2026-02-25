@@ -281,9 +281,13 @@ jQuery(function ($) {
         autoAccept : true
     });
     
-    // Form submission with AJAX and SweetAlert loading
-    $('#myForm').on('submit', function(e) {
+    // Remove any existing submit handlers and bind new one to prevent duplicate submissions
+    $('#myForm').off('submit').on('submit', function(e) {
         e.preventDefault();
+        e.stopImmediatePropagation();
+        
+        // Disable submit button to prevent double click
+        $('.btn-save').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Menyimpan...');
         
         // Show loading SweetAlert
         Swal.fire({
@@ -306,6 +310,7 @@ jQuery(function ($) {
             type: 'POST',
             data: $(this).serialize(),
             success: function(response) {
+                console.log('Form submitted successfully:', response);
                 // Show success message
                 Swal.fire({
                     title: 'Berhasil!',
@@ -322,6 +327,10 @@ jQuery(function ($) {
                 });
             },
             error: function(xhr, status, error) {
+                console.error('Form submission error:', error);
+                // Re-enable submit button on error
+                $('.btn-save').prop('disabled', false).html('<i class="fas fa-save"></i> <span>Simpan</span>');
+                
                 // Show error message
                 Swal.fire({
                     title: 'Gagal!',
