@@ -1,0 +1,37 @@
+# =============================================================================
+# Docker Compose untuk CodeIgniter 3 - Multi-Project Ready
+# =============================================================================
+# Usage: docker compose up -d
+# =============================================================================
+
+version: '3.8'
+
+services:
+  ci3-iloveemas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ci3-iloveemas
+    restart: always
+    ports:
+      - "8082:80"
+    volumes:
+      # Mount current directory ke /var/www/html
+      # Ganti ./ dengan path absolut jika perlu, contoh: /var/www/iloveemas/:/var/www/html
+      - ./:/var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    # extra_hosts agar container bisa akses MySQL di host VPS
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# Networks (opsional, jika perlu isolasi)
+# networks:
+#   default:
+#     driver: bridge
