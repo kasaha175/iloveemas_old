@@ -27,43 +27,42 @@ jobs:
       - name: Install rsync
         run: sudo apt-get update && sudo apt-get install -y rsync
       
+      # ✅ SYNC (FIXED)
       - name: Sync files to server
         run: |
           rsync -avz --delete \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='node_modules' \
-            -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o PubkeyAuthentication=yes" \
-            ./ root@${{ secrets.SSH_HOST }}:/var/www/iloveemasAction
+            -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o PreferredAuthentications=publickey" \
+            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/iloveemas
 
+      # ✅ DEPLOY DOCKER
       - name: SSH to server and deploy with Docker
         run: |
-          ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            # Pastikan folder ada
+          ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o PreferredAuthentications=publickey ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            set -e
+
             mkdir -p /var/www/iloveemas
             cd /var/www/iloveemas
             
-            # Membangun dan menjalankan container
             docker compose up -d --build
             
-            # Tunggu sejenak agar container benar-benar siap
             sleep 5
             
-            # Atur izin folder log dan cache di dalam container
-            # Kita gunakan || true agar job tidak fail jika folder belum ada
             docker exec ci3-iloveemas chmod -R 777 /var/www/html/application/logs || true
             docker exec ci3-iloveemas chmod -R 777 /var/www/html/application/cache || true
             
-            # Bersihkan image yang menggantung (menghemat disk VPS 2GB)
             docker image prune -f
             
             echo "Status Container:"
             docker ps
           EOF
       
+      # ✅ VERIFY
       - name: Verify deployment
         run: |
-          ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o PreferredAuthentications=publickey ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             echo "=== Check Container Status ==="
             docker ps -f name=ci3-iloveemas
             
