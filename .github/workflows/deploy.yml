@@ -1,33 +1,96 @@
-name: Auto Deploy CI3 to VPS
+# =============================================================================
+# GitHub Actions Workflow - Deploy to Production
+# Enhanced deployment for CodeIgniter 3 application
+# =============================================================================
+
+name: Deploy to Production
 
 on:
   push:
     branches:
+      - main
       - master
+  workflow_dispatch:
 
 jobs:
   deploy:
-    runs-on: self-hosted
-
+    runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Sync Files to VPS
+      
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      
+      - name: Install rsync
+        run: sudo apt-get update && sudo apt-get install -y rsync
+      
+      - name: Sync files to server
         run: |
-          # Menggunakan rsync untuk sinkronisasi file
-          # --delete akan menghapus file di VPS yang sudah tidak ada di GitHub (sinkron total)
           rsync -avz --delete \
-            --exclude '.git*' \
-            --exclude '.github' \
-            --exclude 'application/config/database.php' \
-            --exclude 'application/logs/*' \
-            --exclude 'application/cache/*' \
-            . /var/www/iloveemas/
-
-      - name: Fix Permissions
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='.env' \
+            --exclude='*.log' \
+            --exclude='error_log' \
+            --exclude='.DS_Store' \
+            -e "ssh -o StrictHostKeyChecking=no" \
+            ./ user@your-server:/var/www/iloveemas/
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+      
+      - name: SSH to server and deploy with Docker
         run: |
-          # Memastikan CodeIgniter bisa menulis log dan cache
-          chmod -R 777 /var/www/iloveemas/application/logs
-          chmod -R 777 /var/www/iloveemas/application/cache
-          echo "Deployment Berhasil dan Otomatis!"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd /var/www/iloveemas
+            
+            # Pull latest code (if using git on server)
+            # git pull origin main
+            
+            # Build and start containers
+            docker compose up -d --build
+            
+            # Wait for container to be ready
+            sleep 10
+            
+            # Set proper permissions for logs and cache
+            docker exec ci3-iloveemas chmod -R 777 /var/www/html/application/logs
+            docker exec ci3-iloveemas chmod -R 777 /var/www/html/application/cache
+            
+            # Also set permissions for assets and uploads if they exist
+            docker exec ci3-iloveemas chmod -R 777 /var/www/html/assets 2>/dev/null || true
+            
+            # Clean up unused Docker images
+            docker image prune -f
+            
+            # Show container status
+            docker ps
+          EOF
+      
+      - name: Verify deployment
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            echo "=== Container Status ==="
+            docker ps
+            
+            echo ""
+            echo "=== Container Logs (Last 10 lines) ==="
+            docker logs --tail 10 ci3-iloveemas 2>&1 || echo "Container not running"
+          EOF
+
+  # Optional: Notify on failure
+  notify-failure:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: failure()
+    steps:
+      - name: Send failure notification
+        if: ${{ steps.deploy.outputs.status != 'success' }}
+        run: |
+          echo "Deployment failed! Please check the logs."
+          # Add notification logic here (Telegram, Slack, Email, etc.)
