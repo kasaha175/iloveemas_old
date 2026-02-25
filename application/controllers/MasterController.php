@@ -237,172 +237,320 @@ class MasterController extends CI_Controller
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        if ($authUser == true)
+
+        // Set JSON header for AJAX response
+        header('Content-Type: application/json');
+
+        if ($authUser != true)
         {
-            $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
-            $key = $this->input->get('key');
-            $value = $this->input->get('value');
-            if (in_array($key, array("rti-au", "rti-pt", "rti-ag", "rti-lm", "rti-ru", "rti-ta")))
+            log_message('error', 'buySave: Unauthorized access attempt');
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
+        }
+
+        $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+
+        // Get data from POST (fixed from GET)
+        $key = $this->input->post('key');
+        $value = $this->input->post('value');
+        $type = $this->input->post('type');
+
+        // Log incoming request payload
+        log_message('debug', 'buySave: Received key=' . $key . ', value=' . $value . ', type=' . $type);
+        log_message('debug', 'buySave: POST data = ' . json_encode($this->input->post()));
+
+        if (empty($key))
+        {
+            log_message('error', 'buySave: Empty key parameter');
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Parameter key tidak valid!'
+            ]);
+            return;
+        }
+
+        if (!in_array($key, array("rti-au", "rti-pt", "rti-ag", "rti-lm", "rti-ru", "rti-ta")))
+        {
+            log_message('error', 'buySave: Invalid key = ' . $key);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Key tidak valid!'
+            ]);
+            return;
+        }
+
+        try
+        {
+            if ($key == "rti-au")
             {
-                $type = $this->input->get('type');
-                if ($key == "rti-au")
+                $parameter = 'f_' . str_replace('-', '_', $key);
+                if ($type == "change")
                 {
-                    $parameter = 'f_' . str_replace('-', '_', $key);
-                    if ($type == "change")
+                    $data = array(
+                        'a' => $this->input->post('a'),
+                        'c' => $this->input->post('c'),
+                        'd' => $this->input->post('d'),
+                        'e' => $this->input->post('e'),
+                        'f' => $this->input->post('f'),
+                        'g' => $this->input->post('g'),
+                        'h' => $this->input->post('h'),
+                        'gb_99' => $this->input->post('gb_99'),
+                        'gb_99_9' => $this->input->post('gb_99_9'),
+                        'potongan_lm' => json_encode($this->input->post('potongan_lm')),
+                        'k23' => $this->input->post('k23'),
+                        'k22' => $this->input->post('k22'),
+                        'k21' => $this->input->post('k21'),
+                        'k20' => $this->input->post('k20'),
+                        'k19' => $this->input->post('k19'),
+                        'k18' => $this->input->post('k18'),
+                        'k17' => $this->input->post('k17'),
+                        'k16' => $this->input->post('k16'),
+                        'k15' => $this->input->post('k15'),
+                        'k14' => $this->input->post('k14'),
+                        'k13' => $this->input->post('k13'),
+                        'k12' => $this->input->post('k12'),
+                        'k11' => $this->input->post('k11'),
+                        'k10' => $this->input->post('k10'),
+                        'k9' => $this->input->post('k9'),
+                        'k8' => $this->input->post('k8'),
+                        'k7' => $this->input->post('k7'),
+                        'k6' => $this->input->post('k6'),
+                        'k5' => $this->input->post('k5'),
+                        'k4' => $this->input->post('k4'),
+                        'k3' => $this->input->post('k3'),
+                        'k2' => $this->input->post('k2'),
+                    );
+                    
+                    log_message('debug', 'buySave: rti-au change - updating with data = ' . json_encode($data));
+                    $affectedRows = $this->MasterModel->formulasUpdate($key, $data);
+                    log_message('debug', 'buySave: rti-au change - affected rows = ' . $affectedRows);
+
+                    if ($affectedRows > 0)
                     {
-                        $data = array(
-                            'a' => $this->input->get('a'),
-                            'c' => $this->input->get('c'),
-                            'd' => $this->input->get('d'),
-                            'e' => $this->input->get('e'),
-                            'f' => $this->input->get('f'),
-                            'g' => $this->input->get('g'),
-                            'h' => $this->input->get('h'),
-                            'gb_99' => $this->input->get('gb_99'),
-                            'gb_99_9' => $this->input->get('gb_99_9'),
-                            'potongan_lm' => json_encode($this->input->get('potongan_lm')),
-                            'k23' => $this->input->get('k23'),
-                            'k22' => $this->input->get('k22'),
-                            'k21' => $this->input->get('k21'),
-                            'k20' => $this->input->get('k20'),
-                            'k19' => $this->input->get('k19'),
-                            'k18' => $this->input->get('k18'),
-                            'k17' => $this->input->get('k17'),
-                            'k16' => $this->input->get('k16'),
-                            'k15' => $this->input->get('k15'),
-                            'k14' => $this->input->get('k14'),
-                            'k13' => $this->input->get('k13'),
-                            'k12' => $this->input->get('k12'),
-                            'k11' => $this->input->get('k11'),
-                            'k10' => $this->input->get('k10'),
-                            'k9' => $this->input->get('k9'),
-                            'k8' => $this->input->get('k8'),
-                            'k7' => $this->input->get('k7'),
-                            'k6' => $this->input->get('k6'),
-                            'k5' => $this->input->get('k5'),
-                            'k4' => $this->input->get('k4'),
-                            'k3' => $this->input->get('k3'),
-                            'k2' => $this->input->get('k2'),
-                        );
-                        $this->MasterModel->formulasUpdate($key, $data);
-                        redirect(base_url() . "archive/buy/?key=$key&type=change");
+                        log_message('info', 'buySave: rti-au change - SUCCESS, affected rows = ' . $affectedRows);
+                        echo json_encode([
+                            'status' => 'success',
+                            'message' => 'Data berhasil disimpan!',
+                            'redirect' => base_url() . "archive/buy/?key=$key&type=change"
+                        ]);
                     }
                     else
                     {
-                        $this->MaterialModel->formulaUpdate($parameter, $value);
-                        $parameter = 'f_rti_au_sell';
-                        $this->MaterialModel->formulaUpdate($parameter, $value);
-                        redirect(base_url() . "archive/buy/?key=$key");
+                        log_message('error', 'buySave: rti-au change - FAILED, no rows affected');
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Gagal menyimpan data! Tidak ada perubahan data.'
+                        ]);
                     }
-                }
-                else if ($key == "rti-ag")
-                {
-                    $parameter = 'f_' . str_replace('-', '_', $key);
-                    if ($type == "change")
-                    {
-                        $data = array(
-                            'a' => $this->input->get('a'),
-                            'b' => $this->input->get('b'),
-                            'c' => $this->input->get('c'),
-                            'd' => $this->input->get('d'),
-                            'e' => $this->input->get('e'),
-                        );
-                        $this->MasterModel->formulasUpdate($key, $data);
-                        $data = array(
-                            'a' => $this->input->get('aa'),
-                            'b' => $this->input->get('bb'),
-                            'c' => $this->input->get('cc'),
-                            'd' => $this->input->get('dd'),
-                            'e' => $this->input->get('ee'),
-                        );
-                        $this->MasterModel->formulasUpdate('rti-ag-low', $data);
-                        redirect(base_url() . "archive/buy/?key=$key&type=change");
-                    }
-                    else
-                    {
-                        $this->MaterialModel->formulaUpdate($parameter, $value);
-                        $parameter = 'f_rti_ag_sell';
-                        $this->MaterialModel->formulaUpdate($parameter, $value);
-                        redirect(base_url() . "archive/buy/?key=$key");
-                    }
-                }
-                else if ($key == "rti-pt")
-                {
-                    $parameter = 'f_' . str_replace('-', '_', $key);
-                    if ($type == "change")
-                    {
-                        $data = array(
-                            'a' => $this->input->get('a'),
-                            'b' => $this->input->get('b'),
-                            'c' => $this->input->get('c'),
-                            'd' => $this->input->get('d'),
-                            'e' => $this->input->get('e'),
-                        );
-                        $this->MasterModel->formulasUpdate($key, $data);
-                        $data = array(
-                            'a' => $this->input->get('aa'),
-                            'b' => $this->input->get('bb'),
-                            'c' => $this->input->get('cc'),
-                            'd' => $this->input->get('dd'),
-                            'e' => $this->input->get('ee'),
-                        );
-                        $this->MasterModel->formulasUpdate('rti-pt-low', $data);
-                        redirect(base_url() . "archive/buy/?key=$key&type=change");
-                    }
-                    else
-                    {
-                        $this->MaterialModel->formulaUpdate($parameter, $value);
-                        redirect(base_url() . "archive/buy/?key=$key");
-                    }
-                }
-                else if ($key == "rti-ru")
-                {
-                    $parameter = 'f_' . str_replace('-', '_', $key);
-                    if ($type == "change")
-                    {
-                        $data = array(
-                            'a' => $this->input->get('a')
-                        );
-                        $this->MasterModel->formulasUpdate($key, $data);
-                        $data = array(
-                            'a' => $this->input->get('aa'),
-                        );
-                        $this->MasterModel->formulasUpdate('rti-ru-low', $data);
-                        redirect(base_url() . "archive/buy/?key=$key&type=change");
-                    }
-                    else
-                    {
-                        $this->MaterialModel->formulaUpdate($parameter, $value);
-                        redirect(base_url() . "archive/buy/?key=$key");
-                    }
+                    return;
                 }
                 else
                 {
-                    $parameter = 'f_' . str_replace('-', '_', $key);
-                    if ($type == "change")
+                    if (empty($value))
                     {
-                        $data = array(
-                            'a' => $this->input->get('a')
-                        );
-                        $this->MasterModel->formulasUpdate($key, $data);
-                        redirect(base_url() . "archive/buy/?key=$key&type=change");
+                        log_message('error', 'buySave: rti-au - Empty value parameter');
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Value tidak boleh kosong!'
+                        ]);
+                        return;
+                    }
+
+                    log_message('debug', 'buySave: rti-au - updating f_rti_au with value = ' . $value);
+                    $result1 = $this->MaterialModel->formulaUpdate($parameter, $value);
+                    
+                    $parameter = 'f_rti_au_sell';
+                    log_message('debug', 'buySave: rti-au - updating f_rti_au_sell with value = ' . $value);
+                    $result2 = $this->MaterialModel->formulaUpdate($parameter, $value);
+                    
+                    log_message('debug', 'buySave: rti-au - result1 = ' . $result1 . ', result2 = ' . $result2);
+
+                    if ($result1 > 0 || $result2 > 0)
+                    {
+                        log_message('info', 'buySave: rti-au - SUCCESS');
+                        echo json_encode([
+                            'status' => 'success',
+                            'message' => 'Data berhasil disimpan!',
+                            'redirect' => base_url() . "archive/buy/?key=$key"
+                        ]);
                     }
                     else
                     {
-                        $this->MaterialModel->formulaUpdate($parameter, $value);
-                        redirect(base_url() . "archive/buy/?key=$key");
+                        log_message('error', 'buySave: rti-au - FAILED, no rows affected');
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Gagal menyimpan data! Tidak ada perubahan data.'
+                        ]);
                     }
+                    return;
+                }
+            }
+            else if ($key == "rti-ag")
+            {
+                $parameter = 'f_' . str_replace('-', '_', $key);
+                if ($type == "change")
+                {
+                    $data = array(
+                        'a' => $this->input->post('a'),
+                        'b' => $this->input->post('b'),
+                        'c' => $this->input->post('c'),
+                        'd' => $this->input->post('d'),
+                        'e' => $this->input->post('e'),
+                    );
+                    $this->MasterModel->formulasUpdate($key, $data);
+                    $data = array(
+                        'a' => $this->input->post('aa'),
+                        'b' => $this->input->post('bb'),
+                        'c' => $this->input->post('cc'),
+                        'd' => $this->input->post('dd'),
+                        'e' => $this->input->post('ee'),
+                    );
+                    $this->MasterModel->formulasUpdate('rti-ag-low', $data);
+                    
+                    log_message('info', 'buySave: rti-ag change - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/buy/?key=$key&type=change"
+                    ]);
+                    return;
+                }
+                else
+                {
+                    $this->MaterialModel->formulaUpdate($parameter, $value);
+                    $parameter = 'f_rti_ag_sell';
+                    $this->MaterialModel->formulaUpdate($parameter, $value);
+                    
+                    log_message('info', 'buySave: rti-ag - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/buy/?key=$key"
+                    ]);
+                    return;
+                }
+            }
+            else if ($key == "rti-pt")
+            {
+                $parameter = 'f_' . str_replace('-', '_', $key);
+                if ($type == "change")
+                {
+                    $data = array(
+                        'a' => $this->input->post('a'),
+                        'b' => $this->input->post('b'),
+                        'c' => $this->input->post('c'),
+                        'd' => $this->input->post('d'),
+                        'e' => $this->input->post('e'),
+                    );
+                    $this->MasterModel->formulasUpdate($key, $data);
+                    $data = array(
+                        'a' => $this->input->post('aa'),
+                        'b' => $this->input->post('bb'),
+                        'c' => $this->input->post('cc'),
+                        'd' => $this->input->post('dd'),
+                        'e' => $this->input->post('ee'),
+                    );
+                    $this->MasterModel->formulasUpdate('rti-pt-low', $data);
+                    
+                    log_message('info', 'buySave: rti-pt change - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/buy/?key=$key&type=change"
+                    ]);
+                    return;
+                }
+                else
+                {
+                    $this->MaterialModel->formulaUpdate($parameter, $value);
+                    
+                    log_message('info', 'buySave: rti-pt - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/buy/?key=$key"
+                    ]);
+                    return;
+                }
+            }
+            else if ($key == "rti-ru")
+            {
+                $parameter = 'f_' . str_replace('-', '_', $key);
+                if ($type == "change")
+                {
+                    $data = array(
+                        'a' => $this->input->post('a')
+                    );
+                    $this->MasterModel->formulasUpdate($key, $data);
+                    $data = array(
+                        'a' => $this->input->post('aa'),
+                    );
+                    $this->MasterModel->formulasUpdate('rti-ru-low', $data);
+                    
+                    log_message('info', 'buySave: rti-ru change - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/buy/?key=$key&type=change"
+                    ]);
+                    return;
+                }
+                else
+                {
+                    $this->MaterialModel->formulaUpdate($parameter, $value);
+                    
+                    log_message('info', 'buySave: rti-ru - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/buy/?key=$key"
+                    ]);
+                    return;
                 }
             }
             else
             {
-                $this->data['content'] = $this->load->view('ArchiveBuy', $this->data, true);
-                $this->load->view("UserTemplate", $this->data);
+                $parameter = 'f_' . str_replace('-', '_', $key);
+                if ($type == "change")
+                {
+                    $data = array(
+                        'a' => $this->input->post('a')
+                    );
+                    $this->MasterModel->formulasUpdate($key, $data);
+                    
+                    log_message('info', 'buySave: rti-ta change - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/buy/?key=$key&type=change"
+                    ]);
+                    return;
+                }
+                else
+                {
+                    $this->MaterialModel->formulaUpdate($parameter, $value);
+                    
+                    log_message('info', 'buySave: rti-ta - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/buy/?key=$key"
+                    ]);
+                    return;
+                }
             }
         }
-        else
+        catch (Exception $e)
         {
-            redirect(base_url());
+            log_message('error', 'buySave: Exception occurred - ' . $e->getMessage());
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ]);
+            return;
         }
     }
     function sell()

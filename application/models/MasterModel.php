@@ -37,6 +37,7 @@ class MasterModel extends CI_Model {
     function formulasUpdate($key,$data){
         $this->db->where('f_name', $key);
         $this->db->update('tb_formulas', $data);
+        return $this->db->affected_rows();
     }
     function customerData(){
         $query = $this->db->query("SELECT *
