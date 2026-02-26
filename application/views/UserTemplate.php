@@ -53,6 +53,14 @@
     <!-- Glassmorphism CSS -->
     <link href="<?=base_url()?>assets/css/glassmorphism.css" rel="stylesheet">
     
+    <!-- Chrome Performance Fix - Use light version on Chrome -->
+    <script>
+        // Detect Chrome and apply light CSS for smooth 60fps
+        if (navigator.userAgent.indexOf("Chrome") !== -1) {
+            document.write('<link href="<?=base_url()?>assets/css/glassmorphism-light.css" rel="stylesheet">');
+        }
+    </script>
+    
     <!-- DataTables Custom CSS -->
     <link href="<?=base_url()?>assets/css/datatables.css" rel="stylesheet">
     
