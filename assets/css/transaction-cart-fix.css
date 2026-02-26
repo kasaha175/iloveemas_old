@@ -1,0 +1,319 @@
+/* ========================================
+   BUY & SELL CART UI FIX
+   Fix: Label cut-off, Select styling, Form alignment
+   ======================================== */
+
+/* ========================================
+   1. FIX FORM GROUP LABELS - Prevent Cut-Off
+   ======================================== */
+
+.form-group {
+    margin-bottom: 18px !important;
+}
+
+.form-group label {
+    display: block !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    line-height: 1.4 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    /* Prevent cut-off */
+    padding-top: 0 !important;
+    overflow: visible !important;
+    white-space: normal !important;
+}
+
+/* For labels with special styling in cards */
+.card-body-glass .form-group label {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+}
+
+/* ========================================
+   2. STANDARDIZE SELECT & INPUT STYLING
+   ======================================== */
+
+.form-control,
+select.form-control,
+.input-glass,
+.select2-glass {
+    height: 46px !important;
+    min-height: 46px !important;
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    background: rgba(0, 0, 0, 0.35) !important;
+    color: #fff !important;
+    /* Fix text vertical alignment */
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Select2 specific fixes */
+.select2-container--default .select2-selection--single {
+    height: 46px !important;
+    min-height: 46px !important;
+    padding: 0 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    background: rgba(0, 0, 0, 0.35) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 12px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 1.5 !important;
+    height: 46px !important;
+    display: flex !important;
+    align-items: center !important;
+    color: #fff !important;
+    font-size: 14px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Focus states */
+.form-control:focus,
+select.form-control:focus,
+.input-glass:focus,
+.select2-glass:focus,
+.select2-container--default .select2-selection--single:focus {
+    outline: none !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25) !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* ========================================
+   3. FIX CARD HEADER SPACING
+   ======================================== */
+
+.card-header-glass {
+    padding: 18px 20px !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.card-header-glass .m-0 {
+    color: #fff !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+}
+
+.card-header-glass .m-0 small {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-weight: 400 !important;
+    display: block;
+    margin-top: 4px;
+}
+
+/* ========================================
+   4. FIX CARD BODY PADDING
+   ======================================== */
+
+.card-body-glass {
+    padding: 24px !important;
+}
+
+/* ========================================
+   5. FIX FORM ROW - ADMIN COST ALIGNMENT
+   ======================================== */
+
+.form-row {
+    display: flex !important;
+    gap: 16px !important;
+    margin-bottom: 16px !important;
+    align-items: flex-start !important;
+}
+
+.form-row > div {
+    flex: 1 !important;
+}
+
+/* For PLUS/MINUS BIAYA ADMIN section */
+.form-row label {
+    display: block !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Empty label spacer - use min-height instead of &nbsp; */
+.form-row label:empty::after,
+.form-row label[style*="display: none"] + div {
+    /* Handle when label is hidden */
+}
+
+/* Alternative: Use flex for the admin cost row */
+.card-body-glass .form-row.mt-3 {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-end !important;
+}
+
+.card-body-glass .form-row.mt-3 > div {
+    flex: 1 1 auto !important;
+    min-width: 120px !important;
+}
+
+.card-body-glass .form-row.mt-3 > div:last-child {
+    flex: 2 2 auto !important;
+}
+
+/* ========================================
+   6. FIX CARD HEIGHT CONSISTENCY
+   ======================================== */
+
+.glass-card {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.glass-card .card-body-glass {
+    flex: 1 !important;
+}
+
+.glass-card .card-footer-glass {
+    flex-shrink: 0 !important;
+}
+
+/* ========================================
+   7. FIX BUTTON ALIGNMENT IN FOOTER
+   ======================================== */
+
+.card-footer-glass {
+    display: flex !important;
+    gap: 12px !important;
+    justify-content: flex-end !important;
+    padding: 16px 20px !important;
+    background: rgba(0, 0, 0, 0.15) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.card-footer-glass .btn {
+    min-width: 100px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 10px 20px !important;
+}
+
+/* ========================================
+   8. TABLE HEADER IMPROVEMENT
+   ======================================== */
+
+.glass-table thead {
+    background: rgba(0, 0, 0, 0.35) !important;
+}
+
+.glass-table th {
+    color: #fff !important;
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    padding: 14px 12px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.glass-table td {
+    padding: 12px !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    vertical-align: middle !important;
+}
+
+/* ========================================
+   9. PLACEHOLDER STYLING
+   ======================================== */
+
+.form-control::placeholder,
+.input-glass::placeholder,
+.select2-glass::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ========================================
+   10. MOBILE RESPONSIVENESS
+   ======================================== */
+
+@media (max-width: 768px) {
+    .card-body-glass {
+        padding: 16px !important;
+    }
+    
+    .form-row {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+    
+    .form-row > div {
+        width: 100% !important;
+        flex: none !important;
+    }
+    
+    .card-footer-glass {
+        flex-direction: column !important;
+    }
+    
+    .card-footer-glass .btn {
+        width: 100% !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .card-footer-glass .btn:last-child {
+        margin-bottom: 0 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .form-control,
+    select.form-control,
+    .input-glass,
+    .select2-container--default .select2-selection--single {
+        height: 48px !important;
+        min-height: 48px !important;
+        font-size: 16px !important; /* Prevents iOS zoom */
+    }
+}
+
+/* ========================================
+   SUMMARY OF FIXES
+   ========================================
+   
+   BEFORE ISSUES:
+   - Label text cut-off at top
+   - Labels too close to border
+   - Select height inconsistent (44px vs other values)
+   - Text in select too high/not centered
+   - Dropdown arrow not centered
+   - Form row admin cost not aligned
+   - Card heights inconsistent
+   - Table header too pale
+   
+   AFTER FIXES:
+   - Labels: font-size 13px, margin-bottom 8px, line-height 1.4
+   - Select: height 46px, flex center alignment
+   - Form row: proper flex alignment
+   - Card: 100% height with flex
+   - Table header: dark background rgba(0,0,0,0.35)
+   - Focus states: blue border with glow
+*/

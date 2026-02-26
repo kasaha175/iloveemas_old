@@ -66,6 +66,8 @@
     <link href="<?=base_url()?>assets/css/pages/cabang.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/css/pages/customer.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/css/pages/transaction.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/transaction-readability-fix.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/transaction-cart-fix.css" rel="stylesheet">
     
     <!-- Glassmorphism JS -->
     <script src="<?=base_url()?>assets/js/glassmorphism.js"></script>
