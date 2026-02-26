@@ -297,24 +297,12 @@
 
 /* Glass Card - Compact */
 .glass-card {
-    background: var(--card-gradient);
+    background: var(--bg-card);
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     overflow: hidden;
-    animation: fadeInUp 0.5s ease-out 0.2s both;
     position: relative;
-}
-
-.glass-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 40%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-    pointer-events: none;
 }
 
 /* Card Header - Compact */
@@ -654,6 +642,7 @@
 @media (max-width: 576px) {
     .page-container {
         padding: 75px 12px 20px;
+        overflow-x: hidden;
     }
 
     .page-title {
@@ -711,4 +700,112 @@
         width: 100%;
         justify-content: center;
     }
+    
+    /* Mobile form fixes */
+    .form-control, .form-select {
+        min-height: 44px;
+        font-size: 16px;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* ========================================
+   GLOBAL UI FIXES
+======================================= */
+
+/* Form controls - full height */
+.form-control, .form-select, .input-glass {
+    min-height: 44px;
+    line-height: 1.5;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: var(--bg-input) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: #ffffff !important;
+}
+
+.form-control:focus, .form-select:focus {
+    background: var(--bg-input) !important;
+}
+
+.select2-container--default .select2-selection--single {
+    min-height: 44px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #ffffff;
+    line-height: 1.5;
+}
+
+/* Disable autocomplete */
+input[type="number"], .aang, .biayaAdmin {
+    autocomplete: off !important;
+}
+
+/* Placeholder */
+::placeholder {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* Table improvements */
+.glass-table thead {
+    background: rgba(0, 180, 216, 0.12);
+}
+
+.glass-table thead th {
+    color: #ffffff;
+    font-weight: 600;
+    padding: 12px 14px;
+}
+
+.glass-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-table td {
+    padding: 12px 14px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Cart table */
+.cart-table thead {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.cart-table thead th {
+    color: #ffffff;
+    font-weight: 600;
+    padding: 14px 12px;
+}
+
+.cart-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cart-table tbody td {
+    padding: 12px;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+/* Force dark background */
+body {
+    background: var(--bg-dark) !important;
+}
+
+.content-wrapper,
+.main-content,
+.wrapper {
+    background: var(--bg-dark) !important;
+}
+
+/* Footer button balance */
+.card-footer-glass .btn {
+    min-width: 110px;
 }

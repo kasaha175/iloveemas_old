@@ -53,6 +53,14 @@
     <!-- Glassmorphism CSS -->
     <link href="<?=base_url()?>assets/css/glassmorphism.css" rel="stylesheet">
     
+    <!-- Chrome Performance Fix - Use light version on Chrome -->
+    <script>
+        // Detect Chrome and apply light CSS for smooth 60fps
+        if (navigator.userAgent.indexOf("Chrome") !== -1) {
+            document.write('<link href="<?=base_url()?>assets/css/glassmorphism-light.css" rel="stylesheet">');
+        }
+    </script>
+    
     <!-- DataTables Custom CSS -->
     <link href="<?=base_url()?>assets/css/datatables.css" rel="stylesheet">
     
@@ -66,6 +74,8 @@
     <link href="<?=base_url()?>assets/css/pages/cabang.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/css/pages/customer.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/css/pages/transaction.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/transaction-readability-fix.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/transaction-cart-fix.css" rel="stylesheet">
     
     <!-- Glassmorphism JS -->
     <script src="<?=base_url()?>assets/js/glassmorphism.js"></script>

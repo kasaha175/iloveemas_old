@@ -554,137 +554,61 @@ class TransactionController extends CI_Controller
 			{
 				if ($idMaterial == 2)
 				{
+					// ====== GOLD BUY PRICE CALCULATION (LEGACY COMPATIBLE) ======
 					if ($carat == '24(99.9)')
 					{
 						$price = round($rtiAU + $AUpotonganK2499);
-						// $price = round(($rtiAU + ($rtiAU * - (16/100))) * $percentage/100);
-						// $priceTotal = ($price * $weight);
-					}
-					else if ($carat == '24(99)')
+					} 
+					else if ($carat == '24(99)') 
 					{
 						$price = round($rtiAU + $AUpotonganK24);
-					}
-					else
+					} 
+					else 
 					{
-						$kadar = $carat / 24;
+						// Convert carat to float
+						$carat = (float)$carat;
+						
+						// TRUNCATE to 3 decimal places (legacy behavior)
+						// 16/24 = 0.6666667 -> 0.666
+						// 17/24 = 0.7083333 -> 0.708
+						$kadar = floor(($carat / 24) * 1000) / 1000;
+						
+						// Get potongan percentage for this karat from dynamic field (k16, k17, etc.)
 						$potonganKarat = 'k' . $carat;
-						$price = round(($kadar * $rtiAU) + ($kadar * $rtiAU * ($formulaRTIAu->$potonganKarat / 100)));
-						// echo '<br>carat = ' . $carat;
-						// echo '<br>kadar = ' . $kadar;
-						// echo '<br>potonganKarat = ' . $potonganKarat;
-						// echo '<br>potongan karat = ' . $formulaRTIAu->$potonganKarat;
-						// echo '<br>price = ' . $price;
+						$potonganKaratValue = isset($formulaRTIAu->$potonganKarat) ? $formulaRTIAu->$potonganKarat : 0;
+						
+						// Legacy compatible formula:
+						// price = round((kadar * rtiAU) + (kadar * rtiAU * (potonganKarat / 100)))
+						$baseValue = $kadar * $rtiAU;
+						$adjustment = $baseValue * ($potonganKaratValue / 100);
+						$price = round($baseValue + $adjustment);
+						
+						// Debug logging for verification
+						log_message('debug', '[BUY GOLD] Carat: ' . $carat);
+						log_message('debug', '[BUY GOLD] Kadar (truncated): ' . $kadar);
+						log_message('debug', '[BUY GOLD] Base Value: ' . $baseValue);
+						log_message('debug', '[BUY GOLD] Adjustment (' . $potonganKaratValue . '%): ' . $adjustment);
+						log_message('debug', '[BUY GOLD] Final Price: ' . $price);
 					}
-
-
-
-					// die();
-					// else if ($carat == 23)
-					// {
-
-					// 	$price = round((0.958 * $rtiAU) + (0.958 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 22)
-					// {
-					// 	$price = round((0.916 * $rtiAU) + (0.916 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 21)
-					// {
-					// 	$price = round((0.875 * $rtiAU) + (0.875 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 20)
-					// {
-					// 	$price = round((0.833 * $rtiAU) + (0.833 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 19)
-					// {
-					// 	$price = round((0.791 * $rtiAU) + (0.791 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 18)
-					// {
-					// 	$price = round((0.75 * $rtiAU) + (0.75 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 17)
-					// {
-					// 	$price = round((0.708 * $rtiAU) + (0.708 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 16)
-					// {
-					// 	$price = round((0.666 * $rtiAU) + (0.666 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 15)
-					// {
-					// 	$price = round((0.625 * $rtiAU) + (0.625 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 14)
-					// {
-					// 	$price = round((0.583 * $rtiAU) + (0.583 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 13)
-					// {
-					// 	$price = round((0.541 * $rtiAU) + (0.541 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 12)
-					// {
-					// 	$price = round((0.5 * $rtiAU) + (0.5 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 11)
-					// {
-					// 	$price = round((0.458 * $rtiAU) + (0.458 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 10)
-					// {
-					// 	$price = round((0.416 * $rtiAU) + (0.416 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 9)
-					// {
-					// 	$price = round((0.375 * $rtiAU) + (0.375 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 8)
-					// {
-					// 	$price = round((0.333 * $rtiAU) + (0.333 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 7)
-					// {
-					// 	$price = round((0.291 * $rtiAU) + (0.291 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 6)
-					// {
-					// 	$price = round((0.25 * $rtiAU) + (0.25 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 5)
-					// {
-					// 	$price = round((0.208 * $rtiAU) + (0.208 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 4)
-					// {
-					// 	$price = round((0.166 * $rtiAU) + (0.166 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 3)
-					// {
-					// 	$price = round((0.125 * $rtiAU) + (0.125 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else if ($carat == 2)
-					// {
-					// 	$price = round((0.083 * $rtiAU) + (0.083 * $rtiAU * ($AUpresentasePotonganK24 / 100)));
-					// }
-					// else
-					// {
-					// 	$price = 1;
-					// }
+					
 					$priceTotal = round($price * $weight);
+					
+					// Prepare cart data array
 					$data = array(
-					 'id' => $idLast,
-					 'qty' => $weight,
-					 'price' => $price,
-					 'prices' => $price,
-					 'name' => 'T-Shirt',
-					 'materialName' => $materialName,
-					 'materialType' => $materialType,
-					 'carat' => $carat,
-					 'weight' => $weight,
-					 'priceTotal' => $priceTotal,
+						'id' => $idLast,
+						'qty' => (float)$weight,
+						'price' => (float)$price,
+						'prices' => (float)$price,
+						'name' => 'T-Shirt',
+						'materialName' => $materialName,
+						'materialType' => $materialType,
+						'carat' => $carat,
+						'weight' => (float)$weight,
+						'priceTotal' => (float)$priceTotal,
 					);
+					
+					// Debug logging before cart insert
+					log_message('debug', '[BUY GOLD] CART DATA: ' . print_r($data, true));
 				}
 				else if ($idMaterial == 3)
 				{
