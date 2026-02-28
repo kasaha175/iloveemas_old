@@ -282,12 +282,12 @@ function nominal($angka) {
                                 <p style="color: var(--text-primary); font-weight: 600; margin: 0;"><?= $nameCustomer ?></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="mb-2">
                                 <span style="color: var(--text-secondary); font-size: 0.85rem;">Material</span>
                                 <p style="color: var(--text-primary); font-weight: 600; margin: 0;"><?= $materianName ?></p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6">
@@ -350,15 +350,15 @@ function nominal($angka) {
     <div class="modal-dialog" role="document">
         <div class="modal-content glass-modal">
             <div class="modal-header">
-                <h5 class="modal-title">Ready to Reset?</h5>
+                <h5 class="modal-title">Reset Transaksi?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Select "Reset" below if you are ready to end your cart session.</div>
+            <div class="modal-body">Semua item di keranjang akan dihapus.</div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger" href="<?=base_url()?>transaction/buy-add-to-cart-reset/?idMaterial=<?=$this->uri->segment(3)?>">Reset</a>
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                <a class="btn btn-danger" href="<?=base_url()?>transaction/buy-add-to-cart-reset/?idMaterial=<?=$this->uri->segment(3)?>">Ya, Reset</a>
             </div>
         </div>
     </div>
