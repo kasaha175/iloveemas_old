@@ -154,7 +154,7 @@ function nominal($angka) {
             <div class="glass-card">
                 <div class="card-header-glass">
                     <h6 class="m-0 font-weight-bold">
-                        BUY CART (<?= $nameCustomer ?>) => RP <?= nominal($total) ?>
+                        BUY CART
                     </h6>
                 </div>
 
@@ -237,8 +237,8 @@ function nominal($angka) {
                             </div>
                             <hr style="border-color: var(--glass-border); margin: 12px 0;">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span style="color: var(--turquoise-surf); font-weight: 600; font-size: 1.2rem;">TOTAL</span>
-                                <span id="totalDisplay" style="color: var(--turquoise-surf); font-weight: 700; font-size: 1.4rem;">RP <?= nominal($total) ?></span>
+                                <span style="color: var(--text-primary); font-weight: 600; font-size: 1.2rem;">TOTAL</span>
+                                <span id="totalDisplay" style="color: var(--text-primary); font-weight: 700; font-size: 1.4rem;">RP <?= nominal($total) ?></span>
                             </div>
                         </div>
                     </form>
@@ -272,32 +272,36 @@ function nominal($angka) {
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Transaction Summary -->
-                <div class="mb-4">
-                    <h6 style="color: var(--turquoise-surf); font-weight: 600; margin-bottom: 15px;">Ringkasan Transaksi</h6>
-                    <div class="table-responsive">
-                        <table class="table glass-table" id="summaryTable">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Material</th>
-                                    <th>Weight</th>
-                                    <th>Price/Gr</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody id="summaryTableBody">
-                                <?php $no = 1; foreach ($this->cart->contents() as $a): ?>
-                                <tr>
-                                    <td><?= $no++ ?></td>
-                                    <td><?= $a['materialName'] ?></td>
-                                    <td><?= $a['weight'] ?></td>
-                                    <td><?= ($a['materialName'] != 'DIAMOND') ? nominal($a['prices']) : $a['prices'] ?></td>
-                                    <td><?= nominal($a['priceTotal']) ?></td>
-                                </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                <!-- Customer Information -->
+                <div class="mb-4 p-3" style="background: var(--glass-bg); border-radius: 12px; border: 1px solid var(--glass-border);">
+                    <h6 style="color: var(--turquoise-surf); font-weight: 600; margin-bottom: 15px;">Informasi Customer</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <span style="color: var(--text-secondary); font-size: 0.85rem;">Nama Customer</span>
+                                <p style="color: var(--text-primary); font-weight: 600; margin: 0;"><?= $nameCustomer ?></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <span style="color: var(--text-secondary); font-size: 0.85rem;">Material</span>
+                                <p style="color: var(--text-primary); font-weight: 600; margin: 0;"><?= $materianName ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <span style="color: var(--text-secondary); font-size: 0.85rem;">Tanggal Transaksi</span>
+                                <p style="color: var(--text-primary); font-weight: 600; margin: 0;"><?= date('d/m/Y H:i') ?></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <span style="color: var(--text-secondary); font-size: 0.85rem;">Jumlah Item</span>
+                                <p style="color: var(--text-primary); font-weight: 600; margin: 0;"><?= count($this->cart->contents()) ?> Item</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -313,8 +317,8 @@ function nominal($angka) {
                     </div>
                     <hr style="border-color: var(--glass-border); margin: 12px 0;">
                     <div class="d-flex justify-content-between align-items-center">
-                        <span style="color: var(--turquoise-surf); font-weight: 600; font-size: 1.1rem;">TOTAL</span>
-                        <span id="modalTotal" style="color: var(--turquoise-surf); font-weight: 700; font-size: 1.3rem;">RP <?= nominal($total) ?></span>
+                        <span style="color: var(--text-primary); font-weight: 600; font-size: 1.1rem;">TOTAL</span>
+                        <span id="modalTotal" style="color: var(--text-primary); font-weight: 700; font-size: 1.3rem;">RP <?= nominal($total) ?></span>
                     </div>
                 </div>
                 
@@ -328,6 +332,7 @@ function nominal($angka) {
                             <option value="transfer">Transfer Bank</option>
                             <option value="credit">Kartu Kredit</option>
                             <option value="debit">Kartu Debit</option>
+                            <option value="payment_gateway" disabled>Payment Gateway (Coming Soon)</option>
                         </select>
                     </div>
                 </div>
