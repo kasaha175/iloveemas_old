@@ -134,18 +134,35 @@ function nominal($angka) {
                         </table>
                     </div>
 
-                    <form action="<?=base_url()?>transaction/sell-checkout/">
+                    <form id="checkoutForm" action="<?=base_url()?>transaction/sell-checkout/">
                         <div class="row g-3 mt-3">
                             <div class="col-md-3">
                                 <p class="mb-2" style="color: var(--turquoise-surf); font-weight: 600;">PLUS/MINUS</p>
-                                <select type="number" step="any" class="form-control select2-glass" name="operator">
+                                <select name="operator" id="operator" class="form-control select2-glass" onchange="updateTotal()">
                                     <option value="+">+</option>
                                     <option value="-">-</option>
                                 </select>
                             </div>
                             <div class="col-md-9">
                                 <p class="mb-2" style="color: var(--turquoise-surf); font-weight: 600;">BIAYA ADMIN</p>
-                                <input type="number" step="any" class="form-control input-glass biayaAdmin" name="biayaAdmin" placeholder="Masukkan biaya admin">
+                                <input type="number" step="any" class="form-control input-glass biayaAdmin" name="biayaAdmin" id="biayaAdmin" placeholder="Masukkan biaya admin" oninput="updateTotal()">
+                            </div>
+                        </div>
+                        
+                        <!-- Total Summary -->
+                        <div class="mt-4 p-3" style="background: var(--glass-bg); border-radius: 12px; border: 1px solid var(--glass-border);">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span style="color: var(--text-secondary); font-weight: 500;">Subtotal</span>
+                                <span id="subtotalDisplay" style="color: var(--text-primary); font-weight: 600; font-size: 1.1rem;">RP <?= nominal($total) ?></span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span style="color: var(--text-secondary); font-weight: 500;">Admin Fee</span>
+                                <span id="adminFeeDisplay" style="color: var(--text-primary); font-weight: 600; font-size: 1.1rem;">RP 0</span>
+                            </div>
+                            <hr style="border-color: var(--glass-border); margin: 12px 0;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span style="color: var(--turquoise-surf); font-weight: 600; font-size: 1.2rem;">TOTAL</span>
+                                <span id="totalDisplay" style="color: var(--turquoise-surf); font-weight: 700; font-size: 1.4rem;">RP <?= nominal($total) ?></span>
                             </div>
                         </div>
                     </form>
@@ -156,7 +173,7 @@ function nominal($angka) {
                         <i class="fas fa-times"></i>
                         <span>Reset</span>
                     </a>
-                    <a href="#" data-toggle="modal" data-target="#checkoutModal" class="btn btn-success">
+                    <a href="#" data-toggle="modal" data-target="#checkoutModal" class="btn btn-success" onclick="prepareCheckout()">
                         <i class="fas fa-check"></i>
                         <span>Checkout</span>
                     </a>
@@ -168,18 +185,78 @@ function nominal($angka) {
 
 <!-- Checkout Modal -->
 <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content glass-modal">
             <div class="modal-header">
-                <h5 class="modal-title">Ready to Checkout?</h5>
+                <h5 class="modal-title">Checkout Summary</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Select "Checkout" below if you are ready to end your cart session.</div>
+            <div class="modal-body">
+                <!-- Transaction Summary -->
+                <div class="mb-4">
+                    <h6 style="color: var(--turquoise-surf); font-weight: 600; margin-bottom: 15px;">Ringkasan Transaksi</h6>
+                    <div class="table-responsive">
+                        <table class="table glass-table" id="summaryTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Material</th>
+                                    <th>Weight</th>
+                                    <th>Price/Gr</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="summaryTableBody">
+                                <?php $no = 1; foreach ($this->cart->contents() as $a): ?>
+                                <tr>
+                                    <td><?= $no++ ?></td>
+                                    <td><?= $a['materialName'] ?></td>
+                                    <td><?= $a['weight'] ?></td>
+                                    <td><?= ($a['materialName'] != 'DIAMOND') ? nominal($a['prices']) : $a['prices'] ?></td>
+                                    <td><?= nominal($a['priceTotal']) ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Payment Summary -->
+                <div class="mb-4 p-3" style="background: var(--glass-bg); border-radius: 12px; border: 1px solid var(--glass-border);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span style="color: var(--text-secondary);">Subtotal</span>
+                        <span id="modalSubtotal" style="color: var(--text-primary); font-weight: 600;">RP <?= nominal($total) ?></span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <span style="color: var(--text-secondary);">Admin Fee</span>
+                        <span id="modalAdminFee" style="color: var(--text-primary); font-weight: 600;">RP 0</span>
+                    </div>
+                    <hr style="border-color: var(--glass-border); margin: 12px 0;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span style="color: var(--turquoise-surf); font-weight: 600; font-size: 1.1rem;">TOTAL</span>
+                        <span id="modalTotal" style="color: var(--turquoise-surf); font-weight: 700; font-size: 1.3rem;">RP <?= nominal($total) ?></span>
+                    </div>
+                </div>
+                
+                <!-- Payment Method -->
+                <div>
+                    <h6 style="color: var(--turquoise-surf); font-weight: 600; margin-bottom: 15px;">Metode Pembayaran</h6>
+                    <div class="form-group">
+                        <select name="paymentMethod" id="paymentMethod" class="form-control select2-glass" required>
+                            <option value="">Pilih Metode Pembayaran</option>
+                            <option value="cash">Cash</option>
+                            <option value="transfer">Transfer Bank</option>
+                            <option value="credit">Kartu Kredit</option>
+                            <option value="debit">Kartu Debit</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a href="<?=base_url()?>transaction/sell-checkout/" class="btn btn-success">Checkout</a>
+                <button type="button" class="btn btn-success" onclick="confirmCheckout()">Konfirmasi Checkout</button>
             </div>
         </div>
     </div>
@@ -397,9 +474,6 @@ function nominal($angka) {
     border-bottom: 1px solid var(--glass-border);
 }
 
-.glass-table tbody tr {
-}
-
 .glass-table tbody tr:hover {
     background: var(--glass-bg-hover);
 }
@@ -544,14 +618,66 @@ $(".select2").select2();
 </script>
 
 <script>
+var subtotal = <?= $total ?>;
+
+function formatRupiah(angka) {
+    return 'RP ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function updateTotal() {
+    var operator = document.getElementById('operator').value;
+    var biayaAdmin = parseFloat(document.getElementById('biayaAdmin').value) || 0;
+    
+    var adminFee = operator === '+' ? biayaAdmin : -biayaAdmin;
+    var total = subtotal + adminFee;
+    
+    document.getElementById('adminFeeDisplay').textContent = formatRupiah(Math.abs(adminFee));
+    document.getElementById('totalDisplay').textContent = formatRupiah(total);
+    
+    // Also update modal
+    document.getElementById('modalAdminFee').textContent = formatRupiah(Math.abs(adminFee));
+    document.getElementById('modalTotal').textContent = formatRupiah(total);
+}
+
+function prepareCheckout() {
+    updateTotal();
+}
+
+function confirmCheckout() {
+    var paymentMethod = document.getElementById('paymentMethod').value;
+    if (!paymentMethod) {
+        alert('Silakan pilih metode pembayaran');
+        return;
+    }
+    
+    // Submit the form
+    document.getElementById('checkoutForm').submit();
+}
+
 jQuery(function ($) {
-    $('.biayaAdmin').keyboard({
+    // Initialize keyboard for biayaAdmin with real-time update
+    $('#biayaAdmin').keyboard({
+        layout: 'num',
+        restrictInput: true,
+        preventPaste: true,
+        autoAccept: true
+    }).on('keyboardChange keyup', function(e, keyboard, el) {
+        // Real-time update when keyboard is used
+        updateTotal();
+    });
+    
+    // Also listen to standard input event for non-keyboard input
+    $('#biayaAdmin').on('input', function() {
+        updateTotal();
+    });
+    
+    $('#weight').keyboard({
         layout: 'num',
         restrictInput: true,
         preventPaste: true,
         autoAccept: true
     });
-    $('#weight').keyboard({
+    $('#idConfig').keyboard({
         layout: 'num',
         restrictInput: true,
         preventPaste: true,
