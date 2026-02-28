@@ -9,6 +9,7 @@ class TransactionController extends CI_Controller
 		$this->load->model('MasterModel');
 		$this->load->model('TransactionModel');
 		$this->load->model('MaterialModel');
+		$this->load->model('CabangModel');
 		$this->data["title"] = "";
 		date_default_timezone_set("Asia/Jakarta");
 		$this->dateToday = date("Y-m-d H:i:s");
@@ -452,43 +453,43 @@ class TransactionController extends CI_Controller
 		$this->session->set_userdata($data_session);
 		$this->cart->destroy();
 	}
+	
 	function buyCart()
 	{
-		$authUser = $this->session->userdata("authUser");
-		$idUser = $this->session->userdata("idUser");
-		$this->data["title"] = "TRANSACTION BUY";
-		if ($authUser == true)
-		{
-			$idMaterial = $this->uri->segment(3);
-			$materialName = $this->MaterialModel->materialDataBy('m_id', $idMaterial, 'Buy')->row("m_name");
-			// echo "<pre>";
-			// print_r ($materialName);
-			// echo "</pre>";
-			if (!empty($materialName))
-			{
-				$this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
-				$idCustomer = $this->session->userdata("idCustomer");
-				if (empty($idCustomer))
-				{
-					$idCustomer = 7;
-				}
-				$this->data['nameCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_name");
-				$this->data['materianName'] = $materialName;
-				$this->data['materialType'] = $this->MaterialModel->materialTypeData()->result();
-				$this->data['carat'] = $this->MaterialModel->caratData($idMaterial)->result();
-				$this->data['potongan'] = $this->MaterialModel->potonganData($idMaterial)->result();
-				$this->data['content'] = $this->load->view('BuyCart', $this->data, true);
-				$this->load->view("UserTemplate", $this->data);
-			}
-			else
-			{
-				redirect(base_url() . "transaction/buy/");
-			}
-		}
-		else
-		{
+		// 🔐 Cek Auth
+		if (!$this->session->userdata("authUser")) {
 			redirect(base_url());
 		}
+
+		$idUser     = $this->session->userdata("idUser");
+		$idMaterial = (int) $this->uri->segment(3);
+
+		// 🔎 Ambil Nama Material
+		$materialName = $this->MaterialModel
+			->materialDataBy('m_id', $idMaterial, 'Buy')
+			->row("m_name");
+
+		// Jika material tidak ditemukan
+		if (empty($materialName)) {
+			redirect(base_url("transaction/buy/"));
+		}
+
+		// 👤 Default Customer
+		$idCustomer = $this->session->userdata("idCustomer") ?? 7;
+
+		$this->data = [
+			"title"        => "TRANSACTION BUY",
+			"userData"     => $this->UserModel->userDataById($idUser)->result(),
+			"nameCustomer" => $this->MasterModel->customerDatas($idCustomer)->row("c_name"),
+			"materialName" => $materialName,
+			"materialType" => $this->MaterialModel->materialTypeData()->result(),
+			"carat"        => $this->MaterialModel->caratData($idMaterial)->result(),
+			"potongan"     => $this->MaterialModel->potonganData($idMaterial)->result(),
+			"cabang"       => $this->CabangModel->getActiveCabang()
+		];
+
+		$this->data['content'] = $this->load->view('BuyCart', $this->data, true);
+		$this->load->view("UserTemplate", $this->data);
 	}
 	function buyAddToCart()
 	{
@@ -1293,39 +1294,39 @@ class TransactionController extends CI_Controller
 	}
 	function sellCart()
 	{
-		$authUser = $this->session->userdata("authUser");
-		$idUser = $this->session->userdata("idUser");
-		$this->data["title"] = "TRANSACTION SELL";
-		if ($authUser == true)
-		{
-			$idMaterial = $this->uri->segment(3);
-			$materialName = $this->MaterialModel->materialDataBy('m_id', $idMaterial, 'Sell')->row("m_name");
-			if (!empty($materialName))
-			{
-				$idCustomer = $this->session->userdata("idCustomer");
-				if (empty($idCustomer))
-				{
-					$idCustomer = 7;
-				}
-				$this->data['nameCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_name");
-				$this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
-				$this->data['materianName'] = $materialName;
-				$this->data['materialType'] = $this->MaterialModel->materialTypeData()->result();
-				$this->data['potongan'] = $this->MaterialModel->potonganData($idMaterial)->result();
-				$this->data['carat'] = $this->MaterialModel->caratData($idMaterial)->result();
-				$this->data['configMaterial'] = $this->mmodel->selectWhere('config_material', ['material_id' => $idMaterial])->result();
-				$this->data['content'] = $this->load->view('SellCart', $this->data, true);
-				$this->load->view("UserTemplate", $this->data);
-			}
-			else
-			{
-				redirect(base_url() . "transaction/sell/");
-			}
-		}
-		else
-		{
+		if (!$this->session->userdata("authUser")) {
 			redirect(base_url());
 		}
+
+		$idUser = $this->session->userdata("idUser");
+		$idMaterial = (int) $this->uri->segment(3);
+
+		$materialName = $this->MaterialModel
+			->materialDataBy('m_id', $idMaterial, 'Sell')
+			->row("m_name");
+
+		if (empty($materialName)) {
+			redirect(base_url("transaction/sell/"));
+		}
+
+		$idCustomer = $this->session->userdata("idCustomer") ?? 7;
+
+		$this->data = [
+			"title"          => "TRANSACTION SELL",
+			"nameCustomer"   => $this->MasterModel->customerDatas($idCustomer)->row("c_name"),
+			"userData"       => $this->UserModel->userDataById($idUser)->result(),
+			"materialName"   => $materialName,
+			"materialType"   => $this->MaterialModel->materialTypeData()->result(),
+			"potongan"       => $this->MaterialModel->potonganData($idMaterial)->result(),
+			"carat"          => $this->MaterialModel->caratData($idMaterial)->result(),
+			"configMaterial" => $this->mmodel
+									->selectWhere('config_material', ['material_id' => $idMaterial])
+									->result(),
+			"cabang"         => $this->CabangModel->getActiveCabang()
+		];
+
+		$this->data['content'] = $this->load->view('SellCart', $this->data, true);
+		$this->load->view("UserTemplate", $this->data);
 	}
 	function sellAddToCart()
 	{

@@ -204,12 +204,31 @@ function nominal($angka) {
                                 <p style="color: var(--text-primary); font-weight: 600; margin: 0;"><?= $nameCustomer ?></p>
                             </div>
                         </div>
-                        <!-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <div class="mb-2">
-                                <span style="color: var(--text-secondary); font-size: 0.85rem;">Material</span>
-                                <p style="color: var(--text-primary); font-weight: 600; margin: 0;"><?= $materianName ?></p>
+                                <span style="color: var(--text-secondary); font-size: 0.85rem;">
+                                    Cabang
+                                </span>
+
+                                <select name="cabang_id" 
+                                        id="modalCabang" 
+                                        class="form-control select2-glass" 
+                                        style="margin-top: 5px;">
+
+                                    <option value="">Pilih Cabang</option>
+
+                                    <?php if (!empty($cabang)): ?>
+                                        <?php foreach ($cabang as $c): ?>
+                                            <option value="<?= $c->id ?>"
+                                                <?= ($c->id == $this->session->userdata('cabang_id')) ? 'selected' : '' ?>>
+                                                <?= $c->nama_cabang ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+
+                                </select>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6">

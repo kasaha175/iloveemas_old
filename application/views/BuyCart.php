@@ -283,12 +283,6 @@ function nominal($angka) {
                                 <p style="color: var(--text-primary); font-weight: 600; margin: 0;"><?= $nameCustomer ?></p>
                             </div>
                         </div>
-                        <!-- <div class="col-md-6">
-                            <div class="mb-2">
-                                <span style="color: var(--text-secondary); font-size: 0.85rem;">Material</span>
-                                <p style="color: var(--text-primary); font-weight: 600; margin: 0;"><?= $materianName ?></p>
-                            </div>
-                        </div> -->
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6">
@@ -320,6 +314,32 @@ function nominal($angka) {
                     <div class="d-flex justify-content-between align-items-center">
                         <span style="color: var(--text-primary); font-weight: 600; font-size: 1.1rem;">TOTAL</span>
                         <span id="modalTotal" style="color: var(--text-primary); font-weight: 700; font-size: 1.3rem;">RP <?= nominal($total) ?></span>
+                    </div>
+                </div>
+
+                <!-- Pilih Cabang -->
+                <div>
+                    <h6 style="color: var(--turquoise-surf); font-weight: 600; margin-bottom: 15px;">
+                        Cabang
+                    </h6>
+
+                    <div class="form-group">                        
+                        <select name="cabang_id" id="modalCabang" 
+                                class="form-control select2-glass" 
+                                style="margin-top: 5px;">
+
+                            <option value="">Pilih Cabang</option>
+
+                            <?php if (!empty($cabang)): ?>
+                                <?php foreach ($cabang as $c): ?>
+                                    <option value="<?= $c->id ?>"
+                                        <?= ($c->id == $this->session->userdata('cabang_id')) ? 'selected' : '' ?>>
+                                        <?= $c->nama_cabang ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+
+                        </select>
                     </div>
                 </div>
                 
