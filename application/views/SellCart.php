@@ -124,7 +124,7 @@ function nominal($angka) {
                                         <td><?= ($a['materialName'] != 'DIAMOND') ? nominal($a['prices']) : $a['prices'] ?></td>
                                         <td><?= nominal($a['priceTotal']) ?></td>
                                         <td>
-                                            <a href="<?=base_url()?>transaction/sell-add-to-cart-reset/?idMaterial=<?=$this->uri->segment(3)?>&idRow=<?=$a['rowid']?>" class="btn btn-sm btn-danger btn-circle">
+                                            <a href="javascript:void(0)" class="btn btn-sm btn-danger btn-circle" onclick="confirmDelete('<?=base_url()?>transaction/sell-add-to-cart-reset/?idMaterial=<?=$this->uri->segment(3)?>&idRow=<?=$a['rowid']?>')">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
@@ -686,6 +686,26 @@ function confirmCheckout() {
     
     // Submit the form
     document.getElementById('checkoutForm').submit();
+}
+
+function confirmDelete(url) {
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Item ini akan dihapus dari keranjang!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal',
+        customClass: {
+            popup: 'glass-swal-popup'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = url;
+        }
+    });
 }
 
 jQuery(function ($) {
