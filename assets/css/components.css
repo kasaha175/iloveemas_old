@@ -690,8 +690,7 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: rgba(10, 15, 26, 0.8);
+    bottom: 0;    
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;

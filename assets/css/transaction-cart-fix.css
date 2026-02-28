@@ -48,7 +48,7 @@ select.form-control,
     line-height: 1.5 !important;
     border-radius: 12px !important;
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    background: rgba(0, 0, 0, 0.35) !important;
+    /* background: rgba(0, 0, 0, 0.35) !important; */
     color: #fff !important;
     /* Fix text vertical alignment */
     display: flex !important;
@@ -62,7 +62,7 @@ select.form-control,
     padding: 0 14px !important;
     display: flex !important;
     align-items: center !important;
-    background: rgba(0, 0, 0, 0.35) !important;
+    /* background: rgba(0, 0, 0, 0.35) !important; */
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 12px !important;
 }
@@ -219,7 +219,7 @@ select.form-control:focus,
    ======================================== */
 
 .glass-table thead {
-    background: rgba(0, 0, 0, 0.35) !important;
+    /* background: rgba(0, 0, 0, 0.35) !important; */
 }
 
 .glass-table th {

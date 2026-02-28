@@ -6,7 +6,7 @@
         </ol>
     </nav>
     <!-- Welcome Section -->
-    <div class="welcome-card glass-card">
+    <div class="welcome-card">
         <div class="welcome-content">
             <div class="welcome-text">
                 <h1 class="welcome-title">Selamat Datang, Administrator! 👋</h1>
@@ -69,6 +69,7 @@
 
 .dashboard-grid {
     gap: 24px 0;
+    padding-bottom:15px;
 }
 
 .dashboard-grid .menu-box {
