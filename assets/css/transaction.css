@@ -549,11 +549,12 @@
 }
 
 .material-card {
+    /* background: var(--card-gradient); */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--card-gradient);
+    /* background: var(--card-gradient); */
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: 14px;

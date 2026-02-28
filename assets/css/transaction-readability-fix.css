@@ -41,7 +41,6 @@ label,
    ======================================== */
 
 .breadcrumb.glass-breadcrumb {
-    /* background: rgba(0, 0, 0, 0.35) !important; */
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
@@ -72,7 +71,7 @@ select.form-control {
     min-height: 44px;
     line-height: 1.5;
     padding: 12px 16px;
-    
+    /* background: #0d1526 !important; */
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     color: #ffffff !important;
     font-weight: 500;
@@ -82,7 +81,7 @@ select.form-control {
 .form-control:focus,
 .form-select:focus,
 .input-glass:focus {
-    
+    /* background: #0d1526 !important; */
     border-color: #00b4d8 !important;
     box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
     outline: none;
@@ -100,7 +99,7 @@ select.form-control {
    ======================================== */
 
 .select2-container--default .select2-selection--single {
-    
+    /* background: #0d1526 !important; */
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 12px !important;
     padding: 10px 14px !important;
@@ -124,7 +123,7 @@ select.form-control {
 
 /* Dropdown Menu */
 .select2-dropdown {
-    
+    /* background: #0d1526 !important; */
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 12px !important;
     backdrop-filter: blur(10px);
@@ -137,13 +136,13 @@ select.form-control {
 }
 
 .select2-results__option--highlighted[aria-selected] {
-    background: rgba(0, 180, 216, 0.2) !important;
+    /* background: rgba(0, 180, 216, 0.2) !important; */
     color: #00b4d8 !important;
 }
 
 /* Select2 Search Box */
 .select2-search__field {
-
+    background: #0d1526 !important;
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     color: #ffffff !important;
     border-radius: 8px;
@@ -159,7 +158,7 @@ select.form-control {
    ======================================== */
 
 .form-card {
-    background: rgba(13, 21, 38, 0.9) !important;
+    /* background: rgba(13, 21, 38, 0.9) !important; */
     border: 1px solid rgba(255, 255, 255, 0.12) !important;
     backdrop-filter: blur(10px);
 }
@@ -246,7 +245,7 @@ select.form-control {
 /* Force dark on select */
 select.form-control,
 select.form-select {
-    
+    /* background: #0d1526 !important; */
     color: #ffffff !important;
 }
 

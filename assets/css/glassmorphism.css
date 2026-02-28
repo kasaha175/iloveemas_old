@@ -1563,8 +1563,6 @@ body.page-dashboard .welcome-card {
         rgba(255, 255, 255, 0.12) 0%, 
         rgba(255, 255, 255, 0.04) 50%, 
         rgba(255, 255, 255, 0.08) 100%);
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 32px;
     box-shadow: 
@@ -1598,8 +1596,8 @@ body.page-archive .archive-box {
         rgba(255, 255, 255, 0.08) 0%, 
         rgba(255, 255, 255, 0.03) 50%, 
         rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(30px) saturate(120%) brightness(1.1);
-    -webkit-backdrop-filter: blur(30px) saturate(120%) brightness(1.1);
+    /* backdrop-filter: blur(30px) saturate(120%) brightness(1.1);
+    -webkit-backdrop-filter: blur(30px) saturate(120%) brightness(1.1); */
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 28px;
     box-shadow: 
@@ -1629,8 +1627,6 @@ body.page-master .card {
         rgba(255, 255, 255, 0.06) 0%, 
         rgba(255, 255, 255, 0.02) 50%, 
         rgba(255, 255, 255, 0.04) 100%);
-    backdrop-filter: blur(20px) saturate(150%);
-    -webkit-backdrop-filter: blur(20px) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 20px;
     box-shadow: 
