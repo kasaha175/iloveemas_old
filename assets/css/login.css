@@ -86,13 +86,18 @@
 
 body {
     font-family: var(--font-family);
-    background: var(--bg-dark);
+    background: linear-gradient(
+        135deg,
+        var(--deep-twilight) 0%,
+        var(--bright-teal-blue) 100%
+    );
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text);
     overflow-x: hidden;
+    position: relative;
 }
 
 /* Background Pattern */
