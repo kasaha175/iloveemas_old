@@ -140,8 +140,9 @@ function nominal($angka) {
                         <?php endif; ?>
 
                         <div class="form-group mb-0">
-                            <button type="submit" class="btn btn-primary btn-block">
-                                Add To Cart
+                            <button type="submit" id="addToCartBtn" class="btn btn-primary btn-block">
+                                <span class="text">Add To Cart</span>
+                                <span class="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Loading...</span>
                             </button>
                         </div>
 
@@ -204,7 +205,7 @@ function nominal($angka) {
                         </table>
                     </div>
 
-                    <form action="<?=base_url()?>transaction/buy-checkout/">
+                    <form action="<?=base_url()?>transaction/buy-checkout/" id="checkoutForm">
                         <div class="form-row mt-3">
                             <div>
                                 <label>PLUS / MINUS BIAYA ADMIN</label>
@@ -243,3 +244,131 @@ function nominal($angka) {
 
     </div>
 </div>
+
+<!-- Checkout Modal -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content glass-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Ready to Checkout?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Checkout" below if you are ready to end your cart session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a href="<?=base_url()?>transaction/buy-checkout/" class="btn btn-success" id="checkoutBtn">Checkout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reset Modal -->
+<div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content glass-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Ready to Reset?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Reset" below if you want to clear your cart.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a href="<?=base_url()?>transaction/buy-add-to-cart-reset/?idMaterial=<?=$this->uri->segment(3)?>&t=<?=$_GET['t']?>" class="btn btn-danger" id="resetBtn">Reset</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+// Add to Cart button loading
+$('#addToCartBtn').on('click', function() {
+    $(this).prop('disabled', true);
+    $(this).find('.text').hide();
+    $(this).find('.spinner').show();
+    return true;
+});
+
+// Delete row - show loading and confirm with Swal
+$('.btn-delete-row').on('click', function(e) {
+    e.preventDefault();
+    var deleteUrl = $(this).attr('href');
+    
+    Swal.fire({
+        title: 'Delete Item?',
+        text: "Are you sure you want to remove this item from cart?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc2626',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Yes, delete it!',
+        allowOutsideClick: false
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Show loading on the delete button
+            $(this).prop('disabled', true);
+            $(this).html('<i class="fas fa-spinner fa-spin"></i>');
+            
+            window.location.href = deleteUrl;
+        }
+    });
+    
+    return false;
+});
+
+// Checkout button loading
+$('#checkoutBtn').on('click', function(e) {
+    e.preventDefault();
+    var checkoutUrl = $(this).attr('href');
+    
+    Swal.fire({
+        title: 'Ready to Checkout?',
+        text: "Are you sure you want to proceed to checkout?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#10b981',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Yes, checkout!',
+        allowOutsideClick: false
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $(this).prop('disabled', true);
+            $(this).html('<i class="fas fa-spinner fa-spin"></i> Loading...');
+            window.location.href = checkoutUrl;
+        }
+    });
+    
+    return false;
+});
+
+// Reset button loading
+$('#resetBtn').on('click', function(e) {
+    e.preventDefault();
+    var resetUrl = $(this).attr('href');
+    
+    Swal.fire({
+        title: 'Ready to Reset?',
+        text: "Are you sure you want to reset the cart? All items will be removed.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc2626',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Yes, reset!',
+        allowOutsideClick: false
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $(this).prop('disabled', true);
+            $(this).html('<i class="fas fa-spinner fa-spin"></i> Loading...');
+            window.location.href = resetUrl;
+        }
+    });
+    
+    return false;
+});
+</script>

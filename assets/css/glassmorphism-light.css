@@ -1,38 +1,38 @@
 /* ================================================
    GLASSMORPHISM LIGHT - Chrome Performance Optimization
-   Low-GPU Mode Alternative
+   Low-GPU Mode Alternative - BRIGHT VERSION
    
    Use this instead of glassmorphism.css on Chrome 
    for smooth 60fps performance
    ================================================ */
 
-/* CSS Variables - Optimized */
+/* CSS Variables - Ocean Twilight Brand (Header/Footer) */
 :root {
-    /* Primary Colors */
-    --bg-dark: #0a0f1a;
+    /* Primary Colors - TIDAK BOLEH DIUBAH */
     --deep-twilight: #03045e;
     --bright-teal-blue: #0077b6;
     --turquoise-surf: #00b4d8;
     --frosted-blue: #90e0ef;
     --light-cyan: #caf0f8;
     
-    /* Light Glass Effect Variables - Reduced GPU usage */
-    --glass-bg: rgba(10, 15, 26, 0.85);
-    --glass-bg-hover: rgba(20, 30, 50, 0.9);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    /* Light Glass Effect Variables */
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-bg-hover: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     
     /* Text Colors */
     --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.8);
-    --text-muted: rgba(255, 255, 255, 0.5);
+    --text-secondary: rgba(255, 255, 255, 0.75);
+    --text-muted: rgba(255, 255, 255, 0.6);
 }
 
-/* Base Styles - Optimized */
+/* Base Styles - Ocean Twilight Background */
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #03045e 0%, #0077b6 50%, #00b4d8 100%);
-    background-attachment: scroll;  /* Changed from fixed - major perf gain */
+    /* Header/Footer gradient - TIDAK BOLEH DIUBAH */
+    background: linear-gradient(135deg, var(--deep-twilight), var(--bright-teal-blue));
+    background-attachment: fixed;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -40,9 +40,10 @@ body {
     overflow-x: hidden;
 }
 
-/* Glass Card - Light Version */
+/* Glass Card - Light Glass Surface */
 .glass-card {
     background: var(--glass-bg);
+    backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     box-shadow: var(--glass-shadow);
@@ -53,75 +54,54 @@ body {
 
 .glass-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-/* Glass Card with subtle gradient (no extra layers) */
-.glass-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 40%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-    pointer-events: none;
-}
-
-/* Card Component */
+/* Card Component - Light Glass */
 .card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 16px;
+    border-radius: 12px;
     position: relative;
     overflow: hidden;
     margin-bottom: 20px;
     box-shadow: var(--glass-shadow);
 }
 
-/* Menu Box - Light Version */
+/* Menu Box - Light Glass Surface */
 .menu-box {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 20px;
-    min-height: 140px;
+    padding: 30px 20px;
+    min-height: 120px;
     background: var(--glass-bg);
+    backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
+    border-radius: 16px;
     color: var(--text-primary);
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1rem;
     text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     overflow: hidden;
 }
 
-.menu-box::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
-    pointer-events: none;
-}
-
 .menu-box:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+    box-shadow: var(--glass-shadow);
+    background: var(--glass-bg-hover);
     text-decoration: none;
 }
 
-/* Glass Navbar - Light Version */
+/* Glass Navbar - TIDAK DIUBAH (Dark for contrast) */
 .glass-navbar {
-    background: rgba(10, 15, 26, 0.95) !important;
+    background: linear-gradient(135deg, var(--deep-twilight), var(--bright-teal-blue)) !important;
     border-bottom: 1px solid var(--glass-border) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 2px 10px rgba(3, 4, 94, 0.2) !important;
     position: fixed !important;
     top: 0;
     left: 0;
@@ -135,67 +115,69 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 16px 32px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    color: var(--text-primary);
+    padding: 10px 20px;
+    background: var(--bright-teal-blue);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-decoration: none;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .glass-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background: #0096c7;
 }
 
-/* Glass Input */
+/* Glass Input - Light Glass */
 .glass-input, .form-control {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    color: var(--text-primary);
-    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 10px 14px;
     font-size: 0.95rem;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .glass-input:focus, .form-control:focus {
     outline: none;
-    border-color: var(--turquoise-surf);
-    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+    border-color: var(--bright-teal-blue);
+    box-shadow: 0 0 0 2px rgba(0, 119, 182, 0.3);
 }
 
-/* Modal - Light */
+/* Modal - Light Glass */
 .modal-content {
-    background: rgba(10, 15, 26, 0.95);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
-    border-radius: 20px;
+    border-radius: 16px;
     color: var(--text-primary);
 }
 
-/* Dropdown - Light */
+/* Dropdown - Light Glass */
 .glass-dropdown {
-    background: rgba(10, 15, 26, 0.95) !important;
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border) !important;
-    border-radius: 16px !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+    border-radius: 12px !important;
+    box-shadow: var(--glass-shadow) !important;
 }
 
-/* Footer - Light */
+/* Footer - TIDAK DIUBAH (Dark for contrast) */
 .glass-footer {
-    background: rgba(10, 15, 26, 0.95);
+    background: linear-gradient(135deg, var(--deep-twilight), var(--bright-teal-blue));
     border-top: 1px solid var(--glass-border);
-    padding: 20px 0;
+    padding: 16px 0;
     margin-top: auto;
 }
 
-/* Table - Light */
+/* Table - Light Glass */
 table.dataTable thead th {
-    background: rgba(0, 0, 0, 0.2) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
     border-bottom: 2px solid var(--glass-border) !important;
     color: var(--turquoise-surf) !important;
 }
@@ -205,53 +187,73 @@ table.dataTable tbody tr {
     border-bottom: 1px solid var(--glass-border) !important;
 }
 
-/* Buttons - Same visual, less GPU */
+table.dataTable tbody tr:hover {
+    background: var(--glass-bg-hover) !important;
+}
+
+table.dataTable tbody td {
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+/* Buttons - Bright Teal Blue */
 .btn-primary {
-    background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%) !important;
+    background: var(--bright-teal-blue) !important;
+    color: #ffffff !important;
+    border-radius: 8px;
+}
+
+.btn-primary:hover {
+    background: #0096c7 !important;
+    transform: translateY(-2px);
 }
 
 .btn-success {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    background: var(--bright-teal-blue) !important;
+    color: #ffffff !important;
 }
 
-/* Dashboard specific - Thick Glass Light */
+.btn-success:hover {
+    background: #0096c7 !important;
+    transform: translateY(-2px);
+}
+
+/* Page-specific cards - Light Glass Surface */
 body.page-dashboard .menu-box,
 body.page-dashboard .glass-card {
-    background: rgba(10, 15, 26, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 24px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow);
 }
 
-/* Archive - Frosted Light */
 body.page-archive .menu-box,
 body.page-archive .glass-card {
-    background: rgba(10, 15, 26, 0.82);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-}
-
-/* Master - Precise Light */
-body.page-master .menu-box,
-body.page-master .card {
-    background: rgba(10, 15, 26, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     border-radius: 16px;
 }
 
-/* Report - Technical Light */
+body.page-master .menu-box,
+body.page-master .card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+}
+
 body.page-report table.dataTable,
 body.page-report .glass-card,
 body.page-report .card {
-    background: rgba(10, 15, 26, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .menu-box {
-        border-radius: 20px;
+        border-radius: 16px;
     }
     
     .glass-card {
@@ -261,7 +263,7 @@ body.page-report .card {
 
 @media (max-width: 576px) {
     .menu-box {
-        border-radius: 16px;
+        border-radius: 12px;
         min-height: 100px;
     }
     

@@ -5,25 +5,33 @@
             <li class="breadcrumb-item"><a href="<?=base_url()?>dashboard/"><i class="fas fa-home fa-fw"></i> Dashboard</a></li>
         </ol>
     </nav>
+    
     <!-- Welcome Section -->
     <div class="welcome-card glass-card">
         <div class="welcome-content">
-            <div class="welcome-text">
-                <h1 class="welcome-title">Selamat Datang, Administrator! 👋</h1>
-                <p class="welcome-subtitle">Kelola bisnis emas Anda dengan mudah dan efisien</p>
-            </div>
-            <div class="welcome-info">
-                <div class="info-item">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span id="currentDate"></span>
+            <div class="row">
+                <!-- Left Grid: Welcome Text -->
+                <div class="col-md-8 welcome-text-section">
+                    <h1 class="welcome-title">Selamat Datang, Administrator! 👋</h1>
+                    <p class="welcome-subtitle">Kelola bisnis emas Anda dengan mudah dan efisien</p>
                 </div>
-                <div class="info-item">
-                    <i class="fas fa-clock"></i>
-                    <span id="currentTime"></span>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-gem"></i>
-                    <span>ILoveEmas v3.0.0</span>
+                
+                <!-- Right Grid: Info Items -->
+                <div class="col-md-4 welcome-info-section">
+                    <div class="welcome-info">
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span id="currentDate"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="currentTime"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-gem"></i>
+                            <span>ILoveEmas v3.0.0</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,25 +42,25 @@
     <div class="container">
         <div class="row g-4 dashboard-grid">
             <div class="col-12 col-md-6 col-lg-3">
-                <a href="<?=base_url()?>transaction-list/" class="menu-box animate-fade-in-up stagger-1">
+                <a href="<?=base_url()?>transaction-list/" class="menu-box">
                     <i class="fas fa-exchange-alt icon"></i>
                     <span>TRANSACTION</span>
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
-                <a href="<?=base_url()?>archive/" class="menu-box animate-fade-in-up stagger-2">
+                <a href="<?=base_url()?>archive/" class="menu-box">
                     <i class="fas fa-archive icon"></i>
                     <span>ARCHIVE</span>
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
-                <a href="<?=base_url()?>master/" class="menu-box animate-fade-in-up stagger-3">
+                <a href="<?=base_url()?>master/" class="menu-box">
                     <i class="fas fa-database icon"></i>
                     <span>MASTER DATA</span>
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
-                <a href="<?=base_url()?>report/" class="menu-box animate-fade-in-up stagger-4">
+                <a href="<?=base_url()?>report/" class="menu-box">
                     <i class="fas fa-chart-bar icon"></i>
                     <span>REPORT</span>
                 </a>
@@ -73,6 +81,43 @@
 
 .dashboard-grid .menu-box {
     min-height: 140px;
+}
+
+.welcome-content .row {
+    align-items: center;
+}
+
+.welcome-text-section {
+    padding-right: 20px;
+}
+
+.welcome-info-section {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.welcome-info {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    white-space: nowrap;
+}
+
+.info-item i {
+    color: #00b4d8;
 }
 
 @media (max-width: 768px) {
@@ -98,6 +143,19 @@
     .dashboard-grid .menu-box span {
         font-size: 0.85rem;
     }
+    
+    .welcome-text-section {
+        padding-right: 0;
+        margin-bottom: 16px;
+    }
+    
+    .welcome-info-section {
+        justify-content: flex-start;
+    }
+    
+    .welcome-info {
+        justify-content: flex-start;
+    }
 }
 
 @media (max-width: 576px) {
@@ -122,6 +180,15 @@
     
     .dashboard-grid .menu-box span {
         font-size: 0.75rem;
+    }
+    
+    .welcome-info {
+        gap: 8px;
+    }
+    
+    .info-item {
+        font-size: 0.8rem;
+        padding: 6px 10px;
     }
 }
 </style>

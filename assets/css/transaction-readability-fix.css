@@ -40,12 +40,6 @@ label,
    2. BREADCRUMB IMPROVEMENTS
    ======================================== */
 
-.breadcrumb.glass-breadcrumb {
-    background: rgba(0, 0, 0, 0.35) !important;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-}
-
 .breadcrumb.glass-breadcrumb .breadcrumb-item,
 .breadcrumb.glass-breadcrumb .breadcrumb-item a {
     color: rgba(255, 255, 255, 0.95) !important;

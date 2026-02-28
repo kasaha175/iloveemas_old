@@ -81,7 +81,10 @@ function nominal($angka) {
                         <?php endif; ?>
 
                         <div class="form-group mb-0">
-                            <input type="submit" class="btn btn-primary btn-block btn-lg" value="Add To Cart">
+                            <button type="submit" id="addToCartBtn" class="btn btn-primary btn-block btn-lg">
+                                <span class="text">Add To Cart</span>
+                                <span class="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Loading...</span>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -124,7 +127,7 @@ function nominal($angka) {
                                         <td><?= ($a['materialName'] != 'DIAMOND') ? nominal($a['prices']) : $a['prices'] ?></td>
                                         <td><?= nominal($a['priceTotal']) ?></td>
                                         <td>
-                                            <a href="<?=base_url()?>transaction/sell-add-to-cart-reset/?idMaterial=<?=$this->uri->segment(3)?>&idRow=<?=$a['rowid']?>" class="btn btn-sm btn-danger btn-circle">
+                                            <a href="<?=base_url()?>transaction/sell-add-to-cart-reset/?idMaterial=<?=$this->uri->segment(3)?>&idRow=<?=$a['rowid']?>" class="btn btn-sm btn-danger btn-circle btn-delete-row">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
