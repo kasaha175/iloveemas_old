@@ -62,6 +62,16 @@
 
 <style>
 /* Compact Material Card Override */
+
+.material-grid .row {
+    row-gap: 20px;   /* jarak vertikal antar baris */
+}
+
+.material-grid {
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
+
 .material-card {
     min-height: 110px;
     padding: 14px 10px;

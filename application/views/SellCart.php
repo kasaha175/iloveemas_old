@@ -224,7 +224,6 @@ function nominal($angka) {
     padding: 14px 20px;
     list-style: none;
     margin-bottom: 24px;
-    animation: fadeInUp 0.5s ease-out;
 }
 
 .breadcrumb.glass-breadcrumb .breadcrumb-item {
@@ -237,12 +236,6 @@ function nominal($angka) {
     color: var(--turquoise-surf);
     text-decoration: none;
     font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.breadcrumb.glass-breadcrumb .breadcrumb-item a:hover {
-    color: var(--frosted-blue);
-    transform: translateX(-3px);
 }
 
 .breadcrumb.glass-breadcrumb .breadcrumb-item.active {
@@ -264,7 +257,6 @@ function nominal($angka) {
     font-weight: 700;
     margin-bottom: 8px;
     text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
-    animation: fadeInUp 0.6s ease-out;
 }
 
 .page-subtitle {
@@ -273,7 +265,6 @@ function nominal($angka) {
     font-size: 1.25rem;
     font-weight: 500;
     margin-bottom: 32px;
-    animation: fadeInUp 0.6s ease-out 0.1s both;
 }
 
 /* Back Button */
@@ -289,14 +280,11 @@ function nominal($angka) {
     color: var(--text-primary);
     font-weight: 500;
     text-decoration: none;
-    transition: all 0.3s ease;
-    animation: fadeInUp 0.6s ease-out 0.2s both;
 }
 
 .btn-back:hover {
     background: var(--turquoise-surf);
     color: #000;
-    transform: translateX(-5px);
 }
 
 /* Glass Card */
@@ -306,7 +294,6 @@ function nominal($angka) {
     border: 1px solid var(--glass-border);
     border-radius: 24px;
     overflow: hidden;
-    animation: fadeInUp 0.6s ease-out 0.3s both;
     position: relative;
     height: 100%;
 }
@@ -411,7 +398,6 @@ function nominal($angka) {
 }
 
 .glass-table tbody tr {
-    transition: all 0.3s ease;
 }
 
 .glass-table tbody tr:hover {
@@ -428,7 +414,6 @@ function nominal($angka) {
     font-weight: 500;
     font-size: 0.9rem;
     text-decoration: none;
-    transition: all 0.3s ease;
     border: none;
     cursor: pointer;
 }
@@ -438,32 +423,14 @@ function nominal($angka) {
     color: #fff;
 }
 
-.btn-primary:hover {
-    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-}
-
 .btn-success {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: #fff;
 }
 
-.btn-success:hover {
-    background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
-}
-
 .btn-danger {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
     color: #fff;
-}
-
-.btn-danger:hover {
-    background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
 }
 
 .btn-secondary {
@@ -522,18 +489,6 @@ function nominal($angka) {
 .glass-modal .modal-footer {
     border-top: 1px solid var(--glass-border);
     padding: 16px 24px;
-}
-
-/* Animation */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* Responsive */

@@ -35,8 +35,9 @@ function nominal($angka) {
     <h5 class="page-subtitle">Checkout Session</h5>
 
     <!-- Back Button -->
+     
     <div class="mb-3">
-        <a href="<?=base_url()?>transaction/buy/" class="btn-back">
+        <a href="<?=base_url()?>transaction/buy/" class="btn btn-back">
             <i class="fas fa-arrow-left"></i> Back
         </a>
     </div>

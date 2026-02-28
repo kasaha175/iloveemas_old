@@ -220,9 +220,6 @@
 }
 
 .glass-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: var(--glass-shadow-hover);
-    border-color: var(--glass-border-hover);
 }
 
 /* Enterprise Card */
