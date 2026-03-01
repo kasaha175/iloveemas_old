@@ -761,18 +761,21 @@ jQuery(function ($) {
         updateTotal();
     });
     
-    $('#weight').keyboard({
+$('#weight').keyboard({
         layout: 'num',
         restrictInput: true,
         preventPaste: true,
         autoAccept: true
     });
-    $('#idConfig').keyboard({
-        layout: 'num',
-        restrictInput: true,
-        preventPaste: true,
-        autoAccept: true
-    });
+    
+    // Note: #idConfig is a select element, so no keyboard needed
+    // $('#idConfig').keyboard({
+    //     layout: 'num',
+    //     restrictInput: true,
+    //     preventPaste: true,
+    //     autoAccept: true
+    // });
+    
     prettyPrint();
 });
 </script>

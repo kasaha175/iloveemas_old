@@ -1464,109 +1464,167 @@ class TransactionController extends CI_Controller
 		}
 
 		$idUser        = $this->session->userdata("idUser");
-		$idMaterial    = $this->input->post('idMaterial');
+		$idMaterial    = (int) $this->input->post('idMaterial');
 		$idCustomer    = $this->session->userdata("idCustomer") ?? 7;
 		$idTransaction = $this->session->userdata("idTransaction");
 		$weight        = (float) $this->input->post('weight');
+		$percentage    = (float) $this->input->post('percentage');
 
-		log_message('debug', '[SELL ADD TO CART] ===============================');
-		log_message('debug', '[SELL ADD TO CART] Start Process');
-		log_message('debug', '[SELL ADD TO CART] POST: ' . json_encode($this->input->post()));
-		log_message('debug', '[SELL ADD TO CART] Session idTransaction: ' . $idTransaction);
+		log_message('debug', '=========== SELL ADD TO CART START ===========');
+		log_message('debug', 'POST: ' . json_encode($this->input->post()));
 
-		$data = null;
-
-		/* =====================================================
-		1️⃣ PRICING LOGIC (HARDENED FOR MATERIAL 13)
-		====================================================== */
-
-		$materialName = $this->MaterialModel
-			->materialDataBy('m_id', $idMaterial, 'Sell')
-			->row("m_name");
-
-		foreach ($this->cart->contents() as $a) {
-			$idLast = $a['id'];
-		}
-		$idLast = !empty($idLast) ? $idLast + 1 : 1;
-
-		$potongan_lm = $this->MasterModel->formulasData('lm')->row('potongan_lm');
-
-		/* ================= MATERIAL 13 ================= */
-
-		if ($idMaterial == 13) {
-
-			log_message('debug', '[SELL ADD TO CART] Processing material 13');
-
-			$formula = $this->MaterialModel->formulaData()->row();
-
-			if (!$formula) {
-				log_message('error', '[SELL ADD TO CART] Formula not found');
-				return;
-			}
-
-			$field = 'f_' . str_replace('.', '_coma_', $weight);
-
-			if (!isset($formula->$field)) {
-				log_message('error', '[SELL ADD TO CART] Formula field not found: ' . $field);
-				return;
-			}
-
-			$get_price = $formula->$field;
-
-			$tahun_potongan = $this->input->post('tahun_potongan');
-			$potonganArray  = json_decode($potongan_lm, true);
-
-			if (!isset($potonganArray[$tahun_potongan])) {
-				log_message('error', '[SELL ADD TO CART] Potongan tahun tidak ditemukan: ' . $tahun_potongan);
-				return;
-			}
-
-			$harga_potongan = $potonganArray[$tahun_potongan];
-
-			$pricepergram = $get_price + $harga_potongan;
-			$priceTotal   = round($pricepergram * $weight);
-
-			$data = [
-				'id'           => $idLast,
-				'qty'          => $weight,
-				'price'        => $pricepergram,
-				'prices'       => $pricepergram,
-				'name'         => 'T-Shirt',
-				'materialName' => $materialName,
-				'materialType' => $tahun_potongan,
-				'carat'        => '24',
-				'weight'       => $weight,
-				'priceTotal'   => $priceTotal,
-			];
-
-			log_message('debug', '[SELL ADD TO CART] Material 13 price: ' . $pricepergram);
-		}
-
-		/* =====================================================
-		2️⃣ VALIDASI DATA SEBELUM INSERT
-		====================================================== */
-
-		if (empty($data) || !is_array($data)) {
-
-			log_message('error', '[SELL ADD TO CART] ERROR: $data is empty or invalid');
-
-			$this->session->set_userdata([
-				'status'  => 'error',
-				'message' => 'Gagal menambahkan item. Data tidak valid.'
-			]);
-
+		if ($weight <= 0) {
+			log_message('error', '[SELL] Invalid weight');
 			redirect($_SERVER['HTTP_REFERER']);
 			return;
 		}
 
+		$material = $this->MaterialModel
+			->materialDataBy('m_id', $idMaterial, 'Sell')
+			->row();
+
+		if (!$material) {
+			log_message('error', '[SELL] Material not found: ' . $idMaterial);
+			redirect($_SERVER['HTTP_REFERER']);
+			return;
+		}
+
+		$materialName = $material->m_name;
+		$mType        = $material->m_type;
+
+		$idLast = 1;
+		foreach ($this->cart->contents() as $a) {
+			$idLast = $a['id'] + 1;
+		}
+
+		$formula = $this->MaterialModel->formulaData()->row();
+		if (!$formula) {
+			log_message('error', '[SELL] Formula not found');
+			redirect($_SERVER['HTTP_REFERER']);
+			return;
+		}
+
+		$data = null;
+
+		/* ==============================================
+		SPECIAL MATERIAL 18 (CONFIG BASED)
+		============================================== */
+		if ($idMaterial === 18) {
+
+			$idConfig = (int) $this->input->post('idConfig');
+			$config = $this->mmodel
+				->selectWhere('config_material', ['id' => $idConfig])
+				->row();
+
+			if (!$config) {
+				log_message('error', '[SELL] Config not found');
+				redirect($_SERVER['HTTP_REFERER']);
+				return;
+			}
+
+			$pricePerGram = (float) $config->price;
+			$weight       = (float) ($config->weight ?? 1);
+		}
+
+		/* ==============================================
+		SPECIAL MATERIAL 13 (LM FORMULA)
+		============================================== */
+		elseif ($idMaterial === 13) {
+
+			$field = 'f_' . str_replace('.', '_coma_', $weight);
+
+			if (!isset($formula->$field)) {
+				log_message('error', '[SELL] Formula field not found: ' . $field);
+				redirect($_SERVER['HTTP_REFERER']);
+				return;
+			}
+
+			$basePrice = (float) $formula->$field;
+
+			$potongan_lm = $this->MasterModel
+				->formulasData('lm')
+				->row('potongan_lm');
+
+			$tahun = $this->input->post('tahun_potongan');
+			$potArr = json_decode($potongan_lm, true);
+
+			if (!isset($potArr[$tahun])) {
+				log_message('error', '[SELL] Potongan tahun invalid');
+				redirect($_SERVER['HTTP_REFERER']);
+				return;
+			}
+
+			$pricePerGram = $basePrice + (float) $potArr[$tahun];
+		}
+
+		/* ==============================================
+		GENERIC BASED ON M_TYPE
+		============================================== */
+		else {
+
+			switch ($mType) {
+
+				case 'AU':
+					$rti = $formula->f_rti_au_sell ?? 0;
+					$pricePerGram = round(($percentage / 100) * $rti);
+					break;
+
+				case 'AG':
+					$rti = $formula->f_rti_ag_sell ?? 0;
+					$pricePerGram = round(($percentage / 100) * $rti);
+					break;
+
+				case 'PT':
+				case 'PD':
+				case 'RH':
+				case 'IR':
+					$rti = $formula->f_rti_pt_sell ?? 0;
+					$pricePerGram = round(($percentage / 100) * $rti);
+					break;
+
+				case 'RU':
+					$rti = $formula->f_rti_ru_sell ?? 0;
+					$pricePerGram = round(($percentage / 100) * $rti);
+					break;
+
+				case 'TA':
+					$rti = $formula->f_rti_ta_sell ?? 0;
+					$pricePerGram = round(($percentage / 100) * $rti);
+					break;
+
+				case 'UBS':
+					$pricePerGram = round($formula->f_material_ubs_sell ?? 0);
+					break;
+
+				default:
+					log_message('error', '[SELL] Unsupported m_type: ' . $mType);
+					redirect($_SERVER['HTTP_REFERER']);
+					return;
+			}
+		}
+
+		$priceTotal = round($pricePerGram * $weight);
+
+		$data = [
+			'id'           => $idLast,
+			'qty'          => $weight,
+			'price'        => $pricePerGram,
+			'prices'       => $pricePerGram,
+			'name'         => 'T-Shirt',
+			'materialName' => $materialName,
+			'materialType' => '-',
+			'carat'        => $percentage ? $percentage . '%' : '-',
+			'weight'       => $weight,
+			'priceTotal'   => $priceTotal,
+		];
+
 		$this->cart->insert($data);
 
-		log_message('debug', '[SELL ADD TO CART] Item inserted: ' . json_encode($data));
+		log_message('debug', '[SELL] Inserted item: ' . json_encode($data));
 
-		/* =====================================================
-		3️⃣ HITUNG TOTAL CART
-		====================================================== */
-
+		/* ==============================================
+		RECALCULATE TOTAL
+		============================================== */
 		$total = 0;
 		$qtt   = 0;
 
@@ -1575,21 +1633,10 @@ class TransactionController extends CI_Controller
 			$qtt++;
 		}
 
-		if ($qtt == 0) {
-			log_message('error', '[SELL ADD TO CART] Cart empty, aborting');
-			return;
-		}
-
-		log_message('debug', '[SELL ADD TO CART] Cart Total: ' . $total);
-		log_message('debug', '[SELL ADD TO CART] Cart Qty: ' . $qtt);
-
-		/* =====================================================
-		4️⃣ CREATE / UPDATE HEADER
-		====================================================== */
-
-		if (empty($idTransaction) || $idTransaction == 0 || $idTransaction == "0") {
-
-			log_message('debug', '[SELL ADD TO CART] Creating NEW transaction');
+		/* ==============================================
+		CREATE OR UPDATE HEADER
+		============================================== */
+		if (!$idTransaction) {
 
 			$year  = date('Y');
 			$count = $this->db
@@ -1617,20 +1664,13 @@ class TransactionController extends CI_Controller
 				't_visible'      => 1,
 			];
 
-			log_message('debug', '[SELL ADD TO CART] Insert Header: ' . json_encode($dataHeader));
-
 			$idTransaction = $this->TransactionModel->sellCheckout($dataHeader);
 
 			$this->session->set_userdata([
 				'idTransaction'   => $idTransaction,
 				'jenis_transaksi' => "sell"
 			]);
-
-			log_message('debug', '[SELL ADD TO CART] New ID Transaction: ' . $idTransaction);
-
 		} else {
-
-			log_message('debug', '[SELL ADD TO CART] Updating Transaction ID: ' . $idTransaction);
 
 			$this->db->update(
 				'tb_transaction_sell',
@@ -1642,10 +1682,9 @@ class TransactionController extends CI_Controller
 			);
 		}
 
-		/* =====================================================
-		5️⃣ INSERT ITEMS
-		====================================================== */
-
+		/* ==============================================
+		INSERT ITEMS
+		============================================== */
 		$this->db->where('ti_t_id', $idTransaction)
 				->delete('tb_transaction_items_sell');
 
@@ -1662,13 +1701,10 @@ class TransactionController extends CI_Controller
 				'ti_date_created'=> $this->dateToday,
 			];
 
-			log_message('debug', '[SELL ADD TO CART] Insert Item: ' . json_encode($dataItems));
-
 			$this->TransactionModel->sellCheckoutItems($dataItems);
 		}
 
-		log_message('debug', '[SELL ADD TO CART] Completed');
-		log_message('debug', '[SELL ADD TO CART] ===============================');
+		log_message('debug', '=========== SELL ADD TO CART END ===========');
 
 		redirect(base_url() . "transaction/sell/$idMaterial/");
 	}

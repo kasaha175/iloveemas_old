@@ -478,7 +478,7 @@ $d = $data[0];
 
                 $.ajax({
                     url: $(this).attr('action'),
-                    type: 'get', // ganti ke POST
+                    type: 'POST',
                     data: $(this).serialize(),
                     success: function (response) {
                         Swal.fire({
