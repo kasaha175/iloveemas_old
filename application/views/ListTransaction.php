@@ -76,12 +76,13 @@
                             <label class="filter-label"><i class="fas fa-calendar"></i> To</label>
                             <input type="date" id="filterDateTo" class="filter-input">
                         </div>
-                        <div class="filter-buttons">
+                        <div class="filter-item filter-item-buttons">
+                            <label class="filter-label"><i class="fas fa-bars"></i> Action</label>
                             <button type="button" id="applyFilters" class="btn btn-primary btn-sm">
-                                <i class="fas fa-filter"></i>
+                                <i class="fas fa-filter"></i> Filter
                             </button>
                             <button type="button" id="resetFilters" class="btn btn-secondary btn-sm">
-                                <i class="fas fa-redo"></i>
+                                <i class="fas fa-redo"></i> Reset
                             </button>
                         </div>
                     </div>
