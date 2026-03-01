@@ -37,12 +37,15 @@ $route['transaction/sell-add-to-cart'] = 'TransactionController/sellAddToCart';
 $route['transaction/sell-add-to-cart-reset'] = 'TransactionController/sellAddToCartReset';
 $route['transaction/sell-checkout'] = 'TransactionController/sellCheckout';
 $route['transaction/sell-delete-transaction/(:any)'] = 'TransactionController/sellDeleteTransaction/$1';
+$route['transaction/store-preview-data'] = 'TransactionController/storePreviewData';
 
 $route['transaction/updateAllStatus'] = 'TransactionController/updateAllStatus';
 $route['transaction/select-customer/(:any)'] = 'TransactionController/selectCustomer/$1';
 $route['transaction/new-customer'] = 'TransactionController/newCustomer';
 $route['transaction/new-customer-process'] = 'TransactionController/newCustomerProcess';
 $route['report/sell-print/(:any)'] = 'TransactionController/sellPrint/$1';
+$route['report/sell-print-preview/(:any)'] = 'TransactionController/sellPrintPreview/$1';
+$route['report/buy-print-preview/(:any)'] = 'TransactionController/buyPrintPreview/$1';
 
 
 //archive

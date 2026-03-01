@@ -1820,7 +1820,7 @@ class TransactionController extends CI_Controller
 		redirect(base_url() . "report/sell-print/$idTransaction/");
 	}
 
-	function sellDeleteTransaction()
+function sellDeleteTransaction()
 	{
 		$authUser = $this->session->userdata("authUser");
 		$idUser = $this->session->userdata("idUser");
@@ -1839,6 +1839,29 @@ class TransactionController extends CI_Controller
 		{
 			redirect(base_url());
 		}
+	}
+	
+	function storePreviewData()
+	{
+		// Store preview data in session for PDF preview
+		$cabang_id = $this->input->post('cabang_id');
+		$payment_method = $this->input->post('payment_method');
+		$biaya_admin = $this->input->post('biaya_admin');
+		$operator = $this->input->post('operator');
+		
+		// Calculate admin fee with operator
+		$admin_fee = 0;
+		if (!empty($biaya_admin)) {
+			$admin_fee = ($operator == '-') ? -floatval($biaya_admin) : floatval($biaya_admin);
+		}
+		
+		$this->session->set_userdata('preview_data', [
+			'cabang_id' => $cabang_id,
+			'payment_method' => $payment_method,
+			'admin_fee' => $admin_fee
+		]);
+		
+		echo json_encode(['status' => 'success']);
 	}
 	function buyDeleteTransaction()
 	{
@@ -1886,6 +1909,46 @@ class TransactionController extends CI_Controller
 			redirect(base_url());
 		}
 	}
+	
+function buyPrintPreview()
+	{
+		$authUser = $this->session->userdata("authUser");
+		$idUser = $this->session->userdata("idUser");
+		if ($authUser == true)
+		{
+			$idTransaction = $this->uri->segment(3);
+			$this->data['data'] = $this->TransactionModel->buyTransactionData($idTransaction)->result();
+			if (empty($this->data['data']))
+			{
+				redirect(base_url() . "report/buy/");
+			}
+			$noOrder = $this->TransactionModel->buyTransactionData($idTransaction)->row("t_no_order");
+			$this->data['title'] = $noOrder;
+			$this->data['detail'] = $this->TransactionModel->buyTransactionItemsData($idTransaction)->result();
+
+			// Get transaction header data for cabang and payment method
+			$this->data['transaction_header'] = $this->TransactionModel->buyTransactionData($idTransaction)->row();
+			
+			// Get preview data from session (set via AJAX from checkout modal)
+			$previewData = $this->session->userdata('preview_data');
+			if (!empty($previewData)) {
+				$this->data['preview_cabang_id'] = $previewData['cabang_id'] ?? null;
+				$this->data['preview_payment_method'] = $previewData['payment_method'] ?? null;
+				$this->data['preview_admin_fee'] = $previewData['admin_fee'] ?? 0;
+			} else {
+				$this->data['preview_cabang_id'] = null;
+				$this->data['preview_payment_method'] = null;
+				$this->data['preview_admin_fee'] = 0;
+			}
+
+			$this->load->view("PrintBuyPreview", $this->data);
+		}
+		else
+		{
+			redirect(base_url());
+		}
+	}
+
 	function sellPrint()
 	{
 		$authUser = $this->session->userdata("authUser");
@@ -1912,6 +1975,46 @@ class TransactionController extends CI_Controller
 			redirect(base_url());
 		}
 	}
+	
+function sellPrintPreview()
+	{
+		$authUser = $this->session->userdata("authUser");
+		$idUser = $this->session->userdata("idUser");
+		if ($authUser == true)
+		{
+			$idTransaction = $this->uri->segment(3);
+			$this->data['data'] = $this->TransactionModel->sellTransactionData($idTransaction)->result();
+			if (empty($this->data['data']))
+			{
+				redirect(base_url() . "report/sell/");
+			}
+			$noOrder = $this->TransactionModel->sellTransactionData($idTransaction)->row("t_no_order");
+			$this->data['title'] = $noOrder;
+			$this->data['detail'] = $this->TransactionModel->sellTransactionItemsData($idTransaction)->result();
+
+			// Get transaction header data for cabang and payment method
+			$this->data['transaction_header'] = $this->TransactionModel->sellTransactionData($idTransaction)->row();
+			
+			// Get preview data from session (set via AJAX from checkout modal)
+			$previewData = $this->session->userdata('preview_data');
+			if (!empty($previewData)) {
+				$this->data['preview_cabang_id'] = $previewData['cabang_id'] ?? null;
+				$this->data['preview_payment_method'] = $previewData['payment_method'] ?? null;
+				$this->data['preview_admin_fee'] = $previewData['admin_fee'] ?? 0;
+			} else {
+				$this->data['preview_cabang_id'] = null;
+				$this->data['preview_payment_method'] = null;
+				$this->data['preview_admin_fee'] = 0;
+			}
+
+			$this->load->view("PrintSellPreview", $this->data);
+		}
+		else
+		{
+			redirect(base_url());
+		}
+	}
+
 	function keep()
 	{
 		$this->load->library('Pdf');

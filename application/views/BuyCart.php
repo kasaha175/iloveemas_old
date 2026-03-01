@@ -363,8 +363,29 @@ function nominal($angka) {
                 </div>
             </div>
             <div class="modal-footer">
+                <button class="btn btn-info" type="button" onclick="openPdfPreview('buy')">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Preview PDF</span>
+                </button>
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-success" onclick="confirmCheckout()">Konfirmasi Checkout</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PDF Preview Modal -->
+<div class="modal fade" id="pdfPreviewModal" tabindex="-1" role="dialog" aria-labelledby="pdfPreviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document" style="max-width: 95%;">
+        <div class="modal-content glass-modal" style="height: 90vh;">
+            <div class="modal-header">
+                <h5 class="modal-title">Invoice Preview</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 0; height: calc(100% - 60px);">
+                <iframe id="pdfPreviewFrame" src="" style="width: 100%; height: 100%; border: none;"></iframe>
             </div>
         </div>
     </div>
@@ -839,4 +860,37 @@ jQuery(function ($) {
     });
     prettyPrint();
 });
+
+function openPdfPreview(type) {
+    var idTransaction = '<?= $this->session->userdata("idTransaction") ?>';
+    
+    if (!idTransaction) {
+        alert('Silakan tambah item ke cart terlebih dahulu');
+        return;
+    }
+    
+    // Get values from the form
+    var cabangId = $('#modalCabang').val();
+    var paymentMethod = $('#paymentMethod').val();
+    var biayaAdmin = $('#biayaAdmin').val();
+    var operator = $('#operator').val();
+    
+    // Store in session via AJAX before opening preview
+    $.ajax({
+        url: '<?= base_url() ?>transaction/store-preview-data',
+        type: 'POST',
+        data: {
+            cabang_id: cabangId,
+            payment_method: paymentMethod,
+            biaya_admin: biayaAdmin,
+            operator: operator
+        },
+        success: function() {
+            var previewUrl = '<?= base_url() ?>report/' + type + '-print-preview/' + idTransaction;
+            
+            $('#pdfPreviewFrame').attr('src', previewUrl);
+            $('#pdfPreviewModal').modal('show');
+        }
+    });
+}
 </script>
