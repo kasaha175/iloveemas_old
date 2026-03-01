@@ -1393,6 +1393,14 @@ class TransactionController extends CI_Controller
 			log_message('debug', '[BUY CHECKOUT] Completed successfully!');
 			log_message('debug', '[BUY CHECKOUT] =======================================');
 			
+			// Generate and save PDF
+			$pdfResult = $this->generateBuyPdf($idTransaction);
+			if ($pdfResult['success']) {
+				log_message('debug', '[BUY CHECKOUT] PDF generated successfully: ' . $pdfResult['pdf_filename']);
+			} else {
+				log_message('error', '[BUY CHECKOUT] PDF generation failed: ' . $pdfResult['message']);
+			}
+			
 			redirect(base_url() . "report/buy-print/$idTransaction/");
 		}
 		else
@@ -1807,6 +1815,14 @@ class TransactionController extends CI_Controller
 
 		log_message('debug', '[SELL CHECKOUT] Checkout Success');
 
+		// Generate and save PDF
+		$pdfResult = $this->generateSellPdf($idTransaction);
+		if ($pdfResult['success']) {
+			log_message('debug', '[SELL CHECKOUT] PDF generated successfully: ' . $pdfResult['pdf_filename']);
+		} else {
+			log_message('error', '[SELL CHECKOUT] PDF generation failed: ' . $pdfResult['message']);
+		}
+
 		$this->session->unset_userdata('idCustomer');
 		$this->cart->destroy();
 
@@ -1818,6 +1834,185 @@ class TransactionController extends CI_Controller
 		log_message('debug', '[SELL CHECKOUT] ===============================');
 
 		redirect(base_url() . "report/sell-print/$idTransaction/");
+	}
+
+	/**
+	 * Generate and save PDF for Buy transaction
+	 * 
+	 * @param int $idTransaction Transaction ID
+	 * @return array ['success' => bool, 'pdf_path' => string, 'pdf_filename' => string]
+	 */
+	private function generateBuyPdf($idTransaction)
+	{
+		try {
+			// Get transaction data
+			$this->data['data'] = $this->TransactionModel->buyTransactionData($idTransaction)->result();
+			if (empty($this->data['data'])) {
+				return ['success' => false, 'message' => 'Transaction not found'];
+			}
+			
+			$noOrder = $this->TransactionModel->buyTransactionData($idTransaction)->row("t_no_order");
+			$this->data['title'] = $noOrder;
+			$this->data['detail'] = $this->TransactionModel->buyTransactionItemsData($idTransaction)->result();
+			$this->data['transaction_header'] = $this->TransactionModel->buyTransactionData($idTransaction)->row();
+			
+			// Load TCPDF library
+			$this->load->library('Pdf');
+			$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+			
+			// PDF Configuration
+			$pdf->SetCreator('I Love Emas');
+			$pdf->SetAuthor('I Love Emas');
+			$pdf->SetTitle('Invoice ' . $noOrder);
+			$pdf->setPrintHeader(false);
+			$pdf->setPrintFooter(false);
+			$pdf->SetMargins(20, 20, 20, 20);
+			
+			// Disable font subsetting to avoid chr() errors
+			$pdf->setFontSubsetting(false);
+			
+			// Set default font
+			$pdf->SetFont('helvetica', '', 10);
+			
+			$pdf->AddPage();
+
+			// Get HTML content from view
+			$html = $this->load->view('PrintBuy', $this->data, true);
+			
+			// Clean HTML content - remove problematic characters
+			$html = $this->cleanHtmlForPdf($html);
+			
+			$pdf->writeHTML($html, true, false, true, false, '');
+			
+			// Generate filename - sanitize for filesystem
+			$safeNoOrder = preg_replace('/[^a-zA-Z0-9_-]/', '_', $noOrder);
+			$pdfFilename = 'BUY_' . $safeNoOrder . '_' . date('YmdHis') . '.pdf';
+			$pdfPath = FCPATH . 'assets/pdf/' . $pdfFilename;
+
+			// Save PDF to file
+			@$pdf->Output($pdfPath, 'F');
+
+			log_message('debug', '[PDF BUY] Generated PDF: ' . $pdfPath);
+			
+			// Update database with PDF path
+			$this->TransactionModel->updateBuyPdfPath($idTransaction, 'assets/pdf/' . $pdfFilename, $pdfFilename);
+			
+			return [
+				'success' => true,
+				'pdf_path' => 'assets/pdf/' . $pdfFilename,
+				'pdf_filename' => $pdfFilename
+			];
+			
+		} catch (Exception $e) {
+			log_message('error', '[PDF BUY] Error generating PDF: ' . $e->getMessage());
+			$this->TransactionModel->updateBuyPdfFailed($idTransaction);
+			return ['success' => false, 'message' => $e->getMessage()];
+		}
+	}
+	
+	/**
+	 * Clean HTML content for TCPDF to avoid chr() errors
+	 * 
+	 * @param string $html Raw HTML content
+	 * @return string Cleaned HTML
+	 */
+	private function cleanHtmlForPdf($html) {
+		if (empty($html)) {
+			return '';
+		}
+		
+		// Remove ALL control characters
+		$html = preg_replace('/[\x00-\x1F\x7F]/', '', $html);
+		
+		// Remove BOM
+		$html = str_replace("\xEF\xBB\xBF", '', $html);
+		
+		// Strip PHP tags to prevent code execution issues
+		$html = preg_replace('/<\?php.*?\?>/is', '', $html);
+		$html = preg_replace('/<script.*?\/script>/is', '', $html);
+		
+		// Remove excessive whitespace that can cause issues
+		$html = preg_replace('/\s+/', ' ', $html);
+		
+		// Convert to proper HTML entities for TCPDF
+		// TCPDF works better with HTML entities than raw UTF-8 for some characters
+		$html = htmlspecialchars($html, ENT_QUOTES, 'UTF-8', false);
+		
+		return $html;
+	}
+
+	/**
+	 * Generate and save PDF for Sell transaction
+	 * 
+	 * @param int $idTransaction Transaction ID
+	 * @return array ['success' => bool, 'pdf_path' => string, 'pdf_filename' => string]
+	 */
+	private function generateSellPdf($idTransaction)
+	{
+		try {
+			// Get transaction data
+			$this->data['data'] = $this->TransactionModel->sellTransactionData($idTransaction)->result();
+			if (empty($this->data['data'])) {
+				return ['success' => false, 'message' => 'Transaction not found'];
+			}
+			
+			$noOrder = $this->TransactionModel->sellTransactionData($idTransaction)->row("t_no_order");
+			$this->data['title'] = $noOrder;
+			$this->data['detail'] = $this->TransactionModel->sellTransactionItemsData($idTransaction)->result();
+			$this->data['transaction_header'] = $this->TransactionModel->sellTransactionData($idTransaction)->row();
+			
+			// Load TCPDF library
+			$this->load->library('Pdf');
+			$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+			
+			// PDF Configuration
+			$pdf->SetCreator('I Love Emas');
+			$pdf->SetAuthor('I Love Emas');
+			$pdf->SetTitle('Invoice ' . $noOrder);
+			$pdf->setPrintHeader(false);
+			$pdf->setPrintFooter(false);
+			$pdf->SetMargins(20, 20, 20, 20);
+			
+			// Disable font subsetting to avoid chr() errors
+			$pdf->setFontSubsetting(false);
+			
+			// Set default font
+			$pdf->SetFont('helvetica', '', 10);
+			
+			$pdf->AddPage();
+
+			// Get HTML content from view
+			$html = $this->load->view('PrintSell', $this->data, true);
+			
+			// Clean HTML content - remove problematic characters
+			$html = $this->cleanHtmlForPdf($html);
+			
+			$pdf->writeHTML($html, true, false, true, false, '');
+			
+			// Generate filename - sanitize for filesystem
+			$safeNoOrder = preg_replace('/[^a-zA-Z0-9_-]/', '_', $noOrder);
+			$pdfFilename = 'SELL_' . $safeNoOrder . '_' . date('YmdHis') . '.pdf';
+			$pdfPath = FCPATH . 'assets/pdf/' . $pdfFilename;
+
+			// Save PDF to file
+			@$pdf->Output($pdfPath, 'F');
+
+			log_message('debug', '[PDF SELL] Generated PDF: ' . $pdfPath);
+			
+			// Update database with PDF path
+			$this->TransactionModel->updateSellPdfPath($idTransaction, 'assets/pdf/' . $pdfFilename, $pdfFilename);
+			
+			return [
+				'success' => true,
+				'pdf_path' => 'assets/pdf/' . $pdfFilename,
+				'pdf_filename' => $pdfFilename
+			];
+			
+		} catch (Exception $e) {
+			log_message('error', '[PDF SELL] Error generating PDF: ' . $e->getMessage());
+			$this->TransactionModel->updateSellPdfFailed($idTransaction);
+			return ['success' => false, 'message' => $e->getMessage()];
+		}
 	}
 
 function sellDeleteTransaction()

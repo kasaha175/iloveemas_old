@@ -401,5 +401,85 @@ if (!defined('BASEPATH'))
 		return $buy_affected + $sell_affected;
 	}
 
+	/**
+	 * Update PDF path for buy transaction (tb_transaction)
+	 * 
+	 * @param int $transactionId Transaction ID
+	 * @param string $pdfPath Full path where PDF is saved
+	 * @param string $pdfFilename PDF filename
+	 * @return bool Success status
+	 */
+	public function updateBuyPdfPath($transactionId, $pdfPath, $pdfFilename) {
+		$data = [
+			't_pdf_path' => $pdfPath,
+			't_pdf_filename' => $pdfFilename,
+			't_pdf_generated_at' => date('Y-m-d H:i:s'),
+			't_pdf_status' => 'generated'
+		];
+		
+		$this->db->where('t_id', $transactionId);
+		$result = $this->db->update('tb_transaction', $data);
+		
+		log_message('debug', '[MODEL updateBuyPdfPath] Updated PDF path for transaction ID: ' . $transactionId);
+		
+		return $result;
+	}
+
+	/**
+	 * Update PDF path for sell transaction (tb_transaction_sell)
+	 * 
+	 * @param int $transactionId Transaction ID
+	 * @param string $pdfPath Full path where PDF is saved
+	 * @param string $pdfFilename PDF filename
+	 * @return bool Success status
+	 */
+	public function updateSellPdfPath($transactionId, $pdfPath, $pdfFilename) {
+		$data = [
+			't_pdf_path' => $pdfPath,
+			't_pdf_filename' => $pdfFilename,
+			't_pdf_generated_at' => date('Y-m-d H:i:s'),
+			't_pdf_status' => 'generated'
+		];
+		
+		$this->db->where('t_id', $transactionId);
+		$result = $this->db->update('tb_transaction_sell', $data);
+		
+		log_message('debug', '[MODEL updateSellPdfPath] Updated PDF path for transaction ID: ' . $transactionId);
+		
+		return $result;
+	}
+
+	/**
+	 * Update PDF status to failed for buy transaction
+	 * 
+	 * @param int $transactionId Transaction ID
+	 * @return bool Success status
+	 */
+	public function updateBuyPdfFailed($transactionId) {
+		$data = [
+			't_pdf_status' => 'failed',
+			't_pdf_generated_at' => date('Y-m-d H:i:s')
+		];
+		
+		$this->db->where('t_id', $transactionId);
+		return $this->db->update('tb_transaction', $data);
+	}
+
+	/**
+	 * Update PDF status to failed for sell transaction
+	 * 
+	 * @param int $transactionId Transaction ID
+	 * @return bool Success status
+	 */
+	public function updateSellPdfFailed($transactionId) {
+		$data = [
+			't_pdf_status' => 'failed',
+			't_pdf_generated_at' => date('Y-m-d H:i:s')
+		];
+		
+		$this->db->where('t_id', $transactionId);
+		return $this->db->update('tb_transaction_sell', $data);
+	}
+
 	
 }
