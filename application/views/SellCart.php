@@ -208,31 +208,6 @@ function nominal($angka) {
                                 <p style="color: var(--text-primary); font-weight: 600; margin: 0;"><?= $nameCustomer ?></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-2">
-                                <span style="color: var(--text-secondary); font-size: 0.85rem;">
-                                    Cabang
-                                </span>
-
-                                <select name="cabang_id" 
-                                        id="modalCabang" 
-                                        class="form-control select2-glass" 
-                                        style="margin-top: 5px;">
-
-                                    <option value="">Pilih Cabang</option>
-
-                                    <?php if (!empty($cabang)): ?>
-                                        <?php foreach ($cabang as $c): ?>
-                                            <option value="<?= $c->id ?>"
-                                                <?= ($c->id == $this->session->userdata('cabang_id')) ? 'selected' : '' ?>>
-                                                <?= $c->nama_cabang ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-
-                                </select>
-                            </div>
-                        </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6">
@@ -250,35 +225,6 @@ function nominal($angka) {
                     </div>
                 </div>
                 
-                <!-- Transaction Summary -->
-                <div class="mb-4">
-                    <h6 style="color: var(--turquoise-surf); font-weight: 600; margin-bottom: 15px;">Ringkasan Transaksi</h6>
-                    <div class="table-responsive">
-                        <table class="table glass-table" id="summaryTable">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Material</th>
-                                    <th>Weight</th>
-                                    <th>Price/Gr</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody id="summaryTableBody">
-                                <?php $no = 1; foreach ($this->cart->contents() as $a): ?>
-                                <tr>
-                                    <td><?= $no++ ?></td>
-                                    <td><?= $a['materialName'] ?></td>
-                                    <td><?= $a['weight'] ?></td>
-                                    <td><?= ($a['materialName'] != 'DIAMOND') ? nominal($a['prices']) : $a['prices'] ?></td>
-                                    <td><?= nominal($a['priceTotal']) ?></td>
-                                </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
                 <!-- Payment Summary -->
                 <div class="mb-4 p-3" style="background: var(--glass-bg); border-radius: 12px; border: 1px solid var(--glass-border);">
                     <div class="d-flex justify-content-between align-items-center">
@@ -291,8 +237,34 @@ function nominal($angka) {
                     </div>
                     <hr style="border-color: var(--glass-border); margin: 12px 0;">
                     <div class="d-flex justify-content-between align-items-center">
-                        <span style="color: var(--turquoise-surf); font-weight: 600; font-size: 1.1rem;">TOTAL</span>
-                        <span id="modalTotal" style="color: var(--turquoise-surf); font-weight: 700; font-size: 1.3rem;">RP <?= nominal($total) ?></span>
+                        <span style="color: var(--text-primary); font-weight: 600; font-size: 1.1rem;">TOTAL</span>
+                        <span id="modalTotal" style="color: var(--text-primary); font-weight: 700; font-size: 1.3rem;">RP <?= nominal($total) ?></span>
+                    </div>
+                </div>
+
+                <!-- Pilih Cabang -->
+                <div>
+                    <h6 style="color: var(--turquoise-surf); font-weight: 600; margin-bottom: 15px;">
+                        cabang
+                    </h6>
+
+                    <div class="form-group">                        
+                        <select name="cabang_id" id="modalCabang" 
+                                class="form-control select2-glass" 
+                                style="margin-top: 5px;">
+
+                            <option value="">Pilih cabang</option>
+
+                            <?php if (!empty($cabang)): ?>
+                                <?php foreach ($cabang as $c): ?>
+                                    <option value="<?= $c->id ?>"
+                                        <?= ($c->id == $this->session->userdata('cabang_id')) ? 'selected' : '' ?>>
+                                        <?= $c->nama_cabang ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+
+                        </select>
                     </div>
                 </div>
                 
