@@ -169,6 +169,31 @@ body::before {
     z-index: -1;
 }
 
+/* Background Pattern - Image Overlay */
+body::after {
+    content: "";
+    position: fixed;
+
+    top: -120px;
+    left: -120px;
+
+    width: 850px;
+    height: 650px;
+
+    background: url('../img/bg-login-pattern.webp') no-repeat center;
+    background-size: contain;
+
+    transform: rotate(180deg);
+    transform-origin: center;
+
+    opacity: 0.9;
+
+    filter: drop-shadow(0 0 60px rgba(255, 200, 80, 0.2));
+
+    pointer-events: none;
+    z-index: -1;
+}
+
 a {
     color: var(--primary-light);
     text-decoration: none;

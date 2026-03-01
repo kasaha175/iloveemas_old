@@ -77,6 +77,56 @@
     <link href="<?=base_url()?>assets/css/transaction-readability-fix.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/css/transaction-cart-fix.css" rel="stylesheet">
     
+    <!-- Navbar Info Items CSS -->
+    <style>
+    .navbar-info {
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+        gap: 15px;
+    }
+    
+    .navbar-info .info-item {
+        display: flex;
+        align-items: center;
+        color: #fff;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+    
+    .navbar-info .info-item i {
+        margin-right: 5px;
+        color: #00d2d3;
+    }
+    
+    .navbar-info .info-item span {
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    /* Responsive - Tablet */
+    @media (max-width: 992px) {
+        .navbar-info {
+            gap: 10px;
+            margin-left: 10px;
+        }
+        
+        .navbar-info .info-item {
+            font-size: 0.75rem;
+        }
+        
+        .navbar-info .info-item i {
+            font-size: 0.85rem;
+        }
+    }
+    
+    /* Responsive - Mobile */
+    @media (max-width: 768px) {
+        .navbar-info {
+            display: none;
+        }
+    }
+    </style>
+    
     <!-- Glassmorphism JS -->
     <script src="<?=base_url()?>assets/js/glassmorphism.js"></script>
     
@@ -111,6 +161,23 @@ if ($uri == 'archive') {
             <a href="<?=base_url()?>">
                 <img src="<?=base_url()?>assets/img/logo-new.webp" alt="ILoveEmas" class="navbar-logo">
             </a>
+            
+            <!-- Navbar Info Items - Date, Time, Version -->
+            <div class="navbar-info">
+                <div class="info-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="currentDate"></span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span id="currentTime"></span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-gem"></i>
+                    <span>ILoveEmas v3.0.0</span>
+                </div>
+            </div>
+            
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
@@ -158,21 +225,46 @@ if ($uri == 'archive') {
     </div>
 
     <!-- Logout Modal -->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+        aria-labelledby="logoutModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content border-0 shadow">
+
+                <div class="modal-header bg-light border-0">
+                    <h5 class="modal-title font-weight-bold text-dark"
+                        id="logoutModalLabel">
+                        Konfirmasi Logout
+                    </h5>
+                    <button class="close" type="button"
+                            data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-danger" href="<?=base_url()?>logout-process/">Logout</a>
+
+                <div class="modal-body text-center py-4">
+                    <p class="mb-2 font-weight-semibold">
+                        Anda yakin ingin keluar?
+                    </p>
+
+                    <small class="text-muted d-block">
+                        Sesi transaksi yang belum disimpan akan tetap tersimpan di sistem.
+                    </small>
                 </div>
+
+                <div class="modal-footer border-0 justify-content-center pb-4">
+                    <button class="btn btn-outline-secondary px-4"
+                            type="button"
+                            data-dismiss="modal">
+                        Batal
+                    </button>
+
+                    <a class="btn btn-danger px-4 font-weight-bold"
+                    href="<?= base_url('logout-process/') ?>">
+                        Logout
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>

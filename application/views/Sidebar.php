@@ -9,6 +9,23 @@
     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
       <span class="sr-only">Toggle navigation</span>
     </a>
+    
+    <!-- Navbar Info Items -->
+    <div class="navbar-info">
+      <div class="info-item">
+        <i class="fas fa-calendar-alt"></i>
+        <span id="currentDate"></span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-clock"></i>
+        <span id="currentTime"></span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-gem"></i>
+        <span>ILoveEmas v3.0.0</span>
+      </div>
+    </div>
+    
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
         <li class="dropdown user user-menu">
@@ -113,3 +130,60 @@
     </ul>
   </section>
 </aside>
+
+<style>
+/* Navbar Info Items - Responsive */
+.navbar-info {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  gap: 15px;
+}
+
+.navbar-info .info-item {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.navbar-info .info-item i {
+  margin-right: 5px;
+  color: #00d2d3;
+}
+
+.navbar-info .info-item span {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Responsive - Tablet */
+@media (max-width: 992px) {
+  .navbar-info {
+    gap: 10px;
+    margin-left: 10px;
+  }
+  
+  .navbar-info .info-item {
+    font-size: 0.75rem;
+  }
+  
+  .navbar-info .info-item i {
+    font-size: 0.85rem;
+  }
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+  .navbar-info {
+    display: none;
+  }
+}
+
+/* Show only version on very small screens if needed */
+@media (max-width: 576px) {
+  .navbar-info {
+    display: none;
+  }
+}
+</style>

@@ -12,20 +12,6 @@
                 <h1 class="welcome-title">Selamat Datang, Administrator! 👋</h1>
                 <p class="welcome-subtitle">Kelola bisnis emas Anda dengan mudah dan efisien</p>
             </div>
-            <div class="welcome-info">
-                <div class="info-item">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span id="currentDate"></span>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-clock"></i>
-                    <span id="currentTime"></span>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-gem"></i>
-                    <span>ILoveEmas v3.0.0</span>
-                </div>
-            </div>
         </div>
     </div>
     
