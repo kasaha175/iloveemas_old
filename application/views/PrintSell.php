@@ -340,30 +340,37 @@ function terbilang($nilai)
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script>
+			// Get transaction month date range from PHP data
+			var transactionDate = new Date('<?= date('Y-m-d', strtotime($a->t_date_created)) ?>');
+			var dateStart = new Date(transactionDate.getFullYear(), transactionDate.getMonth(), 1);
+			var dateEnd = new Date(transactionDate.getFullYear(), transactionDate.getMonth() + 1, 0);
+			
+			var startStr = dateStart.toISOString().split('T')[0];
+			var endStr = dateEnd.toISOString().split('T')[0];
+			
+			var reportUrl = '<?= base_url() ?>report/sell/?dateStart=' + startStr + '&dateEnd=' + endStr;
+
 			$("#doPrint").click(function() {
 				window.print();
 				ajaxdestroy();
-				// clickBack();
 			});
 
 			$("#doPrint").touches(function() {
 				window.print();
 				ajaxdestroy();
-				// clickBack();
 			});
 
 			function ajaxdestroy() {
 				jQuery.ajax({
 					url: '<?= base_url('transaction/chart-destroy') ?>',
 					success: function(data, textStatus, xhr) {
-						window.location.href = '<?= base_url() ?>report/buy';
+						window.location.href = reportUrl;
 					},
 				});
 			}
 
 			function clickBack() {
-				// window.history.back();
-				window.location.href = "<?= base_url('dashboard') ?>";
+				window.location.href = reportUrl;
 			}
 		</script>
 	</div>
