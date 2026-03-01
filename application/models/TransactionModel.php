@@ -12,8 +12,21 @@ if (!defined('BASEPATH'))
      * @param string $search Kata kunci pencarian
      * @return array Daftar transaksi
      */
-    public function getTransactions($start, $length, $search)
+    public function getTransactions($start, $length, $search, $type = '', $date_from = '', $date_to = '')
     {
+        // Filter type (SELL/BUY)
+        if (!empty($type)) {
+            $this->db->where('t_type', $type);
+        }
+        
+        // Filter date range
+        if (!empty($date_from)) {
+            $this->db->where('DATE(t_date_created) >=', $date_from);
+        }
+        if (!empty($date_to)) {
+            $this->db->where('DATE(t_date_created) <=', $date_to);
+        }
+
         // Pencarian (jika ada kata kunci)
         if (!empty($search)) {
             $this->db->group_start();
@@ -356,6 +369,36 @@ if (!defined('BASEPATH'))
 
 		$this->db->trans_commit();
 		return true;
+	}
+
+	public function updateSelectedToSelesai($no_orders) {
+		if (empty($no_orders)) {
+			return 0;
+		}
+
+		$this->db->trans_begin();
+
+		// Update di tb_transaction berdasarkan no_order
+		$this->db->where_in('t_no_order', $no_orders);
+		$this->db->where('t_status !=', 'SELESAI');
+		$this->db->update('tb_transaction', ['t_status' => 'SELESAI']);
+		
+		$buy_affected = $this->db->affected_rows();
+
+		// Update di tb_transaction_sell berdasarkan no_order
+		$this->db->where_in('t_no_order', $no_orders);
+		$this->db->where('t_status !=', 'SELESAI');
+		$this->db->update('tb_transaction_sell', ['t_status' => 'SELESAI']);
+		
+		$sell_affected = $this->db->affected_rows();
+
+		if ($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			throw new Exception('Failed to update data.');
+		}
+
+		$this->db->trans_commit();
+		return $buy_affected + $sell_affected;
 	}
 
 	

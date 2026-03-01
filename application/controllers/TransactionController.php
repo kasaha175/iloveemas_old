@@ -1959,10 +1959,15 @@ class TransactionController extends CI_Controller
 		$start = intval($this->input->post('start'));
 		$length = intval($this->input->post('length'));
 		$search = $this->input->post('search')['value'] ?? '';
+		
+		// Get filter parameters from GET request
+		$type = $this->input->get('type') ?? '';
+		$date_from = $this->input->get('date_from') ?? '';
+		$date_to = $this->input->get('date_to') ?? '';
 
-		$transactions = $this->TransactionModel->getTransactions($start, $length, $search);
+		$transactions = $this->TransactionModel->getTransactions($start, $length, $search, $type, $date_from, $date_to);
 		$totalRecords = $this->TransactionModel->getTotalRecords();
-		$filteredRecords = $this->TransactionModel->getFilteredRecords($search);
+		$filteredRecords = $this->TransactionModel->getFilteredRecords($search, $type, $date_from, $date_to);
 
 		// Tambahkan default value jika price_total tidak ada
 		$data = [];
@@ -2038,6 +2043,40 @@ class TransactionController extends CI_Controller
 			echo json_encode([
 			 'success' => true,
 			 'message' => 'All transactions have been updated to SELESAI.'
+			]);
+		}
+		catch (Exception $e)
+		{
+			// Kirimkan respons error
+			echo json_encode([
+			 'success' => false,
+			 'message' => $e->getMessage()
+			]);
+		}
+	}
+
+	public function updateSelectedStatus()
+	{
+		$this->load->model('TransactionModel');
+		try
+		{
+			$no_orders = $this->input->post('no_orders');
+			
+			if (empty($no_orders)) {
+				echo json_encode([
+					'success' => false,
+					'message' => 'No transactions selected.'
+				]);
+				return;
+			}
+
+			// Proses update status untuk transaksi yang dipilih
+			$result = $this->TransactionModel->updateSelectedToSelesai($no_orders);
+
+			// Kirimkan respons sukses
+			echo json_encode([
+			 'success' => true,
+			 'message' => $result . ' transaction(s) have been updated to SELESAI.'
 			]);
 		}
 		catch (Exception $e)

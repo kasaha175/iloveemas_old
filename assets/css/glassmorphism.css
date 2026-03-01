@@ -605,12 +605,26 @@ body::after {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
     color: #ffffff !important;
     border: 1px solid #ef4444 !important;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #f87171 0%, #ef4444 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
 }
 
 .btn-warning {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
     color: #ffffff !important;
     border: 1px solid #f59e0b !important;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
 }
 
 .btn-lg { padding: 16px 32px; font-size: 1rem; border-radius: 16px; }
@@ -628,6 +642,44 @@ body::after {
     padding: 20px 0;
 }
 
+/* Clearfix for dataTables_wrapper */
+.dataTables_wrapper::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.dataTables_length {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    float: left;
+}
+
+.dataTables_length label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.dataTables_filter {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align search to right (end) */
+    margin-bottom: 15px;
+    float: right;
+}
+
+.dataTables_filter label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
 .dataTables_length select, .dataTables_filter input {
     background: var(--glass-bg) !important;
     border: 1px solid var(--glass-border) !important;
@@ -641,9 +693,18 @@ body::after {
     outline: none;
 }
 
-.dataTables_info { color: var(--text-secondary) !important; }
+.dataTables_info { 
+    color: var(--text-secondary) !important; 
+    float: left;
+}
 
-.dataTables_paginate { margin-top: 15px !important; }
+.dataTables_paginate { 
+    margin-top: 15px !important; 
+    display: flex;
+    justify-content: flex-end; /* Align pagination to right (end) */
+    float: right;
+    clear: both;
+}
 
 .dataTables_paginate .paginate_button {
     background: var(--glass-bg) !important;
@@ -674,10 +735,82 @@ table.dataTable thead th {
     background: rgba(255, 255, 255, 0.05) !important;
     border-bottom: 2px solid var(--glass-border) !important;
     color: var(--turquoise-surf) !important;
-    padding: 14px 16px !important;
+    padding: 14px 16px 14px 30px !important;
     font-weight: 600 !important;
     text-transform: uppercase;
     font-size: 0.8rem;
+    position: relative;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Hover effect for sortable columns */
+table.dataTable thead th:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Sorting Icons - DataTables */
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:after {
+    position: absolute;
+    display: block;
+    right: 10px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 12px;
+    color: var(--turquoise-surf);
+    opacity: 0.5;
+}
+
+/* Sort icon - not sorted */
+table.dataTable thead .sorting:before {
+    content: "\f0dc"; /* fa-sort */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+table.dataTable thead .sorting:after {
+    display: none;
+}
+
+/* Sort icon - ascending */
+table.dataTable thead .sorting_asc:before {
+    content: "\f0de"; /* fa-sort-up */
+    opacity: 1;
+}
+
+table.dataTable thead .sorting_asc:after {
+    display: none;
+}
+
+/* Sort icon - descending */
+table.dataTable thead .sorting_desc:before {
+    content: "\f0dd"; /* fa-sort-down */
+    opacity: 1;
+}
+
+table.dataTable thead .sorting_desc:after {
+    display: none;
+}
+
+/* Disabled sorting */
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:before {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Hover effect for sortable columns */
+table.dataTable thead th:hover.sorting:before {
+    opacity: 1;
 }
 
 table.dataTable tbody tr {
@@ -2347,7 +2480,21 @@ h3, .h3, .card-title {
 }
 
 .enterprise-card-body {
-    padding: 20px;
+    padding: 28px;
+}
+
+/* Transaction List Page - Extra space for filters */
+.master-detail-container.transaction-list-page {
+    max-width: 1400px;
+}
+
+.transaction-list-page .enterprise-card {
+    max-width: 100%;
+}
+
+/* Make sure filter inputs have enough space */
+.transaction-list-page .filter-input {
+    min-width: 120px;
 }
 
 /* ================================================
@@ -2769,6 +2916,184 @@ _::-webkit-full-page-media, _:future, :root .menu-box {
     
     .glass-demo-grid {
         gap: 16px;
+    }
+}
+
+/* ================================================
+   FILTER SECTION STYLES (Grid Layout)
+   ================================================ */
+
+/* Transaction Filters Container */
+.transaction-filters {
+    padding: 16px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+}
+
+/* Filter Group - Grid Layout */
+.filter-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    align-items: end;
+}
+
+/* Filter Item */
+.filter-item {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Filter Buttons - span 1 column */
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+/* Filter Label */
+.filter-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    white-space: nowrap;
+}
+
+.filter-label i {
+    margin-right: 4px;
+    color: var(--turquoise-surf);
+    font-size: 11px;
+}
+
+/* Filter Select */
+.filter-select {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: var(--text-primary);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23ffffff' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--turquoise-surf);
+    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+}
+
+.filter-select option {
+    background: rgba(3, 4, 94, 0.95);
+    color: var(--text-primary);
+}
+
+/* Filter Input */
+.filter-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: var(--text-primary);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+/* Date input picker styling */
+.filter-input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.filter-input::-webkit-calendar-picker-indicator:hover {
+    opacity: 0.8;
+}
+
+.filter-input::-moz-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.filter-input:focus {
+    outline: none;
+    border-color: var(--turquoise-surf);
+    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+}
+
+/* Filter Buttons Styling */
+.filter-buttons .btn {
+    padding: 10px 14px;
+    font-size: 13px;
+    border-radius: 8px;
+    line-height: 1;
+    flex: 1;
+}
+
+.filter-buttons .btn i {
+    margin: 0;
+}
+
+/* ================================================
+   RESPONSIVE - MOBILE FIRST
+   ================================================ */
+
+/* Tablet and below */
+@media (max-width: 768px) {
+    .transaction-filters {
+        padding: 12px;
+    }
+
+    .filter-group {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .transaction-filters {
+        padding: 10px;
+    }
+
+    .filter-group {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 400px) {
+    .transaction-filters {
+        padding: 10px;
+    }
+
+    .filter-group {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .filter-label {
+        font-size: 11px;
+    }
+
+    .filter-select,
+    .filter-input {
+        padding: 8px 10px;
+        font-size: 12px;
     }
 }
 

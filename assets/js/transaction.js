@@ -32,18 +32,18 @@ function initTransactionEvents() {
 }
 
 /**
- * Clear all transaction data
+ * Menghapus seluruh data transaksi
  */
 function clearTransactionData() {
     Swal.fire({
-        title: 'Are you sure?',
-        text: 'All transaction data will be cleared and cannot be restored!',
+        title: 'Konfirmasi Penghapusan Data',
+        text: 'Seluruh data transaksi akan dihapus secara permanen dan tidak dapat dipulihkan kembali.',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, clear it!',
-        cancelButtonText: 'Cancel'
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Hapus Permanen',
+        cancelButtonText: 'Batal'
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.href = baseUrl + 'transaction/clearData';
@@ -52,68 +52,79 @@ function clearTransactionData() {
 }
 
 /**
- * Delete transaction
- * @param {string} noOrder - Transaction order number
+ * Menghapus satu transaksi berdasarkan nomor transaksi
+ * @param {string} noOrder - Nomor transaksi
  */
 function deleteTransaction(noOrder) {
     Swal.fire({
-        title: "Are you sure?",
-        text: "The transaction will be deleted and cannot be restored!",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Cancel",
-        denyButtonText: `Delete`,
+        title: 'Konfirmasi Penghapusan Transaksi',
+        text: 'Transaksi ini akan dihapus secara permanen dan tidak dapat dipulihkan kembali.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Hapus Transaksi',
+        cancelButtonText: 'Batal'
     }).then((result) => {
-        if (result.isDenied) {
+        if (result.isConfirmed) {
             window.location.href = baseUrl + "transaction/delete-transaction/" + noOrder;
-        } else {
-            Swal.close();
         }
     });
 }
 
 /**
- * Update all transaction statuses
+ * Memperbarui seluruh status transaksi menjadi SELESAI
  */
 function updateAllStatus() {
     Swal.fire({
-        title: 'Are you sure?',
-        text: 'This will update the status of all transactions to SELESAI.',
+        title: 'Konfirmasi Pembaruan Status',
+        text: 'Seluruh transaksi akan diperbarui menjadi status SELESAI. Tindakan ini berlaku untuk semua data transaksi.',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, update it!',
-        cancelButtonText: 'Cancel'
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Perbarui Semua',
+        cancelButtonText: 'Batal'
     }).then((result) => {
         if (result.isConfirmed) {
+
             $.ajax({
                 url: baseUrl + "transaction/updateAllStatus",
                 method: "POST",
                 dataType: "json",
+
                 success: function (response) {
+
                     if (response.success) {
+
                         Swal.fire({
-                            title: 'Success!',
-                            text: 'All transactions have been updated to SELESAI.',
+                            title: 'Berhasil',
+                            text: response.message || 'Seluruh transaksi berhasil diperbarui menjadi SELESAI.',
                             icon: 'success'
                         }).then(() => {
                             location.reload();
                         });
+
                     } else {
+
                         Swal.fire({
-                            title: 'Error!',
-                            text: response.message || 'An error occurred while updating data.',
+                            title: 'Terjadi Kesalahan',
+                            text: response.message || 'Terjadi kesalahan saat memperbarui data.',
                             icon: 'error'
                         });
+
                     }
                 },
-                error: function (xhr, status, error) {
+
+                error: function () {
                     Swal.fire({
-                        title: 'Error!',
-                        text: 'Failed to process the request. Please try again.',
+                        title: 'Terjadi Kesalahan',
+                        text: 'Permintaan tidak dapat diproses. Silakan coba kembali.',
                         icon: 'error'
                     });
                 }
             });
+
         }
     });
 }
