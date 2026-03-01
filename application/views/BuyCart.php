@@ -203,7 +203,7 @@ function nominal($angka) {
                         </table>
                     </div>
 
-                    <form id="checkoutForm" action="<?=base_url()?>transaction/buy-checkout/">
+                    <form id="checkoutForm" action="<?=base_url()?>transaction/buy-checkout/" method="POST">
                         <div class="row g-3 mt-3">
                             <div class="col-md-3">
                                 <p class="mb-2" style="color: var(--turquoise-surf); font-weight: 600;">PLUS/MINUS</p>
@@ -225,6 +225,10 @@ function nominal($angka) {
                                        oninput="updateTotal()">
                             </div>
                         </div>
+                        
+                        <!-- Hidden inputs for checkout data -->
+                        <input type="hidden" name="cabang_id" id="cabang_id" value="">
+                        <input type="hidden" name="payment_method" id="payment_method" value="">
                         
                         <!-- Total Summary -->
                         <div class="mt-4 p-3" style="background: var(--glass-bg); border-radius: 12px; border: 1px solid var(--glass-border);">
@@ -750,10 +754,23 @@ function prepareCheckout() {
 
 function confirmCheckout() {
     var paymentMethod = document.getElementById('paymentMethod').value;
+    var cabangId = document.getElementById('modalCabang').value;
+    
+    // Validate payment method
     if (!paymentMethod) {
         alert('Silakan pilih metode pembayaran');
         return;
     }
+    
+    // Validate cabang
+    if (!cabangId) {
+        alert('Silakan pilih cabang');
+        return;
+    }
+    
+    // Set hidden field values
+    document.getElementById('payment_method').value = paymentMethod;
+    document.getElementById('cabang_id').value = cabangId;
     
     // Submit the form
     document.getElementById('checkoutForm').submit();

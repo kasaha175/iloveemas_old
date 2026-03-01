@@ -67,21 +67,51 @@ if (!defined('BASEPATH'))
 
 	function buyCheckout($data)
 	{
+		// DEBUG: Log data before insert
+		log_message('debug', '[MODEL buyCheckout] Inserting into tb_transaction: ' . json_encode($data));
+		
 		$this->db->insert('tb_transaction', $data);
-		return $this->db->insert_id();
+		
+		$insert_id = $this->db->insert_id();
+		
+		// DEBUG: Log insert result
+		log_message('debug', '[MODEL buyCheckout] Insert successful, ID: ' . $insert_id);
+		
+		return $insert_id;
 	}
 	function buyCheckoutItems($data)
 	{
+		// DEBUG: Log item data before insert
+		log_message('debug', '[MODEL buyCheckoutItems] Inserting into tb_transaction_items: ' . json_encode($data));
+		
 		$this->db->insert('tb_transaction_items', $data);
+		
+		// DEBUG: Log insert result
+		log_message('debug', '[MODEL buyCheckoutItems] Insert result: ' . ($this->db->affected_rows() > 0 ? 'SUCCESS' : 'FAILED'));
 	}
 	function sellCheckout($data)
 	{
+		// DEBUG: Log data before insert
+		log_message('debug', '[MODEL sellCheckout] Inserting into tb_transaction_sell: ' . json_encode($data));
+		
 		$this->db->insert('tb_transaction_sell', $data);
-		return $this->db->insert_id();
+		
+		$insert_id = $this->db->insert_id();
+		
+		// DEBUG: Log insert result
+		log_message('debug', '[MODEL sellCheckout] Insert successful, ID: ' . $insert_id);
+		
+		return $insert_id;
 	}
 	function sellCheckoutItems($data)
 	{
+		// DEBUG: Log item data before insert
+		log_message('debug', '[MODEL sellCheckoutItems] Inserting into tb_transaction_items_sell: ' . json_encode($data));
+		
 		$this->db->insert('tb_transaction_items_sell', $data);
+		
+		// DEBUG: Log insert result
+		log_message('debug', '[MODEL sellCheckoutItems] Insert result: ' . ($this->db->affected_rows() > 0 ? 'SUCCESS' : 'FAILED'));
 	}
 	function lastData($year)
 	{
@@ -101,60 +131,63 @@ if (!defined('BASEPATH'))
 		LIMIT 1");
 		return $query;
 	}
-	function buyTransaction($dateStart, $dateEnd)
+	public function buyTransaction($dateStart = null, $dateEnd = null)
 	{
+		$this->db->select("
+			a.*,
+			b.u_name AS nameCreator,
+			c.u_name AS nameReceive,
+			d.c_name AS nameCustomer,
+			e.nama_cabang
+		");
+
+		$this->db->from('tb_transaction a');
+		$this->db->join('tb_user b', 'a.t_created_by = b.u_id', 'left');
+		$this->db->join('tb_user c', 'a.t_receive_by = c.u_id', 'left');
+		$this->db->join('tb_customer d', 'a.t_customer = d.c_id', 'left');
+		$this->db->join('tb_cabang e', 'a.t_cabang_id = e.id', 'left');
+
+		$this->db->where('a.t_visible', 1);
+
+		// Filter tanggal TANPA DATE() agar index bisa dipakai
 		if (!empty($dateStart) && !empty($dateEnd)) {
-			$query = $this->db->query("SELECT a.*, b.u_name as nameCreator, c.u_name as nameReceive, d.c_name as nameCustomer
-			FROM tb_transaction a
-			LEFT OUTER JOIN tb_user b
-			ON a.t_created_by = b.u_id
-			LEFT OUTER JOIN tb_user c
-			ON a.t_receive_by = c.u_id
-			LEFT OUTER JOIN tb_customer d
-			ON a.t_customer = d.c_id
-			WHERE a.t_visible=1 AND DATE(a.t_date_created) >= '$dateStart' AND DATE(a.t_date_created) <= '$dateEnd' 
-			ORDER BY a.t_id DESC");
-		} else {
-			$query = $this->db->query("SELECT a.*, b.u_name as nameCreator, c.u_name as nameReceive, d.c_name as nameCustomer
-			FROM tb_transaction a
-			LEFT OUTER JOIN tb_user b
-			ON a.t_created_by = b.u_id
-			LEFT OUTER JOIN tb_user c
-			ON a.t_receive_by = c.u_id
-			LEFT OUTER JOIN tb_customer d
-			ON a.t_customer = d.c_id
-			WHERE a.t_visible=1 
-			ORDER BY a.t_id DESC");
+			$this->db->where('a.t_date_created >=', $dateStart . ' 00:00:00');
+			$this->db->where('a.t_date_created <=', $dateEnd . ' 23:59:59');
 		}
-		return $query;
+
+		$this->db->order_by('a.t_id', 'DESC');
+
+		return $this->db->get();
 	}
-	function sellTransaction($dateStart, $dateEnd)
+
+	public function sellTransaction($dateStart = null, $dateEnd = null)
 	{
+		$this->db->select("
+			a.*,
+			b.u_name AS nameCreator,
+			c.u_name AS nameReceive,
+			d.c_name AS nameCustomer,
+			e.nama_cabang
+		");
+
+		$this->db->from('tb_transaction_sell a');
+		$this->db->join('tb_user b', 'a.t_created_by = b.u_id', 'left');
+		$this->db->join('tb_user c', 'a.t_receive_by = c.u_id', 'left');
+		$this->db->join('tb_customer d', 'a.t_customer = d.c_id', 'left');
+		$this->db->join('tb_cabang e', 'a.t_cabang_id = e.id', 'left');
+
+		$this->db->where('a.t_visible', 1);
+
 		if (!empty($dateStart) && !empty($dateEnd)) {
-			$query = $this->db->query("SELECT a.*, b.u_name as nameCreator, c.u_name as nameReceive, d.c_name as nameCustomer
-			FROM tb_transaction_sell a
-			LEFT OUTER JOIN tb_user b
-			ON a.t_created_by = b.u_id
-			LEFT OUTER JOIN tb_user c
-			ON a.t_receive_by = c.u_id
-			LEFT OUTER JOIN tb_customer d
-			ON a.t_customer = d.c_id
-			WHERE a.t_visible=1 AND DATE(a.t_date_created) >= '$dateStart' AND DATE(a.t_date_created) <= '$dateEnd' 
-			ORDER BY a.t_id DESC");
-		} else {
-			$query = $this->db->query("SELECT a.*, b.u_name as nameCreator, c.u_name as nameReceive, d.c_name as nameCustomer
-			FROM tb_transaction_sell a
-			LEFT OUTER JOIN tb_user b
-			ON a.t_created_by = b.u_id
-			LEFT OUTER JOIN tb_user c
-			ON a.t_receive_by = c.u_id
-			LEFT OUTER JOIN tb_customer d
-			ON a.t_customer = d.c_id
-			WHERE a.t_visible=1  
-			ORDER BY a.t_id DESC");
+			$this->db->where('a.t_date_created >=', $dateStart . ' 00:00:00');
+			$this->db->where('a.t_date_created <=', $dateEnd . ' 23:59:59');
 		}
-		return $query;
+
+		$this->db->order_by('a.t_id', 'DESC');
+
+		return $this->db->get();
 	}
+
 	function sellDeleteTransaction($idTransaction)
 	{
 		$query = $this->db->query("UPDATE

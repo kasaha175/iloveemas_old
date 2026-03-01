@@ -481,6 +481,7 @@ class TransactionController extends CI_Controller
 			"title"        => "TRANSACTION BUY",
 			"userData"     => $this->UserModel->userDataById($idUser)->result(),
 			"nameCustomer" => $this->MasterModel->customerDatas($idCustomer)->row("c_name"),
+			"materianName" => $materialName,  // FIX: Menggunakan materianName agar sesuai dengan view
 			"materialName" => $materialName,
 			"materialType" => $this->MaterialModel->materialTypeData()->result(),
 			"carat"        => $this->MaterialModel->caratData($idMaterial)->result(),
@@ -1088,58 +1089,86 @@ class TransactionController extends CI_Controller
 				$total = $total + $a["priceTotal"];
 				$qtt = $qtt + 1;
 			}
-			if (!$idTransaction)
-			{
+			
+			// DEBUG: Log cart calculation
+			log_message('debug', '[BUY ADD TO CART] Cart Total: ' . $total);
+			log_message('debug', '[BUY ADD TO CART] Cart Qty: ' . $qtt);
+			log_message('debug', '[BUY ADD TO CART] Session idTransaction BEFORE: ' . $idTransaction);
+			
+			if(!$idTransaction){
+				log_message('debug', '[BUY ADD TO CART] Creating NEW transaction - no existing idTransaction');
+				
 				$idCustomer = $this->session->userdata("idCustomer");
-				if (empty($idCustomer))
-				{
+				if(empty($idCustomer)){
 					$idCustomer = 7;
 				}
 				$this->data['nameCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_name");
 				$this->data['phoneCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_phone");
-
-				$year = date('Y', strtotime($this->dateToday));
+				
+				$year = date('Y',strtotime($this->dateToday));
 				$noOrder = $this->db->query("SELECT COUNT(*) as count FROM tb_transaction WHERE YEAR(t_date_created)='$year'")->row('count');
-				if (!empty($noOrder))
-				{
-					$noOrderNew = "PB-" . substr(date('Y', strtotime($this->dateToday)), 2) . date('m', strtotime($this->dateToday)) . "-" . ($noOrder + 1);
+				if(!empty($noOrder)){
+					$noOrderNew = "PB-".substr(date('Y',strtotime($this->dateToday)),2).date('m',strtotime($this->dateToday))."-".($noOrder+1);
+				}else{
+					$noOrderNew = "PB-".substr(date('Y',strtotime($this->dateToday)),2).date('m',strtotime($this->dateToday))."-1";
 				}
-				else
-				{
-					$noOrderNew = "PB-" . substr(date('Y', strtotime($this->dateToday)), 2) . date('m', strtotime($this->dateToday)) . "-1";
-				}
+				
+				log_message('debug', '[BUY ADD TO CART] New order number: ' . $noOrderNew);
+				
 				$data = array(
-				 't_no_order' => $noOrderNew,
-				 't_date_created' => $this->dateToday,
-				 't_status' => 'PROSES',
-				 't_created_at' => date('H:i:s', strtotime($this->dateToday)),
-				 't_created_by' => $idUser,
-				 't_customer' => $idCustomer,
-				 't_phone' => $this->data['phoneCustomer'],
-				 't_note' => '',
-				 't_type' => 'BUY',
-				 't_paid_by' => $this->data['nameCustomer'],
-				 't_receive_by' => $idUser,
-				 't_price_total' => $total,
-				 't_qtt' => $qtt,
-				 't_visible' => 1,
-				 'cabang_id' => $this->session->userdata("cabang_id")
+					't_no_order' => $noOrderNew,
+					't_date_created' => $this->dateToday,
+					't_status' => 'PROSES',
+					't_created_at' => date('H:i:s',strtotime($this->dateToday)),
+					't_created_by' => $idUser,
+					't_customer' => $idCustomer,
+					't_phone' => $this->data['phoneCustomer'],
+					't_note' => '',
+					't_type' => 'BUY',
+					't_paid_by' => $this->data['nameCustomer'],
+					't_receive_by' => $idUser,
+					't_price_total' => $total,
+					't_qtt' => $qtt,
+					't_visible' => 1,
 				);
+				
+				log_message('debug', '[BUY ADD TO CART] Inserting transaction data: ' . json_encode($data));
+				
 				$idTransaction = $this->TransactionModel->buyCheckout($data);
+				
+				log_message('debug', '[BUY ADD TO CART] New transaction ID from model: ' . $idTransaction);
+				
 				$data_session = array(
-				 'idTransaction' => $idTransaction,
-				 'jenis_transaksi' => "buy"
+					'idTransaction' => $idTransaction,
+					'jenis_transaksi' => "buy"
 				);
 				$this->session->set_userdata($data_session);
+				
+				log_message('debug', '[BUY ADD TO CART] Session updated with idTransaction: ' . $idTransaction);
 			}
 			else
 			{
+				// DEBUG: Log update transaction
+				log_message('debug', '[BUY ADD TO CART] Updating existing transaction ID: ' . $idTransaction);
+				
 				$data = array(
 				 't_price_total' => $total,
 				 't_qtt' => $qtt,
 				);
+				
+				// DEBUG: Log update data
+				log_message('debug', '[BUY ADD TO CART] Update Data: ' . json_encode($data));
+				
 				$this->db->update('tb_transaction', $data, ['t_id' => $idTransaction]);
+				
+				// DEBUG: Log update result
+				$affected = $this->db->affected_rows();
+				log_message('debug', '[BUY ADD TO CART] Update affected rows: ' . $affected);
 			}
+			
+			// DEBUG: Log items insert start
+			log_message('debug', '[BUY ADD TO CART] Starting to insert ' . count($this->cart->contents()) . ' items');
+			
 			$this->db->where('ti_t_id', $idTransaction);
 			$this->db->delete('tb_transaction_items');
 			foreach ($this->cart->contents() as $a)
@@ -1156,8 +1185,15 @@ class TransactionController extends CI_Controller
 				 'ti_date_created' => $this->dateToday,
 				 'ti_rumus' => @$a['rumus'],
 				);
+				
+				// DEBUG: Log each item
+				log_message('debug', '[BUY ADD TO CART] Inserting item: ' . json_encode($dataItems));
+				
 				$this->TransactionModel->buyCheckoutItems($dataItems);
 			}
+			
+			// DEBUG: Log completion
+			log_message('debug', '[BUY ADD TO CART] Completed! Items inserted: ' . count($this->cart->contents()));
 			// echo "<pre>";
 			// print_r ($idTransaction);
 			// echo "</pre>";
@@ -1226,9 +1262,68 @@ class TransactionController extends CI_Controller
 		if ($authUser == true)
 		{
 			$idTransaction = $this->session->userdata("idTransaction");
+			
+			// DEBUG: Log start of buyCheckout
+			log_message('debug', '[BUY CHECKOUT] =======================================');
+			log_message('debug', '[BUY CHECKOUT] Transaction ID: ' . $idTransaction);
+			log_message('debug', '[BUY CHECKOUT] User ID: ' . $idUser);
+			
+			// VALIDATION: Check if idTransaction is valid
+			// Note: session stores as string "0" not integer 0
+			if (empty($idTransaction) || $idTransaction == 0 || $idTransaction == "0") {
+				log_message('debug', '[BUY CHECKOUT] ERROR: Invalid Transaction ID: "' . $idTransaction . '" (type: ' . gettype($idTransaction) . ')');
+				log_message('debug', '[BUY CHECKOUT] Session data: ' . json_encode($this->session->userdata()));
+				
+				$this->session->set_userdata([
+					'status' => 'error',
+					'message' => 'Transaksi tidak valid. Silakan tambah item ke cart terlebih dahulu.'
+				]);
+				redirect(base_url() . 'transaction/buy/');
+				return;
+			}
+			
+			// Check if transaction exists in database
+			$cek_transaksi = $this->db->get_where('tb_transaction', ['t_id' => $idTransaction])->row();
+			if (!$cek_transaksi) {
+				log_message('debug', '[BUY CHECKOUT] ERROR: Transaction not found in database!');
+				$this->session->set_userdata([
+					'status' => 'error',
+					'message' => 'Transaksi tidak ditemukan di database.'
+				]);
+				redirect(base_url() . 'transaction/buy/');
+				return;
+			}
+			
 			$this->db->where('ti_t_id', $idTransaction);
 			$this->db->delete('tb_transaction_items');
-			$biayaAdmin = $this->input->get('operator') . '' . $this->input->get('biayaAdmin');
+			
+			// DEBUG: Log deleted items
+			log_message('debug', '[BUY CHECKOUT] Deleted existing items for ti_t_id: ' . $idTransaction);
+			
+			// Get POST data
+			$biayaAdmin = $this->input->post('operator') . '' . $this->input->post('biayaAdmin');
+			$cabang_id = (int) $this->input->post('cabang_id');
+			$payment_method = $this->input->post('payment_method');
+			
+			// DEBUG: Log POST data
+			log_message('debug', '[BUY CHECKOUT] POST Data: ' . json_encode([
+				'operator' => $this->input->post('operator'),
+				'biayaAdmin' => $this->input->post('biayaAdmin'),
+				'biayaAdmin_concat' => $biayaAdmin,
+				'cabang_id' => $cabang_id,
+				'payment_method' => $payment_method
+			]));
+			
+			// Validate cabang exists in database
+			if ($cabang_id > 0) {
+				$cek_cabang = $this->db->get_where('tb_cabang', ['id' => $cabang_id])->row();
+				if (!$cek_cabang) {
+					// Use session cabang_id if invalid
+					$cabang_id = (int) $this->session->userdata("cabang_id");
+					log_message('debug', '[BUY CHECKOUT] Invalid cabang_id, using session: ' . $cabang_id);
+				}
+			}
+			
 			$total = 0;
 			$qtt = 0;
 			foreach ($this->cart->contents() as $a)
@@ -1236,13 +1331,32 @@ class TransactionController extends CI_Controller
 				$total = $total + $a["priceTotal"];
 				$qtt = $qtt + 1;
 			}
+			
+			// DEBUG: Log calculated totals
+			log_message('debug', '[BUY CHECKOUT] Cart Total: ' . $total);
+			log_message('debug', '[BUY CHECKOUT] Cart Qty: ' . $qtt);
+			
 			$data = array(
 			 't_status' => 'CHECKOUT',
 			 't_price_total' => $total,
 			 't_price_admin' => $biayaAdmin,
 			 't_qtt' => $qtt,
+			 't_cabang_id' => $cabang_id > 0 ? $cabang_id : NULL,
+			 't_payment_method' => !empty($payment_method) ? $payment_method : NULL,
 			);
+			
+			// DEBUG: Log update data
+			log_message('debug', '[BUY CHECKOUT] Update Data: ' . json_encode($data));
+			
 			$this->db->update('tb_transaction', $data, ['t_id' => $idTransaction]);
+			
+			// DEBUG: Log update result
+			$affected = $this->db->affected_rows();
+			log_message('debug', '[BUY CHECKOUT] Update affected rows: ' . $affected);
+			
+			// DEBUG: Log cart items before insert
+			log_message('debug', '[BUY CHECKOUT] Cart Contents: ' . json_encode($this->cart->contents()));
+			
 			foreach ($this->cart->contents() as $a)
 			{
 				$dataItems = array(
@@ -1257,8 +1371,16 @@ class TransactionController extends CI_Controller
 				 'ti_date_created' => $this->dateToday,
 				 'ti_rumus' => @$a['rumus'],
 				);
+				
+				// DEBUG: Log each item before insert
+				log_message('debug', '[BUY CHECKOUT] Inserting Item: ' . json_encode($dataItems));
+				
 				$this->TransactionModel->buyCheckoutItems($dataItems);
+				
+				// DEBUG: Log item insert result
+				log_message('debug', '[BUY CHECKOUT] Item inserted for material: ' . $a['materialName']);
 			}
+			
 			$this->session->unset_userdata('idCustomer');
 			$this->cart->destroy();
 			$data_session = array(
@@ -1266,6 +1388,11 @@ class TransactionController extends CI_Controller
 			 'message' => "Checkout no order is success!!",
 			);
 			$this->session->set_userdata($data_session);
+			
+			// DEBUG: Log completion
+			log_message('debug', '[BUY CHECKOUT] Completed successfully!');
+			log_message('debug', '[BUY CHECKOUT] =======================================');
+			
 			redirect(base_url() . "report/buy-print/$idTransaction/");
 		}
 		else
@@ -1314,8 +1441,9 @@ class TransactionController extends CI_Controller
 		$this->data = [
 			"title"          => "TRANSACTION SELL",
 			"nameCustomer"   => $this->MasterModel->customerDatas($idCustomer)->row("c_name"),
-			"userData"       => $this->UserModel->userDataById($idUser)->result(),
+			"materianName"   => $materialName,  // FIX: Menggunakan materianName agar sesuai dengan view
 			"materialName"   => $materialName,
+			"userData"       => $this->UserModel->userDataById($idUser)->result(),
 			"materialType"   => $this->MaterialModel->materialTypeData()->result(),
 			"potongan"       => $this->MaterialModel->potonganData($idMaterial)->result(),
 			"carat"          => $this->MaterialModel->caratData($idMaterial)->result(),
@@ -1328,426 +1456,223 @@ class TransactionController extends CI_Controller
 		$this->data['content'] = $this->load->view('SellCart', $this->data, true);
 		$this->load->view("UserTemplate", $this->data);
 	}
+	
 	function sellAddToCart()
 	{
-		// $datapost = $this->input->post();
-		// echo "<pre>";
-		// print_r($datapost);
-		// echo "</pre>";
-		// die();
-		$authUser = $this->session->userdata("authUser");
-		$idUser = $this->session->userdata("idUser");
-		if ($authUser == true)
-		{
-			$idMaterial = $this->input->post('idMaterial');
-			$materialType = $this->input->post('materialType');
-			$carat = $this->input->post('carat');
-			$weight = $this->input->post('weight');
-			$this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
-			$materialName = $this->MaterialModel->materialDataBy('m_id', $idMaterial, 'Sell')->row("m_name");
-			foreach ($this->cart->contents() as $a)
-			{
-				$idLast = ($a['id']);
-			}
-			if (!empty($idLast))
-			{
-				$idLast = $idLast + 1;
-			}
-			else
-			{
-				$idLast = 1;
-			}
-			$rtiAU = $this->MaterialModel->formulaData()->row("f_rti_au_sell");
-			$rtiUbs = $this->MaterialModel->formulaData()->row("f_material_ubs_sell");
-			$AUtambahAUG = $this->MasterModel->formulasData('material-au')->row('g');
-			$AUPotongan = $this->MasterModel->formulasData('material-au')->row('a');
-			$potongan_ubs = $this->MasterModel->formulasData('material-ubs')->row('potongan_ubs');
-			$potongan_lm = $this->MasterModel->formulasData('lm')->row('potongan_lm');
-			$rtiAG = $this->MaterialModel->formulaData()->row("f_rti_ag_sell");
-			$LMpresentaseLMBaru = $this->MasterModel->formulasData('lm')->row('b');
-			$LMpresentaseLMLama = $this->MasterModel->formulasData('lm')->row('a');
-			if ($idMaterial == 16)
-			{
-				$price = round($rtiAG);
-				$priceTotal = round($price * $weight);
-				$data = array(
-				 'id' => $idLast,
-				 'qty' => $weight,
-				 'price' => $price,
-				 'prices' => $price,
-				 'name' => 'T-Shirt',
-				 'materialName' => $materialName,
-				 'materialType' => '-',
-				 'carat' => '100%',
-				 'weight' => $weight,
-				 'priceTotal' => $priceTotal,
-				);
-			}
-			else if ($idMaterial == 18)
-			{
-				$datapost = $this->input->post();
-				$detailConfig = $this->mmodel->selectWhere('config_material', ['id' => $datapost['idConfig']])->row();
-				$price = ($detailConfig->harga + $detailConfig->potongan);
-				$priceTotal = $price * $detailConfig->size;
-				$data = array(
-				 'id' => $idLast,
-				 'qty' => $detailConfig->size,
-				 'price' => $price,
-				 'prices' => $price,
-				 'name' => 'T-Shirt',
-				 'materialName' => $materialName,
-				 'materialType' => '-',
-				 'carat' => '',
-				 'weight' => $detailConfig->size,
-				 'priceTotal' => $priceTotal,
-				 'rumus' => "price = (" . $detailConfig->harga . " + " . $detailConfig->potongan . "); priceTotal = " . $price . " * " . $detailConfig->size . ";",
-				);
-			}
-			else if ($idMaterial == 15)
-			{
-				$pricePergram = $rtiAU + $AUPotongan;
-				$priceTotal = $pricePergram * $weight;
-				$data = array(
-				 'id' => $idLast,
-				 'qty' => $weight,
-				 'price' => $pricePergram,
-				 'prices' => $pricePergram,
-				 'name' => 'T-Shirt',
-				 'materialName' => $materialName,
-				 'materialType' => '-',
-				 'carat' => '24',
-				 'weight' => $weight,
-				 'priceTotal' => $priceTotal,
-				);
-				$price = $rtiAU;
-			}
-			else if ($idMaterial == 14)
-			{
-				if ($weight == 0.5)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_nol5");
-				}
-				else if ($weight == 1)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_1");
-				}
-				else if ($weight == 2)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_2");
-				}
-				else if ($weight == 2.5)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_2_coma_5");
-				}
-				else if ($weight == 3)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_3");
-				}
-				else if ($weight == 5)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_5");
-				}
-				else if ($weight == 10)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_10");
-				}
-				else if ($weight == 25)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_25");
-				}
-				else if ($weight == 50)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_50");
-				}
-				else if ($weight == 100)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_100");
-				}
-				else if ($weight == 250)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_250");
-				}
-				else if ($weight == 500)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_500");
-				}
-				else if ($weight == 1000)
-				{
-					$price = $this->MaterialModel->formulaData()->row("f_1000");
-				}
-				else
-				{
-					$price = 1;
-				}
-				if ($weight == 0.5)
-				{
-					// $weightTemp = 1;	
-					// $price = $price - $LMpresentaseLMLama;
-					// $priceTotal = ($price * $weightTemp);
-					$priceTotal = $price + ($LMpresentaseLMLama * 0.5);
-					$price = $priceTotal;
-				}
-				else
-				{
-					$price = $price + $LMpresentaseLMLama;
-					$priceTotal = round(($price * $weight));
-				}
-				$data = array(
-				'id' => $idLast,
-				'qty' => $weight,
-				'price' => $price,
-				'prices' => $price,
-				'name' => 'T-Shirt',
-				'materialName' => $materialName,
-				'materialType' => '-',
-				'carat' => '24',
-				'weight' => $weight,
-				'priceTotal' => $priceTotal,
-				);
-			}
-			else if ($idMaterial == 13)
-			{
-				/*
-				Rumus Lama
-				if($weight==0.5){
-					$price = $this->MaterialModel->formulaData()->row("f_nol5");
-				}else if($weight==1){
-					$price = $this->MaterialModel->formulaData()->row("f_1");
-				}else if($weight==2){
-					$price = $this->MaterialModel->formulaData()->row("f_2");
-				}else if($weight==2.5){
-					$price = $this->MaterialModel->formulaData()->row("f_2_coma_5");
-				}else if($weight==3){
-					$price = $this->MaterialModel->formulaData()->row("f_3");
-				}else if($weight==5){
-					$price = $this->MaterialModel->formulaData()->row("f_5");
-				}else if($weight==10){
-					$price = $this->MaterialModel->formulaData()->row("f_10");
-				}else if($weight==25){
-					$price = $this->MaterialModel->formulaData()->row("f_25");
-				}else if($weight==50){
-					$price = $this->MaterialModel->formulaData()->row("f_50");
-				}else if($weight==100){
-					$price = $this->MaterialModel->formulaData()->row("f_100");
-				}else if($weight==250){
-					$price = $this->MaterialModel->formulaData()->row("f_250");
-				}else if($weight==500){
-					$price = $this->MaterialModel->formulaData()->row("f_500");
-				}else if($weight==1000){
-					$price = $this->MaterialModel->formulaData()->row("f_1000");
-				}else{
-					$price = 1;	
-				}
-				if($weight == 0.5){
-					// $weightTemp = 1;	
-					// $price = $price - $LMpresentaseLMBaru;
-					// $priceTotal = ($price * $weightTemp);
-					$priceTotal = round($price - ($LMpresentaseLMBaru*0.5));
-					$price = $priceTotal;
-				}else{
-					$price = $price - $LMpresentaseLMBaru;
-					$priceTotal = round(($price * $weight));
-				} 
-				End Rumus Lama
-				*/
-				/* Rumus Baru */
-				// $this->db->where('id', $this->input->post('id_potongan'));
-				// $cek_harga = $this->db->get('tb_potongan')->row();
-				// print_r($this->input->post('id_potongan'));
-				// $pricepergram = $AUtambahAUG + $cek_harga->harga_buy;
-				// $price = $pricepergram*$weight;
-				if ($weight == 0.5)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_nol5");
-				}
-				else if ($weight == 1)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_1");
-				}
-				else if ($weight == 2)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_2");
-				}
-				else if ($weight == 2.5)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_2_coma_5");
-				}
-				else if ($weight == 3)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_3");
-				}
-				else if ($weight == 5)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_5");
-				}
-				else if ($weight == 10)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_10");
-				}
-				else if ($weight == 25)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_25");
-				}
-				else if ($weight == 50)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_50");
-				}
-				else if ($weight == 100)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_100");
-				}
-				else if ($weight == 250)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_250");
-				}
-				else if ($weight == 500)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_500");
-				}
-				else if ($weight == 1000)
-				{
-					$get_price = $this->MaterialModel->formulaData()->row("f_1000");
-				}
-				else
-				{
-					$price = $rtiAU;
-				}
-				$tahun_potongan = $this->input->post('tahun_potongan');
-				$harga_potongan = json_decode($potongan_lm, true)[$tahun_potongan];
-				$pricepergram = $get_price + $harga_potongan;
-
-
-
-				// print_r($harga_potongan);
-				// die();
-				$price = $pricepergram * $weight;
-				$priceTotal = round($price);
-
-				/*End Rumus Baru */
-				$data = array(
-				 'id' => $idLast,
-				 'qty' => $weight,
-				 'price' => $pricepergram,
-				 'prices' => $pricepergram,
-				 'name' => 'T-Shirt',
-				 'materialName' => $materialName,
-				 'materialType' => $tahun_potongan,
-				 'carat' => '24',
-				 'weight' => $weight,
-				 'priceTotal' => $priceTotal,
-				);
-			}
-			else
-			{
-				$price = 1;
-				$priceTotal = round($price * $weight);
-				$qty = 1;
-				$data = array(
-				 'id' => $idLast,
-				 'qty' => $qty,
-				 'price' => '',
-				 'prices' => $price,
-				 'name' => 'T-Shirt',
-				 'materialName' => $materialName,
-				 'materialType' => $materialType,
-				 'carat' => '',
-				 'weight' => $weight,
-				 'priceTotal' => $priceTotal,
-				);
-			}
-			// echo "<pre>";
-			// print_r ($data);
-			// echo "</pre>";
-			$this->cart->insert($data);
-			// Add To Transaction Sell
-			$idTransaction = $this->session->userdata("idTransaction");
-			$total = 0;
-			$qtt = 0;
-			foreach ($this->cart->contents() as $a)
-			{
-				$total = $total + $a["priceTotal"];
-				$qtt = $qtt + 1;
-			}
-			if (!$idTransaction)
-			{
-				$idCustomer = $this->session->userdata("idCustomer");
-				if (empty($idCustomer))
-				{
-					$idCustomer = 7;
-				}
-				$this->data['nameCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_name");
-				$this->data['phoneCustomer'] = $this->MasterModel->customerDatas($idCustomer)->row("c_phone");
-
-
-				$year = date('Y', strtotime($this->dateToday));
-				// $noOrder = $this->TransactionModel->lastDataSell($year)->row('t_id');
-				$noOrder = $this->db->query("SELECT COUNT(*) as count FROM tb_transaction_sell WHERE YEAR(t_date_created)='$year'")->row('count');
-				if (!empty($noOrder))
-				{
-					echo $noOrderNew = "PJ-" . substr(date('Y', strtotime($this->dateToday)), 2) . date('m', strtotime($this->dateToday)) . "-" . ($noOrder + 1);
-				}
-				else
-				{
-					$noOrderNew = "PJ-" . substr(date('Y', strtotime($this->dateToday)), 2) . date('m', strtotime($this->dateToday)) . "-1";
-				}
-				$data = array(
-				 't_no_order' => $noOrderNew,
-				 't_date_created' => $this->dateToday,
-				 't_status' => 'PROSES',
-				 't_created_at' => date('H:i:s', strtotime($this->dateToday)),
-				 't_created_by' => $idUser,
-				 't_customer' => $idCustomer,
-				 't_phone' => $this->data['phoneCustomer'],
-				 't_note' => '',
-				 't_type' => 'SELL',
-				 't_paid_by' => $this->data['nameCustomer'],
-				 't_receive_by' => $idUser,
-				 't_price_total' => $total,
-				 't_visible' => 1,
-				 't_qtt' => $qtt,
-				 'cabang_id' => $this->session->userdata("cabang_id")
-				);
-				$idTransaction = $this->TransactionModel->sellCheckout($data);
-				$data_session = array(
-				 'idTransaction' => $idTransaction,
-				 'jenis_transaksi' => "sell"
-				);
-				$this->session->set_userdata($data_session);
-			}
-			else
-			{
-				$data = array(
-				 't_price_total' => $total,
-				 't_qtt' => $qtt,
-				);
-				$this->db->update('tb_transaction_sell', $data, ['t_id' => $idTransaction]);
-			}
-			$this->db->where('ti_t_id', $idTransaction);
-			$this->db->delete('tb_transaction_items_sell');
-			foreach ($this->cart->contents() as $a)
-			{
-				$dataItems = array(
-				 'ti_t_id' => $idTransaction,
-				 'ti_material' => $a['materialName'],
-				 'ti_material_type' => $a['materialType'],
-				 'ti_carat' => $a['carat'],
-				 'ti_weight' => $a['weight'],
-				 'ti_price' => $a['prices'],
-				 'ti_price_total' => $a['priceTotal'],
-				 'ti_date_created' => $this->dateToday,
-				 'ti_rumus' => @$a['rumus'],
-
-				);
-				$this->TransactionModel->sellCheckoutItems($dataItems);
-			}
-			//$this->session->unset_userdata('idCustomer');
-			redirect(base_url() . "transaction/sell/$idMaterial/");
-		}
-		else
-		{
+		if (!$this->session->userdata("authUser")) {
 			redirect(base_url());
 		}
+
+		$idUser        = $this->session->userdata("idUser");
+		$idMaterial    = $this->input->post('idMaterial');
+		$idCustomer    = $this->session->userdata("idCustomer") ?? 7;
+		$idTransaction = $this->session->userdata("idTransaction");
+		$weight        = (float) $this->input->post('weight');
+
+		log_message('debug', '[SELL ADD TO CART] ===============================');
+		log_message('debug', '[SELL ADD TO CART] Start Process');
+		log_message('debug', '[SELL ADD TO CART] POST: ' . json_encode($this->input->post()));
+		log_message('debug', '[SELL ADD TO CART] Session idTransaction: ' . $idTransaction);
+
+		$data = null;
+
+		/* =====================================================
+		1️⃣ PRICING LOGIC (HARDENED FOR MATERIAL 13)
+		====================================================== */
+
+		$materialName = $this->MaterialModel
+			->materialDataBy('m_id', $idMaterial, 'Sell')
+			->row("m_name");
+
+		foreach ($this->cart->contents() as $a) {
+			$idLast = $a['id'];
+		}
+		$idLast = !empty($idLast) ? $idLast + 1 : 1;
+
+		$potongan_lm = $this->MasterModel->formulasData('lm')->row('potongan_lm');
+
+		/* ================= MATERIAL 13 ================= */
+
+		if ($idMaterial == 13) {
+
+			log_message('debug', '[SELL ADD TO CART] Processing material 13');
+
+			$formula = $this->MaterialModel->formulaData()->row();
+
+			if (!$formula) {
+				log_message('error', '[SELL ADD TO CART] Formula not found');
+				return;
+			}
+
+			$field = 'f_' . str_replace('.', '_coma_', $weight);
+
+			if (!isset($formula->$field)) {
+				log_message('error', '[SELL ADD TO CART] Formula field not found: ' . $field);
+				return;
+			}
+
+			$get_price = $formula->$field;
+
+			$tahun_potongan = $this->input->post('tahun_potongan');
+			$potonganArray  = json_decode($potongan_lm, true);
+
+			if (!isset($potonganArray[$tahun_potongan])) {
+				log_message('error', '[SELL ADD TO CART] Potongan tahun tidak ditemukan: ' . $tahun_potongan);
+				return;
+			}
+
+			$harga_potongan = $potonganArray[$tahun_potongan];
+
+			$pricepergram = $get_price + $harga_potongan;
+			$priceTotal   = round($pricepergram * $weight);
+
+			$data = [
+				'id'           => $idLast,
+				'qty'          => $weight,
+				'price'        => $pricepergram,
+				'prices'       => $pricepergram,
+				'name'         => 'T-Shirt',
+				'materialName' => $materialName,
+				'materialType' => $tahun_potongan,
+				'carat'        => '24',
+				'weight'       => $weight,
+				'priceTotal'   => $priceTotal,
+			];
+
+			log_message('debug', '[SELL ADD TO CART] Material 13 price: ' . $pricepergram);
+		}
+
+		/* =====================================================
+		2️⃣ VALIDASI DATA SEBELUM INSERT
+		====================================================== */
+
+		if (empty($data) || !is_array($data)) {
+
+			log_message('error', '[SELL ADD TO CART] ERROR: $data is empty or invalid');
+
+			$this->session->set_userdata([
+				'status'  => 'error',
+				'message' => 'Gagal menambahkan item. Data tidak valid.'
+			]);
+
+			redirect($_SERVER['HTTP_REFERER']);
+			return;
+		}
+
+		$this->cart->insert($data);
+
+		log_message('debug', '[SELL ADD TO CART] Item inserted: ' . json_encode($data));
+
+		/* =====================================================
+		3️⃣ HITUNG TOTAL CART
+		====================================================== */
+
+		$total = 0;
+		$qtt   = 0;
+
+		foreach ($this->cart->contents() as $item) {
+			$total += $item["priceTotal"];
+			$qtt++;
+		}
+
+		if ($qtt == 0) {
+			log_message('error', '[SELL ADD TO CART] Cart empty, aborting');
+			return;
+		}
+
+		log_message('debug', '[SELL ADD TO CART] Cart Total: ' . $total);
+		log_message('debug', '[SELL ADD TO CART] Cart Qty: ' . $qtt);
+
+		/* =====================================================
+		4️⃣ CREATE / UPDATE HEADER
+		====================================================== */
+
+		if (empty($idTransaction) || $idTransaction == 0 || $idTransaction == "0") {
+
+			log_message('debug', '[SELL ADD TO CART] Creating NEW transaction');
+
+			$year  = date('Y');
+			$count = $this->db
+				->where('YEAR(t_date_created)', $year)
+				->count_all_results('tb_transaction_sell');
+
+			$noOrderNew = "PJ-" . substr($year, 2) . date('m') . "-" . ($count + 1);
+
+			$phoneCustomer = $this->MasterModel
+				->customerDatas($idCustomer)
+				->row("c_phone");
+
+			$dataHeader = [
+				't_no_order'     => $noOrderNew,
+				't_date_created' => $this->dateToday,
+				't_status'       => 'PROSES',
+				't_created_at'   => date('H:i:s'),
+				't_created_by'   => $idUser,
+				't_customer'     => $idCustomer,
+				't_phone'        => $phoneCustomer,
+				't_note'         => '',
+				't_type'         => 'SELL',
+				't_price_total'  => $total,
+				't_qtt'          => $qtt,
+				't_visible'      => 1,
+			];
+
+			log_message('debug', '[SELL ADD TO CART] Insert Header: ' . json_encode($dataHeader));
+
+			$idTransaction = $this->TransactionModel->sellCheckout($dataHeader);
+
+			$this->session->set_userdata([
+				'idTransaction'   => $idTransaction,
+				'jenis_transaksi' => "sell"
+			]);
+
+			log_message('debug', '[SELL ADD TO CART] New ID Transaction: ' . $idTransaction);
+
+		} else {
+
+			log_message('debug', '[SELL ADD TO CART] Updating Transaction ID: ' . $idTransaction);
+
+			$this->db->update(
+				'tb_transaction_sell',
+				[
+					't_price_total' => $total,
+					't_qtt'         => $qtt,
+				],
+				['t_id' => $idTransaction]
+			);
+		}
+
+		/* =====================================================
+		5️⃣ INSERT ITEMS
+		====================================================== */
+
+		$this->db->where('ti_t_id', $idTransaction)
+				->delete('tb_transaction_items_sell');
+
+		foreach ($this->cart->contents() as $item) {
+
+			$dataItems = [
+				'ti_t_id'        => $idTransaction,
+				'ti_material'    => $item['materialName'],
+				'ti_material_type'=> $item['materialType'],
+				'ti_carat'       => $item['carat'],
+				'ti_weight'      => $item['weight'],
+				'ti_price'       => $item['prices'],
+				'ti_price_total' => $item['priceTotal'],
+				'ti_date_created'=> $this->dateToday,
+			];
+
+			log_message('debug', '[SELL ADD TO CART] Insert Item: ' . json_encode($dataItems));
+
+			$this->TransactionModel->sellCheckoutItems($dataItems);
+		}
+
+		log_message('debug', '[SELL ADD TO CART] Completed');
+		log_message('debug', '[SELL ADD TO CART] ===============================');
+
+		redirect(base_url() . "transaction/sell/$idMaterial/");
 	}
+
 	function sellAddToCartReset()
 	{
 		$authUser = $this->session->userdata("authUser");
@@ -1799,61 +1724,66 @@ class TransactionController extends CI_Controller
 			redirect(base_url());
 		}
 	}
+	
 	function sellCheckout()
 	{
-		$authUser = $this->session->userdata("authUser");
-		$idUser = $this->session->userdata("idUser");
-		if ($authUser == true)
-		{
-			$idCustomer = $this->session->userdata("idCustomer");
-			$idTransaction = $this->session->userdata("idTransaction");
-			$this->db->where('ti_t_id', $idTransaction);
-			$this->db->delete('tb_transaction_items_sell');
-			$biayaAdmin = $this->input->get('operator') . '' . $this->input->get('biayaAdmin');
-			$total = 0;
-			$qtt = 0;
-			foreach ($this->cart->contents() as $a)
-			{
-				$total = $total + $a["priceTotal"];
-				$qtt = $qtt + 1;
-			}
-
-			$data = array(
-			 't_status' => 'CHECKOUT',
-			 't_price_total' => $total,
-			 't_price_admin' => $biayaAdmin,
-			 't_qtt' => $qtt,
-			);
-			$this->db->update('tb_transaction_sell', $data, ['t_id' => $idTransaction]);
-			foreach ($this->cart->contents() as $a)
-			{
-				$dataItems = array(
-				 'ti_t_id' => $idTransaction,
-				 'ti_material' => $a['materialName'],
-				 'ti_material_type' => $a['materialType'],
-				 'ti_carat' => $a['carat'],
-				 'ti_weight' => $a['weight'],
-				 'ti_price' => $a['prices'],
-				 'ti_price_total' => $a['priceTotal'],
-				 'ti_date_created' => $this->dateToday,
-				 'ti_rumus' => @$a['rumus'],
-				);
-				$this->TransactionModel->sellCheckoutItems($dataItems);
-			}
-			$this->session->unset_userdata('idCustomer');
-			$this->cart->destroy();
-			$data_session = array(
-			 'status' => 'success',
-			 'message' => "Checkout no order is success!!",
-			);
-			$this->session->set_userdata($data_session);
-			redirect(base_url() . "report/sell-print/$idTransaction/");
-		}
-		else
-		{
+		if (!$this->session->userdata("authUser")) {
 			redirect(base_url());
 		}
+
+		$idUser = $this->session->userdata("idUser");
+		$idTransaction = $this->session->userdata("idTransaction");
+
+		log_message('debug', '[SELL CHECKOUT] ===============================');
+		log_message('debug', '[SELL CHECKOUT] Start Checkout');
+		log_message('debug', '[SELL CHECKOUT] Transaction ID: ' . $idTransaction);
+
+		if (empty($idTransaction) || $idTransaction == 0 || $idTransaction == "0") {
+			log_message('error', '[SELL CHECKOUT] Invalid Transaction ID');
+			redirect(base_url() . 'transaction/sell/');
+			return;
+		}
+
+		$cabang_id = (int) $this->input->post('cabang_id');
+		$payment_method = $this->input->post('payment_method');
+		$biayaAdmin = $this->input->post('operator') . $this->input->post('biayaAdmin');
+
+		$total = 0;
+		$qtt = 0;
+
+		foreach ($this->cart->contents() as $item) {
+			$total += $item["priceTotal"];
+			$qtt++;
+		}
+
+		$dataUpdate = [
+			't_status'        => 'CHECKOUT',
+			't_price_total'   => $total,
+			't_price_admin'   => $biayaAdmin,
+			't_qtt'           => $qtt,
+			't_cabang_id'     => $cabang_id > 0 ? $cabang_id : NULL,
+			't_payment_method'=> !empty($payment_method) ? $payment_method : NULL,
+		];
+
+		log_message('debug', '[SELL CHECKOUT] Update Header: ' . json_encode($dataUpdate));
+
+		$this->db->update('tb_transaction_sell', $dataUpdate, ['t_id' => $idTransaction]);
+
+		log_message('debug', '[SELL CHECKOUT] Checkout Success');
+
+		$this->session->unset_userdata('idCustomer');
+		$this->cart->destroy();
+
+		$this->session->set_userdata([
+			'status'  => 'success',
+			'message' => "Checkout no order is success!!",
+		]);
+
+		log_message('debug', '[SELL CHECKOUT] ===============================');
+
+		redirect(base_url() . "report/sell-print/$idTransaction/");
 	}
+
 	function sellDeleteTransaction()
 	{
 		$authUser = $this->session->userdata("authUser");
@@ -1909,6 +1839,10 @@ class TransactionController extends CI_Controller
 			$noOrder = $this->TransactionModel->buyTransactionData($idTransaction)->row("t_no_order");
 			$this->data['title'] = $noOrder;
 			$this->data['detail'] = $this->TransactionModel->buyTransactionItemsData($idTransaction)->result();
+			
+			// Get transaction header data for cabang and payment method
+			$this->data['transaction_header'] = $this->TransactionModel->buyTransactionData($idTransaction)->row();
+			
 			$this->load->view("PrintBuy", $this->data);
 		}
 		else
@@ -1931,6 +1865,10 @@ class TransactionController extends CI_Controller
 			$noOrder = $this->TransactionModel->sellTransactionData($idTransaction)->row("t_no_order");
 			$this->data['title'] = $noOrder;
 			$this->data['detail'] = $this->TransactionModel->sellTransactionItemsData($idTransaction)->result();
+			
+			// Get transaction header data for cabang and payment method
+			$this->data['transaction_header'] = $this->TransactionModel->sellTransactionData($idTransaction)->row();
+			
 			$this->load->view("PrintSell", $this->data);
 		}
 		else

@@ -110,13 +110,20 @@ function terbilang($nilai)
 								$this->db->order_by('urutan_cabang', 'ASC');
 								$this->db->where('status', 'ENABLE');
 								$cabang = $this->db->get('tb_cabang')->result();
+								
+								// Get selected cabang from transaction
+								$selected_cabang = isset($transaction_header->t_cabang_id) ? $transaction_header->t_cabang_id : 0;
+								
 								foreach ($cabang as $key => $value) : 
 									if($key%2 == 0){ echo '</tr><tr>'; }
+									
+									// Check if this cabang is selected
+									$is_checked = ($value->id == $selected_cabang) ? 'checked' : '';
 								?>
 									
 									<td style="width: 5%">
 										<p style="font-size:12px; margin: 0px;">
-											<input type="checkbox" />
+											<input type="checkbox" <?= $is_checked ?> />
 										</p>
 									</td>
 									<td style="width: 45%">
@@ -253,10 +260,19 @@ function terbilang($nilai)
 					</tr>
 					<tr>
 						<td style="border: 1px solid black !important; font-size: 14px" colspan="5">
-							<span><input style="margin:10px 5px 10px 5px;" type="checkbox"><span>Cash</span></span>
-							<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Credit</span></span>
-							<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Debit</span></span>
-							<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Transfer</span></span>
+							<?php
+							// Get selected payment method from transaction
+							$selected_payment = isset($transaction_header->t_payment_method) ? $transaction_header->t_payment_method : '';
+							
+							$cash_checked = ($selected_payment == 'cash') ? 'checked' : '';
+							$credit_checked = ($selected_payment == 'credit') ? 'checked' : '';
+							$debit_checked = ($selected_payment == 'debit') ? 'checked' : '';
+							$transfer_checked = ($selected_payment == 'transfer') ? 'checked' : '';
+							?>
+							<span><input style="margin:10px 5px 10px 5px;" type="checkbox" <?= $cash_checked ?>><span>Cash</span></span>
+							<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $credit_checked ?>><span>Credit</span></span>
+							<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $debit_checked ?>><span>Debit</span></span>
+							<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $transfer_checked ?>><span>Transfer</span></span>
 						</td>
 						<td style="min-width:145px; border: 1px solid black !important;text-align:center; font-weight: bold; font-size: 14px">
 							TOTAL
