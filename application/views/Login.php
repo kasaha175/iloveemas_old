@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="<?=base_url()?>assets/css/login.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
 
@@ -111,15 +114,149 @@ document.querySelector('form').addEventListener('submit', function(e) {
     
     if (userAnswer !== correctAnswer) {
         e.preventDefault();
-        alert('Jawaban captcha salah! Silakan coba lagi.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Captcha Salah',
+            text: 'Jawaban captcha salah! Silakan coba lagi.',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#0077b6'
+        });
         refreshCaptcha();
         return false;
     }
     
-    // Show loading state
+    // Show loading state with SweetAlert
+    e.preventDefault();
+    
     var btn = document.getElementById('loginBtn');
     btn.classList.add('loading');
     btn.disabled = true;
+    
+    Swal.fire({
+        title: 'Memproses Login...',
+        text: 'Mohon tunggu sebentar',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        },
+        customClass: {
+            popup: 'glass-swal-popup'
+        }
+    });
+    
+    // Submit form via AJAX
+    var formData = new FormData(this);
+    
+    fetch('<?=base_url()?>login-process', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        // Check content type to determine response format
+        var contentType = response.headers.get('content-type');
+        
+        if (contentType && contentType.indexOf('application/json') !== -1) {
+            // JSON response from AJAX request
+            return response.json().then(data => ({ json: true, data: data }));
+        } else {
+            // HTML response (redirect page)
+            return response.text().then(html => ({ json: false, html: html, redirected: response.redirected, url: response.url }));
+        }
+    })
+    .then(result => {
+        if (result.json) {
+            // Handle JSON response
+            var data = result.data;
+            
+            if (data.success) {
+                // Login success
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: 'Login berhasil. Mengalihkan ke dashboard...',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                }).then(() => {
+                    window.location.href = data.redirect || '<?=base_url()?>dashboard/';
+                });
+            } else {
+                // Login failed
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: data.message || 'Username atau password salah',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#0077b6',
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                }).then(() => {
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                    refreshCaptcha();
+                });
+            }
+        } else {
+            // Handle HTML response (fallback for non-AJAX)
+            if (result.redirected) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: 'Login berhasil. Mengalihkan ke dashboard...',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    customClass: {
+                        popup: 'glass-swal-popup'
+                    }
+                }).then(() => {
+                    window.location.href = result.url;
+                });
+            } else {
+                // Check if it's the login page with error
+                if (result.html && result.html.includes('failedLogin')) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: 'Username atau password salah',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#0077b6',
+                        customClass: {
+                            popup: 'glass-swal-popup'
+                        }
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    // Reload anyway to show any errors
+                    window.location.reload();
+                }
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        Swal.fire({
+            icon: 'error',
+            title: 'Terjadi Kesalahan',
+            text: 'Terjadi kesalahan saat login. Silakan coba lagi.',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#0077b6',
+            customClass: {
+                popup: 'glass-swal-popup'
+            }
+        });
+    });
+    
+    return false;
 });
 </script>
 
