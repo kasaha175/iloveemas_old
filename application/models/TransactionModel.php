@@ -144,7 +144,7 @@ if (!defined('BASEPATH'))
 		LIMIT 1");
 		return $query;
 	}
-	public function buyTransaction($dateStart = null, $dateEnd = null)
+public function buyTransaction($dateStart = null, $dateEnd = null, $status = null)
 	{
 		$this->db->select("
 			a.*,
@@ -168,12 +168,19 @@ if (!defined('BASEPATH'))
 			$this->db->where('a.t_date_created <=', $dateEnd . ' 23:59:59');
 		}
 
+		// Filter status - default SELESAI jika tidak ada filter status
+		if (!empty($status)) {
+			$this->db->where('a.t_status', $status);
+		} else {
+			$this->db->where('a.t_status', 'SELESAI');
+		}
+
 		$this->db->order_by('a.t_id', 'DESC');
 
 		return $this->db->get();
 	}
 
-	public function sellTransaction($dateStart = null, $dateEnd = null)
+public function sellTransaction($dateStart = null, $dateEnd = null, $status = null)
 	{
 		$this->db->select("
 			a.*,
@@ -194,6 +201,13 @@ if (!defined('BASEPATH'))
 		if (!empty($dateStart) && !empty($dateEnd)) {
 			$this->db->where('a.t_date_created >=', $dateStart . ' 00:00:00');
 			$this->db->where('a.t_date_created <=', $dateEnd . ' 23:59:59');
+		}
+
+		// Filter status - default SELESAI jika tidak ada filter status
+		if (!empty($status)) {
+			$this->db->where('a.t_status', $status);
+		} else {
+			$this->db->where('a.t_status', 'SELESAI');
 		}
 
 		$this->db->order_by('a.t_id', 'DESC');
@@ -275,9 +289,30 @@ if (!defined('BASEPATH'))
 	{
 		$query = $this->db->query("UPDATE
 		tb_transaction a
-		SET a.t_visible=0
+		SET a.t_visible=0, a.t_status='VOID'
 		WHERE a.t_id='$idTransaction'");
 		return $query;
+	}
+	
+	/**
+	 * Update transaction status directly
+	 * Used for VOID functionality in Report pages
+	 * 
+	 * @param int $idTransaction Transaction ID
+	 * @param string $status New status (VOID, SELESAI, etc)
+	 * @param string $type Transaction type (buy/sell)
+	 * @return bool Success status
+	 */
+	function updateTransactionStatus($idTransaction, $status, $type)
+	{
+		$table = ($type === 'sell') ? 'tb_transaction_sell' : 'tb_transaction';
+		
+		$this->db->where('t_id', $idTransaction);
+		$result = $this->db->update($table, ['t_status' => $status]);
+		
+		log_message('debug', '[MODEL updateTransactionStatus] Updated transaction ID: ' . $idTransaction . ' to status: ' . $status);
+		
+		return $result;
 	}
 	function buyTransactionData($idTransaction)
 	{

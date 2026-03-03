@@ -26,9 +26,9 @@ function nominal($angka){
             </div>
             <div class="collapse show" id="filterCard">
                 <div class="card-body">
-                    <form action="<?=base_url()?>report/sell/">
+<form action="<?=base_url()?>report/sell/">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Start Date</label>
                                     <?php if(empty($this->input->get('dateStart'))){ ?>
@@ -38,7 +38,7 @@ function nominal($angka){
                                     <?php } ?>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">End Date</label>
                                     <?php if(empty($this->input->get('dateEnd'))){ ?>
@@ -48,7 +48,19 @@ function nominal($angka){
                                     <?php } ?>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Status</label>
+                                    <select name="status" class="form-control glass-input">
+                                        <option value="">All Status</option>
+                                        <option value="SELESAI" <?=($this->input->get('status') == 'SELESAI') ? 'selected' : ''?>>SELESAI</option>
+                                        <option value="PROSES" <?=($this->input->get('status') == 'PROSES') ? 'selected' : ''?>>PROSES</option>
+                                        <option value="CHECKOUT" <?=($this->input->get('status') == 'CHECKOUT') ? 'selected' : ''?>>CHECKOUT</option>
+                                        <option value="VOID" <?=($this->input->get('status') == 'VOID') ? 'selected' : ''?>>VOID</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">&nbsp;</label>
                                     <button type="submit" class="btn btn-primary btn-block">
@@ -57,7 +69,7 @@ function nominal($angka){
                                 </div>
                             </div>
                         </div>
-                    </form>    
+                    </form>
                 </div>
             </div>
         </div>
@@ -111,7 +123,7 @@ function nominal($angka){
                                 <td><?=$a->nameReceive?></td>
                                 <td><?=$a->nameCustomer?></td>
                                 <td><?=$a->t_qtt?></td>
-                                <td>IDR <?=nominal($a->t_price_total)?></td>
+<td>IDR <?=nominal(floatval($a->t_price_total) + floatval($a->t_price_admin ?? 0))?></td>
                             </tr>
                             
                             <!-- Delete Modal -->
@@ -239,7 +251,7 @@ function nominal($angka){
     justify-content: center;
 }
 
-.badge-completed {
+.badge-selesai, .badge-completed {
     background: linear-gradient(135deg, #10b981, #059669);
     color: white;
     padding: 5px 10px;
@@ -247,16 +259,24 @@ function nominal($angka){
     font-size: 0.75rem;
 }
 
-.badge-pending {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
+.badge-proses, .badge-process {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
     color: white;
     padding: 5px 10px;
     border-radius: 20px;
     font-size: 0.75rem;
 }
 
-.badge-cancelled {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
+.badge-checkout {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}
+
+.badge-void {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
     color: white;
     padding: 5px 10px;
     border-radius: 20px;
