@@ -1876,8 +1876,8 @@ class TransactionController extends CI_Controller
 			
 			$pdf->AddPage();
 
-			// Get HTML content from view
-			$html = $this->load->view('PrintBuy', $this->data, true);
+		// Get HTML content from view - use simplified PDF view
+			$html = $this->load->view('PrintBuyPdf', $this->data, true);
 			
 			// Clean HTML content - remove problematic characters
 			$html = $this->cleanHtmlForPdf($html);
@@ -1921,10 +1921,10 @@ class TransactionController extends CI_Controller
 			return '';
 		}
 		
-		// Remove ALL control characters
-		$html = preg_replace('/[\x00-\x1F\x7F]/', '', $html);
+		// Remove ALL control characters except tab, newline, carriage return
+		$html = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $html);
 		
-		// Remove BOM
+		// Remove BOM (Byte Order Mark)
 		$html = str_replace("\xEF\xBB\xBF", '', $html);
 		
 		// Strip PHP tags to prevent code execution issues
@@ -1934,9 +1934,10 @@ class TransactionController extends CI_Controller
 		// Remove excessive whitespace that can cause issues
 		$html = preg_replace('/\s+/', ' ', $html);
 		
-		// Convert to proper HTML entities for TCPDF
-		// TCPDF works better with HTML entities than raw UTF-8 for some characters
-		$html = htmlspecialchars($html, ENT_QUOTES, 'UTF-8', false);
+		// NOTE: Do NOT use htmlspecialchars() here!
+		// TCPDF's writeHTML() method already handles HTML entities properly.
+		// Using htmlspecialchars() will convert HTML tags to escaped text,
+		// causing the PDF to display raw HTML code instead of rendered content.
 		
 		return $html;
 	}
@@ -1981,8 +1982,8 @@ class TransactionController extends CI_Controller
 			
 			$pdf->AddPage();
 
-			// Get HTML content from view
-			$html = $this->load->view('PrintSell', $this->data, true);
+		// Get HTML content from view - use simplified PDF view
+			$html = $this->load->view('PrintSellPdf', $this->data, true);
 			
 			// Clean HTML content - remove problematic characters
 			$html = $this->cleanHtmlForPdf($html);
