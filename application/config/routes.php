@@ -101,6 +101,7 @@ $route['report'] = 'ReportController/report';
 $route['report/buy'] = 'ReportController/buy';
 $route['report/buy-graph'] = 'ReportController/buyGraph';
 $route['report/getBuyTransactionDetail'] = 'ReportController/getBuyTransactionDetail';
+$route['report/getSellTransactionDetail'] = 'ReportController/getSellTransactionDetail';
 $route['report/updateTransactionStatus'] = 'ReportController/updateTransactionStatus';
 $route['report/buy/(:any)'] = 'ReportController/buyDetail/$1';
 $route['report/sell'] = 'ReportController/sell';
