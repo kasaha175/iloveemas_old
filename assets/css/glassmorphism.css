@@ -7,11 +7,11 @@
 /* CSS Variables - Ocean Twilight Palette - Bright Theme (Refined) */
 :root {
     /* Base Background (Request Client) */
-    --primary-base: #A8F1FF;      /* Latar belakang utama aplikasi */
+    --primary-base: #303481;      /* Latar belakang utama aplikasi */
     
     /* Surface & Containers (Dominant Bright) */
-    --surface-white: #FFFFFF;     /* Warna kolom/card agar data menonjol */
-    --surface-light: #F0F9FF;     /* Alternatif background untuk area sekunder */
+    --surface-white: #F6F6F6;     /* Warna kolom/card agar data menonjol */
+    --surface-light: #D6E6F2;     /* Alternatif background untuk area sekunder */
     
     /* Typography & Contrast (Navy - Critical Fix) */
     --text-primary: #03045E;      /* Navy Gelap: WAJIB untuk teks di atas putih/biru muda */
