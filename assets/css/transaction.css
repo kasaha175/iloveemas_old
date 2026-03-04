@@ -17,7 +17,7 @@
   
   /* Background Colors */
   --bg-dark: #0a0f1a;
-  --bg-card: #0d1526;
+  --bg-card: #0D1A63;
   --bg-input: #132035;
   
   /* Glass Effect Variables */
@@ -48,9 +48,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    background: #0D1A63;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     padding: 10px 16px;
     list-style: none;
@@ -106,14 +105,18 @@
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    background: #0D1A63;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 8px;
     color: var(--text-primary);
     font-weight: 500;
     font-size: 0.85rem;
     text-decoration: none;
+}
+
+.btn-back:hover {
+    background: #16237a;
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 /* Form Card - Compact */

@@ -26,7 +26,7 @@
 
 .dataTables_length select,
 .dataTables_filter input {
-    background: var(--glass-bg) !important;
+    background: #0D1A63 !important;
     border: 1px solid var(--glass-border) !important;
     color: var(--text-primary) !important;
     border-radius: 8px !important;
@@ -61,7 +61,7 @@
 }
 
 .dataTables_paginate .paginate_button {
-    background: var(--glass-bg) !important;
+    background: #0D1A63 !important;
     border: 1px solid var(--glass-border) !important;
     color: var(--text-primary) !important;
     border-radius: 8px !important;
@@ -216,7 +216,7 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .dt-button-collection .dt-button {
-    background: var(--glass-bg) !important;
+    background: #0D1A63 !important;
     color: var(--text-primary) !important;
     border: 1px solid var(--glass-border) !important;
     margin: 4px !important;
@@ -230,7 +230,7 @@ table.dataTable thead .sorting_desc:after {
 
 /* Processing Indicator */
 .dataTables_processing {
-    background: var(--glass-bg) !important;
+    background: #0D1A63 !important;
     color: var(--text-primary) !important;
     border: 1px solid var(--glass-border) !important;
     border-radius: 12px !important;
@@ -371,7 +371,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child:before
    Glass Table Variant
    ================================================ */
 .glass-table {
-    background: var(--card-gradient);
+    background: #0D1A63;
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
@@ -389,7 +389,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child:before
 
 /* Table Wrapper */
 .table-wrapper {
-    background: var(--card-gradient);
+    background: #0D1A63;
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: 20px;

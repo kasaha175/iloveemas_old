@@ -10,14 +10,14 @@
     --bg-dark: #0a0f1a;
     --deep-twilight: #03045e;
     --bright-teal-blue: #0077b6;
-    --turquoise-surf: #00b4d8;
-    --frosted-blue: #90e0ef;
-    --light-cyan: #caf0f8;
+    --turquoise-surf: #ffffff;
+    --frosted-blue: #ffffff;
+    --light-cyan: #ffffff;
     
-    /* Glass Effect Variables */
-    --glass-bg: rgba(255, 255, 255, 0.08);
-    --glass-bg-hover: rgba(255, 255, 255, 0.15);
-    --glass-bg-active: rgba(255, 255, 255, 0.2);
+    /* Glass Effect Variables - Changed to solid colors */
+    --glass-bg: #0D1A63;
+    --glass-bg-hover: #0D1A63;
+    --glass-bg-active: #0D1A63;
     --glass-border: rgba(255, 255, 255, 0.18);
     --glass-border-hover: rgba(255, 255, 255, 0.35);
     --glass-shadow: 0 8px 32px 0 rgba(3, 4, 94, 0.3);
@@ -35,14 +35,14 @@
     --specular-intensity: 1.5;
     --light-angle: 315deg;
     
-    /* Background Gradients - Apple Style */
-    --ocean-gradient: linear-gradient(135deg, #03045e 0%, #0077b6 50%, #00b4d8 100%);
-    --ocean-gradient-soft: linear-gradient(135deg, rgba(3, 4, 94, 0.8) 0%, rgba(0, 119, 182, 0.6) 50%, rgba(0, 180, 216, 0.4) 100%);
-    --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 100%);
+    /* Background Colors - Solid #A8F1FF */
+    --ocean-gradient: #A8F1FF;
+    --ocean-gradient-soft: #A8F1FF;
+    --card-gradient: #0D1A63;
     --highlight-gradient: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
     --sheen-gradient: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
     
-    /* Text Colors */
+    /* Text Colors - White */
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.8);
     --text-muted: rgba(255, 255, 255, 0.5);
@@ -93,7 +93,7 @@ html {
 
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--ocean-gradient);
+    background: #A8F1FF;
     background-attachment: fixed;
     height: 100%;
     margin: 0;
@@ -104,7 +104,7 @@ body {
     z-index: 0;
 }
 
-/* SVG Shapes Background - Gradient Base */
+/* SVG Shapes Background - Solid Color Base */
 body::before {
     content: '';
     position: fixed;
@@ -112,7 +112,7 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, #03045e 0%, #0077b6 50%, #00b4d8 100%);
+    background: #A8F1FF;
     pointer-events: none;
     z-index: -3;
 }
@@ -169,7 +169,7 @@ body::after {
    Glass Card Component
    ================================================ */
 .glass-card {
-    background: var(--card-gradient);
+    background: #0D1A63;
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
@@ -211,7 +211,7 @@ body::after {
    Card Styling (Reduced Size)
    ================================================ */
 .card {
-    background: var(--card-gradient);
+    background: #0D1A63;
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
@@ -240,7 +240,7 @@ body::after {
 }
 
 .card-header h6, .card-header h5 {
-    color: var(--turquoise-surf);
+    color: #ffffff;
     margin: 0;
     font-weight: 600;
 }
@@ -270,7 +270,7 @@ body::after {
     align-items: center;
     justify-content: center;
     padding: 16px 32px;
-    background: var(--card-gradient);
+    background: #0D1A63;
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: 16px;
@@ -299,7 +299,7 @@ body::after {
     justify-content: center;
     padding: 40px 20px;
     min-height: 140px;
-    background: var(--card-gradient);
+    background: #0D1A63;
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: 24px;
@@ -337,16 +337,16 @@ body::after {
 .menu-box .icon {
     margin-right: 14px;
     font-size: 1.6rem;
-    color: var(--frosted-blue);
+    color: #ffffff;
     transition: var(--transition-smooth);
     position: relative;
     z-index: 1;
 }
 
 .menu-box:hover .icon {
-    color: var(--light-cyan);
+    color: #ffffff;
     transform: scale(1.15);
-    text-shadow: 0 0 20px rgba(144, 224, 239, 0.5);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .menu-box span {
@@ -422,14 +422,14 @@ body::after {
 }
 
 .glass-breadcrumb .breadcrumb-item a i {
-    color: var(--turquoise-surf);
+    color: #ffffff;
 }
 
 /* ================================================
    Form Controls
    ================================================ */
 .glass-input, .form-control {
-    background: var(--glass-bg);
+    background: #0D1A63;
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
@@ -441,8 +441,8 @@ body::after {
 
 .glass-input:focus, .form-control:focus {
     outline: none;
-    border-color: var(--turquoise-surf);
-    box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
+    border-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15);
     background: var(--glass-bg-hover);
 }
 
@@ -466,7 +466,7 @@ body::after {
    Modal Styling
    ================================================ */
 .modal-content {
-    background: rgba(3, 4, 94, 0.9);
+    background: #0D1A63;
     backdrop-filter: var(--glass-blur-strong);
     border: 1px solid var(--glass-border);
     border-radius: 20px;
@@ -495,7 +495,7 @@ body::after {
    Dropdown Menu
    ================================================ */
 .glass-dropdown {
-    background: rgba(3, 4, 94, 0.9) !important;
+    background: #0D1A63 !important;
     backdrop-filter: var(--glass-blur-strong) !important;
     border: 1px solid var(--glass-border) !important;
     border-radius: 16px !important;
@@ -525,7 +525,7 @@ body::after {
 }
 
 .select2-container--default .select2-selection--single {
-    background: var(--glass-bg) !important;
+    background: #0D1A63 !important;
     border: 1px solid var(--glass-border) !important;
     border-radius: 12px !important;
     padding: 10px 14px !important;
@@ -533,7 +533,7 @@ body::after {
 }
 
 .select2-container--default .select2-selection--single:focus {
-    border-color: var(--turquoise-surf) !important;
+    border-color: #ffffff !important;
     outline: none;
 }
 
@@ -542,7 +542,7 @@ body::after {
 }
 
 .select2-dropdown {
-    background: rgba(3, 4, 94, 0.95) !important;
+    background: #0D1A63 !important;
     backdrop-filter: var(--glass-blur-strong);
     border: 1px solid var(--glass-border) !important;
     border-radius: 12px !important;
@@ -556,7 +556,7 @@ body::after {
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
     background: var(--glass-bg-hover) !important;
-    color: var(--frosted-blue) !important;
+    color: #ffffff !important;
 }
 
 /* ================================================
@@ -681,7 +681,7 @@ body::after {
 }
 
 .dataTables_length select, .dataTables_filter input {
-    background: var(--glass-bg) !important;
+    background: #0D1A63 !important;
     border: 1px solid var(--glass-border) !important;
     color: var(--text-primary) !important;
     border-radius: 8px !important;
@@ -853,7 +853,7 @@ table.dataTable tbody tr:nth-child(even) {
    Glass Footer
    ================================================ */
 .glass-footer {
-    background: #0a0f1a;
+    background: #0D1A63;
     backdrop-filter: var(--glass-blur);
     border-top: 1px solid var(--glass-border);
     padding: 20px 0;
@@ -1256,10 +1256,7 @@ table.dataTable tbody tr:nth-child(even) {
    ================================================ */
 .glass-thick {
     position: relative;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.12) 0%, 
-        rgba(255, 255, 255, 0.04) 50%, 
-        rgba(255, 255, 255, 0.08) 100%);
+    background: #0D1A63;
     backdrop-filter: blur(25px) saturate(180%);
     -webkit-backdrop-filter: blur(25px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.22);
@@ -1339,10 +1336,7 @@ table.dataTable tbody tr:nth-child(even) {
    ================================================ */
 .glass-frosted {
     position: relative;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.08) 0%, 
-        rgba(255, 255, 255, 0.03) 50%, 
-        rgba(255, 255, 255, 0.05) 100%);
+    background: #0D1A63;
     backdrop-filter: blur(30px) saturate(120%) brightness(1.1);
     -webkit-backdrop-filter: blur(30px) saturate(120%) brightness(1.1);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -1399,10 +1393,7 @@ table.dataTable tbody tr:nth-child(even) {
    ================================================ */
 .glass-precise {
     position: relative;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.06) 0%, 
-        rgba(255, 255, 255, 0.02) 50%, 
-        rgba(255, 255, 255, 0.04) 100%);
+    background: #0D1A63;
     backdrop-filter: blur(20px) saturate(150%);
     -webkit-backdrop-filter: blur(20px) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -1464,10 +1455,7 @@ table.dataTable tbody tr:nth-child(even) {
    ================================================ */
 .glass-technical {
     position: relative;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.05) 0%, 
-        rgba(255, 255, 255, 0.02) 50%, 
-        rgba(255, 255, 255, 0.03) 100%);
+    background: #0D1A63;
     backdrop-filter: blur(15px) saturate(200%) brightness(1.05);
     -webkit-backdrop-filter: blur(15px) saturate(200%) brightness(1.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1678,10 +1666,7 @@ table.dataTable tbody tr:nth-child(even) {
 body.page-dashboard .menu-box,
 body.page-dashboard .glass-card,
 body.page-dashboard .welcome-card {
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.12) 0%, 
-        rgba(255, 255, 255, 0.04) 50%, 
-        rgba(255, 255, 255, 0.08) 100%);
+    background: #0D1A63;
     border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 32px;
     box-shadow: 
@@ -1711,10 +1696,7 @@ body.page-dashboard .menu-box::after {
 body.page-archive .menu-box,
 body.page-archive .glass-card,
 body.page-archive .archive-box {
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.08) 0%, 
-        rgba(255, 255, 255, 0.03) 50%, 
-        rgba(255, 255, 255, 0.05) 100%);
+    background: #0D1A63;
     /* backdrop-filter: blur(30px) saturate(120%) brightness(1.1);
     -webkit-backdrop-filter: blur(30px) saturate(120%) brightness(1.1); */
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -1742,10 +1724,7 @@ body.page-archive .menu-box::after {
 body.page-master .menu-box,
 body.page-master .glass-card,
 body.page-master .card {
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.06) 0%, 
-        rgba(255, 255, 255, 0.02) 50%, 
-        rgba(255, 255, 255, 0.04) 100%);
+    background: #0D1A63;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 20px;
     box-shadow: 
@@ -1776,10 +1755,7 @@ body.page-master .menu-box::after {
 body.page-report table.dataTable,
 body.page-report .glass-card,
 body.page-report .card {
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.05) 0%, 
-        rgba(255, 255, 255, 0.02) 50%, 
-        rgba(255, 255, 255, 0.03) 100%);
+    background: #0D1A63;
     /* backdrop-filter: blur(15px) saturate(200%) brightness(1.05);
     -webkit-backdrop-filter: blur(15px) saturate(200%) brightness(1.05); */
     border: 1px solid rgba(255, 255, 255, 0.1);

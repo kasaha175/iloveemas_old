@@ -9,14 +9,14 @@
     --bg-dark: #0a0f1a;
     --deep-twilight: #03045e;
     --bright-teal-blue: #0077b6;
-    --turquoise-surf: #00b4d8;
-    --frosted-blue: #90e0ef;
-    --light-cyan: #caf0f8;
+    --turquoise-surf: #ffffff;
+    --frosted-blue: #ffffff;
+    --light-cyan: #ffffff;
     
-    /* Glass Effect Variables */
-    --glass-bg: rgba(255, 255, 255, 0.08);
-    --glass-bg-hover: rgba(255, 255, 255, 0.15);
-    --glass-bg-active: rgba(255, 255, 255, 0.2);
+    /* Glass Effect Variables - Solid-cyan: # colors as requested */
+    --glass-bg: #0D1A63;
+    --glass-bg-hover: #0D1A63;
+    --glass-bg-active: #0D1A63;
     --glass-border: rgba(255, 255, 255, 0.18);
     --glass-border-hover: rgba(255, 255, 255, 0.35);
     --glass-shadow: 0 8px 32px 0 rgba(3, 4, 94, 0.3);
@@ -24,12 +24,12 @@
     --glass-blur: blur(20px);
     --glass-blur-strong: blur(40px);
     
-    /* Background Gradients */
-    --ocean-gradient: linear-gradient(135deg, #03045e 0%, #0077b6 50%, #00b4d8 100%);
-    --ocean-gradient-soft: linear-gradient(135deg, rgba(3, 4, 94, 0.8) 0%, rgba(0, 119, 182, 0.6) 50%, rgba(0, 180, 216, 0.4) 100%);
-    --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 100%);
+    /* Background Colors - Solid #A8F1FF */
+    --ocean-gradient: #A8F1FF;
+    --ocean-gradient-soft: #A8F1FF;
+    --card-gradient: #0D1A63;
     
-    /* Text Colors */
+    /* Text Colors - White */
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.8);
     --text-muted: rgba(255, 255, 255, 0.5);
@@ -53,7 +53,7 @@ html {
 
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--ocean-gradient);
+    background: #A8F1FF;
     background-attachment: fixed;
     height: 100%;
     margin: 0;
@@ -86,13 +86,13 @@ p {
 }
 
 a {
-    color: var(--turquoise-surf);
+    color: #ffffff;
     text-decoration: none;
     transition: var(--transition-smooth);
 }
 
 a:hover {
-    color: var(--frosted-blue);
+    color: #ffffff;
 }
 
 /* Form Elements Base */
@@ -108,7 +108,7 @@ input, textarea, select {
 .text-success { color: #10b981; }
 .text-danger { color: #ef4444; }
 .text-warning { color: #f59e0b; }
-.text-info { color: var(--turquoise-surf); }
+.text-info { color: #ffffff; }
 
 .bg-glass { background: var(--glass-bg); }
 .bg-glass-hover { background: var(--glass-bg-hover); }

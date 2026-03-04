@@ -12,9 +12,9 @@
     --bg-dark: #0a0f1a;
     --deep-twilight: #03045e;
     --bright-teal-blue: #0077b6;
-    --turquoise-surf: #00b4d8;
-    --frosted-blue: #90e0ef;
-    --light-cyan: #caf0f8;
+    --turquoise-surf: #ffffff;
+    --frosted-blue: #ffffff;
+    --light-cyan: #ffffff;
     
     /* Light Glass Effect Variables - Reduced GPU usage */
     --glass-bg: rgba(10, 15, 26, 0.85);
@@ -31,7 +31,7 @@
 /* Base Styles - Optimized */
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #03045e 0%, #0077b6 50%, #00b4d8 100%);
+    background: #A8F1FF;
     background-attachment: scroll;  /* Changed from fixed - major perf gain */
     height: 100%;
     margin: 0;
@@ -42,7 +42,7 @@ body {
 
 /* Glass Card - Light Version */
 .glass-card {
-    background: var(--glass-bg);
+    background: #0D1A63;
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     box-shadow: var(--glass-shadow);
@@ -67,7 +67,7 @@ body {
 
 /* Card Component */
 .card {
-    background: var(--glass-bg);
+    background: #0D1A63;
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     position: relative;
@@ -83,7 +83,7 @@ body {
     justify-content: center;
     padding: 40px 20px;
     min-height: 140px;
-    background: var(--glass-bg);
+    background: #0D1A63;
     border: 1px solid var(--glass-border);
     border-radius: 24px;
     color: var(--text-primary);
@@ -148,7 +148,7 @@ body {
 
 /* Glass Input */
 .glass-input, .form-control {
-    background: var(--glass-bg);
+    background: #0D1A63;
     border: 1px solid var(--glass-border);
     border-radius: 12px;
     color: var(--text-primary);
@@ -159,8 +159,8 @@ body {
 
 .glass-input:focus, .form-control:focus {
     outline: none;
-    border-color: var(--turquoise-surf);
-    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+    border-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
 }
 
 /* Modal - Light */
@@ -191,7 +191,7 @@ body {
 table.dataTable thead th {
     background: rgba(0, 0, 0, 0.2) !important;
     border-bottom: 2px solid var(--glass-border) !important;
-    color: var(--turquoise-surf) !important;
+    color: #ffffff !important;
 }
 
 table.dataTable tbody tr {
