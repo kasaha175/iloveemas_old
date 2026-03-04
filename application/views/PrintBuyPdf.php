@@ -27,8 +27,9 @@ $selected_cabang = isset($transaction_header->t_cabang_id) ? $transaction_header
 $this->db->order_by('tm_priority', 'asc');
 $memo = $this->db->get('tb_memo')->result();
 
-// Payment method
+// Payment method - supports comma-separated multiple values
 $selected_payment = isset($transaction_header->t_payment_method) ? $transaction_header->t_payment_method : '';
+$payment_array = !empty($selected_payment) ? explode(',', $selected_payment) : array();
 ?>
 
 <!-- Invoice Header -->
@@ -141,10 +142,10 @@ $selected_payment = isset($transaction_header->t_payment_method) ? $transaction_
     <tr>
         <td colspan="5" style="border: 1px solid #000000;">
             <strong>Payment:</strong>
-            <?= ($selected_payment == 'cash') ? '[X]' : '[ ]' ?> Cash
-            <?= ($selected_payment == 'credit') ? '[X]' : '[ ]' ?> Credit
-            <?= ($selected_payment == 'debit') ? '[X]' : '[ ]' ?> Debit
-            <?= ($selected_payment == 'transfer') ? '[X]' : '[ ]' ?> Transfer
+            <?= in_array('cash', $payment_array) ? '[X]' : '[ ]' ?> Cash
+            <?= in_array('credit', $payment_array) ? '[X]' : '[ ]' ?> Credit
+            <?= in_array('debit', $payment_array) ? '[X]' : '[ ]' ?> Debit
+            <?= in_array('transfer', $payment_array) ? '[X]' : '[ ]' ?> Transfer
         </td>
         <td align="center" style="border: 1px solid #000000; background-color: #CCCCCC; font-weight: bold;">TOTAL</td>
         <td align="right" style="border: 1px solid #000000; background-color: #CCCCCC; font-weight: bold;"><?= nominal($transaction->t_price_total + $transaction->t_price_admin) ?></td>

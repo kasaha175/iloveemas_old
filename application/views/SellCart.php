@@ -272,14 +272,24 @@ function nominal($angka) {
                 <div>
                     <h6 style="color: var(--turquoise-surf); font-weight: 600; margin-bottom: 15px;">Metode Pembayaran</h6>
                     <div class="form-group">
-                        <select name="paymentMethod" id="paymentMethod" class="form-control select2-glass" required>
-                            <option value="">Pilih Metode Pembayaran</option>
-                            <option value="cash">Cash</option>
-                            <option value="transfer">Transfer Bank</option>
-                            <option value="credit">Kartu Kredit</option>
-                            <option value="debit">Kartu Debit</option>
-                            <option value="payment_gateway" disabled>Payment Gateway (Coming Soon)</option>
-                        </select>
+                        <div class="payment-method-options" style="display: flex; flex-wrap: wrap; gap: 15px;">
+                            <div class="payment-option" style="display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" name="paymentMethod[]" id="paymentMethod_cash" value="cash" class="payment-checkbox" style="width: 18px; height: 18px;">
+                                <label for="paymentMethod_cash" style="margin: 0; cursor: pointer; color: var(--text-primary);">Cash</label>
+                            </div>
+                            <div class="payment-option" style="display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" name="paymentMethod[]" id="paymentMethod_transfer" value="transfer" class="payment-checkbox" style="width: 18px; height: 18px;">
+                                <label for="paymentMethod_transfer" style="margin: 0; cursor: pointer; color: var(--text-primary);">Transfer Bank</label>
+                            </div>
+                            <div class="payment-option" style="display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" name="paymentMethod[]" id="paymentMethod_credit" value="credit" class="payment-checkbox" style="width: 18px; height: 18px;">
+                                <label for="paymentMethod_credit" style="margin: 0; cursor: pointer; color: var(--text-primary);">Kartu Kredit</label>
+                            </div>
+                            <div class="payment-option" style="display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" name="paymentMethod[]" id="paymentMethod_debit" value="debit" class="payment-checkbox" style="width: 18px; height: 18px;">
+                                <label for="paymentMethod_debit" style="margin: 0; cursor: pointer; color: var(--text-primary);">Kartu Debit</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -694,12 +704,12 @@ function prepareCheckout() {
 }
 
 function confirmCheckout() {
-    var paymentMethod = document.getElementById('paymentMethod').value;
+    var paymentMethodCheckboxes = document.querySelectorAll('input[name="paymentMethod[]"]:checked');
     var cabangId = document.getElementById('modalCabang').value;
     
-    // Validate payment method
-    if (!paymentMethod) {
-        alert('Silakan pilih metode pembayaran');
+    // Validate payment method - at least one must be selected
+    if (paymentMethodCheckboxes.length === 0) {
+        alert('Silakan pilih setidaknya satu metode pembayaran');
         return;
     }
     
@@ -709,8 +719,15 @@ function confirmCheckout() {
         return;
     }
     
+    // Collect all selected payment methods as comma-separated string
+    var paymentMethods = [];
+    paymentMethodCheckboxes.forEach(function(checkbox) {
+        paymentMethods.push(checkbox.value);
+    });
+    var paymentMethodString = paymentMethods.join(',');
+    
     // Set hidden field values
-    document.getElementById('payment_method').value = paymentMethod;
+    document.getElementById('payment_method').value = paymentMethodString;
     document.getElementById('cabang_id').value = cabangId;
     
     // Submit the form
@@ -782,9 +799,23 @@ function openPdfPreview(type) {
     
     // Get values from the form
     var cabangId = $('#modalCabang').val();
-    var paymentMethod = $('#paymentMethod').val();
+    
+    // Get all checked payment methods
+    var paymentMethodCheckboxes = document.querySelectorAll('input[name="paymentMethod[]"]:checked');
+    var paymentMethods = [];
+    paymentMethodCheckboxes.forEach(function(checkbox) {
+        paymentMethods.push(checkbox.value);
+    });
+    var paymentMethod = paymentMethods.join(',');
+    
     var biayaAdmin = $('#biayaAdmin').val();
     var operator = $('#operator').val();
+    
+    // Validate at least one payment method selected
+    if (paymentMethods.length === 0) {
+        alert('Silakan pilih setidaknya satu metode pembayaran');
+        return;
+    }
     
     // Store in session via AJAX before opening preview
     $.ajax({

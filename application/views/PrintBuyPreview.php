@@ -325,15 +325,18 @@ $cabang_id = isset($preview_cabang_id) ? $preview_cabang_id : (isset($a->t_caban
 						</tr>
 						<tr>
 							<td style="border: 1px solid black !important; font-size: 14px" colspan="5">
-								<?php
-								// Get selected payment method from POST or database
-								$selected_payment = $payment_method;
-								
-								$cash_checked = ($selected_payment == 'cash') ? 'checked' : '';
-								$credit_checked = ($selected_payment == 'credit') ? 'checked' : '';
-								$debit_checked = ($selected_payment == 'debit') ? 'checked' : '';
-								$transfer_checked = ($selected_payment == 'transfer') ? 'checked' : '';
-								?>
+							<?php
+							// Get selected payment method from POST or database (supports comma-separated multiple values)
+							$selected_payment = $payment_method;
+							
+							// Convert to array for checking
+							$payment_array = !empty($selected_payment) ? explode(',', $selected_payment) : array();
+							
+							$cash_checked = in_array('cash', $payment_array) ? 'checked' : '';
+							$credit_checked = in_array('credit', $payment_array) ? 'checked' : '';
+							$debit_checked = in_array('debit', $payment_array) ? 'checked' : '';
+							$transfer_checked = in_array('transfer', $payment_array) ? 'checked' : '';
+							?>
 								<span><input style="margin:10px 5px 10px 5px;" type="checkbox" <?= $cash_checked ?>><span>Cash</span></span>
 								<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $credit_checked ?>><span>Credit</span></span>
 								<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $debit_checked ?>><span>Debit</span></span>
@@ -406,13 +409,16 @@ $cabang_id = isset($preview_cabang_id) ? $preview_cabang_id : (isset($a->t_caban
 							<tr>
 								<td style="border: 1px solid black !important;" colspan="5">
 									<?php
-									// Get selected payment method from POST or database
+									// Get selected payment method from POST or database (supports comma-separated multiple values)
 									$selected_payment = $payment_method;
 									
-									$cash_checked = ($selected_payment == 'cash') ? 'checked' : '';
-									$credit_checked = ($selected_payment == 'credit') ? 'checked' : '';
-									$debit_checked = ($selected_payment == 'debit') ? 'checked' : '';
-									$transfer_checked = ($selected_payment == 'transfer') ? 'checked' : '';
+									// Convert to array for checking
+									$payment_array = !empty($selected_payment) ? explode(',', $selected_payment) : array();
+									
+									$cash_checked = in_array('cash', $payment_array) ? 'checked' : '';
+									$credit_checked = in_array('credit', $payment_array) ? 'checked' : '';
+									$debit_checked = in_array('debit', $payment_array) ? 'checked' : '';
+									$transfer_checked = in_array('transfer', $payment_array) ? 'checked' : '';
 									?>
 									<span><input style="margin:10px 5px 10px 5px;" type="checkbox" <?= $cash_checked ?>><span>Cash</span></span>
 									<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $credit_checked ?>><span>Credit</span></span>
