@@ -50,6 +50,7 @@
 <style>
 /* Compact Material Card Override */
 .material-card {
+    background-color: #0D1A63;
     min-height: 110px;
     padding: 14px 10px;
     border-radius: 12px;
@@ -60,19 +61,19 @@
 }
 
 .material-icon {
-    font-size: 0.85rem;
+    font-size: 1.1rem;
     top: 8px;
     right: 8px;
 }
 
 .material-image {
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 55px;
     margin-bottom: 8px;
 }
 
 .material-name span {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
 }
 
 .material-card:hover {
@@ -103,13 +104,13 @@
     }
     
     .material-image {
-        width: 32px;
-        height: 32px;
+        width: 45px;
+        height: 45px;
         margin-bottom: 6px;
     }
     
     .material-name span {
-        font-size: 0.65rem;
+        font-size: 0.8rem;
     }
 }
 </style>

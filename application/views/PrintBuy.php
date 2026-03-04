@@ -111,12 +111,19 @@ function terbilang($nilai)
 								$this->db->order_by('urutan_cabang', 'ASC');
 								$this->db->where('status', 'ENABLE');
 								$cabang = $this->db->get('tb_cabang')->result();
+								
+								// Get selected cabang from transaction
+								$selected_cabang = isset($transaction_header->t_cabang_id) ? $transaction_header->t_cabang_id : 0;
+								
 								foreach ($cabang as $key => $value) : 
 									if($key%2 == 0){ echo '</tr><tr>'; }
+									
+									// Check if this cabang is selected
+									$is_checked = ($value->id == $selected_cabang) ? 'checked' : '';
 								?>
 									<td style="width: 5%">
 										<p style="font-size:12px; margin: 0px;">
-											<input type="checkbox" />
+											<input type="checkbox" <?= $is_checked ?> />
 										</p>
 									</td>
 									<td style="width: 45%">
@@ -260,10 +267,22 @@ function terbilang($nilai)
 					</tr>
 					<tr>
 						<td style="border: 1px solid black !important; font-size: 14px" colspan="5">
-							<span><input style="margin:10px 5px 10px 5px;" type="checkbox"><span>Cash</span></span>
-							<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Credit</span></span>
-							<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Debit</span></span>
-							<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Transfer</span></span>
+							<?php
+							// Get selected payment method from transaction (supports comma-separated multiple values)
+							$selected_payment = isset($transaction_header->t_payment_method) ? $transaction_header->t_payment_method : '';
+							
+							// Convert to array for checking
+							$payment_array = !empty($selected_payment) ? explode(',', $selected_payment) : array();
+							
+							$cash_checked = in_array('cash', $payment_array) ? 'checked' : '';
+							$credit_checked = in_array('credit', $payment_array) ? 'checked' : '';
+							$debit_checked = in_array('debit', $payment_array) ? 'checked' : '';
+							$transfer_checked = in_array('transfer', $payment_array) ? 'checked' : '';
+							?>
+							<span><input style="margin:10px 5px 10px 5px;" type="checkbox" <?= $cash_checked ?>><span>Cash</span></span>
+							<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $credit_checked ?>><span>Credit</span></span>
+							<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $debit_checked ?>><span>Debit</span></span>
+							<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $transfer_checked ?>><span>Transfer</span></span>
 						</td>
 						<td style="min-width:145px; border: 1px solid black !important;text-align:center; font-weight: bold; font-size: 14px">
 							TOTAL
@@ -331,10 +350,19 @@ function terbilang($nilai)
 						</tr>
 						<tr>
 							<td style="border: 1px solid black !important;" colspan="5">
-								<span><input style="margin:10px 5px 10px 5px;" type="checkbox"><span>Cash</span></span>
-								<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Credit</span></span>
-								<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Debit</span></span>
-								<span><input style="margin:10px 5px 10px 65px;" type="checkbox"><span>Transfer</span></span>
+								<?php
+								// Get selected payment method from transaction
+								$selected_payment = isset($transaction_header->t_payment_method) ? $transaction_header->t_payment_method : '';
+								
+								$cash_checked = ($selected_payment == 'cash') ? 'checked' : '';
+								$credit_checked = ($selected_payment == 'credit') ? 'checked' : '';
+								$debit_checked = ($selected_payment == 'debit') ? 'checked' : '';
+								$transfer_checked = ($selected_payment == 'transfer') ? 'checked' : '';
+								?>
+								<span><input style="margin:10px 5px 10px 5px;" type="checkbox" <?= $cash_checked ?>><span>Cash</span></span>
+								<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $credit_checked ?>><span>Credit</span></span>
+								<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $debit_checked ?>><span>Debit</span></span>
+								<span><input style="margin:10px 5px 10px 65px;" type="checkbox" <?= $transfer_checked ?>><span>Transfer</span></span>
 							</td>
 							<td style="min-width:145px; border: 1px solid black !important;text-align:center;">
 								TOTAL
@@ -473,30 +501,37 @@ function terbilang($nilai)
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script>
+			// Get transaction month date range from PHP data
+			var transactionDate = new Date('<?= date('Y-m-d', strtotime($a->t_date_created)) ?>');
+			var dateStart = new Date(transactionDate.getFullYear(), transactionDate.getMonth(), 1);
+			var dateEnd = new Date(transactionDate.getFullYear(), transactionDate.getMonth() + 1, 0);
+			
+			var startStr = dateStart.toISOString().split('T')[0];
+			var endStr = dateEnd.toISOString().split('T')[0];
+			
+			var reportUrl = '<?= base_url() ?>report/buy/?dateStart=' + startStr + '&dateEnd=' + endStr;
+
 			$("#doPrint").click(function() {
 				window.print();
 				ajaxdestroy();
-				// clickBack();
 			});
 
 			$("#doPrint").touches(function() {
 				window.print();
 				ajaxdestroy();
-				// clickBack();
 			});
 
 			function ajaxdestroy() {
 				jQuery.ajax({
 					url: '<?= base_url('transaction/chart-destroy') ?>',
 					success: function(data, textStatus, xhr) {
-						window.location.href = "<?= base_url('dashboard') ?>";
+						window.location.href = reportUrl;
 					},
 				});
 			}
 
 			function clickBack() {
-				// window.history.back();
-				window.location.href = "<?= base_url('dashboard') ?>";
+				window.location.href = reportUrl;
 			}
 		</script>
 	</div>

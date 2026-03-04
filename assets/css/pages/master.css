@@ -62,16 +62,16 @@
 .master-menu-box .icon {
     margin-right: 14px;
     font-size: 1.6rem;
-    color: var(--frosted-blue);
+    color: #ffffff;
     transition: var(--transition-smooth);
     position: relative;
     z-index: 1;
 }
 
 .master-menu-box:hover .icon {
-    color: var(--light-cyan);
+    color: #ffffff;
     transform: scale(1.15);
-    text-shadow: 0 0 20px rgba(144, 224, 239, 0.5);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .master-menu-box span {
@@ -147,7 +147,7 @@
     gap: 10px;
     font-size: 16px;
     font-weight: 600;
-    color: var(--turquoise-surf);
+    color: #ffffff;
     margin: 0;
 }
 

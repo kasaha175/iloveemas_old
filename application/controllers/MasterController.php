@@ -8,6 +8,7 @@ class MasterController extends CI_Controller
         $this->load->model('UserModel');
         $this->load->model('MasterModel');
         $this->load->model('MaterialModel');
+        $this->load->model('mmodel');
         $this->data["title"] = "";
         date_default_timezone_set("Asia/Jakarta");
         $this->dateToday = date("Y-m-d H:i:s");
@@ -668,134 +669,320 @@ class MasterController extends CI_Controller
     {
         $authUser = $this->session->userdata("authUser");
         $idUser = $this->session->userdata("idUser");
-        if ($authUser == true)
+        
+        // Set JSON header for AJAX response
+        header('Content-Type: application/json');
+
+        if ($authUser != true)
         {
-            $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
-            $key = $this->input->get('key');
-            $value = $this->input->get('value');
-            if (in_array($key, array("lm", "material-au", "material-ag", "material-ubs")))
+            log_message('error', 'sellSave: Unauthorized access attempt');
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Session expired. Please login again.'
+            ]);
+            return;
+        }
+
+        $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
+        
+        // Get data from POST (fixed from GET)
+        $key = $this->input->post('key');
+        $value = $this->input->post('value');
+        $type = $this->input->post('type');
+
+        // Log incoming request payload
+        log_message('debug', 'sellSave: Received key=' . $key . ', value=' . $value . ', type=' . $type);
+        log_message('debug', 'sellSave: POST data = ' . json_encode($this->input->post()));
+
+        if (empty($key))
+        {
+            log_message('error', 'sellSave: Empty key parameter');
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Parameter key tidak valid!'
+            ]);
+            return;
+        }
+
+        if (!in_array($key, array("lm", "material-au", "material-ag", "material-ubs")))
+        {
+            log_message('error', 'sellSave: Invalid key = ' . $key);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Key tidak valid!'
+            ]);
+            return;
+        }
+
+        try
+        {
+            if ($key == "lm")
             {
-                $type = $this->input->get('type');
-                if ($key == "lm")
+                $parameter = 'f_' . str_replace('-', '_', $key);
+                if ($type == "change")
                 {
-                    $parameter = 'f_' . str_replace('-', '_', $key);
-                    if ($type == "change")
-                    {
-                        $data = array(
-                            'a' => $this->input->get('a'),
-                            'b' => $this->input->get('b'),
-                            'c' => $this->input->get('c'),
-                            'd' => $this->input->get('d'),
-                            'e' => $this->input->get('e'),
-                            'f' => $this->input->get('f'),
-                            'g' => $this->input->get('g'),
-                            'h' => $this->input->get('h'),
-                            'potongan_lm' => json_encode($this->input->get('potongan_lm')),
-                        );
-                        $this->MasterModel->formulasUpdate($key, $data);
-                        redirect(base_url() . "archive/sell/?key=$key&type=change");
-                    }
-                    else
-                    {
-                        $data = array(
-                            "f_nol5" => $this->input->get("f_nol5"),
-                            "f_1" => $this->input->get("f_1"),
-                            "f_2" => $this->input->get("f_2"),
-                            "f_3" => $this->input->get("f_3"),
-                            "f_2_coma_5" => $this->input->get("f_2_coma_5"),
-                            "f_5" => $this->input->get("f_5"),
-                            "f_10" => $this->input->get("f_10"),
-                            "f_25" => $this->input->get("f_25"),
-                            "f_50" => $this->input->get("f_50"),
-                            "f_100" => $this->input->get("f_100"),
-                            "f_250" => $this->input->get("f_250"),
-                            "f_500" => $this->input->get("f_500"),
-                            "f_1000" => $this->input->get("f_1000"),
-                        );
-                        $this->MaterialModel->formulaUpdateArray($data);
-                        redirect(base_url() . "archive/sell/?key=$key");
-                    }
+                    $data = array(
+                        'a' => $this->input->post('a'),
+                        'b' => $this->input->post('b'),
+                        'c' => $this->input->post('c'),
+                        'd' => $this->input->post('d'),
+                        'e' => $this->input->post('e'),
+                        'f' => $this->input->post('f'),
+                        'g' => $this->input->post('g'),
+                        'h' => $this->input->post('h'),
+                        'potongan_lm' => json_encode($this->input->post('potongan_lm')),
+                    );
+                    $this->MasterModel->formulasUpdate($key, $data);
+                    
+                    log_message('info', 'sellSave: lm change - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/sell/?key=$key&type=change"
+                    ]);
+                    return;
                 }
-                else if ($key == "material-au")
+                else
                 {
-                    $parameter = 'f_rti_au_sell';
-                    if ($type == "change")
+                    $data = array(
+                        "f_nol5" => $this->input->post("f_nol5"),
+                        "f_1" => $this->input->post("f_1"),
+                        "f_2" => $this->input->post("f_2"),
+                        "f_3" => $this->input->post("f_3"),
+                        "f_2_coma_5" => $this->input->post("f_2_coma_5"),
+                        "f_5" => $this->input->post("f_5"),
+                        "f_10" => $this->input->post("f_10"),
+                        "f_25" => $this->input->post("f_25"),
+                        "f_50" => $this->input->post("f_50"),
+                        "f_100" => $this->input->post("f_100"),
+                        "f_250" => $this->input->post("f_250"),
+                        "f_500" => $this->input->post("f_500"),
+                        "f_1000" => $this->input->post("f_1000"),
+                    );
+                    
+                    log_message('debug', 'sellSave: lm - updating with data = ' . json_encode($data));
+                    $affectedRows = $this->MaterialModel->formulaUpdateArray($data);
+                    log_message('debug', 'sellSave: lm - affected rows = ' . $affectedRows);
+
+                    if ($affectedRows > 0)
                     {
-                        $data = array(
-                            'a' => $this->input->get('a'),
-                            'b' => $this->input->get('b'),
-                            'c' => $this->input->get('c'),
-                            'd' => $this->input->get('d'),
-                            'e' => $this->input->get('e'),
-                            'f' => $this->input->get('f'),
-                            'g' => $this->input->get('g')
-                        );
-                        $this->MasterModel->formulasUpdate($key, $data);
-                        redirect(base_url() . "archive/sell/?key=$key&type=change");
+                        log_message('info', 'sellSave: lm - SUCCESS');
+                        echo json_encode([
+                            'status' => 'success',
+                            'message' => 'Data berhasil disimpan!',
+                            'redirect' => base_url() . "archive/sell/?key=$key"
+                        ]);
                     }
                     else
                     {
-                        $this->MaterialModel->formulaUpdate($parameter, $value);
-                        redirect(base_url() . "archive/sell/?key=$key");
+                        log_message('error', 'sellSave: lm - FAILED, no rows affected');
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Gagal menyimpan data! Tidak ada perubahan data.'
+                        ]);
                     }
+                    return;
                 }
-                else if ($key == "material-ag")
+            }
+            else if ($key == "material-au")
+            {
+                $parameter = 'f_rti_au_sell';
+                if ($type == "change")
                 {
-                    $parameter = 'f_rti_ag_sell';
-                    if ($type == "change")
-                    {
-                        $data = array(
-                            'a' => $this->input->get('a'),
-                            'b' => $this->input->get('b'),
-                            'c' => $this->input->get('c'),
-                            'd' => $this->input->get('d'),
-                            'e' => $this->input->get('e'),
-                        );
-                        $this->MasterModel->formulasUpdate($key, $data);
-                        redirect(base_url() . "archive/sell/?key=$key&type=change");
-                    }
-                    else
-                    {
-                        $this->MaterialModel->formulaUpdate($parameter, $value);
-                        redirect(base_url() . "archive/sell/?key=$key");
-                    }
+                    $data = array(
+                        'a' => $this->input->post('a'),
+                        'b' => $this->input->post('b'),
+                        'c' => $this->input->post('c'),
+                        'd' => $this->input->post('d'),
+                        'e' => $this->input->post('e'),
+                        'f' => $this->input->post('f'),
+                        'g' => $this->input->post('g')
+                    );
+                    $this->MasterModel->formulasUpdate($key, $data);
+                    
+                    log_message('info', 'sellSave: material-au change - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/sell/?key=$key&type=change"
+                    ]);
+                    return;
                 }
-                else if ($key == "material-ubs")
+                else
                 {
-                    $dataGet = $this->input->get();
-                    if ($type == "change")
+                    if (empty($value))
                     {
-                        foreach ($dataGet['configMaterial'] as $keyGet => $valueGet)
-                        {
-                            $dataUpdate = array(
-                                'potongan' => $valueGet,
-                            );
-                            $this->db->update('config_material', $dataUpdate, ['id' => $keyGet]);
-                        }
-                        redirect(base_url() . "archive/sell/?key=$key&type=change");
+                        log_message('error', 'sellSave: material-au - Empty value parameter');
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Value tidak boleh kosong!'
+                        ]);
+                        return;
+                    }
+
+                    log_message('debug', 'sellSave: material-au - updating with value = ' . $value);
+                    $affectedRows = $this->MaterialModel->formulaUpdate($parameter, $value);
+                    
+                    log_message('debug', 'sellSave: material-au - affected rows = ' . $affectedRows);
+
+                    if ($affectedRows > 0)
+                    {
+                        log_message('info', 'sellSave: material-au - SUCCESS');
+                        echo json_encode([
+                            'status' => 'success',
+                            'message' => 'Data berhasil disimpan!',
+                            'redirect' => base_url() . "archive/sell/?key=$key"
+                        ]);
                     }
                     else
                     {
-                        foreach ($dataGet['configMaterial'] as $keyGet => $valueGet)
-                        {
-                            $dataUpdate = array(
-                                'harga' => $valueGet,
-                            );
-                            $this->db->update('config_material', $dataUpdate, ['id' => $keyGet]);
-                        }
-                        redirect(base_url() . "archive/sell/?key=$key");
+                        log_message('error', 'sellSave: material-au - FAILED, no rows affected');
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Gagal menyimpan data! Tidak ada perubahan data.'
+                        ]);
                     }
+                    return;
+                }
+            }
+            else if ($key == "material-ag")
+            {
+                $parameter = 'f_rti_ag_sell';
+                if ($type == "change")
+                {
+                    $data = array(
+                        'a' => $this->input->post('a'),
+                        'b' => $this->input->post('b'),
+                        'c' => $this->input->post('c'),
+                        'd' => $this->input->post('d'),
+                        'e' => $this->input->post('e'),
+                    );
+                    $this->MasterModel->formulasUpdate($key, $data);
+                    
+                    log_message('info', 'sellSave: material-ag change - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/sell/?key=$key&type=change"
+                    ]);
+                    return;
+                }
+                else
+                {
+                    if (empty($value))
+                    {
+                        log_message('error', 'sellSave: material-ag - Empty value parameter');
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Value tidak boleh kosong!'
+                        ]);
+                        return;
+                    }
+
+                    log_message('debug', 'sellSave: material-ag - updating with value = ' . $value);
+                    $affectedRows = $this->MaterialModel->formulaUpdate($parameter, $value);
+                    
+                    log_message('debug', 'sellSave: material-ag - affected rows = ' . $affectedRows);
+
+                    if ($affectedRows > 0)
+                    {
+                        log_message('info', 'sellSave: material-ag - SUCCESS');
+                        echo json_encode([
+                            'status' => 'success',
+                            'message' => 'Data berhasil disimpan!',
+                            'redirect' => base_url() . "archive/sell/?key=$key"
+                        ]);
+                    }
+                    else
+                    {
+                        log_message('error', 'sellSave: material-ag - FAILED, no rows affected');
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Gagal menyimpan data! Tidak ada perubahan data.'
+                        ]);
+                    }
+                    return;
+                }
+            }
+            else if ($key == "material-ubs")
+            {
+                $dataPost = $this->input->post();
+                
+                if ($type == "change")
+                {
+                    if (empty($dataPost['configMaterial']))
+                    {
+                        log_message('error', 'sellSave: material-ubs change - Empty configMaterial');
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Data potongan tidak valid!'
+                        ]);
+                        return;
+                    }
+                    
+                    foreach ($dataPost['configMaterial'] as $keyGet => $valueGet)
+                    {
+                        $dataUpdate = array(
+                            'potongan' => $valueGet,
+                        );
+                        $this->db->update('config_material', $dataUpdate, ['id' => $keyGet]);
+                    }
+                    
+                    log_message('info', 'sellSave: material-ubs change - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/sell/?key=$key&type=change"
+                    ]);
+                    return;
+                }
+                else
+                {
+                    if (empty($dataPost['configMaterial']))
+                    {
+                        log_message('error', 'sellSave: material-ubs - Empty configMaterial');
+                        echo json_encode([
+                            'status' => 'error',
+                            'message' => 'Data harga tidak valid!'
+                        ]);
+                        return;
+                    }
+                    
+                    foreach ($dataPost['configMaterial'] as $keyGet => $valueGet)
+                    {
+                        $dataUpdate = array(
+                            'harga' => $valueGet,
+                        );
+                        $this->db->update('config_material', $dataUpdate, ['id' => $keyGet]);
+                    }
+                    
+                    log_message('info', 'sellSave: material-ubs - SUCCESS');
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil disimpan!',
+                        'redirect' => base_url() . "archive/sell/?key=$key"
+                    ]);
+                    return;
                 }
             }
             else
             {
-                $this->data['content'] = $this->load->view('ArchiveSell', $this->data, true);
-                $this->load->view("UserTemplate", $this->data);
+                log_message('error', 'sellSave: Unknown key = ' . $key);
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Key tidak valid!'
+                ]);
+                return;
             }
         }
-        else
+        catch (Exception $e)
         {
-            redirect(base_url());
+            log_message('error', 'sellSave: Exception occurred - ' . $e->getMessage());
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ]);
+            return;
         }
     }
     public function memo()

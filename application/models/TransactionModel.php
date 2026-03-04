@@ -12,8 +12,21 @@ if (!defined('BASEPATH'))
      * @param string $search Kata kunci pencarian
      * @return array Daftar transaksi
      */
-    public function getTransactions($start, $length, $search)
+    public function getTransactions($start, $length, $search, $type = '', $date_from = '', $date_to = '')
     {
+        // Filter type (SELL/BUY)
+        if (!empty($type)) {
+            $this->db->where('t_type', $type);
+        }
+        
+        // Filter date range
+        if (!empty($date_from)) {
+            $this->db->where('DATE(t_date_created) >=', $date_from);
+        }
+        if (!empty($date_to)) {
+            $this->db->where('DATE(t_date_created) <=', $date_to);
+        }
+
         // Pencarian (jika ada kata kunci)
         if (!empty($search)) {
             $this->db->group_start();
@@ -67,21 +80,51 @@ if (!defined('BASEPATH'))
 
 	function buyCheckout($data)
 	{
+		// DEBUG: Log data before insert
+		log_message('debug', '[MODEL buyCheckout] Inserting into tb_transaction: ' . json_encode($data));
+		
 		$this->db->insert('tb_transaction', $data);
-		return $this->db->insert_id();
+		
+		$insert_id = $this->db->insert_id();
+		
+		// DEBUG: Log insert result
+		log_message('debug', '[MODEL buyCheckout] Insert successful, ID: ' . $insert_id);
+		
+		return $insert_id;
 	}
 	function buyCheckoutItems($data)
 	{
+		// DEBUG: Log item data before insert
+		log_message('debug', '[MODEL buyCheckoutItems] Inserting into tb_transaction_items: ' . json_encode($data));
+		
 		$this->db->insert('tb_transaction_items', $data);
+		
+		// DEBUG: Log insert result
+		log_message('debug', '[MODEL buyCheckoutItems] Insert result: ' . ($this->db->affected_rows() > 0 ? 'SUCCESS' : 'FAILED'));
 	}
 	function sellCheckout($data)
 	{
+		// DEBUG: Log data before insert
+		log_message('debug', '[MODEL sellCheckout] Inserting into tb_transaction_sell: ' . json_encode($data));
+		
 		$this->db->insert('tb_transaction_sell', $data);
-		return $this->db->insert_id();
+		
+		$insert_id = $this->db->insert_id();
+		
+		// DEBUG: Log insert result
+		log_message('debug', '[MODEL sellCheckout] Insert successful, ID: ' . $insert_id);
+		
+		return $insert_id;
 	}
 	function sellCheckoutItems($data)
 	{
+		// DEBUG: Log item data before insert
+		log_message('debug', '[MODEL sellCheckoutItems] Inserting into tb_transaction_items_sell: ' . json_encode($data));
+		
 		$this->db->insert('tb_transaction_items_sell', $data);
+		
+		// DEBUG: Log insert result
+		log_message('debug', '[MODEL sellCheckoutItems] Insert result: ' . ($this->db->affected_rows() > 0 ? 'SUCCESS' : 'FAILED'));
 	}
 	function lastData($year)
 	{
@@ -101,60 +144,107 @@ if (!defined('BASEPATH'))
 		LIMIT 1");
 		return $query;
 	}
-	function buyTransaction($dateStart, $dateEnd)
+public function buyTransaction($dateStart = null, $dateEnd = null, $status = null)
 	{
-		if (!empty($dateStart) && !empty($dateEnd)) {
-			$query = $this->db->query("SELECT a.*, b.u_name as nameCreator, c.u_name as nameReceive, d.c_name as nameCustomer
-			FROM tb_transaction a
-			LEFT OUTER JOIN tb_user b
-			ON a.t_created_by = b.u_id
-			LEFT OUTER JOIN tb_user c
-			ON a.t_receive_by = c.u_id
-			LEFT OUTER JOIN tb_customer d
-			ON a.t_customer = d.c_id
-			WHERE a.t_visible=1 AND DATE(a.t_date_created) >= '$dateStart' AND DATE(a.t_date_created) <= '$dateEnd' 
-			ORDER BY a.t_id DESC");
+		// Check if t_cabang_id column exists in tb_transaction
+		$hasCabangColumn = $this->db->field_exists('t_cabang_id', 'tb_transaction');
+		
+		// Build select clause based on column existence
+		$select = "
+			a.*,
+			b.u_name AS nameCreator,
+			c.u_name AS nameReceive,
+			d.c_name AS nameCustomer
+		";
+		
+		if ($hasCabangColumn) {
+			$select .= ", e.nama_cabang";
 		} else {
-			$query = $this->db->query("SELECT a.*, b.u_name as nameCreator, c.u_name as nameReceive, d.c_name as nameCustomer
-			FROM tb_transaction a
-			LEFT OUTER JOIN tb_user b
-			ON a.t_created_by = b.u_id
-			LEFT OUTER JOIN tb_user c
-			ON a.t_receive_by = c.u_id
-			LEFT OUTER JOIN tb_customer d
-			ON a.t_customer = d.c_id
-			WHERE a.t_visible=1 
-			ORDER BY a.t_id DESC");
+			$select .= ", NULL AS nama_cabang";
 		}
-		return $query;
+
+		$this->db->select($select);
+
+		$this->db->from('tb_transaction a');
+		$this->db->join('tb_user b', 'a.t_created_by = b.u_id', 'left');
+		$this->db->join('tb_user c', 'a.t_receive_by = c.u_id', 'left');
+		$this->db->join('tb_customer d', 'a.t_customer = d.c_id', 'left');
+		
+		// Only join cabang if column exists
+		if ($hasCabangColumn) {
+			$this->db->join('tb_cabang e', 'a.t_cabang_id = e.id', 'left');
+		}
+
+		$this->db->where('a.t_visible', 1);
+
+		// Filter tanggal TANPA DATE() agar index bisa dipakai
+		if (!empty($dateStart) && !empty($dateEnd)) {
+			$this->db->where('a.t_date_created >=', $dateStart . ' 00:00:00');
+			$this->db->where('a.t_date_created <=', $dateEnd . ' 23:59:59');
+		}
+
+		// Filter status - default SELESAI jika tidak ada filter status
+		if (!empty($status)) {
+			$this->db->where('a.t_status', $status);
+		} else {
+			$this->db->where('a.t_status', 'SELESAI');
+		}
+
+		$this->db->order_by('a.t_id', 'DESC');
+
+		return $this->db->get();
 	}
-	function sellTransaction($dateStart, $dateEnd)
+
+public function sellTransaction($dateStart = null, $dateEnd = null, $status = null)
 	{
-		if (!empty($dateStart) && !empty($dateEnd)) {
-			$query = $this->db->query("SELECT a.*, b.u_name as nameCreator, c.u_name as nameReceive, d.c_name as nameCustomer
-			FROM tb_transaction_sell a
-			LEFT OUTER JOIN tb_user b
-			ON a.t_created_by = b.u_id
-			LEFT OUTER JOIN tb_user c
-			ON a.t_receive_by = c.u_id
-			LEFT OUTER JOIN tb_customer d
-			ON a.t_customer = d.c_id
-			WHERE a.t_visible=1 AND DATE(a.t_date_created) >= '$dateStart' AND DATE(a.t_date_created) <= '$dateEnd' 
-			ORDER BY a.t_id DESC");
+		// Check if t_cabang_id column exists in tb_transaction_sell
+		$hasCabangColumn = $this->db->field_exists('t_cabang_id', 'tb_transaction_sell');
+		
+		// Build select clause based on column existence
+		$select = "
+			a.*,
+			b.u_name AS nameCreator,
+			c.u_name AS nameReceive,
+			d.c_name AS nameCustomer
+		";
+		
+		if ($hasCabangColumn) {
+			$select .= ", e.nama_cabang";
 		} else {
-			$query = $this->db->query("SELECT a.*, b.u_name as nameCreator, c.u_name as nameReceive, d.c_name as nameCustomer
-			FROM tb_transaction_sell a
-			LEFT OUTER JOIN tb_user b
-			ON a.t_created_by = b.u_id
-			LEFT OUTER JOIN tb_user c
-			ON a.t_receive_by = c.u_id
-			LEFT OUTER JOIN tb_customer d
-			ON a.t_customer = d.c_id
-			WHERE a.t_visible=1  
-			ORDER BY a.t_id DESC");
+			$select .= ", NULL AS nama_cabang";
 		}
-		return $query;
+
+		$this->db->select($select);
+
+		$this->db->from('tb_transaction_sell a');
+		$this->db->join('tb_user b', 'a.t_created_by = b.u_id', 'left');
+		$this->db->join('tb_user c', 'a.t_receive_by = c.u_id', 'left');
+		$this->db->join('tb_customer d', 'a.t_customer = d.c_id', 'left');
+		
+		// Only join cabang if column exists
+		if ($hasCabangColumn) {
+			$this->db->join('tb_cabang e', 'a.t_cabang_id = e.id', 'left');
+		}
+
+		$this->db->where('a.t_visible', 1);
+
+		if (!empty($dateStart) && !empty($dateEnd)) {
+			$this->db->where('a.t_date_created >=', $dateStart . ' 00:00:00');
+			$this->db->where('a.t_date_created <=', $dateEnd . ' 23:59:59');
+		}
+
+		// Filter status - default SELESAI jika tidak ada filter status
+		if (!empty($status)) {
+			$this->db->where('a.t_status', $status);
+		} else {
+			$this->db->where('a.t_status', 'SELESAI');
+		}
+
+		$this->db->order_by('a.t_id', 'DESC');
+
+		return $this->db->get();
 	}
+
 	function sellDeleteTransaction($idTransaction)
 	{
 		$query = $this->db->query("UPDATE
@@ -229,9 +319,30 @@ if (!defined('BASEPATH'))
 	{
 		$query = $this->db->query("UPDATE
 		tb_transaction a
-		SET a.t_visible=0
+		SET a.t_visible=0, a.t_status='VOID'
 		WHERE a.t_id='$idTransaction'");
 		return $query;
+	}
+	
+	/**
+	 * Update transaction status directly
+	 * Used for VOID functionality in Report pages
+	 * 
+	 * @param int $idTransaction Transaction ID
+	 * @param string $status New status (VOID, SELESAI, etc)
+	 * @param string $type Transaction type (buy/sell)
+	 * @return bool Success status
+	 */
+	function updateTransactionStatus($idTransaction, $status, $type)
+	{
+		$table = ($type === 'sell') ? 'tb_transaction_sell' : 'tb_transaction';
+		
+		$this->db->where('t_id', $idTransaction);
+		$result = $this->db->update($table, ['t_status' => $status]);
+		
+		log_message('debug', '[MODEL updateTransactionStatus] Updated transaction ID: ' . $idTransaction . ' to status: ' . $status);
+		
+		return $result;
 	}
 	function buyTransactionData($idTransaction)
 	{
@@ -323,6 +434,116 @@ if (!defined('BASEPATH'))
 
 		$this->db->trans_commit();
 		return true;
+	}
+
+	public function updateSelectedToSelesai($no_orders) {
+		if (empty($no_orders)) {
+			return 0;
+		}
+
+		$this->db->trans_begin();
+
+		// Update di tb_transaction berdasarkan no_order
+		$this->db->where_in('t_no_order', $no_orders);
+		$this->db->where('t_status !=', 'SELESAI');
+		$this->db->update('tb_transaction', ['t_status' => 'SELESAI']);
+		
+		$buy_affected = $this->db->affected_rows();
+
+		// Update di tb_transaction_sell berdasarkan no_order
+		$this->db->where_in('t_no_order', $no_orders);
+		$this->db->where('t_status !=', 'SELESAI');
+		$this->db->update('tb_transaction_sell', ['t_status' => 'SELESAI']);
+		
+		$sell_affected = $this->db->affected_rows();
+
+		if ($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			throw new Exception('Failed to update data.');
+		}
+
+		$this->db->trans_commit();
+		return $buy_affected + $sell_affected;
+	}
+
+	/**
+	 * Update PDF path for buy transaction (tb_transaction)
+	 * 
+	 * @param int $transactionId Transaction ID
+	 * @param string $pdfPath Full path where PDF is saved
+	 * @param string $pdfFilename PDF filename
+	 * @return bool Success status
+	 */
+	public function updateBuyPdfPath($transactionId, $pdfPath, $pdfFilename) {
+		$data = [
+			't_pdf_path' => $pdfPath,
+			't_pdf_filename' => $pdfFilename,
+			't_pdf_generated_at' => date('Y-m-d H:i:s'),
+			't_pdf_status' => 'generated'
+		];
+		
+		$this->db->where('t_id', $transactionId);
+		$result = $this->db->update('tb_transaction', $data);
+		
+		log_message('debug', '[MODEL updateBuyPdfPath] Updated PDF path for transaction ID: ' . $transactionId);
+		
+		return $result;
+	}
+
+	/**
+	 * Update PDF path for sell transaction (tb_transaction_sell)
+	 * 
+	 * @param int $transactionId Transaction ID
+	 * @param string $pdfPath Full path where PDF is saved
+	 * @param string $pdfFilename PDF filename
+	 * @return bool Success status
+	 */
+	public function updateSellPdfPath($transactionId, $pdfPath, $pdfFilename) {
+		$data = [
+			't_pdf_path' => $pdfPath,
+			't_pdf_filename' => $pdfFilename,
+			't_pdf_generated_at' => date('Y-m-d H:i:s'),
+			't_pdf_status' => 'generated'
+		];
+		
+		$this->db->where('t_id', $transactionId);
+		$result = $this->db->update('tb_transaction_sell', $data);
+		
+		log_message('debug', '[MODEL updateSellPdfPath] Updated PDF path for transaction ID: ' . $transactionId);
+		
+		return $result;
+	}
+
+	/**
+	 * Update PDF status to failed for buy transaction
+	 * 
+	 * @param int $transactionId Transaction ID
+	 * @return bool Success status
+	 */
+	public function updateBuyPdfFailed($transactionId) {
+		$data = [
+			't_pdf_status' => 'failed',
+			't_pdf_generated_at' => date('Y-m-d H:i:s')
+		];
+		
+		$this->db->where('t_id', $transactionId);
+		return $this->db->update('tb_transaction', $data);
+	}
+
+	/**
+	 * Update PDF status to failed for sell transaction
+	 * 
+	 * @param int $transactionId Transaction ID
+	 * @return bool Success status
+	 */
+	public function updateSellPdfFailed($transactionId) {
+		$data = [
+			't_pdf_status' => 'failed',
+			't_pdf_generated_at' => date('Y-m-d H:i:s')
+		];
+		
+		$this->db->where('t_id', $transactionId);
+		return $this->db->update('tb_transaction_sell', $data);
 	}
 
 	

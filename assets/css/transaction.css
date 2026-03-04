@@ -17,7 +17,7 @@
   
   /* Background Colors */
   --bg-dark: #0a0f1a;
-  --bg-card: #0d1526;
+  --bg-card: #0D1A63;
   --bg-input: #132035;
   
   /* Glass Effect Variables */
@@ -48,14 +48,12 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    background: #0D1A63;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     padding: 10px 16px;
     list-style: none;
     margin-bottom: 20px;
-    animation: fadeInUp 0.5s ease-out;
 }
 
 .breadcrumb.glass-breadcrumb .breadcrumb-item {
@@ -69,12 +67,6 @@
     text-decoration: none;
     font-weight: 500;
     font-size: 0.85rem;
-    transition: all 0.3s ease;
-}
-
-.breadcrumb.glass-breadcrumb .breadcrumb-item a:hover {
-    color: var(--frosted-blue);
-    transform: translateX(-2px);
 }
 
 .breadcrumb.glass-breadcrumb .breadcrumb-item.active {
@@ -97,7 +89,6 @@
     font-weight: 700;
     margin-bottom: 12px;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    animation: fadeInUp 0.5s ease-out;
 }
 
 .page-subtitle {
@@ -106,7 +97,6 @@
     font-size: 0.95rem;
     font-weight: 500;
     margin-bottom: 20px;
-    animation: fadeInUp 0.5s ease-out 0.1s both;
 }
 
 /* Back Button - Compact */
@@ -115,31 +105,18 @@
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    background: #0D1A63;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 8px;
     color: var(--text-primary);
     font-weight: 500;
     font-size: 0.85rem;
     text-decoration: none;
-    transition: all 0.3s ease;
-    animation: fadeInUp 0.5s ease-out 0.2s both;
 }
 
 .btn-back:hover {
-    background: var(--turquoise-surf);
-    color: #000;
-    transform: translateX(-3px);
-}
-
-.btn-back i {
-    font-size: 0.85rem;
-    transition: transform 0.3s ease;
-}
-
-.btn-back:hover i {
-    transform: translateX(-2px);
+    background: #16237a;
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 /* Form Card - Compact */
@@ -149,7 +126,6 @@
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     overflow: hidden;
-    animation: fadeInUp 0.5s ease-out 0.3s both;
     position: relative;
     max-width: 500px;
     margin: 0 auto;
@@ -278,21 +254,9 @@
     color: #000;
 }
 
-.btn-sell:hover {
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.25);
-}
-
 .btn-buy {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: #fff;
-}
-
-.btn-buy:hover {
-    background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
 }
 
 /* Glass Card - Compact */
@@ -399,32 +363,14 @@
     color: #fff;
 }
 
-.btn-primary:hover {
-    background: linear-gradient(135deg, var(--turquoise-surf) 0%, var(--bright-teal-blue) 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(0, 119, 182, 0.25);
-}
-
 .btn-success {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: #fff;
 }
 
-.btn-success:hover {
-    background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
-}
-
 .btn-danger {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
     color: #fff;
-}
-
-.btn-danger:hover {
-    background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.25);
 }
 
 .btn-secondary {
@@ -521,45 +467,24 @@
     color: var(--turquoise-surf);
     font-size: 0.8rem;
     font-weight: 500;
-    transition: all 0.3s ease;
     text-decoration: none;
     margin-bottom: 8px;
 }
 
-.link-add:hover {
-    color: var(--frosted-blue);
-    transform: translateX(3px);
-}
-
-/* Animation */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 /* Grid - Material Cards */
-.material-grid {
-    animation: fadeInUp 0.5s ease-out 0.3s both;
-}
 
 .material-card {
+    /* background: var(--card-gradient); */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--card-gradient);
+    /* background: var(--card-gradient); */
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: 14px;
     padding: 16px 12px;
     text-decoration: none;
-    transition: all 0.3s ease;
     height: 100%;
     min-height: 130px;
     position: relative;
@@ -578,9 +503,7 @@
 }
 
 .material-card:hover {
-    transform: translateY(-4px);
     border-color: var(--turquoise-surf);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 20px rgba(0, 180, 216, 0.15);
 }
 
 .material-icon {
@@ -606,11 +529,6 @@
     max-height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
-    transition: transform 0.3s ease;
-}
-
-.material-card:hover .material-image img {
-    transform: scale(1.05);
 }
 
 .material-name {

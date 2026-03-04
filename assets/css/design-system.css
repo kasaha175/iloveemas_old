@@ -23,9 +23,9 @@
     
     /* --- Background Colors --- */
     --bg-dark: #0a0f1a;
-    --bg-card: #0d1526;
-    --bg-input: #132035;
-    --bg-overlay: rgba(10, 15, 26, 0.95);
+    --bg-card: #0D1A63;
+    --bg-input: #0D1A63;
+    --bg-overlay: rgba(13, 26, 99, 0.95);
     
     /* --- Glass Effects --- */
     --glass-bg: rgba(255, 255, 255, 0.03);
@@ -62,11 +62,11 @@
     --shadow-glow: 0 0 20px rgba(0, 180, 216, 0.2);
     --shadow-glow-strong: 0 0 40px rgba(0, 180, 216, 0.35);
     
-    /* --- Gradients --- */
+    /* --- Gradients - Changed to solid colors --- */
     --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
     --gradient-primary-reverse: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
-    --gradient-bg: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-card) 100%);
-    --gradient-card: linear-gradient(145deg, rgba(13, 21, 38, 0.9) 0%, rgba(10, 15, 26, 0.95) 100%);
+    --gradient-bg: #A8F1FF;
+    --gradient-card: #0D1A63;
     --gradient-highlight: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
     
     /* --- Typography --- */
@@ -147,7 +147,7 @@ body {
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-normal);
     color: var(--text);
-    background: var(--gradient-bg);
+    background: #A8F1FF;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -165,6 +165,31 @@ body::before {
         radial-gradient(ellipse at 20% 80%, rgba(0, 180, 216, 0.08) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 20%, rgba(0, 119, 182, 0.06) 0%, transparent 50%),
         radial-gradient(ellipse at 50% 50%, rgba(144, 224, 239, 0.04) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Background Pattern - Image Overlay */
+body::after {
+    content: "";
+    position: fixed;
+
+    top: -120px;
+    left: -120px;
+
+    width: 850px;
+    height: 650px;
+
+    background: url('../img/bg-login-pattern.webp') no-repeat center;
+    background-size: contain;
+
+    transform: rotate(180deg);
+    transform-origin: center;
+
+    opacity: 0.9;
+
+    filter: drop-shadow(0 0 60px rgba(255, 200, 80, 0.2));
+
     pointer-events: none;
     z-index: -1;
 }
@@ -401,7 +426,7 @@ small, .text-sm {
 
 /* Base Card */
 .card {
-    background: var(--gradient-card);
+    background: #0D1A63;
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
@@ -457,7 +482,7 @@ small, .text-sm {
 
 /* Welcome Card (Dashboard) */
 .welcome-card {
-    background: var(--gradient-card);
+    background: #0D1A63;
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-2xl);
     padding: var(--space-6);

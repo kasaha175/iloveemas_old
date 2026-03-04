@@ -14,6 +14,13 @@
     <div class="report-grid">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
+                <a href="<?=base_url()?>report/all/?dateStart=<?= date('Y-m-01'); ?>&dateEnd=<?= date('Y-m-t'); ?>" class="menu-box">
+                    <i class="fas fa-list icon"></i>
+                    <span>ALL TRANSACTIONS</span>
+                    <small class="menu-desc">Combined Buy & Sell</small>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4">
                 <a href="<?=base_url()?>report/buy/?dateStart=<?= date('Y-m-01'); ?>&dateEnd=<?= date('Y-m-t'); ?>" class="menu-box">
                     <i class="fas fa-shopping-cart icon"></i>
                     <span>BUY</span>
@@ -25,7 +32,7 @@
                     <span>SELL</span>
                 </a>
             </div>
-            <div class="col-md-6 col-lg-4">
+            <!-- <div class="col-md-6 col-lg-4">
                 <a href="<?=base_url()?>report/buy-graph/" class="menu-box">
                     <i class="fas fa-chart-line icon"></i>
                     <span>BUY GRAPH</span>
@@ -36,7 +43,7 @@
                     <i class="fas fa-chart-bar icon"></i>
                     <span>SELL GRAPH</span>
                 </a>
-            </div>
+            </div> -->
         </div>
         
         <!-- Back Button -->
@@ -58,7 +65,7 @@
 
 .page-title {
     text-align: center;
-    color: var(--text-primary);
+    color: #03045e !important;
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 40px;
@@ -76,6 +83,14 @@
 
 .report-grid .menu-box {
     min-height: 120px;
+}
+
+.menu-desc {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 5px;
+    font-weight: normal;
 }
 
 @media (max-width: 768px) {

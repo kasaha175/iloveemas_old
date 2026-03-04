@@ -12,8 +12,8 @@
     </nav>
 
     <!-- Page Title -->
-    <h3 class="page-title">BUY</h3>
-    <h3 class="page-subtitle">Choose Material</h3>
+    <h3 class="page-title" style="color: #03045e !important;">BUY</h3>
+    <h3 class="page-subtitle" style="color: #03045e !important;">Choose Material</h3>
 
     <!-- Back Button -->
     <div class="mb-3">
@@ -42,7 +42,7 @@
             ];
             $delay = 1;
             foreach ($materials as $material) { ?>
-            <div class="col-4 col-md-3 col-lg-2">
+            <div class="col-4 col-md-4 col-lg-4">
                 <a href="<?=base_url()?>transaction/<?=$material['url']?>/" class="material-card animate-fade-in-up" style="animation-delay: <?=$delay?>00ms">
                     <div class="material-icon">
                         <i class="fas <?=$material['icon']?>"></i>
@@ -62,7 +62,18 @@
 
 <style>
 /* Compact Material Card Override */
+
+.material-grid .row {
+    row-gap: 20px;   /* jarak vertikal antar baris */
+}
+
+.material-grid {
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
+
 .material-card {
+    background-color:#0D1A63;
     min-height: 110px;
     padding: 14px 10px;
     border-radius: 12px;
@@ -73,19 +84,19 @@
 }
 
 .material-icon {
-    font-size: 0.85rem;
+    font-size: 1.1rem;
     top: 8px;
     right: 8px;
 }
 
 .material-image {
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 55px;
     margin-bottom: 8px;
 }
 
 .material-name span {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
 }
 
 .material-card:hover {
@@ -116,13 +127,13 @@
     }
     
     .material-image {
-        width: 32px;
-        height: 32px;
+        width: 45px;
+        height: 45px;
         margin-bottom: 6px;
     }
     
     .material-name span {
-        font-size: 0.65rem;
+        font-size: 0.8rem;
     }
 }
 </style>

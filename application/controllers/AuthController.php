@@ -34,9 +34,21 @@ class AuthController extends CI_Controller
             if ($locked_until && time() < $locked_until)
             {
                 $remaining_time = ceil(($locked_until - time()) / 60);
+                $message = "Akun terkunci. Coba lagi dalam {$remaining_time} menit.";
+                
+                // Check if AJAX request
+                if ($this->input->is_ajax_request()) {
+                    $this->output->set_content_type('application/json')->set_output(json_encode([
+                        'success' => false,
+                        'message' => $message,
+                        'locked' => true
+                    ]));
+                    return;
+                }
+                
                 $this->session->set_userdata([
                     'failedLogin' => true,
-                    'lockout_message' => "Akun terkunci. Coba lagi dalam {$remaining_time} menit."
+                    'lockout_message' => $message
                 ]);
                 redirect(base_url());
                 return;
@@ -71,6 +83,17 @@ class AuthController extends CI_Controller
                     'last_activity' => time()
                 );
                 $this->session->set_userdata($data_session);
+                
+                // Check if AJAX request
+                if ($this->input->is_ajax_request()) {
+                    $this->output->set_content_type('application/json')->set_output(json_encode([
+                        'success' => true,
+                        'message' => 'Login berhasil',
+                        'redirect' => base_url() . "dashboard/"
+                    ]));
+                    return;
+                }
+                
                 redirect(base_url() . "dashboard/");
             }
             else
@@ -83,20 +106,46 @@ class AuthController extends CI_Controller
                 {
                     // Akun terkunci
                     $locked_until = time() + $this->lockout_time;
+                    $message = "Terlalu banyak percobaan login. Akun terkunci selama 15 menit.";
+                    
+                    // Check if AJAX request
+                    if ($this->input->is_ajax_request()) {
+                        $this->output->set_content_type('application/json')->set_output(json_encode([
+                            'success' => false,
+                            'message' => $message,
+                            'locked' => true,
+                            'attempts' => $attempts
+                        ]));
+                        return;
+                    }
+                    
                     $this->session->set_userdata([
                         'login_attempts' => $attempts,
                         'locked_until' => $locked_until,
                         'failedLogin' => true,
-                        'lockout_message' => "Terlalu banyak percobaan login. Akun terkunci selama 15 menit."
+                        'lockout_message' => $message
                     ]);
                 }
                 else
                 {
                     $remaining = $this->max_attempts - $attempts;
+                    $message = "Username atau password salah! Sisa percobaan: {$remaining}";
+                    
+                    // Check if AJAX request
+                    if ($this->input->is_ajax_request()) {
+                        $this->output->set_content_type('application/json')->set_output(json_encode([
+                            'success' => false,
+                            'message' => $message,
+                            'attempts' => $attempts,
+                            'remaining' => $remaining
+                        ]));
+                        return;
+                    }
+                    
                     $this->session->set_userdata([
                         'login_attempts' => $attempts,
                         'failedLogin' => true,
-                        'lockout_message' => "Username atau password salah! Sisa percobaan: {$remaining}"
+                        'lockout_message' => $message
                     ]);
                 }
                 redirect(base_url());

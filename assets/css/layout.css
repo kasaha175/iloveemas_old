@@ -165,14 +165,14 @@
 .page-title-main {
     font-size: 28px;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #03045e;
     margin: 0;
 }
 
 .page-title-sub {
     font-size: 16px;
     font-weight: 500;
-    color: var(--turquoise-surf);
+    color: #0077b6;
     margin: 0;
 }
 
@@ -201,7 +201,7 @@
 /* Section Titles */
 .page-title {
     text-align: center;
-    color: var(--text-primary);
+    color: #03045e;
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 10px;
@@ -209,7 +209,7 @@
 
 .page-subtitle {
     text-align: center;
-    color: var(--turquoise-surf);
+    color: #0077b6;
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 30px;

@@ -213,7 +213,7 @@
 /* Page Title */
 .page-title {
     text-align: center;
-    color: var(--text-primary);
+    color: #03045e !important;
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 8px;
@@ -224,7 +224,7 @@
 .page-subtitle {
     display: block;
     font-size: 1rem;
-    color: var(--turquoise-surf);
+    color: #03045e !important;
     font-weight: 500;
     margin-top: 8px;
 }
