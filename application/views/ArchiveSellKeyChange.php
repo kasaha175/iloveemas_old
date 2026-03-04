@@ -240,7 +240,7 @@ $d = $data[0];
     /* Page Title */
     .page-title {
         text-align: center;
-        color: var(--text-primary);
+        color: #03045e !important;
         font-size: 1.75rem;
         font-weight: 700;
         margin-bottom: 8px;
@@ -251,7 +251,7 @@ $d = $data[0];
     .page-subtitle {
         display: block;
         font-size: 0.9rem;
-        color: var(--turquoise-surf);
+        color: #03045e !important;
         font-weight: 500;
         margin-top: 8px;
     }

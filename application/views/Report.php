@@ -65,7 +65,7 @@
 
 .page-title {
     text-align: center;
-    color: var(--text-primary);
+    color: #03045e !important;
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 40px;

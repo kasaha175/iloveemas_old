@@ -903,7 +903,7 @@ table.dataTable tbody tr:nth-child(even) {
 
 .dashboard-title {
     text-align: center;
-    color: var(--text-primary);
+    color: #03045e;
     font-weight: 600;
     font-size: 2rem;
     margin-bottom: 2rem;
@@ -966,7 +966,7 @@ table.dataTable tbody tr:nth-child(even) {
 
 .page-title {
     text-align: center;
-    color: var(--text-primary);
+    color: #03045e;
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 10px;
@@ -974,7 +974,7 @@ table.dataTable tbody tr:nth-child(even) {
 
 .page-subtitle {
     text-align: center;
-    color: var(--turquoise-surf);
+    color: #0077b6;
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 30px;
@@ -2084,15 +2084,15 @@ h3, .h3, .card-title {
 }
 
 .context-badge-transaction {
-    background: linear-gradient(135deg, rgba(0, 180, 216, 0.2) 0%, rgba(0, 119, 182, 0.2) 100%);
-    color: var(--turquoise-surf);
-    border: 1px solid rgba(0, 180, 216, 0.3);
+    background: linear-gradient(135deg, rgba(0, 119, 182, 0.2) 0%, rgba(0, 119, 182, 0.2) 100%);
+    color: #0077b6;
+    border: 1px solid rgba(0, 119, 182, 0.3);
 }
 
 .context-badge-info {
-    background: linear-gradient(135deg, rgba(144, 224, 239, 0.15) 0%, rgba(0, 180, 216, 0.15) 100%);
-    color: var(--frosted-blue);
-    border: 1px solid rgba(144, 224, 239, 0.3);
+    background: linear-gradient(135deg, rgba(0, 119, 182, 0.15) 0%, rgba(0, 119, 182, 0.15) 100%);
+    color: #0077b6;
+    border: 1px solid rgba(0, 119, 182, 0.2);
 }
 
 /* Info Banner */

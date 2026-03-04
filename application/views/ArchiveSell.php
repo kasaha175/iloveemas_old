@@ -68,7 +68,7 @@
 
 .archive-title {
     text-align: center;
-    color: var(--text-primary);
+    color: #03045e !important;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 8px;
@@ -78,7 +78,7 @@
 
 .archive-subtitle {
     text-align: center;
-    color: var(--text-secondary);
+    color: #03045e !important;
     font-size: 1.1rem;
     margin-bottom: 40px;
     animation: fadeInUp 0.6s ease-out 0.1s both;
