@@ -489,10 +489,7 @@ body::after {
     padding: 20px 24px;
 }
 
-.modal-body {
-    padding: 24px;
-    color: var(--text-primary);
-}
+/* Modal Styling is handled in custom.css */
 
 .modal-footer {
     background: linear-gradient(0deg, rgba(0, 180, 216, 0.05) 0%, transparent 100%);
@@ -1203,7 +1200,6 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 .glass-swal-popup .swal2-title {
-    color: #ffffff !important;
     font-family: 'Poppins', sans-serif !important;
 }
 
@@ -1213,7 +1209,6 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 .glass-swal-popup .swal2-html-container {
-    color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .glass-swal-popup .swal2-icon.swal2-success {
@@ -1244,10 +1239,9 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 .glass-swal-popup .swal2-actions .swal2-cancel {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    /* background: rgba(255, 255, 255, 0.1) !important; */
+    /* border: 1px solid rgba(255, 255, 255, 0.3) !important; */
     border-radius: 8px !important;
-    color: #ffffff !important;
     font-family: 'Poppins', sans-serif !important;
     padding: 10px 24px !important;
 }

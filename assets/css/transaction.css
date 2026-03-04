@@ -474,76 +474,8 @@
     margin-bottom: 8px;
 }
 
-/* Grid - Material Cards - BRIGHT THEME */
-
-.material-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: var(--surface-white);
-    border: 1px solid var(--border-contrast);
-    border-radius: 14px;
-    padding: 16px 12px;
-    text-decoration: none;
-    height: 100%;
-    min-height: 130px;
-    position: relative;
-    overflow: hidden;
-    transition: var(--transition-smooth);
-}
-
-.material-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 35%;
-    background: linear-gradient(180deg, rgba(0, 180, 216, 0.08) 0%, transparent 100%);
-    pointer-events: none;
-}
-
-.material-card:hover {
-    border-color: var(--ocean-blue);
-    transform: translateY(-4px);
-    box-shadow: var(--glass-shadow-hover);
-}
-
-.material-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 1rem;
-    color: var(--ocean-blue);
-    opacity: 0.6;
-}
-
-.material-image {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-}
-
-.material-image img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
-}
-
-.material-name {
-    text-align: center;
-}
-
-.material-name span {
-    color: var(--text-primary);
-    font-weight: 600;
-    font-size: 0.8rem;
-}
+/* Grid - Material Cards - BRIGHT THEME - DEPRECATED
+   Use custom.css instead for material card styles */
 
 /* Responsive */
 @media (max-width: 992px) {

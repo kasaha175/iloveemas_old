@@ -332,7 +332,7 @@ function nominal($angka) {
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Semua item di keranjang akan dihapus.</div>
+            <div class="modal-body"><p style="color: #03045E !important;">Semua item di keranjang akan dihapus.</p></div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
                 <a class="btn btn-danger" href="<?=base_url()?>transaction/sell-add-to-cart-reset/?idMaterial=<?=$this->uri->segment(3)?>">Ya, Reset</a>
@@ -617,7 +617,7 @@ function nominal($angka) {
 
 .glass-modal .modal-body {
     padding: 24px;
-    color: var(--text-light);
+    color: var(--text-primary);
 }
 
 .glass-modal .modal-footer {

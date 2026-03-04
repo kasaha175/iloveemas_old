@@ -757,7 +757,12 @@ table.dataTable tbody tr:nth-child(even) {
 
 .modal-body {
     padding: 24px;
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
+}
+
+.modal-body p {
+    color: var(--text-primary) !important;
+    margin-bottom: 0;
 }
 
 .modal-footer {
@@ -1108,7 +1113,7 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 .swal2-cancel {
-    background: var(--surface-white) !important;
+    /* background: var(--surface-white) !important; */
     border: 1px solid var(--border-contrast) !important;
     border-radius: 8px !important;
 }
@@ -1242,14 +1247,14 @@ table.dataTable tbody tr:nth-child(even) {
     position: absolute;
     top: 8px;
     right: 8px;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     color: var(--ocean-blue);
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
 .material-image {
-    width: 55px;
-    height: 55px;
+    width: 70px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
