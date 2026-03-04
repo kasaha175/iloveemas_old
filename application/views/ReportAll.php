@@ -297,8 +297,14 @@ $dateEnd = $this->input->get('dateEnd') ?? date('Y-m-t');
                                 <td><?=$a->t_qtt?></td>
                                 <td>IDR <?=nominal(floatval($a->t_price_total) + floatval($a->t_price_admin ?? 0))?></td>
                                 <td class="action-buttons">
+                                    <a href="#" class="btn btn-danger btn-circle btn-sm" title="Delete" onclick="deleteTransaction(<?= $a->t_id ?>, '<?=$a->t_no_order?>', '<?=strtolower($a->t_type)?>')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
                                     <a href="#" class="btn btn-info btn-circle btn-sm" title="Detail" onclick="openDetailModal(<?= $a->t_id ?>, '<?=strtolower($a->t_type)?>')">
                                         <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-warning btn-circle btn-sm" title="Edit" data-toggle="modal" data-target="#modalEdit" onclick="openModalEdit(<?= $a->t_id ?>, '<?=strtolower($a->t_type)?>')">
+                                        <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -493,6 +499,66 @@ $dateEnd = $this->input->get('dateEnd') ?? date('Y-m-t');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Konfirmasi Perubahan</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="">
+                    <input type="hidden" name="type" id="edit_type" value="buy">
+                    <input type="hidden" name="id" value="" id="edit_id">
+                    <div class="form-group">
+                        <label>Alasan Perubahan</label>
+                        <textarea name="alasan" id="edit_alasan" class="form-control glass-input"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Kata Sandi</label>
+                        <input type="password" name="password" id="edit_password" class="form-control glass-input">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button class="btn btn-primary" onclick="submitEditKonfirmasi()">
+                    <i class="fas fa-save"></i> Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle text-warning"></i> Konfirmasi Hapus</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus transaksi <b id="deleteNoOrder"></b>?</p>
+                <p class="text-muted small">Status transaksi akan diubah menjadi VOID.</p>
+                <input type="hidden" id="deleteTransactionId">
+                <input type="hidden" id="deleteTransactionType">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                    <i class="fas fa-trash-alt"></i> Ya, Hapus
+                </button>
             </div>
         </div>
     </div>
@@ -1180,6 +1246,121 @@ function exportData() {
     
     // Redirect to export URL
     window.location.href = '<?=base_url()?>report/all/export?type=' + currentType + '&dateStart=' + dateStart + '&dateEnd=' + dateEnd + '&status=' + status;
+}
+
+// Function to open edit modal
+function openModalEdit(t_id, type) {
+    $('#edit_id').val(t_id);
+    $('#edit_type').val(type);
+    $('#edit_alasan').val('');
+    $('#edit_password').val('');
+}
+
+// Function to submit edit confirmation
+function submitEditKonfirmasi() {
+    Swal.fire({
+        title: 'Mohon Tunggu Sebentar',
+        html: '<i class="fa fa-spin fa-refresh"></i>',
+        showConfirmButton: false,
+    });
+    
+    if($('#edit_alasan').val() == '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Alasan Tidak Boleh Kosong',
+        });
+        return;
+    }
+    
+    $.ajax({
+        url: "<?= base_url('transaction/confirm-edit') ?>",
+        method: "POST",
+        data: {
+            type: $('#edit_type').val(),
+            id: $('#edit_id').val(),
+            alasan: $('#edit_alasan').val(),
+            password: $('#edit_password').val(),
+        },
+        success: function (data) {
+            var res = JSON.parse(data);
+            console.log(res);
+            if(res.status == 'gagal'){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Kata Sandi Salah!',
+                });
+            }
+            else{
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Mohon Tunggu Sebentar',
+                });
+                window.location.href="<?= base_url('transaction/redirect/') ?>"+res.no_transaksi
+            }
+        }
+    });
+}
+
+// Function to show delete confirmation modal
+function deleteTransaction(id, noOrder, type) {
+    $('#deleteTransactionId').val(id);
+    $('#deleteTransactionType').val(type);
+    $('#deleteNoOrder').text(noOrder);
+    $('#deleteModal').modal('show');
+}
+
+// Function to confirm delete (change status to VOID)
+function confirmDelete() {
+    const id = $('#deleteTransactionId').val();
+    const type = $('#deleteTransactionType').val();
+    
+    Swal.fire({
+        title: 'Mohon Tunggu Sebentar',
+        html: '<i class="fa fa-spin fa-refresh"></i>',
+        showConfirmButton: false,
+    });
+    
+    $.ajax({
+        url: "<?= base_url('report/updateTransactionStatus') ?>",
+        method: "POST",
+        data: {
+            id: id,
+            type: type,
+            status: 'VOID'
+        },
+        dataType: 'json',
+        success: function(res) {
+            console.log(res);
+            $('#deleteModal').modal('hide');
+            
+            if(res.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Status transaksi berhasil diubah menjadi VOID',
+                }).then((result) => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: res.message || 'Gagal mengubah status transaksi',
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            $('#deleteModal').modal('hide');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Terjadi kesalahan: ' + error,
+            });
+        }
+    });
 }
 
 // Function to open detail modal
