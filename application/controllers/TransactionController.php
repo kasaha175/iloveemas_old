@@ -1393,14 +1393,6 @@ class TransactionController extends CI_Controller
 			log_message('debug', '[BUY CHECKOUT] Completed successfully!');
 			log_message('debug', '[BUY CHECKOUT] =======================================');
 			
-			// Generate and save PDF
-			$pdfResult = $this->generateBuyPdf($idTransaction);
-			if ($pdfResult['success']) {
-				log_message('debug', '[BUY CHECKOUT] PDF generated successfully: ' . $pdfResult['pdf_filename']);
-			} else {
-				log_message('error', '[BUY CHECKOUT] PDF generation failed: ' . $pdfResult['message']);
-			}
-			
 			redirect(base_url() . "report/buy-print/$idTransaction/");
 		}
 		else
@@ -1814,14 +1806,6 @@ class TransactionController extends CI_Controller
 		$this->db->update('tb_transaction_sell', $dataUpdate, ['t_id' => $idTransaction]);
 
 		log_message('debug', '[SELL CHECKOUT] Checkout Success');
-
-		// Generate and save PDF
-		$pdfResult = $this->generateSellPdf($idTransaction);
-		if ($pdfResult['success']) {
-			log_message('debug', '[SELL CHECKOUT] PDF generated successfully: ' . $pdfResult['pdf_filename']);
-		} else {
-			log_message('error', '[SELL CHECKOUT] PDF generation failed: ' . $pdfResult['message']);
-		}
 
 		$this->session->unset_userdata('idCustomer');
 		$this->cart->destroy();

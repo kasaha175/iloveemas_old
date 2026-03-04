@@ -146,19 +146,34 @@ if (!defined('BASEPATH'))
 	}
 public function buyTransaction($dateStart = null, $dateEnd = null, $status = null)
 	{
-		$this->db->select("
+		// Check if t_cabang_id column exists in tb_transaction
+		$hasCabangColumn = $this->db->field_exists('t_cabang_id', 'tb_transaction');
+		
+		// Build select clause based on column existence
+		$select = "
 			a.*,
 			b.u_name AS nameCreator,
 			c.u_name AS nameReceive,
-			d.c_name AS nameCustomer,
-			e.nama_cabang
-		");
+			d.c_name AS nameCustomer
+		";
+		
+		if ($hasCabangColumn) {
+			$select .= ", e.nama_cabang";
+		} else {
+			$select .= ", NULL AS nama_cabang";
+		}
+
+		$this->db->select($select);
 
 		$this->db->from('tb_transaction a');
 		$this->db->join('tb_user b', 'a.t_created_by = b.u_id', 'left');
 		$this->db->join('tb_user c', 'a.t_receive_by = c.u_id', 'left');
 		$this->db->join('tb_customer d', 'a.t_customer = d.c_id', 'left');
-		$this->db->join('tb_cabang e', 'a.t_cabang_id = e.id', 'left');
+		
+		// Only join cabang if column exists
+		if ($hasCabangColumn) {
+			$this->db->join('tb_cabang e', 'a.t_cabang_id = e.id', 'left');
+		}
 
 		$this->db->where('a.t_visible', 1);
 
@@ -182,19 +197,34 @@ public function buyTransaction($dateStart = null, $dateEnd = null, $status = nul
 
 public function sellTransaction($dateStart = null, $dateEnd = null, $status = null)
 	{
-		$this->db->select("
+		// Check if t_cabang_id column exists in tb_transaction_sell
+		$hasCabangColumn = $this->db->field_exists('t_cabang_id', 'tb_transaction_sell');
+		
+		// Build select clause based on column existence
+		$select = "
 			a.*,
 			b.u_name AS nameCreator,
 			c.u_name AS nameReceive,
-			d.c_name AS nameCustomer,
-			e.nama_cabang
-		");
+			d.c_name AS nameCustomer
+		";
+		
+		if ($hasCabangColumn) {
+			$select .= ", e.nama_cabang";
+		} else {
+			$select .= ", NULL AS nama_cabang";
+		}
+
+		$this->db->select($select);
 
 		$this->db->from('tb_transaction_sell a');
 		$this->db->join('tb_user b', 'a.t_created_by = b.u_id', 'left');
 		$this->db->join('tb_user c', 'a.t_receive_by = c.u_id', 'left');
 		$this->db->join('tb_customer d', 'a.t_customer = d.c_id', 'left');
-		$this->db->join('tb_cabang e', 'a.t_cabang_id = e.id', 'left');
+		
+		// Only join cabang if column exists
+		if ($hasCabangColumn) {
+			$this->db->join('tb_cabang e', 'a.t_cabang_id = e.id', 'left');
+		}
 
 		$this->db->where('a.t_visible', 1);
 
