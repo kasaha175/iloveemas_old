@@ -1,66 +1,27 @@
-<div class="col-md-12 master-detail-container transaction-list-page">
+<div class="col-md-12 master-detail-container transaction-list-page" style="padding-top: 90px;">
 
-    <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb">
+    <!-- Breadcrumb - dengan jarak dari navbar -->
+    <nav aria-label="breadcrumb" class="breadcrumb-wrapper">
         <ol class="breadcrumb glass-breadcrumb">
             <li class="breadcrumb-item"><a href="<?=base_url()?>dashboard/"><i class="fas fa-home"></i> Dashboard</a></li>
             <li class="breadcrumb-item active">Transaction</li>
         </ol>
     </nav>
     
-    <!-- Page Header Container -->
-    <div class="page-header-container">
-        <div class="page-header-row">
-            <!-- Page Title Group -->
-            <div class="page-title-group">
-                <h1 class="page-title-main">Transaction</h1>
-                <div class="page-title-sub">
-                    <span class="context-badge context-badge-transaction">
-                        <i class="fas fa-exchange-alt"></i> Transaction Data
-                    </span>
-                </div>
-            </div>
-            
-            <!-- Primary Action -->
-            <div class="action-toolbar-right">
-                <button class="btn btn-danger" onclick="updateSelectedStatus()">
-                    <i class="fas fa-check"></i> Mark Selected Done
-                </button>
-                <button class="btn btn-warning" onclick="updateAllStatus()">
-                    <i class="fas fa-check-double"></i> Mark All Done
-                </button>
-                <a href="<?= base_url('transaction') ?>" class="btn-primary-enterprise">
-                    <i class="fas fa-plus"></i> Add Transaction
-                </a>
-            </div>
-        </div>
-    </div>
+    <!-- Page Title -->
+    <h3 class="page-title">TRANSACTION</h3>
+    <h3 class="page-subtitle">Transaction Data</h3>
     
-    <!-- Alert Messages -->
-    <?php if($this->session->userdata('status')=='success'): ?>
-    <div class="enterprise-alert enterprise-alert-success">
-        <i class="fas fa-check-circle"></i>
-        <?=$this->session->userdata('message')?>
-    </div>
-    <?php 
-    $data_session = array('status' => '', 'message' => "");
-    $this->session->set_userdata($data_session); 
-    endif; ?>
-    
-    <!-- Data Card - Enterprise Style -->
+    <!-- Filter Card - 1 Row with col-4 -->
     <div class="col-md-12">
-        <div class="enterprise-card">
-            <div class="enterprise-card-header">
-                <h3 class="enterprise-card-title">
-                    <i class="fas fa-list"></i> Transaction Data
-                </h3>
+        <div class="card glass-card">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold"><i class="fas fa-filter"></i> Filter Data</h6>
             </div>
-            <div class="enterprise-card-body">
-                <!-- Filter Section -->
-                <div class="transaction-filters mb-4">
-                    <!-- Baris 1: Type + From Date -->
-                    <div class="filter-group">
-                        <div class="filter-item">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group mb-0">
                             <label class="filter-label"><i class="fas fa-tags"></i> Type</label>
                             <select id="filterType" class="filter-select">
                                 <option value="">All</option>
@@ -68,28 +29,62 @@
                                 <option value="BUY">BUY</option>
                             </select>
                         </div>
-                        <div class="filter-item">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-0">
                             <label class="filter-label"><i class="fas fa-calendar"></i> From</label>
                             <input type="date" id="filterDateFrom" class="filter-input">
                         </div>
-                        <div class="filter-item">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-0">
                             <label class="filter-label"><i class="fas fa-calendar"></i> To</label>
                             <input type="date" id="filterDateTo" class="filter-input">
                         </div>
-                        <div class="filter-item filter-item-buttons">
-                            <label class="filter-label"><i class="fas fa-bars"></i> Action</label>
-                            <button type="button" id="applyFilters" class="btn btn-primary btn-sm">
-                                <i class="fas fa-filter"></i> Filter
-                            </button>
-                            <button type="button" id="resetFilters" class="btn btn-secondary btn-sm">
-                                <i class="fas fa-redo"></i> Reset
-                            </button>
-                        </div>
                     </div>
                 </div>
-                
+                <div class="row mt-3">
+                    <div class="col-md-12" style="display: flex; justify-content: flex-end; gap: 10px;">
+                        <button type="button" id="applyFilters" class="btn btn-primary btn-sm">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                        <button type="button" id="resetFilters" class="btn btn-secondary btn-sm">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Action Buttons Card -->
+    <div class="col-md-12 mt-4">
+        <div class="card glass-card">
+            <div class="card-body" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                <div>
+                    <button class="btn btn-danger" onclick="updateSelectedStatus()">
+                        <i class="fas fa-check"></i> Mark Selected Done
+                    </button>
+                    <button class="btn btn-warning" onclick="updateAllStatus()">
+                        <i class="fas fa-check-double"></i> Mark All Done
+                    </button>
+                </div>
+                <a href="<?= base_url('transaction') ?>" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Transaction
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Data Table Card -->
+    <div class="col-md-12 mt-4">
+        <div class="card glass-card">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold"><i class="fas fa-list"></i> Transaction Data</h6>
+            </div>
+            <div class="card-body">
                 <!-- Enterprise Table -->
-                <div class="enterprise-table-container">
+                <div class="table-responsive">
                     <table class="table table-bordered dataTable enterprise-table" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
@@ -111,8 +106,8 @@
         </div>
     </div>
     
-    <!-- Back Button -->
-    <div class="mt-4 text-center">
+    <!-- Back Button - dengan jarak dari footer -->
+    <div class="col-md-12 mt-4 mb-4">
         <a href="<?=base_url()?>dashboard/" class="btn btn-primary btn-lg">
             <i class="fas fa-arrow-left"></i>
             <span>Back to Dashboard</span>

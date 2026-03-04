@@ -7,11 +7,11 @@
 /* CSS Variables - Ocean Twilight Palette - Bright Theme (Refined) */
 :root {
     /* Base Background (Request Client) */
-    --primary-base: #303481;      /* Latar belakang utama aplikasi */
+    --primary-base: #A8F1FF;      /* Latar belakang utama aplikasi */
     
     /* Surface & Containers (Dominant Bright) */
-    --surface-white: #F6F6F6;     /* Warna kolom/card agar data menonjol */
-    --surface-light: #D6E6F2;     /* Alternatif background untuk area sekunder */
+    --surface-white: #FFFFFF;     /* Warna kolom/card agar data menonjol */
+    --surface-light: #F0F9FF;     /* Alternatif background untuk area sekunder */
     
     /* Typography & Contrast (Navy - Critical Fix) */
     --text-primary: #03045E;      /* Navy Gelap: WAJIB untuk teks di atas putih/biru muda */
@@ -125,7 +125,7 @@ body::before {
     z-index: -3;
 }
 
-/* Background Pattern - Bottom Right Image */
+/* Background Pattern - Bottom Right Image - BRIGHT THEME */
 body::after {
     content: "";
     position: fixed;
@@ -135,8 +135,8 @@ body::after {
     height: 520px;
     background: url('../img/bg-login-pattern.webp') no-repeat bottom right;
     background-size: contain;
-    opacity: 0.9;
-    filter: drop-shadow(0 0 40px rgba(255, 200, 80, 0.25));
+    opacity: 0.15;
+    filter: grayscale(100%);
     pointer-events: none;
     z-index: -1;
 }
@@ -180,7 +180,7 @@ body::after {
     background: var(--surface-white); /* White background */
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--border-navy); /* Navy border */
+    border: 1px solid var(--border-contrast); /* Navy border */
     border-radius: 24px;
     box-shadow: var(--glass-shadow);
     position: relative;
@@ -212,16 +212,13 @@ body::after {
     pointer-events: none;
 }
 
-.glass-card:hover {
-}
-
 /* ================================================
    Card Styling (Reduced Size) - Bright Theme
    ================================================ */
 .card {
     background: var(--surface-white); /* White background */
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--border-navy); /* Navy border */
+    border: 1px solid var(--border-contrast); /* Navy border */
     border-radius: 16px;
     position: relative;
     overflow: hidden;
@@ -243,12 +240,12 @@ body::after {
 
 .card-header {
     background: rgba(0, 180, 216, 0.05);
-    border-bottom: 1px solid var(--border-navy);
+    border-bottom: 1px solid var(--border-contrast);
     padding: 15px 20px;
 }
 
 .card-header h6, .card-header h5 {
-    color: var(--deep-navy); /* Dark navy text */
+    color: var(--text-primary); /* Dark navy text */
     margin: 0;
     font-weight: 600;
 }
@@ -308,10 +305,9 @@ body::after {
     padding: 40px 20px;
     min-height: 140px;
     background: var(--surface-white); /* White background */
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--border-navy); /* Navy border */
+    border: 1px solid var(--border-contrast); /* Navy border */
     border-radius: 24px;
-    color: var(--deep-navy); /* Dark navy text */
+    color: var(--text-primary); /* Dark navy text */
     font-weight: 600;
     font-size: 1.1rem;
     text-decoration: none;
@@ -405,12 +401,12 @@ body::after {
 }
 
 /* ================================================
-   Glass Breadcrumb (Fixed spacing from navbar)
+   Glass Breadcrumb (Fixed spacing from navbar) - BRIGHT THEME
    ================================================ */
 .glass-breadcrumb {
-    background: var(--glass-bg);
+    background: var(--surface-white);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-contrast);
     border-radius: 14px;
     padding: 12px 20px;
     margin-bottom: 15px;
@@ -426,15 +422,16 @@ body::after {
 
 .glass-breadcrumb .breadcrumb-item:hover,
 .glass-breadcrumb .breadcrumb-item a:hover {
-    color: var(--frosted-blue);
+    color: var(--ocean-blue);
 }
 
 .glass-breadcrumb .breadcrumb-item.active {
     color: var(--text-primary);
+    font-weight: 500;
 }
 
 .glass-breadcrumb .breadcrumb-item a i {
-    color: #ffffff;
+    color: var(--text-primary);
 }
 
 /* ================================================
@@ -665,6 +662,7 @@ body::after {
 .dataTables_length {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     margin-bottom: 15px;
     float: left;
 }
@@ -1680,131 +1678,80 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 /* ================================================
-   CONTEXTUAL GLASS IMPLEMENTATIONS
+   CONTEXTUAL GLASS IMPLEMENTATIONS - BRIGHT THEME
    Apply appropriate glass type based on viewport
    ================================================ */
 
-/* Main Menu / Dashboard - Thick Glass */
+/* Main Menu / Dashboard - Bright Theme */
 body.page-dashboard .menu-box,
 body.page-dashboard .glass-card,
 body.page-dashboard .welcome-card {
-    background: #0D1A63;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    border-radius: 32px;
-    box-shadow: 
-        0 8px 32px rgba(3, 4, 94, 0.25),
-        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
+    border-radius: 24px;
+    box-shadow: var(--glass-shadow);
 }
 
 body.page-dashboard .menu-box::before {
-    background: radial-gradient(
-        ellipse at 30% 20%,
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.08) 30%,
-        transparent 60%
-    );
-    animation: thickGlassShimmer 4s ease-in-out infinite;
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.08) 0%, transparent 100%);
 }
 
 body.page-dashboard .menu-box::after {
     height: 50%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.18) 0%, 
-        rgba(255, 255, 255, 0.05) 40%,
-        transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.06) 0%, transparent 100%);
 }
 
-/* Archive Page - Frosted Glass */
+/* Archive Page - Bright Theme */
 body.page-archive .menu-box,
 body.page-archive .glass-card,
 body.page-archive .archive-box {
-    background: #0D1A63;
-    /* backdrop-filter: blur(30px) saturate(120%) brightness(1.1);
-    -webkit-backdrop-filter: blur(30px) saturate(120%) brightness(1.1); */
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 28px;
-    box-shadow: 
-        0 6px 24px rgba(3, 4, 94, 0.2),
-        0 0 40px rgba(144, 224, 239, 0.05);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow);
 }
 
 body.page-archive .menu-box::before {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: 0.03;
-    mix-blend-mode: overlay;
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.06) 0%, transparent 100%);
 }
 
 body.page-archive .menu-box::after {
     height: 40%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.1) 0%, 
-        rgba(255, 255, 255, 0.02) 50%,
-        transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.04) 0%, transparent 100%);
 }
 
-/* Master Data - Precise Glass */
+/* Master Data - Bright Theme */
 body.page-master .menu-box,
 body.page-master .glass-card,
 body.page-master .card {
-    background: #0D1A63;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 20px;
-    box-shadow: 
-        0 4px 16px rgba(3, 4, 94, 0.15),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    box-shadow: var(--glass-shadow);
 }
 
 body.page-master .menu-box::before {
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.2) 0%, 
-        rgba(255, 255, 255, 0.05) 50%,
-        rgba(255, 255, 255, 0.1) 100%);
-    -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.06) 0%, transparent 100%);
 }
 
 body.page-master .menu-box::after {
     height: 35%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.12) 0%, 
-        transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.04) 0%, transparent 100%);
 }
 
-/* Reports - Technical Glass */
+/* Reports - Bright Theme */
 body.page-report table.dataTable,
 body.page-report .glass-card,
 body.page-report .card {
-    background: #0D1A63;
-    /* backdrop-filter: blur(15px) saturate(200%) brightness(1.05);
-    -webkit-backdrop-filter: blur(15px) saturate(200%) brightness(1.05); */
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 16px;
-    box-shadow: 
-        0 4px 12px rgba(3, 4, 94, 0.12),
-        0 0 20px rgba(0, 180, 216, 0.05);
-}
-
-body.page-report table.dataTable::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 20%;
-    right: 20%;
-    height: 1px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(0, 180, 216, 0.3) 50%, 
-        transparent 100%);
+    box-shadow: var(--glass-shadow);
 }
 
 body.page-report .menu-box::after {
     height: 30%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.08) 0%, 
-        transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.04) 0%, transparent 100%);
 }
 
 /* ================================================
@@ -2484,10 +2431,17 @@ h3, .h3, .card-title {
 /* Transaction List Page - Extra space for filters */
 .master-detail-container.transaction-list-page {
     max-width: 1400px;
+    padding-bottom: 60px !important; /* Extra space from footer */
 }
 
 .transaction-list-page .enterprise-card {
     max-width: 100%;
+}
+
+/* Breadcrumb wrapper - jarak dari navbar */
+.transaction-list-page .breadcrumb-wrapper {
+    margin-top: 15px;
+    margin-bottom: 20px;
 }
 
 /* Make sure filter inputs have enough space */
@@ -2990,13 +2944,13 @@ _::-webkit-full-page-media, _:future, :root .menu-box {
     font-family: 'Poppins', sans-serif;
     font-size: 13px;
     color: var(--text-primary);
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23ffffff' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%2303045E' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 10px center;
     padding-right: 28px;
@@ -3005,12 +2959,12 @@ _::-webkit-full-page-media, _:future, :root .menu-box {
 
 .filter-select:focus {
     outline: none;
-    border-color: var(--turquoise-surf);
+    border-color: var(--ocean-blue);
     box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
 }
 
 .filter-select option {
-    background: rgba(3, 4, 94, 0.95);
+    background: var(--surface-white);
     color: var(--text-primary);
 }
 
@@ -3021,33 +2975,33 @@ _::-webkit-full-page-media, _:future, :root .menu-box {
     font-family: 'Poppins', sans-serif;
     font-size: 13px;
     color: var(--text-primary);
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 8px;
     transition: all 0.2s ease;
     min-height: 38px;
 }
 
-/* Date input picker styling */
+/* Date input picker styling - remove inversion for bright theme */
 .filter-input::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    opacity: 0.5;
+    opacity: 0.6;
     cursor: pointer;
+    filter: none;
 }
 
 .filter-input::-webkit-calendar-picker-indicator:hover {
-    opacity: 0.8;
+    opacity: 1;
 }
 
 .filter-input::-moz-calendar-picker-indicator {
-    filter: invert(1);
-    opacity: 0.5;
+    opacity: 0.6;
     cursor: pointer;
+    filter: none;
 }
 
 .filter-input:focus {
     outline: none;
-    border-color: var(--turquoise-surf);
+    border-color: var(--ocean-blue);
     box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
 }
 

@@ -1506,9 +1506,9 @@ function nominal(angka) {
     return new Intl.NumberFormat('id-ID').format(angka);
 }
 
-// DataTable Initialization
+// DataTable Initialization using centralized function
 $(document).ready(function () {
-    $('#dataTable').DataTable({
+    initDataTable('#dataTable', {
         dom: 'Bfrtip',
         lengthMenu: [
             [ 10, 25, 50, 100, -1 ],

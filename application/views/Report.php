@@ -32,18 +32,6 @@
                     <span>SELL</span>
                 </a>
             </div>
-            <!-- <div class="col-md-6 col-lg-4">
-                <a href="<?=base_url()?>report/buy-graph/" class="menu-box">
-                    <i class="fas fa-chart-line icon"></i>
-                    <span>BUY GRAPH</span>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <a href="<?=base_url()?>report/sell-graph/" class="menu-box">
-                    <i class="fas fa-chart-bar icon"></i>
-                    <span>SELL GRAPH</span>
-                </a>
-            </div> -->
         </div>
         
         <!-- Back Button -->

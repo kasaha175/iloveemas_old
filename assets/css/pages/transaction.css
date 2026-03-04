@@ -1,6 +1,6 @@
 /* ================================================
    TRANSACTION PAGE STYLES
-   Page-specific styles for Transaction views
+   Page-specific styles for Transaction views - BRIGHT THEME
    ================================================ */
 
 /* Transaction Page Container */
@@ -32,11 +32,10 @@
     gap: 12px;
 }
 
-/* Transaction Card */
+/* Transaction Card - BRIGHT THEME */
 .transaction-card {
-    background: var(--card-gradient);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 24px;
     overflow: hidden;
     box-shadow: var(--glass-shadow);
@@ -50,19 +49,19 @@
     left: 0;
     right: 0;
     height: 50%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.08) 0%, transparent 100%);
     pointer-events: none;
 }
 
 .transaction-card-header {
     background: rgba(0, 180, 216, 0.1);
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--border-contrast);
     padding: 20px 24px;
     position: relative;
 }
 
 .transaction-card-header .m-0 {
-    color: #ffffff;
+    color: var(--text-primary);
     font-weight: 600;
 }
 
@@ -74,7 +73,7 @@
 /* Transaction Footer */
 .transaction-card-footer {
     padding: 20px 24px;
-    border-top: 1px solid var(--glass-border);
+    border-top: 1px solid var(--border-contrast);
     position: relative;
 }
 

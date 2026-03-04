@@ -50,9 +50,9 @@
     <script src="<?=base_url()?>assets/offline/buttons.html5.min.js"></script>
     <script src="<?=base_url()?>assets/offline/buttons.print.min.js"></script>
 
-    <!-- Glassmorphism CSS - REMOVED -->
-    
-    <!-- DataTables Custom CSS - Now included in custom.css -->
+    <!-- Glassmorphism CSS -->
+    <link href="<?=base_url()?>assets/css/glassmorphism.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/datatables-custom.css" rel="stylesheet">
     
     <!-- Custom Modular CSS - Now unified in custom.css -->
     <link href="<?=base_url()?>assets/css/custom.css" rel="stylesheet">
