@@ -9,6 +9,7 @@ class ReportController extends CI_Controller
 		$this->load->model('MasterModel');
 		$this->load->model('TransactionModel');
 		$this->load->model('MaterialModel');
+		$this->load->model('CabangModel');
 		$this->data["title"] = "";
 		date_default_timezone_set("Asia/Jakarta");
 		$this->dateToday = date("Y-m-d H:i:s");
@@ -27,7 +28,171 @@ class ReportController extends CI_Controller
 		else {
 			redirect(base_url());
 		}
+	}
+	
+	/**
+	 * Combined Report - All Transactions (Buy & Sell) in one view
+	 * with tabs, summary cards, and charts
+	 */
+	function reportAll()
+	{
+		$authUser = $this->session->userdata("authUser");
+		$idUser = $this->session->userdata("idUser");
+		$this->data["title"] = "LAPORAN TRANSAKSI";
+		
+		if ($authUser == true) {
+			// Get filter parameters
+			$type = $this->input->get('type') ?? 'all';
+			$dateStart = $this->input->get('dateStart') ?? date('Y-m-01');
+			$dateEnd = $this->input->get('dateEnd') ?? date('Y-m-t');
+			$status = $this->input->get('status') ?? '';
+			
+			// Get buy transactions
+			$buyData = $this->TransactionModel->buyTransaction($dateStart, $dateEnd, $status)->result();
+			
+			// Get sell transactions
+			$sellData = $this->TransactionModel->sellTransaction($dateStart, $dateEnd, $status)->result();
+			
+			// Combine data based on type filter
+			if ($type == 'all') {
+				// Merge and sort by date
+				$allData = array_merge($buyData, $sellData);
+				usort($allData, function($a, $b) {
+					return strtotime($b->t_date_created) - strtotime($a->t_date_created);
+				});
+				$this->data['data'] = $allData;
+			} elseif ($type == 'buy') {
+				$this->data['data'] = $buyData;
+			} elseif ($type == 'sell') {
+				$this->data['data'] = $sellData;
+			} else {
+				$this->data['data'] = [];
+			}
+			
+			// Calculate summary data
+			$this->data['totalTransactions'] = count($this->data['data']);
+			
+			$totalNilai = 0;
+			$totalAdminFee = 0;
+			$buyCount = 0;
+			$sellCount = 0;
+			$buyTotal = 0;
+			$sellTotal = 0;
+			
+			foreach ($this->data['data'] as $trans) {
+				$totalNilai += floatval($trans->t_price_total);
+				$totalAdminFee += floatval($trans->t_price_admin ?? 0);
+				
+				if ($trans->t_type == 'BUY') {
+					$buyCount++;
+					$buyTotal += floatval($trans->t_price_total);
+				} else {
+					$sellCount++;
+					$sellTotal += floatval($trans->t_price_total);
+				}
+			}
+			
+			$this->data['totalNilai'] = $totalNilai;
+			$this->data['totalAdminFee'] = $totalAdminFee;
+			$this->data['avgTransaction'] = ($this->data['totalTransactions'] > 0) 
+				? ($totalNilai / $this->data['totalTransactions']) 
+				: 0;
+			
+			// Chart data - group by month/week
+			$this->data['chartData'] = $this->getChartData($dateStart, $dateEnd, $type);
+			$this->data['pieData'] = [
+				'buy' => $buyCount,
+				'sell' => $sellCount,
+				'buyTotal' => $buyTotal,
+				'sellTotal' => $sellTotal
+			];
+			
+			// Load view
+			$this->data['content'] = $this->load->view('ReportAll', $this->data, true);
+			$this->load->view("UserTemplate", $this->data);
 		}
+		else {
+			redirect(base_url());
+		}
+	}
+	
+	/**
+	 * Get chart data for trend visualization
+	 */
+	private function getChartData($dateStart, $dateEnd, $type)
+	{
+		$labels = [];
+		$buyData = [];
+		$sellData = [];
+		
+		// Determine the grouping based on date range
+		$start = new DateTime($dateStart);
+		$end = new DateTime($dateEnd);
+		$interval = $start->diff($end)->days;
+		
+		if ($interval <= 31) {
+			// Group by day
+			$period = new DatePeriod($start, new DateInterval('P1D'), $end->modify('+1 day'));
+			foreach ($period as $dt) {
+				$labels[] = $dt->format('d/m');
+				$dayStr = $dt->format('Y-m-d');
+				
+				$buyTotal = 0;
+				$sellTotal = 0;
+				
+				if ($type == 'all' || $type == 'buy') {
+					$buyTransactions = $this->TransactionModel->buyTransaction($dayStr, $dayStr, 'SELESAI')->result();
+					foreach ($buyTransactions as $t) {
+						$buyTotal += floatval($t->t_price_total);
+					}
+				}
+				
+				if ($type == 'all' || $type == 'sell') {
+					$sellTransactions = $this->TransactionModel->sellTransaction($dayStr, $dayStr, 'SELESAI')->result();
+					foreach ($sellTransactions as $t) {
+						$sellTotal += floatval($t->t_price_total);
+					}
+				}
+				
+				$buyData[] = $buyTotal;
+				$sellData[] = $sellTotal;
+			}
+		} else {
+			// Group by month
+			$period = new DatePeriod($start, new DateInterval('P1M'), $end->modify('+1 month'));
+			foreach ($period as $dt) {
+				$labels[] = $dt->format('M Y');
+				$monthStart = $dt->format('Y-m-01');
+				$monthEnd = $dt->format('Y-m-t');
+				
+				$buyTotal = 0;
+				$sellTotal = 0;
+				
+				if ($type == 'all' || $type == 'buy') {
+					$buyTransactions = $this->TransactionModel->buyTransaction($monthStart, $monthEnd, 'SELESAI')->result();
+					foreach ($buyTransactions as $t) {
+						$buyTotal += floatval($t->t_price_total);
+					}
+				}
+				
+				if ($type == 'all' || $type == 'sell') {
+					$sellTransactions = $this->TransactionModel->sellTransaction($monthStart, $monthEnd, 'SELESAI')->result();
+					foreach ($sellTransactions as $t) {
+						$sellTotal += floatval($t->t_price_total);
+					}
+				}
+				
+				$buyData[] = $buyTotal;
+				$sellData[] = $sellTotal;
+			}
+		}
+		
+		return [
+			'labels' => $labels,
+			'buy' => $buyData,
+			'sell' => $sellData
+		];
+	}
 function buy()
     {
 			$authUser = $this->session->userdata("authUser");

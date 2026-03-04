@@ -98,6 +98,7 @@ $route['master/delete-cabang-swal'] = 'MasterController/deleteCabangWithSwal';
 
 //report
 $route['report'] = 'ReportController/report';
+$route['report/all'] = 'ReportController/reportAll';
 $route['report/buy'] = 'ReportController/buy';
 $route['report/buy-graph'] = 'ReportController/buyGraph';
 $route['report/getBuyTransactionDetail'] = 'ReportController/getBuyTransactionDetail';
