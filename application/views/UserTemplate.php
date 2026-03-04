@@ -89,7 +89,7 @@
     .navbar-info .info-item {
         display: flex;
         align-items: center;
-        color: #fff;
+        --text-primary: #03045E;
         font-size: 0.85rem;
         white-space: nowrap;
     }

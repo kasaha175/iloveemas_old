@@ -1,12 +1,12 @@
 /* ================================
-   TRANSACTION PAGES STYLES
-   Base Color: Ocean Twilight Theme (Same as Login)
+   TRANSACTION PAGES STYLES - BRIGHT THEME
+   Base Color: Ocean Twilight Bright Theme
 ================================ */
 
 :root {
   --deep-twilight: #03045e;
-  --bright-teal-blue: #0077b6;
-  --turquoise-surf: #00b4d8;
+  --bright-teal-blue: #0077B6;
+  --turquoise-surf: #00B4D8;
   --frosted-blue: #90e0ef;
   --light-cyan: #caf0f8;
   
@@ -15,25 +15,29 @@
   --primary-dark: var(--deep-twilight);
   --primary-light: var(--turquoise-surf);
   
-  /* Background Colors */
-  --bg-dark: #0a0f1a;
-  --bg-card: #0D1A63;
-  --bg-input: #132035;
+  /* Background Colors - Bright */
+  --primary-base: #A8F1FF;
+  --surface-white: #FFFFFF;
+  --surface-light: #F0F9FF;
   
-  /* Glass Effect Variables */
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  /* Card Colors - Bright */
+  --bg-card: var(--surface-white);
+  --bg-input: var(--surface-light);
+  
+  /* Glass Effect Variables - Bright */
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: #1E3A8A;
   --glass-border-focus: rgba(0, 180, 216, 0.5);
   --glass-blur: blur(10px);
-  --glass-bg-hover: rgba(255, 255, 255, 0.06);
+  --glass-bg-hover: rgba(240, 249, 255, 1);
   
-  /* Text Colors */
-  --text-primary: #ffffff;
-  --text-muted: #8899aa;
-  --text-light: #aabbcc;
+  /* Text Colors - Bright */
+  --text-primary: #03045E;
+  --text-muted: #1E3A8A;
+  --text-light: #0077B6;
   
-  /* Card Gradient */
-  --card-gradient: linear-gradient(145deg, rgba(13, 21, 38, 0.95) 0%, rgba(10, 15, 26, 0.98) 100%);
+  /* Card Gradient - Bright */
+  --card-gradient: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100());
 }
 
 /* Page Container */
@@ -43,13 +47,13 @@
     margin: 0 auto;
 }
 
-/* Breadcrumb */
+/* Breadcrumb - Bright */
 .breadcrumb.glass-breadcrumb {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    background: #0D1A63;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 10px;
     padding: 10px 16px;
     list-style: none;
@@ -63,7 +67,7 @@
 }
 
 .breadcrumb.glass-breadcrumb .breadcrumb-item a {
-    color: var(--turquoise-surf);
+    color: var(--ocean-blue);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.85rem;
@@ -88,12 +92,11 @@
     font-size: 1.75rem;
     font-weight: 700;
     margin-bottom: 12px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .page-subtitle {
     text-align: center;
-    color: var(--turquoise-surf);
+    color: var(--ocean-blue);
     font-size: 0.95rem;
     font-weight: 500;
     margin-bottom: 20px;

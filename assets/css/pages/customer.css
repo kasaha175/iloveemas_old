@@ -1,5 +1,5 @@
 /* ================================================
-   CUSTOMER PAGE STYLES
+   CUSTOMER PAGE STYLES - BRIGHT THEME
    Page-specific styles for Customer views
    ================================================ */
 
@@ -10,11 +10,11 @@
     margin: 0 auto;
 }
 
-/* Customer Card */
+/* Customer Card - Bright Theme */
 .customer-card {
-    background: #0D1A63;
+    background: var(--surface-white);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-contrast);
     border-radius: 20px;
     overflow: hidden;
     box-shadow: var(--glass-shadow);
@@ -25,8 +25,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid var(--glass-border);
+    background: rgba(0, 180, 216, 0.05);
+    border-bottom: 1px solid var(--border-contrast);
 }
 
 .customer-card-title {
@@ -35,7 +35,7 @@
     gap: 10px;
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-primary);
     margin: 0;
 }
 
@@ -51,9 +51,9 @@
 }
 
 .customer-profile {
-    background: #0D1A63;
+    background: var(--surface-white);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-contrast);
     border-radius: 20px;
     padding: 24px;
     margin-bottom: 24px;
@@ -69,20 +69,20 @@
 .customer-avatar {
     width: 80px;
     height: 80px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid #ffffff;
+    background: rgba(0, 180, 216, 0.1);
+    border: 2px solid var(--ocean-blue);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 32px;
-    color: #ffffff;
+    color: var(--ocean-blue);
 }
 
 .customer-name {
     font-size: 24px;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-primary);
     margin: 0;
 }
 
@@ -112,7 +112,7 @@
 
 .customer-info-value {
     font-size: 14px;
-    color: #ffffff;
+    color: var(--text-primary);
 }
 
 /* Form Styles for Customer */
@@ -123,9 +123,9 @@
 }
 
 .customer-form-card {
-    background: #0D1A63;
+    background: var(--surface-white);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-contrast);
     border-radius: 20px;
     overflow: hidden;
     box-shadow: var(--glass-shadow);
@@ -135,14 +135,14 @@
     display: flex;
     align-items: center;
     padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid var(--glass-border);
+    background: rgba(0, 180, 216, 0.05);
+    border-bottom: 1px solid var(--border-contrast);
 }
 
 .customer-form-title {
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-primary);
     margin: 0;
 }
 
@@ -152,62 +152,28 @@
 
 /* Responsive */
 @media (max-width: 992px) {
-    .customer-container {
-        padding: 80px 15px 30px;
-    }
-    
-    .customer-detail-container {
-        padding: 80px 15px 30px;
-    }
-    
-    .customer-form-container {
-        padding: 80px 15px 30px;
-    }
+    .customer-container { padding: 80px 15px 30px; }
+    .customer-detail-container { padding: 80px 15px 30px; }
+    .customer-form-container { padding: 80px 15px 30px; }
 }
 
 @media (max-width: 768px) {
-    .customer-container {
-        padding: 80px 15px 30px;
-    }
-    
-    .customer-detail-container {
-        padding: 80px 15px 30px;
-    }
-    
-    .customer-form-container {
-        padding: 80px 15px 30px;
-    }
-    
-    .customer-profile-header {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .customer-info-grid {
-        grid-template-columns: 1fr;
-    }
+    .customer-container { padding: 80px 15px 30px; }
+    .customer-detail-container { padding: 80px 15px 30px; }
+    .customer-form-container { padding: 80px 15px 30px; }
+    .customer-profile-header { flex-direction: column; text-align: center; }
+    .customer-info-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 576px) {
-    .customer-container {
-        padding: 70px 12px 20px;
-    }
-    
-    .customer-detail-container {
-        padding: 70px 12px 20px;
-    }
-    
-    .customer-form-container {
-        padding: 70px 12px 20px;
-    }
-    
-    .customer-name {
-        font-size: 20px;
-    }
-    
+    .customer-container { padding: 70px 12px 20px; }
+    .customer-detail-container { padding: 70px 12px 20px; }
+    .customer-form-container { padding: 70px 12px 20px; }
+    .customer-name { font-size: 20px; }
     .customer-avatar {
         width: 60px;
         height: 60px;
         font-size: 24px;
     }
 }
+
