@@ -9,6 +9,7 @@
     
     <!-- Page Title -->
     <h3 class="page-title">REPORT</h3>
+    <p class="report-subtitle">Pilih jenis laporan yang ingin Anda akses</p>
     
     <!-- Report Menu Grid -->
     <div class="report-grid">
@@ -53,11 +54,18 @@
 
 .page-title {
     text-align: center;
-    color: #03045e !important;
+    color: #A8F1FF !important;
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 40px;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.report-subtitle {
+    text-align: center;
+    color: #A8F1FF !important;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    animation: fadeInUp 0.6s ease-out 0.1s both;
 }
 
 .report-grid {

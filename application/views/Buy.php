@@ -10,8 +10,8 @@
     </nav>
 
     <!-- Page Title -->
-    <h3 class="page-title" style="color: #03045e !important;">BUY</h3>
-    <h3 class="page-subtitle" style="color: #03045e !important;">Choose Material</h3>
+    <h3 class="page-title" style="color: #A8F1FF !important;">BUY</h3>
+    <h3 class="page-subtitle" style="color: #A8F1FF !important;">Choose Material</h3>
 
     <!-- Back Button -->
     <div class="mb-3">

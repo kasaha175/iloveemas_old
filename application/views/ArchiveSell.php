@@ -17,35 +17,35 @@
     <!-- Menu Cards -->
     <div class="archive-grid archive-sell-grid">
         <a href="<?=base_url()?>archive/sell/?key=lm" class="menu-box archive-box">
-            <div class="box-icon">
+            <!-- <div class="box-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            </div>
+            </div> -->
             <span class="box-text">LM</span>
-            <span class="box-subtext">London Market</span>
+            <!-- <span class="box-subtext">London Market</span> -->
         </a>
 
         <a href="<?=base_url()?>archive/sell/?key=material-au" class="menu-box archive-box">
-            <div class="box-icon">
+            <!-- <div class="box-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            </div>
+            </div> -->
             <span class="box-text">MATERIAL AU</span>
-            <span class="box-subtext">Emas Batangan</span>
+            <!-- <span class="box-subtext">Emas Batangan</span> -->
         </a>
 
         <a href="<?=base_url()?>archive/sell/?key=material-ag" class="menu-box archive-box">
-            <div class="box-icon">
+            <!-- <div class="box-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            </div>
+            </div> -->
             <span class="box-text">MATERIAL AG</span>
-            <span class="box-subtext">Perak Batangan</span>
+            <!-- <span class="box-subtext">Perak Batangan</span> -->
         </a>
 
         <a href="<?=base_url()?>archive/sell/?key=material-ubs" class="menu-box archive-box">
-            <div class="box-icon">
+            <!-- <div class="box-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-            </div>
+            </div> -->
             <span class="box-text">UBS</span>
-            <span class="box-subtext">Unit UBS</span>
+            <!-- <span class="box-subtext">Unit UBS</span> -->
         </a>
     </div>
 
@@ -68,7 +68,7 @@
 
 .archive-title {
     text-align: center;
-    color: #03045e !important;
+    color: #A8F1FF !important;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 8px;
@@ -78,7 +78,7 @@
 
 .archive-subtitle {
     text-align: center;
-    color: #03045e !important;
+    color: #A8F1FF !important;
     font-size: 1.1rem;
     margin-bottom: 40px;
     animation: fadeInUp 0.6s ease-out 0.1s both;

@@ -573,7 +573,7 @@ $dateEnd = $this->input->get('dateEnd') ?? date('Y-m-t');
 
 .page-title {
     text-align: center;
-    color: #03045e !important;
+    color: #A8F1FF !important;
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 20px;

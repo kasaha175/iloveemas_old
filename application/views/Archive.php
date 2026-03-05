@@ -15,19 +15,19 @@
     <!-- Menu Cards -->
     <div class="archive-grid">
         <a href="<?=base_url()?>archive/buy/" class="menu-box archive-box">
-            <div class="box-icon">
+            <!-- <div class="box-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-            </div>
+            </div> -->
             <span class="box-text">BUY</span>
-            <span class="box-subtext">Arsip Pembelian Emas</span>
+            <!-- <span class="box-subtext">Arsip Pembelian Emas</span> -->
         </a>
 
         <a href="<?=base_url()?>archive/sell/" class="menu-box archive-box">
-            <div class="box-icon">
+            <!-- <div class="box-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            </div>
+            </div> -->
             <span class="box-text">SELL</span>
-            <span class="box-subtext">Arsip Penjualan Emas</span>
+            <!-- <span class="box-subtext">Arsip Penjualan Emas</span> -->
         </a>
     </div>
 
@@ -50,7 +50,7 @@
 
 .archive-title {
     text-align: center;
-    color: #03045e;
+    color: #A8F1FF;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 8px;
@@ -60,7 +60,7 @@
 
 .archive-subtitle {
     text-align: center;
-    color: #03045e;
+    color: #A8F1FF;
     font-size: 1.1rem;
     margin-bottom: 40px;
     animation: fadeInUp 0.6s ease-out 0.1s both;

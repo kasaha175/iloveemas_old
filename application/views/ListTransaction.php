@@ -10,7 +10,7 @@
     
     <!-- Page Title -->
     <h3 class="page-title">TRANSACTION</h3>
-    <h3 class="page-subtitle">Transaction Data</h3>
+    <h3 class="page-subtitle">Detail pencatatan transaksi yang telah diproses.</h3>
     
     <!-- Filter Card - 1 Row with col-4 -->
     <div class="col-md-12">

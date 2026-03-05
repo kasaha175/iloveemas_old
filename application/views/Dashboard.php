@@ -16,6 +16,7 @@
     </div>
     
     <h3 class="dashboard-title">MENU UTAMA</h3>
+    <p class="dashboard-subtitle">Kelola dan pantau seluruh operasional Anda dari sini.</p>
     
     <div class="container">
         <div class="row g-4 dashboard-grid">

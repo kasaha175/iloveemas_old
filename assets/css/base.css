@@ -6,7 +6,7 @@
 /* CSS Variables - Color Tokens - Bright Theme (Refined) */
 :root {
     /* Base Background (Request Client) */
-    --primary-base: #A8F1FF;      /* Latar belakang utama aplikasi */
+    --primary-base: #03045E;      /* Latar belakang utama aplikasi */
     
     /* Surface & Containers (Dominant Bright) */
     --surface-white: #FFFFFF;     /* Warna kolom/card agar data menonjol */

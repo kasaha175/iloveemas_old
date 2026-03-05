@@ -913,18 +913,6 @@ table.dataTable tbody tr:nth-child(even) {
 /* ================================================
    Dashboard Styles
    ================================================ */
-.dashboard-container {
-    margin-top: 80px;
-    padding: 0 20px;
-}
-
-.dashboard-title {
-    text-align: center;
-    color: #03045e;
-    font-weight: 600;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-}
 
 .welcome-card {
     padding: 30px;

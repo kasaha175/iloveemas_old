@@ -389,7 +389,7 @@ function nominal($angka) {
 /* Page Title */
 .page-title {
     text-align: center;
-    color: var(--text-primary);
+    color: #A8F1FF;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 8px;
@@ -398,7 +398,7 @@ function nominal($angka) {
 
 .page-subtitle {
     text-align: center;
-    color: var(--turquoise-surf);
+    color: #A8F1FF;
     font-size: 1.25rem;
     font-weight: 500;
     margin-bottom: 32px;
