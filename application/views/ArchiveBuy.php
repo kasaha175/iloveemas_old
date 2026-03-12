@@ -17,43 +17,43 @@
     <!-- Menu Cards -->
     <div class="archive-grid archive-buy-grid">
         <a href="<?=base_url()?>archive/buy/?key=rti-au" class="menu-box archive-box">
-            <div class="box-icon">
+            <!-- <div class="box-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            </div>
+            </div> -->
             <span class="box-text">RTI AU</span>
-            <span class="box-subtext">Emas 24K / Au</span>
+            <!-- <span class="box-subtext">Emas 24K / Au</span> -->
         </a>
 
         <a href="<?=base_url()?>archive/buy/?key=rti-pt" class="menu-box archive-box">
-            <div class="box-icon">
+            <!-- <div class="box-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            </div>
+            </div> -->
             <span class="box-text">RTI PT</span>
-            <span class="box-subtext">Platinum</span>
+            <!-- <span class="box-subtext">Platinum</span> -->
         </a>
 
         <a href="<?=base_url()?>archive/buy/?key=rti-ag" class="menu-box archive-box">
-            <div class="box-icon">
+            <!-- <div class="box-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            </div>
+            </div> -->
             <span class="box-text">RTI AG</span>
-            <span class="box-subtext">Perak / Silver</span>
+            <!-- <span class="box-subtext">Perak / Silver</span> -->
         </a>
 
         <a href="<?=base_url()?>archive/buy/?key=rti-ru" class="menu-box archive-box">
-            <div class="box-icon">
+            <!-- <div class="box-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            </div>
+            </div> -->
             <span class="box-text">RTI RU</span>
-            <span class="box-subtext">Ruble / Rusia</span>
+            <!-- <span class="box-subtext">Ruble / Rusia</span> -->
         </a>
 
         <a href="<?=base_url()?>archive/buy/?key=rti-ta" class="menu-box archive-box">
-            <div class="box-icon">
+            <!-- <div class="box-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            </div>
+            </div> -->
             <span class="box-text">RTI TA</span>
-            <span class="box-subtext">Tahunan</span>
+            <!-- <span class="box-subtext">Tahunan</span> -->
         </a>
     </div>
 
@@ -76,7 +76,7 @@
 
 .archive-title {
     text-align: center;
-    color: #03045e !important;
+    color: #A8F1FF !important;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 8px;
@@ -86,7 +86,7 @@
 
 .archive-subtitle {
     text-align: center;
-    color: #03045e !important;
+    color: #A8F1FF !important;
     font-size: 1.1rem;
     margin-bottom: 40px;
     animation: fadeInUp 0.6s ease-out 0.1s both;

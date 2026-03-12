@@ -4,49 +4,57 @@
    Advanced Refraction Engine v2026
    ================================================ */
 
-/* CSS Variables - Ocean Twilight Palette */
+/* CSS Variables - Ocean Twilight Palette - Bright Theme (Refined) */
 :root {
-    /* Primary Colors */
+    /* Base Background (Request Client) */
+    --primary-base: #A8F1FF;      /* Latar belakang utama aplikasi */
+    
+    /* Surface & Containers (Dominant Bright) */
+    --surface-white: #FFFFFF;     /* Warna kolom/card agar data menonjol */
+    --surface-light: #F0F9FF;     /* Alternatif background untuk area sekunder */
+    
+    /* Typography & Contrast (Navy - Critical Fix) */
+    --text-primary: #03045E;      /* Navy Gelap: WAJIB untuk teks di atas putih/biru muda */
+    --text-muted: #1E3A8A;        /* Navy Medium: Untuk label atau teks pendukung */
+    --text-on-dark: #FFFFFF;      /* Putih: HANYA digunakan jika background berwarna Navy gelap */
+    
+    /* Action & Accents (Ocean Blue) */
+    --ocean-blue: #0077B6;        /* Untuk tombol utama */
+    --turquoise-surf: #00B4D8;    /* Untuk highlight & aksen cerah */
+    --border-contrast: #1E3A8A;   /* Border tegas agar kolom tidak 'ngeblend' */
+    
+    /* Legacy Aliases */
     --bg-dark: #0a0f1a;
     --deep-twilight: #03045e;
-    --bright-teal-blue: #0077b6;
-    --turquoise-surf: #ffffff;
-    --frosted-blue: #ffffff;
-    --light-cyan: #ffffff;
+    --bright-teal-blue: #0077B6;
+    --primary: #0077B6;
+    --primary-dark: #03045e;
+    --primary-light: #00B4D8;
+    --deep-navy: #03045e;
+    --border-navy: #1E3A8A;
+    --frosted-blue: #90e0ef;
+    --light-cyan: #caf0f8;
     
-    /* Glass Effect Variables - Changed to solid colors */
-    --glass-bg: #0D1A63;
-    --glass-bg-hover: #0D1A63;
-    --glass-bg-active: #0D1A63;
-    --glass-border: rgba(255, 255, 255, 0.18);
-    --glass-border-hover: rgba(255, 255, 255, 0.35);
-    --glass-shadow: 0 8px 32px 0 rgba(3, 4, 94, 0.3);
-    --glass-shadow-hover: 0 20px 50px 0 rgba(3, 4, 94, 0.4);
+    /* Glass Effect Variables - Bright Theme */
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    --glass-bg-hover: rgba(240, 249, 255, 1);
+    --glass-bg-active: #ffffff;
+    --glass-border: var(--border-contrast);
+    --glass-border-hover: var(--ocean-blue);
+    --glass-shadow: 0 8px 32px 0 rgba(30, 58, 138, 0.15);
+    --glass-shadow-hover: 0 20px 50px 0 rgba(30, 58, 138, 0.25);
     --glass-blur: blur(20px);
     --glass-blur-strong: blur(40px);
     
-    /* Refraction Engine Variables */
-    --refraction-scale: 44;
-    --chromatic-r: 40;
-    --chromatic-g: 42;
-    --chromatic-b: 44;
-    --turbulence-base: 0.015;
-    --turbulence-intensity: 0.02;
-    --specular-intensity: 1.5;
-    --light-angle: 315deg;
-    
-    /* Background Colors - Solid #A8F1FF */
+    /* Background Colors */
     --ocean-gradient: #A8F1FF;
-    --ocean-gradient-soft: #A8F1FF;
-    --card-gradient: #0D1A63;
-    --highlight-gradient: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
-    --sheen-gradient: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+    --ocean-gradient-soft: #caf0f8;
+    --card-gradient: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
     
-    /* Text Colors - White */
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.8);
-    --text-muted: rgba(255, 255, 255, 0.5);
+    /* Text Colors - Dark for bright background */
+    --text-secondary: #0077B6;
     --text-dark: #03045e;
+    --text-light: #ffffff;
     
     /* Transitions */
     --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -93,12 +101,12 @@ html {
 
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #A8F1FF;
+    background: var(--primary-base); /* #A8F1FF - Main Background */
     background-attachment: fixed;
     height: 100%;
     margin: 0;
     padding: 0;
-    color: var(--text-primary);
+    color: var(--text-primary); /* #03045E - Navy Gelap */
     overflow-x: hidden;
     position: relative;
     z-index: 0;
@@ -112,12 +120,12 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #A8F1FF;
+    background: var(--primary-base); /* #A8F1FF */
     pointer-events: none;
     z-index: -3;
 }
 
-/* Background Pattern - Bottom Right Image */
+/* Background Pattern - Bottom Right Image - BRIGHT THEME */
 body::after {
     content: "";
     position: fixed;
@@ -127,8 +135,8 @@ body::after {
     height: 520px;
     background: url('../img/bg-login-pattern.webp') no-repeat bottom right;
     background-size: contain;
-    opacity: 0.9;
-    filter: drop-shadow(0 0 40px rgba(255, 200, 80, 0.25));
+    opacity: 0.15;
+    filter: grayscale(100%);
     pointer-events: none;
     z-index: -1;
 }
@@ -166,13 +174,13 @@ body::after {
 }
 
 /* ================================================
-   Glass Card Component
+   Glass Card Component - Bright Theme
    ================================================ */
 .glass-card {
-    background: #0D1A63;
+    background: var(--surface-white); /* White background */
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-contrast); /* Navy border */
     border-radius: 24px;
     box-shadow: var(--glass-shadow);
     position: relative;
@@ -186,7 +194,7 @@ body::after {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 60%);
+    background: radial-gradient(circle at center, rgba(0, 180, 216, 0.1) 0%, transparent 60%);
     opacity: 0;
     transition: var(--transition-liquid);
     pointer-events: none;
@@ -199,21 +207,18 @@ body::after {
     left: 0;
     right: 0;
     height: 60%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.08) 0%, transparent 100%);
     border-radius: 24px 24px 0 0;
     pointer-events: none;
 }
 
-.glass-card:hover {
-}
-
 /* ================================================
-   Card Styling (Reduced Size)
+   Card Styling (Reduced Size) - Bright Theme
    ================================================ */
 .card {
-    background: #0D1A63;
+    background: var(--surface-white); /* White background */
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-contrast); /* Navy border */
     border-radius: 16px;
     position: relative;
     overflow: hidden;
@@ -228,19 +233,19 @@ body::after {
     left: 0;
     right: 0;
     height: 40%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.06) 0%, transparent 100%);
     border-radius: 16px 16px 0 0;
     pointer-events: none;
 }
 
 .card-header {
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid var(--glass-border);
+    background: rgba(0, 180, 216, 0.05);
+    border-bottom: 1px solid var(--border-contrast);
     padding: 15px 20px;
 }
 
 .card-header h6, .card-header h5 {
-    color: #ffffff;
+    color: var(--text-primary); /* Dark navy text */
     margin: 0;
     font-weight: 600;
 }
@@ -291,7 +296,7 @@ body::after {
 }
 
 /* ================================================
-   Menu Box (Dashboard Cards)
+   Menu Box (Dashboard Cards) - Bright Theme
    ================================================ */
 .menu-box {
     display: flex;
@@ -299,11 +304,10 @@ body::after {
     justify-content: center;
     padding: 40px 20px;
     min-height: 140px;
-    background: #0D1A63;
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    background: var(--surface-white); /* White background */
+    border: 1px solid var(--border-contrast); /* Navy border */
     border-radius: 24px;
-    color: var(--text-primary);
+    color: var(--text-primary); /* Dark navy text */
     font-weight: 600;
     font-size: 1.1rem;
     text-decoration: none;
@@ -321,7 +325,7 @@ body::after {
     left: 0;
     right: 0;
     height: 50%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.08) 0%, transparent 100%);
     border-radius: 24px 24px 0 0;
     pointer-events: none;
 }
@@ -329,24 +333,24 @@ body::after {
 .menu-box:hover {
     transform: translateY(-10px) scale(1.03);
     box-shadow: var(--glass-shadow-hover);
-    border-color: var(--frosted-blue);
-    background: var(--glass-bg-hover);
+    border-color: var(--ocean-blue);
+    background: var(--surface-white);
     text-decoration: none;
 }
 
 .menu-box .icon {
     margin-right: 14px;
     font-size: 1.6rem;
-    color: #ffffff;
+    color: var(--ocean-blue); /* Ocean blue icon */
     transition: var(--transition-smooth);
     position: relative;
     z-index: 1;
 }
 
 .menu-box:hover .icon {
-    color: #ffffff;
+    color: var(--turquoise-surf);
     transform: scale(1.15);
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 20px rgba(0, 180, 216, 0.5);
 }
 
 .menu-box span {
@@ -355,14 +359,14 @@ body::after {
 }
 
 /* ================================================
-   Glass Navbar
+   Glass Navbar - Bright Theme with Gradient
    ================================================ */
 .glass-navbar {
-    background: #0a0f1a !important;
+    background: linear-gradient(135deg, #A8F1FF 0%, #F0F9FF 100%) !important;
     backdrop-filter: var(--glass-blur-strong) !important;
     -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border-bottom: 1px solid var(--glass-border) !important;
-    box-shadow: 0 4px 30px rgba(3, 4, 94, 0.3) !important;
+    border-bottom: 1px solid var(--border-contrast) !important;
+    box-shadow: 0 4px 30px rgba(30, 58, 138, 0.15) !important;
     position: fixed !important;
     top: 0;
     left: 0;
@@ -375,9 +379,13 @@ body::after {
     color: var(--text-primary) !important;
 }
 
+.glass-navbar .nav-link i, .glass-navbar .navbar-brand i {
+    color: var(--text-primary) !important;
+}
+
 .glass-navbar .img-profile {
-    border: 2px solid var(--frosted-blue);
-    box-shadow: 0 0 15px rgba(144, 224, 239, 0.4);
+    border: 2px solid var(--ocean-blue);
+    box-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
 }
 
 .navbar-logo {
@@ -393,12 +401,12 @@ body::after {
 }
 
 /* ================================================
-   Glass Breadcrumb (Fixed spacing from navbar)
+   Glass Breadcrumb (Fixed spacing from navbar) - BRIGHT THEME
    ================================================ */
 .glass-breadcrumb {
-    background: var(--glass-bg);
+    background: var(--surface-white);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-contrast);
     border-radius: 14px;
     padding: 12px 20px;
     margin-bottom: 15px;
@@ -414,24 +422,25 @@ body::after {
 
 .glass-breadcrumb .breadcrumb-item:hover,
 .glass-breadcrumb .breadcrumb-item a:hover {
-    color: var(--frosted-blue);
+    color: var(--ocean-blue);
 }
 
 .glass-breadcrumb .breadcrumb-item.active {
     color: var(--text-primary);
+    font-weight: 500;
 }
 
 .glass-breadcrumb .breadcrumb-item a i {
-    color: #ffffff;
+    color: var(--text-primary);
 }
 
 /* ================================================
-   Form Controls
+   Form Controls - Bright Theme
    ================================================ */
 .glass-input, .form-control {
-    background: #0D1A63;
+    background: var(--surface-white);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-contrast);
     border-radius: 12px;
     color: var(--text-primary);
     padding: 12px 16px;
@@ -441,9 +450,9 @@ body::after {
 
 .glass-input:focus, .form-control:focus {
     outline: none;
-    border-color: #ffffff;
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15);
-    background: var(--glass-bg-hover);
+    border-color: var(--ocean-blue);
+    box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
+    background: var(--surface-white);
 }
 
 .glass-input::placeholder, .form-control::placeholder {
@@ -451,7 +460,7 @@ body::after {
 }
 
 .form-label {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     font-size: 0.9rem;
     font-weight: 500;
     margin-bottom: 8px;
@@ -463,43 +472,41 @@ body::after {
 }
 
 /* ================================================
-   Modal Styling
+   Modal Styling - Bright Theme
    ================================================ */
 .modal-content {
-    background: #0D1A63;
+    background: var(--surface-white);
     backdrop-filter: var(--glass-blur-strong);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-contrast);
     border-radius: 20px;
     color: var(--text-primary);
 }
 
 .modal-header {
-    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-    border-bottom: 1px solid var(--glass-border);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.05) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border-contrast);
     border-radius: 20px 20px 0 0;
     padding: 20px 24px;
 }
 
-.modal-body {
-    padding: 24px;
-}
+/* Modal Styling is handled in custom.css */
 
 .modal-footer {
-    background: linear-gradient(0deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-    border-top: 1px solid var(--glass-border);
+    background: linear-gradient(0deg, rgba(0, 180, 216, 0.05) 0%, transparent 100%);
+    border-top: 1px solid var(--border-contrast);
     border-radius: 0 0 20px 20px;
     padding: 20px 24px;
 }
 
 /* ================================================
-   Dropdown Menu
+   Dropdown Menu - Bright Theme
    ================================================ */
 .glass-dropdown {
-    background: #0D1A63 !important;
+    background: var(--surface-white) !important;
     backdrop-filter: var(--glass-blur-strong) !important;
-    border: 1px solid var(--glass-border) !important;
+    border: 1px solid var(--border-contrast) !important;
     border-radius: 16px !important;
-    box-shadow: 0 15px 35px rgba(3, 4, 94, 0.4) !important;
+    box-shadow: 0 15px 35px rgba(30, 58, 138, 0.2) !important;
     padding: 8px !important;
 }
 
@@ -514,26 +521,26 @@ body::after {
 .glass-dropdown .dropdown-item:hover,
 .glass-dropdown .dropdown-item:focus {
     background: var(--glass-bg-hover);
-    color: var(--frosted-blue);
+    color: var(--ocean-blue);
 }
 
 /* ================================================
-   Select2 Styling
+   Select2 Styling - Bright Theme
    ================================================ */
 .select2 {
     width: 100% !important;
 }
 
 .select2-container--default .select2-selection--single {
-    background: #0D1A63 !important;
-    border: 1px solid var(--glass-border) !important;
+    background: var(--surface-white) !important;
+    border: 1px solid var(--border-contrast) !important;
     border-radius: 12px !important;
     padding: 10px 14px !important;
     height: auto !important;
 }
 
 .select2-container--default .select2-selection--single:focus {
-    border-color: #ffffff !important;
+    border-color: var(--ocean-blue) !important;
     outline: none;
 }
 
@@ -542,9 +549,9 @@ body::after {
 }
 
 .select2-dropdown {
-    background: #0D1A63 !important;
+    background: var(--surface-white) !important;
     backdrop-filter: var(--glass-blur-strong);
-    border: 1px solid var(--glass-border) !important;
+    border: 1px solid var(--border-contrast) !important;
     border-radius: 12px !important;
     overflow: hidden;
 }
@@ -556,11 +563,11 @@ body::after {
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
     background: var(--glass-bg-hover) !important;
-    color: #ffffff !important;
+    color: var(--ocean-blue) !important;
 }
 
 /* ================================================
-   Button Styles
+   Button Styles - Bright Theme
    ================================================ */
 .btn {
     display: inline-flex;
@@ -579,31 +586,31 @@ body::after {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%) !important;
-    color: #ffffff !important;
-    border: 1px solid #0077b6 !important;
+    background: linear-gradient(135deg, #0077B6 0%, #00B4D8 100%) !important;
+    color: #FFFFFF !important;
+    border: 1px solid #0077B6 !important;
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.08) !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    background: var(--surface-white) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-contrast) !important;
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    border-color: rgba(255, 255, 255, 0.35) !important;
+    background: var(--glass-bg-hover) !important;
+    border-color: var(--ocean-blue) !important;
 }
 
 .btn-success {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-    color: #ffffff !important;
+    color: #FFFFFF !important;
     border: 1px solid #10b981 !important;
 }
 
 .btn-danger {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
-    color: #ffffff !important;
+    color: #FFFFFF !important;
     border: 1px solid #ef4444 !important;
     box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
 }
@@ -616,7 +623,7 @@ body::after {
 
 .btn-warning {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-    color: #ffffff !important;
+    color: #FFFFFF !important;
     border: 1px solid #f59e0b !important;
     box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
 }
@@ -636,7 +643,7 @@ body::after {
 .btn-circle.btn-lg { width: 56px; height: 56px; }
 
 /* ================================================
-   DataTables Styling
+   DataTables Styling - Bright Theme
    ================================================ */
 .dataTables_wrapper {
     padding: 20px 0;
@@ -652,6 +659,7 @@ body::after {
 .dataTables_length {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     margin-bottom: 15px;
     float: left;
 }
@@ -660,14 +668,14 @@ body::after {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     font-size: 0.9rem;
 }
 
 .dataTables_filter {
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Align search to right (end) */
+    justify-content: flex-end;
     margin-bottom: 15px;
     float: right;
 }
@@ -676,39 +684,39 @@ body::after {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     font-size: 0.9rem;
 }
 
 .dataTables_length select, .dataTables_filter input {
-    background: #0D1A63 !important;
-    border: 1px solid var(--glass-border) !important;
+    background: var(--surface-white) !important;
+    border: 1px solid var(--border-contrast) !important;
     color: var(--text-primary) !important;
     border-radius: 8px !important;
     padding: 8px 12px !important;
 }
 
 .dataTables_length select:focus, .dataTables_filter input:focus {
-    border-color: var(--turquoise-surf) !important;
+    border-color: var(--ocean-blue) !important;
     outline: none;
 }
 
 .dataTables_info { 
-    color: var(--text-secondary) !important; 
+    color: var(--text-muted) !important; 
     float: left;
 }
 
 .dataTables_paginate { 
     margin-top: 15px !important; 
     display: flex;
-    justify-content: flex-end; /* Align pagination to right (end) */
+    justify-content: flex-end;
     float: right;
     clear: both;
 }
 
 .dataTables_paginate .paginate_button {
-    background: var(--glass-bg) !important;
-    border: 1px solid var(--glass-border) !important;
+    background: var(--surface-white) !important;
+    border: 1px solid var(--border-contrast) !important;
     color: var(--text-primary) !important;
     border-radius: 8px !important;
     margin: 0 2px !important;
@@ -716,14 +724,14 @@ body::after {
 }
 
 .dataTables_paginate .paginate_button.current {
-    background: linear-gradient(135deg, #0077b6, #00b4d8) !important;
-    border-color: #0077b6 !important;
-    color: white !important;
+    background: linear-gradient(135deg, #0077B6, #00B4D8) !important;
+    border-color: #0077B6 !important;
+    color: #FFFFFF !important;
 }
 
 .dataTables_paginate .paginate_button:hover {
     background: var(--glass-bg-hover) !important;
-    border-color: var(--turquoise-surf) !important;
+    border-color: var(--ocean-blue) !important;
 }
 
 table.dataTable {
@@ -732,9 +740,9 @@ table.dataTable {
 }
 
 table.dataTable thead th {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border-bottom: 2px solid var(--glass-border) !important;
-    color: var(--turquoise-surf) !important;
+    background: var(--surface-white) !important;
+    border-bottom: 2px solid var(--border-contrast) !important;
+    color: var(--ocean-blue) !important;
     padding: 14px 16px 14px 30px !important;
     font-weight: 600 !important;
     text-transform: uppercase;
@@ -746,7 +754,7 @@ table.dataTable thead th {
 
 /* Hover effect for sortable columns */
 table.dataTable thead th:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: var(--glass-bg-hover) !important;
 }
 
 /* Sorting Icons - DataTables */
@@ -766,7 +774,7 @@ table.dataTable thead .sorting_desc_disabled:after {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     font-size: 12px;
-    color: var(--turquoise-surf);
+    color: var(--ocean-blue);
     opacity: 0.5;
 }
 
@@ -815,7 +823,7 @@ table.dataTable thead th:hover.sorting:before {
 
 table.dataTable tbody tr {
     background: transparent !important;
-    border-bottom: 1px solid var(--glass-border) !important;
+    border-bottom: 1px solid var(--border-contrast) !important;
 }
 
 table.dataTable tbody tr:hover {
@@ -830,13 +838,13 @@ table.dataTable tbody td {
 }
 
 table.dataTable tbody tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.02) !important;
+    background: rgba(0, 180, 216, 0.03) !important;
 }
 
 /* DataTables Buttons */
 .dt-button {
-    background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%) !important;
-    color: #ffffff !important;
+    background: linear-gradient(135deg, #0077B6 0%, #00B4D8 100%) !important;
+    color: #FFFFFF !important;
     border: none !important;
     border-radius: 8px !important;
     padding: 10px 20px !important;
@@ -845,17 +853,17 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 .dt-button:hover {
-    background: linear-gradient(135deg, #00b4d8 0%, #90e0ef 100%) !important;
+    background: linear-gradient(135deg, #00B4D8 0%, #90e0ef 100%) !important;
     box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3) !important;
 }
 
 /* ================================================
-   Glass Footer
+   Glass Footer - Bright Theme with Gradient
    ================================================ */
 .glass-footer {
-    background: #0D1A63;
+    background: linear-gradient(135deg, #A8F1FF 0%, #F0F9FF 100%) !important;
     backdrop-filter: var(--glass-blur);
-    border-top: 1px solid var(--glass-border);
+    border-top: 1px solid var(--border-contrast);
     padding: 20px 0;
     margin-top: auto;
 }
@@ -872,7 +880,7 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 .footer-brand {
-    color: var(--bright-teal-blue);
+    color: var(--text-primary) !important;
     font-weight: 600;
     font-size: 1rem;
     display: flex;
@@ -881,33 +889,30 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 .footer-version {
-    background: var(--glass-bg);
-    color: var(--text-secondary);
+    background: var(--surface-white);
+    color: var(--text-muted);
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 0.75rem;
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-contrast);
 }
 
-.footer-center { color: var(--text-muted); font-size: 0.85rem; }
-.footer-right { color: var(--text-muted); font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
+.footer-center { 
+    color: var(--text-primary) !important; 
+    font-size: 0.85rem; 
+}
+.footer-right { 
+    color: var(--text-primary) !important; 
+    font-size: 0.85rem; 
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+}
 .footer-heart { color: #ef4444; }
 
 /* ================================================
    Dashboard Styles
    ================================================ */
-.dashboard-container {
-    margin-top: 80px;
-    padding: 0 20px;
-}
-
-.dashboard-title {
-    text-align: center;
-    color: #03045e;
-    font-weight: 600;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-}
 
 .welcome-card {
     padding: 30px;
@@ -1183,7 +1188,6 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 .glass-swal-popup .swal2-title {
-    color: #ffffff !important;
     font-family: 'Poppins', sans-serif !important;
 }
 
@@ -1193,7 +1197,6 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 .glass-swal-popup .swal2-html-container {
-    color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .glass-swal-popup .swal2-icon.swal2-success {
@@ -1224,10 +1227,9 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 .glass-swal-popup .swal2-actions .swal2-cancel {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    /* background: rgba(255, 255, 255, 0.1) !important; */
+    /* border: 1px solid rgba(255, 255, 255, 0.3) !important; */
     border-radius: 8px !important;
-    color: #ffffff !important;
     font-family: 'Poppins', sans-serif !important;
     padding: 10px 24px !important;
 }
@@ -1658,131 +1660,80 @@ table.dataTable tbody tr:nth-child(even) {
 }
 
 /* ================================================
-   CONTEXTUAL GLASS IMPLEMENTATIONS
+   CONTEXTUAL GLASS IMPLEMENTATIONS - BRIGHT THEME
    Apply appropriate glass type based on viewport
    ================================================ */
 
-/* Main Menu / Dashboard - Thick Glass */
+/* Main Menu / Dashboard - Bright Theme */
 body.page-dashboard .menu-box,
 body.page-dashboard .glass-card,
 body.page-dashboard .welcome-card {
-    background: #0D1A63;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    border-radius: 32px;
-    box-shadow: 
-        0 8px 32px rgba(3, 4, 94, 0.25),
-        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
+    border-radius: 24px;
+    box-shadow: var(--glass-shadow);
 }
 
 body.page-dashboard .menu-box::before {
-    background: radial-gradient(
-        ellipse at 30% 20%,
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.08) 30%,
-        transparent 60%
-    );
-    animation: thickGlassShimmer 4s ease-in-out infinite;
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.08) 0%, transparent 100%);
 }
 
 body.page-dashboard .menu-box::after {
     height: 50%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.18) 0%, 
-        rgba(255, 255, 255, 0.05) 40%,
-        transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.06) 0%, transparent 100%);
 }
 
-/* Archive Page - Frosted Glass */
+/* Archive Page - Bright Theme */
 body.page-archive .menu-box,
 body.page-archive .glass-card,
 body.page-archive .archive-box {
-    background: #0D1A63;
-    /* backdrop-filter: blur(30px) saturate(120%) brightness(1.1);
-    -webkit-backdrop-filter: blur(30px) saturate(120%) brightness(1.1); */
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 28px;
-    box-shadow: 
-        0 6px 24px rgba(3, 4, 94, 0.2),
-        0 0 40px rgba(144, 224, 239, 0.05);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow);
 }
 
 body.page-archive .menu-box::before {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: 0.03;
-    mix-blend-mode: overlay;
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.06) 0%, transparent 100%);
 }
 
 body.page-archive .menu-box::after {
     height: 40%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.1) 0%, 
-        rgba(255, 255, 255, 0.02) 50%,
-        transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.04) 0%, transparent 100%);
 }
 
-/* Master Data - Precise Glass */
+/* Master Data - Bright Theme */
 body.page-master .menu-box,
 body.page-master .glass-card,
 body.page-master .card {
-    background: #0D1A63;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 20px;
-    box-shadow: 
-        0 4px 16px rgba(3, 4, 94, 0.15),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    box-shadow: var(--glass-shadow);
 }
 
 body.page-master .menu-box::before {
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.2) 0%, 
-        rgba(255, 255, 255, 0.05) 50%,
-        rgba(255, 255, 255, 0.1) 100%);
-    -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.06) 0%, transparent 100%);
 }
 
 body.page-master .menu-box::after {
     height: 35%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.12) 0%, 
-        transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.04) 0%, transparent 100%);
 }
 
-/* Reports - Technical Glass */
+/* Reports - Bright Theme */
 body.page-report table.dataTable,
 body.page-report .glass-card,
 body.page-report .card {
-    background: #0D1A63;
-    /* backdrop-filter: blur(15px) saturate(200%) brightness(1.05);
-    -webkit-backdrop-filter: blur(15px) saturate(200%) brightness(1.05); */
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 16px;
-    box-shadow: 
-        0 4px 12px rgba(3, 4, 94, 0.12),
-        0 0 20px rgba(0, 180, 216, 0.05);
-}
-
-body.page-report table.dataTable::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 20%;
-    right: 20%;
-    height: 1px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(0, 180, 216, 0.3) 50%, 
-        transparent 100%);
+    box-shadow: var(--glass-shadow);
 }
 
 body.page-report .menu-box::after {
     height: 30%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.08) 0%, 
-        transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 180, 216, 0.04) 0%, transparent 100%);
 }
 
 /* ================================================
@@ -1936,7 +1887,7 @@ h3, .h3, .card-title {
     transition: all 0.3s ease;
     text-decoration: none !important;
     background: rgba(255, 255, 255, 0.08) !important;
-    color: #ffffff !important;
+    color: #03045E !important;
     border: 1px solid rgba(255, 255, 255, 0.18) !important;
 }
 
@@ -2462,10 +2413,17 @@ h3, .h3, .card-title {
 /* Transaction List Page - Extra space for filters */
 .master-detail-container.transaction-list-page {
     max-width: 1400px;
+    padding-bottom: 60px !important; /* Extra space from footer */
 }
 
 .transaction-list-page .enterprise-card {
     max-width: 100%;
+}
+
+/* Breadcrumb wrapper - jarak dari navbar */
+.transaction-list-page .breadcrumb-wrapper {
+    margin-top: 15px;
+    margin-bottom: 20px;
 }
 
 /* Make sure filter inputs have enough space */
@@ -2968,13 +2926,13 @@ _::-webkit-full-page-media, _:future, :root .menu-box {
     font-family: 'Poppins', sans-serif;
     font-size: 13px;
     color: var(--text-primary);
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23ffffff' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%2303045E' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 10px center;
     padding-right: 28px;
@@ -2983,12 +2941,12 @@ _::-webkit-full-page-media, _:future, :root .menu-box {
 
 .filter-select:focus {
     outline: none;
-    border-color: var(--turquoise-surf);
+    border-color: var(--ocean-blue);
     box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
 }
 
 .filter-select option {
-    background: rgba(3, 4, 94, 0.95);
+    background: var(--surface-white);
     color: var(--text-primary);
 }
 
@@ -2999,33 +2957,33 @@ _::-webkit-full-page-media, _:future, :root .menu-box {
     font-family: 'Poppins', sans-serif;
     font-size: 13px;
     color: var(--text-primary);
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 8px;
     transition: all 0.2s ease;
     min-height: 38px;
 }
 
-/* Date input picker styling */
+/* Date input picker styling - remove inversion for bright theme */
 .filter-input::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    opacity: 0.5;
+    opacity: 0.6;
     cursor: pointer;
+    filter: none;
 }
 
 .filter-input::-webkit-calendar-picker-indicator:hover {
-    opacity: 0.8;
+    opacity: 1;
 }
 
 .filter-input::-moz-calendar-picker-indicator {
-    filter: invert(1);
-    opacity: 0.5;
+    opacity: 0.6;
     cursor: pointer;
+    filter: none;
 }
 
 .filter-input:focus {
     outline: none;
-    border-color: var(--turquoise-surf);
+    border-color: var(--ocean-blue);
     box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
 }
 

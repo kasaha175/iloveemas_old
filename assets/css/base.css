@@ -3,37 +3,51 @@
    Typography, Reset, Root Variables
    ================================================ */
 
-/* CSS Variables - Color Tokens */
+/* CSS Variables - Color Tokens - Bright Theme (Refined) */
 :root {
-    /* Primary Colors */
-    --bg-dark: #0a0f1a;
-    --deep-twilight: #03045e;
-    --bright-teal-blue: #0077b6;
-    --turquoise-surf: #ffffff;
-    --frosted-blue: #ffffff;
-    --light-cyan: #ffffff;
+    /* Base Background (Request Client) */
+    --primary-base: #03045E;      /* Latar belakang utama aplikasi */
     
-    /* Glass Effect Variables - Solid-cyan: # colors as requested */
-    --glass-bg: #0D1A63;
-    --glass-bg-hover: #0D1A63;
-    --glass-bg-active: #0D1A63;
-    --glass-border: rgba(255, 255, 255, 0.18);
-    --glass-border-hover: rgba(255, 255, 255, 0.35);
-    --glass-shadow: 0 8px 32px 0 rgba(3, 4, 94, 0.3);
-    --glass-shadow-hover: 0 20px 50px 0 rgba(3, 4, 94, 0.4);
+    /* Surface & Containers (Dominant Bright) */
+    --surface-white: #FFFFFF;     /* Warna kolom/card agar data menonjol */
+    --surface-light: #F0F9FF;     /* Alternatif background untuk area sekunder */
+    
+    /* Typography & Contrast (Navy - Critical Fix) */
+    --text-primary: #03045E;      /* Navy Gelap: WAJIB untuk teks di atas putih/biru muda */
+    --text-muted: #1E3A8A;        /* Navy Medium: Untuk label atau teks pendukung */
+    --text-on-dark: #FFFFFF;      /* Putih: HANYA digunakan jika background berwarna Navy gelap */
+    
+    /* Action & Accents (Ocean Blue) */
+    --ocean-blue: #0077B6;        /* Untuk tombol utama */
+    --turquoise-surf: #00B4D8;    /* Untuk highlight & aksen cerah */
+    --border-contrast: #1E3A8A;   /* Border tegas agar kolom tidak 'ngeblend' */
+    
+    /* Legacy Aliases - for backward compatibility */
+    --primary: var(--ocean-blue);
+    --primary-dark: var(--deep-navy);
+    --primary-light: var(--turquoise-surf);
+    --deep-navy: #03045e;
+    --border-navy: #1E3A8A;
+    
+    /* Background Colors */
+    --bg-dark: #0a0f1a;
+    --bg-light: var(--primary-base);
+    
+    /* Glass Effect Variables - Bright Theme */
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    --glass-bg-hover: rgba(240, 249, 255, 1);
+    --glass-bg-active: #ffffff;
+    --glass-border: var(--border-contrast);
+    --glass-border-hover: var(--ocean-blue);
+    --glass-shadow: 0 8px 32px 0 rgba(30, 58, 138, 0.15);
+    --glass-shadow-hover: 0 20px 50px 0 rgba(30, 58, 138, 0.25);
     --glass-blur: blur(20px);
     --glass-blur-strong: blur(40px);
     
-    /* Background Colors - Solid #A8F1FF */
-    --ocean-gradient: #A8F1FF;
-    --ocean-gradient-soft: #A8F1FF;
-    --card-gradient: #0D1A63;
-    
-    /* Text Colors - White */
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.8);
-    --text-muted: rgba(255, 255, 255, 0.5);
+    /* Text Colors - Dark for bright background */
+    --text-secondary: var(--ocean-blue);
     --text-dark: #03045e;
+    --text-light: #ffffff;
     
     /* Transitions */
     --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -53,12 +67,12 @@ html {
 
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #A8F1FF;
+    background: var(--primary-base); /* #A8F1FF - Main Background */
     background-attachment: fixed;
     height: 100%;
     margin: 0;
     padding: 0;
-    color: var(--text-primary);
+    color: var(--text-primary); /* #03045e - Deep Navy */
     overflow-x: hidden;
     position: relative;
     z-index: 0;
@@ -69,7 +83,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 0 0.5em 0;
     font-weight: 600;
     line-height: 1.3;
-    color: var(--text-primary);
+    color: var(--deep-navy);
 }
 
 h1 { font-size: 2rem; }
@@ -86,13 +100,13 @@ p {
 }
 
 a {
-    color: #ffffff;
+    color: var(--ocean-blue);
     text-decoration: none;
     transition: var(--transition-smooth);
 }
 
 a:hover {
-    color: #ffffff;
+    color: var(--turquoise-surf);
 }
 
 /* Form Elements Base */
@@ -101,17 +115,26 @@ input, textarea, select {
     font-size: inherit;
 }
 
-/* Utility Classes */
-.text-primary { color: var(--text-primary); }
-.text-secondary { color: var(--text-secondary); }
-.text-muted { color: var(--text-muted); }
-.text-success { color: #10b981; }
-.text-danger { color: #ef4444; }
-.text-warning { color: #f59e0b; }
-.text-info { color: #ffffff; }
+/* Utility Classes - Bright Theme */
+.text-primary { color: var(--text-primary) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
+.text-muted { color: var(--text-muted) !important; }
+.text-navy { color: var(--text-primary) !important; }
+.text-white { color: var(--text-on-dark) !important; }
+.text-success { color: #059669; }
+.text-danger { color: #dc2626; }
+.text-warning { color: #d97706; }
+.text-info { color: var(--turquoise-surf); }
 
-.bg-glass { background: var(--glass-bg); }
-.bg-glass-hover { background: var(--glass-bg-hover); }
+/* Background Utility Classes */
+.bg-glass { background: var(--surface-white) !important; }
+.bg-surface { background: var(--surface-white) !important; }
+.bg-primary { background: var(--ocean-blue) !important; }
+.bg-dark { background: var(--deep-navy) !important; }
+.bg-light { background: var(--surface-light) !important; }
+
+/* Border Utility */
+.border-contrast { border: 1px solid var(--border-contrast) !important; }
 
 /* Spacing */
 .m-0 { margin: 0; }

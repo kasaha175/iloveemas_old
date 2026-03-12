@@ -52,30 +52,10 @@
 
     <!-- Glassmorphism CSS -->
     <link href="<?=base_url()?>assets/css/glassmorphism.css" rel="stylesheet">
-    
-    <!-- Chrome Performance Fix - Use light version on Chrome -->
-    <script>
-        // Detect Chrome and apply light CSS for smooth 60fps
-        if (navigator.userAgent.indexOf("Chrome") !== -1) {
-            document.write('<link href="<?=base_url()?>assets/css/glassmorphism-light.css" rel="stylesheet">');
-        }
-    </script>
-    
-    <!-- DataTables Custom CSS -->
-    <link href="<?=base_url()?>assets/css/datatables.css" rel="stylesheet">
-    
-    <!-- Custom Modular CSS -->
-    <link href="<?=base_url()?>assets/css/base.css" rel="stylesheet">
-    <link href="<?=base_url()?>assets/css/layout.css" rel="stylesheet">
-    <link href="<?=base_url()?>assets/css/components.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/css/datatables-custom.css" rel="stylesheet">
-    <link href="<?=base_url()?>assets/css/pages/master.css" rel="stylesheet">
-    <link href="<?=base_url()?>assets/css/pages/memo.css" rel="stylesheet">
-    <link href="<?=base_url()?>assets/css/pages/cabang.css" rel="stylesheet">
-    <link href="<?=base_url()?>assets/css/pages/customer.css" rel="stylesheet">
-    <link href="<?=base_url()?>assets/css/pages/transaction.css" rel="stylesheet">
-    <link href="<?=base_url()?>assets/css/transaction-readability-fix.css" rel="stylesheet">
-    <link href="<?=base_url()?>assets/css/transaction-cart-fix.css" rel="stylesheet">
+    
+    <!-- Custom Modular CSS - Now unified in custom.css -->
+    <link href="<?=base_url()?>assets/css/custom.css" rel="stylesheet">
     
     <!-- Navbar Info Items CSS -->
     <style>
@@ -89,7 +69,7 @@
     .navbar-info .info-item {
         display: flex;
         align-items: center;
-        color: #fff;
+        --text-primary: #03045E;
         font-size: 0.85rem;
         white-space: nowrap;
     }

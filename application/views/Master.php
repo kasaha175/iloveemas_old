@@ -9,6 +9,7 @@
     
     <!-- Page Title -->
     <h3 class="page-title">MASTER</h3>
+    <p class="master-subtitle">Pilih jenis laporan yang ingin Anda akses</p>
     
     <!-- Master Menu Grid -->
     <div class="master-grid">
@@ -42,3 +43,26 @@
         </div>
     </div>
 </div>
+
+<style>
+.master-container {
+    padding: 100px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    }
+.page-title {
+        text-align: center;
+        color: #A8F1FF !important;
+        font-size: 2rem;
+        font-weight: 700;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+.master-subtitle {
+        text-align: center;
+        color: #A8F1FF !important;
+        font-size: 1.1rem;
+        margin-bottom: 40px;
+        animation: fadeInUp 0.6s ease-out 0.1s both;
+    }
+</style>

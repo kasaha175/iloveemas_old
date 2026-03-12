@@ -573,7 +573,7 @@ $dateEnd = $this->input->get('dateEnd') ?? date('Y-m-t');
 
 .page-title {
     text-align: center;
-    color: #03045e !important;
+    color: #A8F1FF !important;
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 20px;
@@ -1506,9 +1506,9 @@ function nominal(angka) {
     return new Intl.NumberFormat('id-ID').format(angka);
 }
 
-// DataTable Initialization
+// DataTable Initialization using centralized function
 $(document).ready(function () {
-    $('#dataTable').DataTable({
+    initDataTable('#dataTable', {
         dom: 'Bfrtip',
         lengthMenu: [
             [ 10, 25, 50, 100, -1 ],

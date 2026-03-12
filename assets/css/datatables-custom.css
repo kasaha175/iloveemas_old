@@ -8,35 +8,79 @@
     padding: 20px 0;
 }
 
-/* Length & Filter */
-.dataTables_length select,
+/* Clearfix for dataTables_wrapper */
+.dataTables_wrapper::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Length & Filter - Position - Show entries on left, search and filter on right */
+.dataTables_length {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+    float: left;
+}
+
+.dataTables_filter {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+    float: right;
+}
+
 .dataTables_filter input {
-    background: var(--glass-bg) !important;
-    border: 1px solid var(--glass-border) !important;
-    color: var(--text-primary) !important;
+    background: var(--surface-white) !important;
+    border: 1px solid var(--border-contrast) !important;
     border-radius: 8px !important;
+    color: var(--text-primary) !important;
     padding: 8px 12px !important;
+    margin-left: 8px !important;
 }
 
-.dataTables_length select:focus,
+.dataTables_filter input::placeholder {
+    color: var(--text-muted) !important;
+}
+
 .dataTables_filter input:focus {
-    border-color: var(--turquoise-surf) !important;
+    border-color: var(--ocean-blue) !important;
     outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.1) !important;
 }
 
+/* Length Select */
+.dataTables_length select {
+    background: var(--surface-white) !important;
+    border: 1px solid var(--border-contrast) !important;
+    border-radius: 8px !important;
+    color: var(--text-primary) !important;
+    padding: 8px 12px !important;
+    margin-right: 8px !important;
+}
+
+/* DataTables Info */
 .dataTables_info {
     color: var(--text-secondary) !important;
     padding: 10px 0;
+    float: left;
 }
 
+/* DataTables Paginate */
 .dataTables_paginate {
     margin-top: 15px !important;
+    display: flex;
+    justify-content: flex-end;
+    float: right;
+    clear: both;
 }
 
 /* Pagination Buttons */
 .dataTables_paginate .paginate_button {
-    background: var(--glass-bg) !important;
-    border: 1px solid var(--glass-border) !important;
+    background: var(--surface-white) !important;
+    border: 1px solid var(--border-contrast) !important;
     color: var(--text-primary) !important;
     border-radius: 8px !important;
     margin: 0 2px !important;
@@ -47,8 +91,8 @@
 
 .dataTables_paginate .paginate_button:hover {
     background: var(--glass-bg-hover) !important;
-    border-color: var(--turquoise-surf) !important;
-    color: var(--turquoise-surf) !important;
+    border-color: var(--ocean-blue) !important;
+    color: var(--ocean-blue) !important;
 }
 
 .dataTables_paginate .paginate_button.current {
@@ -63,39 +107,9 @@
 }
 
 .dataTables_paginate .paginate_button.disabled:hover {
-    background: var(--glass-bg) !important;
-    border-color: var(--glass-border) !important;
+    background: var(--surface-white) !important;
+    border-color: var(--border-contrast) !important;
     color: var(--text-primary) !important;
-}
-
-/* Search Input */
-.dataTables_filter input {
-    background: var(--glass-bg) !important;
-    border: 1px solid var(--glass-border) !important;
-    border-radius: 8px !important;
-    color: var(--text-primary) !important;
-    padding: 8px 12px !important;
-    margin-left: 8px !important;
-}
-
-.dataTables_filter input::placeholder {
-    color: var(--text-muted) !important;
-}
-
-.dataTables_filter input:focus {
-    border-color: var(--turquoise-surf) !important;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.1) !important;
-}
-
-/* Length Select */
-.dataTables_length select {
-    background: var(--glass-bg) !important;
-    border: 1px solid var(--glass-border) !important;
-    border-radius: 8px !important;
-    color: var(--text-primary) !important;
-    padding: 8px 12px !important;
-    margin-right: 8px !important;
 }
 
 /* Table Base */

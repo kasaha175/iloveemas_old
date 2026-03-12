@@ -408,7 +408,7 @@ function nominal($angka){
 
 .page-title {
     text-align: center;
-    color: var(--text-primary);
+    color: #A8F1FF;
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 10px;
@@ -417,7 +417,7 @@ function nominal($angka){
 
 .page-subtitle {
     text-align: center;
-    color: var(--turquoise-surf);
+    color: #A8F1FF;
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 30px;
@@ -876,8 +876,9 @@ function nominal(angka) {
     return new Intl.NumberFormat('id-ID').format(angka);
 }
 
+// Initialize DataTable using centralized function
 $(document).ready(function () {
-    $('#dataTable').DataTable({
+    initDataTable('#dataTable', {
         dom: 'Bfrtip',
         lengthMenu: [
             [ 10, 25, 50, 100, -1 ],

@@ -1123,6 +1123,7 @@ table.dataTable tbody tr:last-child td,
 
 .modal-body {
     padding: var(--space-5);
+    color: #03045E !important;
 }
 
 .modal-footer {

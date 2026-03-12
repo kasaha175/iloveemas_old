@@ -1,12 +1,12 @@
 /* ================================
-   TRANSACTION PAGES STYLES
-   Base Color: Ocean Twilight Theme (Same as Login)
+   TRANSACTION PAGES STYLES - BRIGHT THEME
+   Base Color: Ocean Twilight Bright Theme
 ================================ */
 
 :root {
   --deep-twilight: #03045e;
-  --bright-teal-blue: #0077b6;
-  --turquoise-surf: #00b4d8;
+  --bright-teal-blue: #0077B6;
+  --turquoise-surf: #00B4D8;
   --frosted-blue: #90e0ef;
   --light-cyan: #caf0f8;
   
@@ -15,25 +15,29 @@
   --primary-dark: var(--deep-twilight);
   --primary-light: var(--turquoise-surf);
   
-  /* Background Colors */
-  --bg-dark: #0a0f1a;
-  --bg-card: #0D1A63;
-  --bg-input: #132035;
+  /* Background Colors - Bright */
+  --primary-base: #A8F1FF;
+  --surface-white: #FFFFFF;
+  --surface-light: #F0F9FF;
   
-  /* Glass Effect Variables */
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  /* Card Colors - Bright */
+  --bg-card: var(--surface-white);
+  --bg-input: var(--surface-light);
+  
+  /* Glass Effect Variables - Bright */
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: #1E3A8A;
   --glass-border-focus: rgba(0, 180, 216, 0.5);
   --glass-blur: blur(10px);
-  --glass-bg-hover: rgba(255, 255, 255, 0.06);
+  --glass-bg-hover: rgba(240, 249, 255, 1);
   
-  /* Text Colors */
-  --text-primary: #ffffff;
-  --text-muted: #8899aa;
-  --text-light: #aabbcc;
+  /* Text Colors - Bright */
+  --text-primary: #03045E;
+  --text-muted: #1E3A8A;
+  --text-light: #0077B6;
   
-  /* Card Gradient */
-  --card-gradient: linear-gradient(145deg, rgba(13, 21, 38, 0.95) 0%, rgba(10, 15, 26, 0.98) 100%);
+  /* Card Gradient - Bright */
+  --card-gradient: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100());
 }
 
 /* Page Container */
@@ -43,13 +47,13 @@
     margin: 0 auto;
 }
 
-/* Breadcrumb */
+/* Breadcrumb - Bright */
 .breadcrumb.glass-breadcrumb {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    background: #0D1A63;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 10px;
     padding: 10px 16px;
     list-style: none;
@@ -63,7 +67,7 @@
 }
 
 .breadcrumb.glass-breadcrumb .breadcrumb-item a {
-    color: var(--turquoise-surf);
+    color: var(--ocean-blue);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.85rem;
@@ -88,25 +92,24 @@
     font-size: 1.75rem;
     font-weight: 700;
     margin-bottom: 12px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .page-subtitle {
     text-align: center;
-    color: var(--turquoise-surf);
+    color: var(--ocean-blue);
     font-size: 0.95rem;
     font-weight: 500;
     margin-bottom: 20px;
 }
 
-/* Back Button - Compact */
+/* Back Button - BRIGHT THEME */
 .btn-back {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    background: #0D1A63;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: var(--surface-white);
+    border: 1px solid var(--border-contrast);
     border-radius: 8px;
     color: var(--text-primary);
     font-weight: 500;
@@ -115,8 +118,8 @@
 }
 
 .btn-back:hover {
-    background: #16237a;
-    border-color: rgba(255, 255, 255, 0.25);
+    background: var(--glass-bg-hover);
+    border-color: var(--ocean-blue);
 }
 
 /* Form Card - Compact */
@@ -447,7 +450,7 @@
 }
 
 .glass-modal .close:hover {
-    color: #fff;
+    color: var(--text-primary);
     opacity: 1;
 }
 
@@ -471,75 +474,8 @@
     margin-bottom: 8px;
 }
 
-/* Grid - Material Cards */
-
-.material-card {
-    /* background: var(--card-gradient); */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    /* background: var(--card-gradient); */
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: 14px;
-    padding: 16px 12px;
-    text-decoration: none;
-    height: 100%;
-    min-height: 130px;
-    position: relative;
-    overflow: hidden;
-}
-
-.material-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 35%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%);
-    pointer-events: none;
-}
-
-.material-card:hover {
-    border-color: var(--turquoise-surf);
-}
-
-.material-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 1rem;
-    color: var(--turquoise-surf);
-    opacity: 0.5;
-}
-
-.material-image {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-}
-
-.material-image img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
-}
-
-.material-name {
-    text-align: center;
-}
-
-.material-name span {
-    color: var(--text-primary);
-    font-weight: 600;
-    font-size: 0.8rem;
-}
+/* Grid - Material Cards - BRIGHT THEME - DEPRECATED
+   Use custom.css instead for material card styles */
 
 /* Responsive */
 @media (max-width: 992px) {
@@ -635,19 +571,20 @@
    GLOBAL UI FIXES
 ======================================= */
 
-/* Form controls - full height */
+/* Form controls - full height - BRIGHT THEME */
 .form-control, .form-select, .input-glass {
     min-height: 44px;
     line-height: 1.5;
     padding-top: 10px;
     padding-bottom: 10px;
-    background: var(--bg-input) !important;
-    border: 1px solid var(--glass-border) !important;
-    color: #ffffff !important;
+    background: var(--surface-white) !important;
+    border: 1px solid var(--border-contrast) !important;
+    color: var(--text-primary) !important;
 }
 
 .form-control:focus, .form-select:focus {
-    background: var(--bg-input) !important;
+    background: var(--surface-white) !important;
+    color: var(--text-primary) !important;
 }
 
 .select2-container--default .select2-selection--single {
@@ -655,10 +592,12 @@
     padding: 8px 12px;
     display: flex;
     align-items: center;
+    background: var(--surface-white) !important;
+    border: 1px solid var(--border-contrast) !important;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    color: #ffffff;
+    color: var(--text-primary) !important;
     line-height: 1.5;
 }
 
@@ -667,61 +606,55 @@ input[type="number"], .aang, .biayaAdmin {
     autocomplete: off !important;
 }
 
-/* Placeholder */
+/* Placeholder - BRIGHT THEME */
 ::placeholder {
-    color: rgba(255, 255, 255, 0.65) !important;
+    color: var(--text-muted) !important;
 }
 
-/* Table improvements */
+/* Table improvements - BRIGHT THEME */
 .glass-table thead {
-    background: rgba(0, 180, 216, 0.12);
+    background: rgba(0, 180, 216, 0.1);
 }
 
 .glass-table thead th {
-    color: #ffffff;
+    color: var(--ocean-blue);
     font-weight: 600;
     padding: 12px 14px;
+    border-bottom: 1px solid var(--border-contrast);
 }
 
 .glass-table tbody tr {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-contrast);
 }
 
 .glass-table td {
     padding: 12px 14px;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-primary);
 }
 
-/* Cart table */
+/* Cart table - BRIGHT THEME */
 .cart-table thead {
-    background: rgba(0, 0, 0, 0.35);
+    background: rgba(0, 180, 216, 0.1);
 }
 
 .cart-table thead th {
-    color: #ffffff;
+    color: var(--ocean-blue);
     font-weight: 600;
     padding: 14px 12px;
+    border-bottom: 1px solid var(--border-contrast);
 }
 
 .cart-table tbody tr {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-contrast);
 }
 
 .cart-table tbody td {
     padding: 12px;
-    color: rgba(255, 255, 255, 0.88);
+    color: var(--text-primary);
 }
 
-/* Force dark background */
-body {
-    background: var(--bg-dark) !important;
-}
-
-.content-wrapper,
-.main-content,
-.wrapper {
-    background: var(--bg-dark) !important;
-}
+/* Force dark background - REMOVED FOR BRIGHT THEME */
+/* Bright Theme uses light backgrounds - no override needed */
 
 /* Footer button balance */
 .card-footer-glass .btn {
