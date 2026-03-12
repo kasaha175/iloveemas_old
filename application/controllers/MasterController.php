@@ -1511,17 +1511,9 @@ class MasterController extends CI_Controller
         }
 
         // Check based on type
-        if ($type == 'name')
-        {
-            $this->db->where('c_name', strtoupper($value));
-        }
         else if ($type == 'id_number')
         {
             $this->db->where('c_id_number', strtoupper($value));
-        }
-        else if ($type == 'phone')
-        {
-            $this->db->where('c_phone', $value);
         }
         else
         {
@@ -1580,17 +1572,9 @@ class MasterController extends CI_Controller
         }
 
         // Check based on type (exclude current customer)
-        if ($type == 'name')
-        {
-            $this->db->where('c_name', strtoupper($value));
-        }
         else if ($type == 'id_number')
         {
             $this->db->where('c_id_number', strtoupper($value));
-        }
-        else if ($type == 'phone')
-        {
-            $this->db->where('c_phone', $value);
         }
         else
         {
@@ -1718,19 +1702,6 @@ class MasterController extends CI_Controller
             return;
         }
 
-        // Validation: Check duplicate name
-        $this->db->where('c_name', $name);
-        $duplicateName = $this->db->get('tb_customer')->row();
-
-        if ($duplicateName)
-        {
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Nama "' . $name . '" sudah digunakan!'
-            ]);
-            return;
-        }
-
         // Validation: Check duplicate id number
         $this->db->where('c_id_number', $idNumber);
         $duplicateIdNumber = $this->db->get('tb_customer')->row();
@@ -1740,19 +1711,6 @@ class MasterController extends CI_Controller
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Nomor KTP "' . $idNumber . '" sudah digunakan!'
-            ]);
-            return;
-        }
-
-        // Validation: Check duplicate phone
-        $this->db->where('c_phone', $phone);
-        $duplicatePhone = $this->db->get('tb_customer')->row();
-
-        if ($duplicatePhone)
-        {
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Nomor HP "' . $phone . '" sudah digunakan!'
             ]);
             return;
         }
@@ -1832,20 +1790,6 @@ class MasterController extends CI_Controller
             return;
         }
 
-        // Validation: Check duplicate name (exclude current customer)
-        $this->db->where('c_name', $name);
-        $this->db->where('c_id !=', $idCustomer);
-        $duplicateName = $this->db->get('tb_customer')->row();
-
-        if ($duplicateName)
-        {
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Nama "' . $name . '" sudah digunakan!'
-            ]);
-            return;
-        }
-
         // Validation: Check duplicate id number (exclude current customer)
         $this->db->where('c_id_number', $idNumber);
         $this->db->where('c_id !=', $idCustomer);
@@ -1856,20 +1800,6 @@ class MasterController extends CI_Controller
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Nomor KTP "' . $idNumber . '" sudah digunakan!'
-            ]);
-            return;
-        }
-
-        // Validation: Check duplicate phone (exclude current customer)
-        $this->db->where('c_phone', $phone);
-        $this->db->where('c_id !=', $idCustomer);
-        $duplicatePhone = $this->db->get('tb_customer')->row();
-
-        if ($duplicatePhone)
-        {
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Nomor HP "' . $phone . '" sudah digunakan!'
             ]);
             return;
         }
