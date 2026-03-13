@@ -25,12 +25,15 @@ function initCabangPage() {
  * Initialize cabang form handlers
  */
 function initCabangForms() {
-    // Check if there's a form with id 'myForm'
+    // Check if there's a form with id 'myForm' AND it belongs to cabang pages
     if ($('#myForm').length) {
-        $('#myForm').on('submit', function(e) {
-            e.preventDefault();
-            handleCabangFormSubmit($(this));
-        });
+        var formAction = $('#myForm').attr('action') || '';
+        if (formAction.indexOf('save-cabang') !== -1 || formAction.indexOf('save-update-cabang') !== -1) {
+            $('#myForm').off('submit').on('submit', function(e) {
+                e.preventDefault();
+                handleCabangFormSubmit($(this));
+            });
+        }
     }
 }
 

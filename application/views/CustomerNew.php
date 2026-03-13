@@ -217,7 +217,8 @@ function nominal($angka){
     });
 
     // Form submission with validation and SWAL
-    $('#myForm').on('submit', function(e) {
+    // Use .off('submit') first to prevent duplicate bindings from global JS files
+    $('#myForm').off('submit').on('submit', function(e) {
         e.preventDefault();
         
         // Add loading state

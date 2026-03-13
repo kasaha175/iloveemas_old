@@ -25,12 +25,15 @@ function initMemoPage() {
  * Initialize Memo form handlers
  */
 function initMemoForms() {
-    // Check if there's a form with id 'myForm'
+    // Check if there's a form with id 'myForm' AND it belongs to memo pages
     if ($('#myForm').length) {
-        $('#myForm').on('submit', function(e) {
-            e.preventDefault();
-            handleMemoFormSubmit($(this));
-        });
+        var formAction = $('#myForm').attr('action') || '';
+        if (formAction.indexOf('save-memo') !== -1 || formAction.indexOf('update-memo') !== -1) {
+            $('#myForm').off('submit').on('submit', function(e) {
+                e.preventDefault();
+                handleMemoFormSubmit($(this));
+            });
+        }
     }
 }
 
