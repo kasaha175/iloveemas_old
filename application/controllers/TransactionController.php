@@ -1531,15 +1531,19 @@ class TransactionController extends CI_Controller
 		============================================== */
 		elseif ($idMaterial === 13) {
 
+		if ($weight == 0.5) {
+			$field = 'f_nol5';
+		} else {
 			$field = 'f_' . str_replace('.', '_coma_', $weight);
+		}
 
-			if (!isset($formula->$field)) {
-				log_message('error', '[SELL] Formula field not found: ' . $field);
-				redirect($_SERVER['HTTP_REFERER']);
-				return;
-			}
+		if (!isset($formula->$field)) {
+			log_message('error', '[SELL] Formula field not found: ' . $field);
+			redirect($_SERVER['HTTP_REFERER']);
+			return;
+		}
 
-			$basePrice = (float) $formula->$field;
+		$basePrice = (float) $formula->$field;
 
 			$potongan_lm = $this->MasterModel
 				->formulasData('lm')
@@ -1556,6 +1560,33 @@ class TransactionController extends CI_Controller
 
 			$pricePerGram = $basePrice + (float) $potArr[$tahun];
 		}
+
+		/* ==============================================
+		SPECIAL MATERIAL 14 (LM FORMULA)
+		============================================== */
+
+		elseif ($idMaterial === 14) {
+
+		if ($weight == 0.5) {
+			$field = 'f_nol5';
+		} else {
+			$field = 'f_' . str_replace('.', '_coma_', $weight);
+		}
+
+		if (!isset($formula->$field)) {
+			log_message('error', '[SELL] Formula field not found: ' . $field);
+			redirect($_SERVER['HTTP_REFERER']);
+			return;
+		}
+
+		$basePrice = (float) $formula->$field;
+
+		$potongan = $this->MasterModel
+			->formulasData('lm_lama')
+			->row('a');
+
+		$pricePerGram = $basePrice + (float)$potongan;
+	}
 
 		/* ==============================================
 		GENERIC BASED ON M_TYPE
@@ -1621,6 +1652,9 @@ class TransactionController extends CI_Controller
 		$this->cart->insert($data);
 
 		log_message('debug', '[SELL] Inserted item: ' . json_encode($data));
+		log_message('debug', '[SELL] weight=' . $weight);
+		log_message('debug', '[SELL] pricePerGram=' . $pricePerGram);
+		log_message('debug', '[SELL] priceTotal=' . $priceTotal);
 
 		/* ==============================================
 		RECALCULATE TOTAL
