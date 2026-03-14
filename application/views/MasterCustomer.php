@@ -36,7 +36,11 @@ function nominal($angka){
                 <a href="<?= base_url('transaction/new-customer/?key=add') ?>" class="btn btn-success">
                     <i class="fas fa-user-plus"></i> Add Customer
                 </a>
+                <button id="downloadCustomerExcelBtn" class="btn btn-primary" onclick="downloadCustomerExcelWithProgress()">
+                    <i class="fas fa-file-excel"></i> Download Excel
+                </button>
             </div>
+
         </div>
     </div>
     
@@ -78,38 +82,7 @@ function nominal($angka){
                                 <th>Created By</th>
                             </tr>
                         </thead>
-                        <tbody>
-                        <?php $no=0; foreach($customer as $a){ $no++; ?>
-                            <tr>
-                                <td><?=$no?></td>
-                                <td class="action-column">
-                                    <div class="action-button-group">
-                                        <!-- Edit Button - Pencil Icon with Tooltip -->
-                                        <a href="<?=base_url()?>master/customer/<?=$a->c_id?>/" 
-                                           class="btn-action btn-action-edit" 
-                                           data-tooltip="Edit Customer">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </a>
-                                        <!-- Delete Button - Trash Icon with Tooltip -->
-                                        <a href="javascript:void(0)" 
-                                           class="btn-action btn-action-delete btn-delete-customer" 
-                                           data-id="<?=$a->c_id?>" 
-                                           data-name="<?=$a->c_no_order?>"
-                                           data-tooltip="Delete Customer">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                                <td><?=$a->c_no_order?></td>
-                                <td><?=$a->c_name?></td>
-                                <td><?=$a->c_address?></td>
-                                <td><?=$a->c_resident_address?></td>
-                                <td><?=$a->c_phone?></td>
-                                <td><?=$a->c_date_created?></td>
-                                <td><?=$a->u_name?></td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>
@@ -122,7 +95,66 @@ function nominal($angka){
 <script>
 $(document).ready(function() {
     initDataTable('#dataTable', {
-        order: [[7, 'desc']] // Order by date created (newest first)
+        serverSide: true,
+        processing: true,
+        ajax: {
+            url: '<?= base_url("master/customer_datatable") ?>',
+            type: 'GET'
+        },
+        order: [[2, 'asc']], // Default order by No Order
+        columns: [
+            { data: null, orderable: false, searchable: false, render: function(data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }},
+            { data: null, orderable: false, searchable: false, render: function(data, type, row) {
+                return `
+                    <div class="action-button-group">
+                        <a href="<?=base_url()?>master/customer/${row.c_id}/" class="btn-action btn-action-edit" data-tooltip="Edit Customer">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="btn-action btn-action-delete btn-delete-customer" data-id="${row.c_id}" data-name="${row.c_no_order}" data-tooltip="Delete Customer">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>`;
+            }},
+            { data: 'c_no_order' },
+            { data: 'c_name' },
+            { data: 'c_address' },
+            { data: 'c_resident_address' },
+            { data: 'c_phone' },
+            { data: 'c_date_created' },
+            { data: null, render: function(data) { return data.c_u_id ? 'User ID: ' + data.c_u_id : 'N/A'; } }
+        ]
     });
 });
+
+function downloadCustomerExcelWithProgress() {
+    let progress = 0;
+    Swal.fire({
+        title: 'Preparing Excel File',
+        html: 'Please wait while we generate the customer report... <b>0%</b>',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+            const b = Swal.getHtmlContainer().querySelector('b');
+            let timerInterval = setInterval(() => {
+                progress += Math.random() * 15 + 5;
+                if (progress > 95) progress = 95;
+                b.textContent = Math.floor(progress) + '%';
+            }, 150);
+            
+            setTimeout(() => {
+                clearInterval(timerInterval);
+                b.textContent = '100% - Redirecting...';
+                setTimeout(() => {
+                    window.location.href = '<?= base_url('master/export-customer-excel') ?>';
+                    Swal.close();
+                }, 500);
+            }, 2500);
+        }
+    });
+}
 </script>
+

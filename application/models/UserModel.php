@@ -4,6 +4,11 @@
 
 class UserModel extends CI_Model {
 
+	public function __construct() {
+        parent::__construct();
+        $this->load->database(); // Memuat database
+    }
+
 	function cabangData(){
 		$query = $this->db->get('tb_cabang');
 		return $query;

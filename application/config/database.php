@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '172.17.0.1',
-	'username' => 'ile_user',
-	'password' => 'L9#vT2@qZ8!mR4$kW7^pX3',
-	'database' => 'iloveemas_db',
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'db_ilovemas-20261203_110018',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

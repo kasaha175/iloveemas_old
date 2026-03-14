@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class MasterController extends CI_Controller
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->load->model('UserModel');
@@ -14,6 +14,7 @@ class MasterController extends CI_Controller
         $this->dateToday = date("Y-m-d H:i:s");
         $this->load->library('cart');
     }
+
     function master()
     {
         $authUser = $this->session->userdata("authUser");
@@ -38,7 +39,6 @@ class MasterController extends CI_Controller
         if ($authUser == true)
         {
             $this->data['userData'] = $this->UserModel->userDataById($idUser)->result();
-            $this->data['customer'] = $this->MasterModel->customerData()->result();
             $this->data['content'] = $this->load->view('MasterCustomer', $this->data, true);
             $this->load->view("UserTemplate", $this->data);
         }
@@ -46,6 +46,36 @@ class MasterController extends CI_Controller
         {
             redirect(base_url());
         }
+    }
+
+    public function customer_datatable()
+    {
+        $authUser = $this->session->userdata("authUser");
+        if (!$authUser) {
+            echo json_encode(['data' => [], 'draw' => 1, 'recordsTotal' => 0, 'recordsFiltered' => 0]);
+            return;
+        }
+
+        $draw = intval($this->input->get('draw'));
+        $start = intval($this->input->get('start'));
+        $length = intval($this->input->get('length'));
+        $search_value = $this->input->get('search')['value'] ?? '';
+        $order_col = $this->input->get('order')[0]['column'] ?? 0;
+        $order_dir = $this->input->get('order')[0]['dir'] ?? 'asc';
+
+        $columns = ['c_no_order', 'c_name', 'c_address', 'c_resident_address', 'c_phone', 'c_date_created', 'u_name'];
+        $order_column = $columns[$order_col] ?? 'c.c_id';
+
+        $total_records = $this->MasterModel->count_all_customers();
+        $filtered_records = $this->MasterModel->count_filtered_customers($search_value);
+        $data = $this->MasterModel->get_customers_datatable($start, $length, $search_value, $order_column, $order_dir);
+
+        echo json_encode([
+            'draw' => $draw,
+            'recordsTotal' => $total_records,
+            'recordsFiltered' => $filtered_records,
+            'data' => $data
+        ]);
     }
     function detailCustomer()
     {
@@ -1896,6 +1926,96 @@ class MasterController extends CI_Controller
         ]);
     }
 
+    public function exportCustomerExcel()
+    {
+        $authUser = $this->session->userdata("authUser");
+
+        if (!$authUser) {
+            redirect(base_url());
+            return;
+        }
+
+        $customers = $this->MasterModel->customerData()->result();
+
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Data Customer');
+
+        // Title
+        $sheet->mergeCells('A1:E1');
+        $sheet->setCellValue('A1', 'DATA MASTER CUSTOMER');
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+        $sheet->getRowDimension(1)->setRowHeight(30);
+
+        // Date row
+        $sheet->mergeCells('A2:E2');
+        $sheet->setCellValue('A2', 'Tanggal Export: ' . date('d/m/Y H:i:s'));
+        $sheet->getStyle('A2')->getFont()->setItalic(true);
+        $sheet->getRowDimension(2)->setRowHeight(18);
+
+        // Header
+        $headers = ['No', 'ID Customer', 'Nama', 'Alamat', 'No. HP'];
+        $sheet->fromArray($headers, null, 'A3');
+
+        // Style header
+        $headerStyle = [
+            'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF'], 'size' => 11],
+            'fill' => ['fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'startColor' => ['rgb' => '2C3E50']],
+            'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
+        ];
+        $sheet->getStyle('A3:E3')->applyFromArray($headerStyle);
+        $sheet->getRowDimension(3)->setRowHeight(22);
+
+        // Column width
+        $sheet->getColumnDimension('A')->setWidth(6);
+        $sheet->getColumnDimension('B')->setWidth(15);
+        $sheet->getColumnDimension('C')->setWidth(35);
+        $sheet->getColumnDimension('D')->setWidth(50);
+        $sheet->getColumnDimension('E')->setWidth(20);
+
+        // Data rows
+        $row = 4;
+        $no = 1;
+        foreach ($customers as $c) {
+            $sheet->setCellValue('A' . $row, $no++);
+            $sheet->setCellValue('B' . $row, $c->c_id);
+            $sheet->setCellValue('C' . $row, $c->c_name);
+            $sheet->setCellValue('D' . $row, $c->c_address);
+            $sheet->setCellValue('E' . $row, $c->c_phone);
+
+            // Alternate row color
+            if ($no % 2 == 0) {
+                $sheet->getStyle('A'.$row.':E'.$row)->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()->setRGB('F2F2F2');
+            }
+
+            // Data border and alignment
+            $dataStyle = [
+                'alignment' => ['vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER],
+                'borders' => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
+            ];
+            $sheet->getStyle('A'.$row.':E'.$row)->applyFromArray($dataStyle);
+            $sheet->getStyle('A'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle('B'.$row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $sheet->getRowDimension($row)->setRowHeight(18);
+
+            $row++;
+        }
+
+        // Output file
+        $filename = 'Data_Master_Customer_' . date('Ymd_His') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
+    }
+
     // Delete cabang with SWAL response
     public function deleteCabangWithSwal()
     {
@@ -1930,5 +2050,176 @@ class MasterController extends CI_Controller
             'message' => 'Cabang Berhasil Dihapus!'
         ]);
     }
+
+    public function exportMasterExcel()
+{
+    $authUser = $this->session->userdata("authUser");
+    if (!$authUser) {
+        redirect(base_url());
+        exit;
+    }
+
+    // Clear all buffers
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+
+    // ======================
+    // Ambil data
+    // ======================
+
+    $customers = $this->MasterModel->customerData()->result();
+
+    $this->db->group_start();
+    $this->db->where('status !=', 'DISABLE');
+    $this->db->or_where('status IS NULL', null, false);
+    $this->db->group_end();
+    $memos = $this->db->get('tb_memo')->result();
+
+    $cabangs = $this->db->where('status', 'ENABLE')->get('tb_cabang')->result();
+
+    // Preview data
+    $customersPreview = array_slice($customers, 0, 15);
+    $memosPreview = array_slice($memos, 0, 10);
+
+    // ======================
+    // Spreadsheet
+    // ======================
+
+    $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+    $sheet->setTitle('Ringkasan Master');
+
+    // Judul
+    $sheet->mergeCells('A1:H1');
+    $sheet->setCellValue('A1', 'RINGKASAN DATA MASTER');
+    $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16);
+
+    // Tanggal
+    $sheet->mergeCells('A2:H2');
+    $sheet->setCellValue('A2', 'Ekspor: ' . date('d/m/Y H:i:s'));
+    $sheet->getStyle('A2')->getFont()->setItalic(true);
+
+    $row = 4;
+
+    // ======================
+    // CUSTOMER
+    // ======================
+
+    $sheet->setCellValue('A'.$row, 'CUSTOMER (Total: '.count($customers).')');
+    $sheet->mergeCells('A'.$row.':H'.$row);
+    $sheet->getStyle('A'.$row)->getFont()->setBold(true);
+    $row++;
+
+    $sheet->fromArray(['No','ID','Nama','KTP','Alamat','HP'], NULL, 'A'.$row);
+    $sheet->getStyle('A'.$row.':F'.$row)->getFont()->setBold(true);
+    $row++;
+
+    $no = 1;
+    foreach ($customersPreview as $c) {
+        $sheet->fromArray([
+            $no++,
+            $c->c_id,
+            $c->c_name,
+            $c->c_id_number,
+            $c->c_address,
+            $c->c_phone
+        ], NULL, 'A'.$row);
+        $row++;
+    }
+
+    $row += 2;
+
+    // ======================
+    // MEMO
+    // ======================
+
+    $sheet->setCellValue('A'.$row, 'MEMO (Total: '.count($memos).')');
+    $sheet->mergeCells('A'.$row.':H'.$row);
+    $sheet->getStyle('A'.$row)->getFont()->setBold(true);
+    $row++;
+
+    $sheet->fromArray(['No','Priority','Isi Memo'], NULL, 'A'.$row);
+    $sheet->getStyle('A'.$row.':C'.$row)->getFont()->setBold(true);
+    $row++;
+
+    $no = 1;
+
+    foreach ($memosPreview as $m) {
+
+        $preview = strlen($m->tm_value) > 80
+            ? substr($m->tm_value,0,80).'...'
+            : $m->tm_value;
+
+        $priority = !empty($m->tm_priority) ? $m->tm_priority : '-';
+
+        $sheet->fromArray([
+            $no++,
+            $priority,
+            $preview
+        ], NULL, 'A'.$row);
+
+        $row++;
+    }
+
+    $row += 2;
+
+    // ======================
+    // CABANG
+    // ======================
+
+    $sheet->setCellValue('A'.$row, 'CABANG (Total: '.count($cabangs).')');
+    $sheet->mergeCells('A'.$row.':H'.$row);
+    $sheet->getStyle('A'.$row)->getFont()->setBold(true);
+    $row++;
+
+    $sheet->fromArray(['No','ID','Nama Cabang','Urutan'], NULL, 'A'.$row);
+    $sheet->getStyle('A'.$row.':D'.$row)->getFont()->setBold(true);
+    $row++;
+
+    $no = 1;
+    foreach ($cabangs as $cb) {
+
+        $sheet->fromArray([
+            $no++,
+            $cb->id,
+            $cb->nama_cabang,
+            $cb->urutan_cabang
+        ], NULL, 'A'.$row);
+
+        $row++;
+    }
+
+    // Auto size
+    foreach (range('A','H') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    // Footer
+    $sheet->mergeCells('A'.($row+1).':H'.($row+1));
+    $sheet->setCellValue(
+        'A'.($row+1),
+        'Total Rekap: Customer='.count($customers).', Memo='.count($memos).', Cabang='.count($cabangs)
+    );
+
+    // ======================
+    // Download
+    // ======================
+
+    $filename = 'Ringkasan_Master_'.date('Ymd_His').'.xlsx';
+
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8');
+    header('Content-Disposition: attachment; filename="'.$filename.'"');
+    header('Cache-Control: max-age=0');
+    header('Pragma: public');
+
+    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer->save('php://output');
+
+    $spreadsheet->disconnectWorksheets();
+    unset($spreadsheet);
+
+    exit;
 }
-?>
+}
+

@@ -122,6 +122,7 @@ $config['enable_hooks'] = FALSE;
 */
 $config['subclass_prefix'] = 'MY_';
 
+
 /*
 |--------------------------------------------------------------------------
 | Composer auto-loading
@@ -142,7 +143,8 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = APPPATH . '../vendor/autoload.php';
+
 
 /*
 |--------------------------------------------------------------------------

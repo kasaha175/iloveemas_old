@@ -11,6 +11,50 @@
     <h3 class="page-title">MASTER</h3>
     <p class="master-subtitle">Pilih jenis laporan yang ingin Anda akses</p>
     
+    <!-- Download Excel Button -->
+    <div class="text-center mb-4">
+<button id="downloadExcelBtn" class="btn btn-success btn-lg" style="background: linear-gradient(45deg, #28a745, #20c997); border: none; padding: 12px 30px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(40,167,69,0.4);">
+            <i class="fas fa-file-excel mr-2"></i>
+            <span>Download Excel Master Summary</span>
+        </button>
+    </div>
+
+    <script>
+    jQuery(document).ready(function($) {
+        $('#downloadExcelBtn').click(function(e) {
+            e.preventDefault();
+            
+            Swal.fire({
+                title: 'Preparing Excel File',
+                text: 'Please wait while we generate the report...',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                },
+                didOpen: () => {
+                    let timerInterval = setInterval(() => {
+                        const content = Swal.getContent();
+                        if (content) {
+                            const b = content.querySelector('b');
+                            if (b) {
+                                b.textContent = Math.ceil(Math.random() * 100) + '%';
+                            }
+                        }
+                    }, 100);
+                    
+                    setTimeout(() => {
+                        clearInterval(timerInterval);
+                        window.location.href = '<?=base_url()?>master/exportMasterExcel';
+                        Swal.close();
+                    }, 4000);
+                }
+            });
+        });
+    });
+    </script>
+
     <!-- Master Menu Grid -->
     <div class="master-grid">
         <div class="row justify-content-center master-row">
@@ -18,6 +62,18 @@
                 <a href="<?=base_url()?>master/customer/" class="menu-box">
                     <i class="fas fa-users icon"></i>
                     <span>Customer</span>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a href="<?=base_url()?>master/memo/" class="menu-box">
+                    <i class="fas fa-file-alt icon"></i>
+                    <span>Syarat & Ketentuan</span>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a href="<?=base_url()?>master/cabang/" class="menu-box">
+                    <i class="fas fa-store icon"></i>
+                    <span>Daftar Cabang</span>
                 </a>
             </div>
             <div class="col-md-6 col-lg-4">
