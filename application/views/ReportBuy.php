@@ -874,7 +874,7 @@ function nominal(angka) {
 // Initialize DataTable using centralized function
 $(document).ready(function () {
     initDataTable('#dataTable', {
-        dom: 'Bfrtip',
+dom: 'Blfrtip',
         lengthMenu: [
             [ 10, 25, 50, 100, -1 ],
             [ '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]

@@ -74,9 +74,9 @@
         white-space: nowrap;
     }
     
-    .navbar-info .info-item i {
+.navbar-info .info-item i {
         margin-right: 5px;
-        color: #00d2d3;
+        color: var(--ocean-blue);
     }
     
     .navbar-info .info-item span {
@@ -84,7 +84,7 @@
     }
     
     /* Responsive - Tablet */
-    @media (max-width: 992px) {
+@media (max-width: 1024px) {
         .navbar-info {
             gap: 10px;
             margin-left: 10px;
@@ -143,10 +143,10 @@ if ($uri == 'archive') {
             </a>
             
             <!-- Navbar Info Items - Date, Time, Version -->
-            <div class="navbar-info">
+<div class="navbar-info" data-navbar-info="true">
                 <div class="info-item">
                     <i class="fas fa-calendar-alt"></i>
-                    <span id="currentDate"></span>
+<span id="currentDate" data-date="true"></span>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-clock"></i>

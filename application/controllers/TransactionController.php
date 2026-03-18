@@ -1530,7 +1530,8 @@ class TransactionController extends CI_Controller
 		SPECIAL MATERIAL 13 (LM FORMULA)
 		============================================== */
 		elseif ($idMaterial === 13) {
-
+			$tahun_potongan = $this->input->post('tahun_potongan') ?: '-';
+			
 		if ($weight == 0.5) {
 			$field = 'f_nol5';
 		} else {
@@ -1549,7 +1550,7 @@ class TransactionController extends CI_Controller
 				->formulasData('lm')
 				->row('potongan_lm');
 
-			$tahun = $this->input->post('tahun_potongan');
+			$tahun = $tahun_potongan;
 			$potArr = json_decode($potongan_lm, true);
 
 			if (!isset($potArr[$tahun])) {
@@ -1636,6 +1637,8 @@ class TransactionController extends CI_Controller
 
 		$priceTotal = round($pricePerGram * $weight);
 
+		$tahun_potongan = $this->input->post('tahun_potongan') ?: '-';
+		
 		$data = [
 			'id'           => $idLast,
 			'qty'          => $weight,
@@ -1643,7 +1646,7 @@ class TransactionController extends CI_Controller
 			'prices'       => $pricePerGram,
 			'name'         => 'T-Shirt',
 			'materialName' => $materialName,
-			'materialType' => '-',
+			'materialType' => $tahun_potongan,
 			'carat'        => $percentage ? $percentage . '%' : '-',
 			'weight'       => $weight,
 			'priceTotal'   => $priceTotal,

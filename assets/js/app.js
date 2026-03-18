@@ -19,8 +19,13 @@ document.addEventListener("DOMContentLoaded", function() {
 function initializeApp() {
     // Add any global initialization code here
     
-    // Example: Initialize tooltips if using any
+    // Initialize tooltips if using any
     initTooltips();
+    
+    // Initialize navbar clock
+    if (typeof initNavbarClock === 'function') {
+        initNavbarClock();
+    }
     
     // Initialize any third-party plugins
     initPlugins();
@@ -193,3 +198,53 @@ function formatDateTime(date) {
         second: '2-digit'
     }).format(d);
 }
+
+/**
+ * Indonesian Month Names
+ */
+const bulanNames = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+    'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
+];
+
+/**
+ * Update Navbar Date & Time - Real-time Clock
+ */
+function updateNavbarDateTime() {
+    const now = new Date();
+    
+    // Format tanggal Indonesia: "20 Mar 2026"
+    const hari = now.getDate();
+    const bulanIdx = now.getMonth();
+    const tahun = now.getFullYear();
+    const tanggalText = `${hari} ${bulanNames[bulanIdx]} ${tahun}`;
+    
+    // Format jam: "14:35:22"
+    const jam = now.getHours().toString().padStart(2, '0');
+    const menit = now.getMinutes().toString().padStart(2, '0');
+    const detik = now.getSeconds().toString().padStart(2, '0');
+    const jamText = `${jam}:${menit}:${detik}`;
+    
+    // Update elements
+    const dateEl = document.getElementById('currentDate');
+    const timeEl = document.getElementById('currentTime');
+    
+    if (dateEl) dateEl.textContent = tanggalText;
+    if (timeEl) timeEl.textContent = jamText;
+}
+
+/**
+ * Initialize Navbar Clock - Auto-start
+ */
+function initNavbarClock() {
+    // Update immediately
+    updateNavbarDateTime();
+    
+    // Update every second
+    setInterval(updateNavbarDateTime, 1000);
+}
+
+// Export for global use if needed
+window.updateNavbarDateTime = updateNavbarDateTime;
+window.initNavbarClock = initNavbarClock;
+
