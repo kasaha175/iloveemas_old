@@ -1467,18 +1467,15 @@ class TransactionController extends CI_Controller
 		$idMaterial    = (int) $this->input->post('idMaterial');
 		$idCustomer    = $this->session->userdata("idCustomer") ?? 7;
 		$idTransaction = $this->session->userdata("idTransaction");
-		$weight        = (float) $this->input->post('weight');
+
+		$inputWeight   = (float) $this->input->post('weight');
+		$weight        = $inputWeight;
 		$percentage    = (float) $this->input->post('percentage');
 
 		log_message('debug', '=========== SELL ADD TO CART START ===========');
 		log_message('debug', 'POST: ' . json_encode($this->input->post()));
 
-		if ($weight <= 0) {
-			log_message('error', '[SELL] Invalid weight');
-			redirect($_SERVER['HTTP_REFERER']);
-			return;
-		}
-
+		// 🔎 Get Material
 		$material = $this->MaterialModel
 			->materialDataBy('m_id', $idMaterial, 'Sell')
 			->row();
@@ -1492,11 +1489,13 @@ class TransactionController extends CI_Controller
 		$materialName = $material->m_name;
 		$mType        = $material->m_type;
 
+		// 🔢 Generate Cart ID
 		$idLast = 1;
 		foreach ($this->cart->contents() as $a) {
 			$idLast = $a['id'] + 1;
 		}
 
+		// 🔎 Get Formula
 		$formula = $this->MaterialModel->formulaData()->row();
 		if (!$formula) {
 			log_message('error', '[SELL] Formula not found');
@@ -1504,7 +1503,10 @@ class TransactionController extends CI_Controller
 			return;
 		}
 
-		$data = null;
+		$pricePerGram   = 0;
+		$tahun_potongan = $this->input->post('tahun_potongan') ?: '-';
+		$materialType   = $tahun_potongan;
+		$caratDisplay   = $percentage ? $percentage . '%' : '-';
 
 		/* ==============================================
 		SPECIAL MATERIAL 18 (CONFIG BASED)
@@ -1512,9 +1514,12 @@ class TransactionController extends CI_Controller
 		if ($idMaterial === 18) {
 
 			$idConfig = (int) $this->input->post('idConfig');
+
 			$config = $this->mmodel
 				->selectWhere('config_material', ['id' => $idConfig])
 				->row();
+
+			log_message('debug', '[SELL][CONFIG] DATA: ' . json_encode($config));
 
 			if (!$config) {
 				log_message('error', '[SELL] Config not found');
@@ -1522,106 +1527,105 @@ class TransactionController extends CI_Controller
 				return;
 			}
 
-			$pricePerGram = (float) $config->price;
-			$weight       = (float) ($config->weight ?? 1);
+			$harga    = (float) ($config->harga ?? 0);
+			$potongan = (float) ($config->potongan ?? 0);
+
+			// 🔥 PRICE SUDAH POTONGAN
+			$pricePerGram = $harga - $potongan;
+
+			// 🔥 FIX: weight dari size (bukan weight)
+			$weight = (float) ($config->size ?? 1);
+
+			// override tampilan
+			$materialType = '-';
+			$caratDisplay = '-';
+
+			log_message('debug', '[SELL][UBS] size=' . $config->size . ' final_price=' . $pricePerGram);
 		}
 
 		/* ==============================================
-		SPECIAL MATERIAL 13 (LM FORMULA)
+		SPECIAL MATERIAL 13 (LM)
 		============================================== */
 		elseif ($idMaterial === 13) {
-			$tahun_potongan = $this->input->post('tahun_potongan') ?: '-';
-			
-		if ($weight == 0.5) {
-			$field = 'f_nol5';
-		} else {
-			$field = 'f_' . str_replace('.', '_coma_', $weight);
-		}
 
-		if (!isset($formula->$field)) {
-			log_message('error', '[SELL] Formula field not found: ' . $field);
-			redirect($_SERVER['HTTP_REFERER']);
-			return;
-		}
+			$field = ($weight == 0.5)
+				? 'f_nol5'
+				: 'f_' . str_replace('.', '_coma_', $weight);
 
-		$basePrice = (float) $formula->$field;
+			if (!isset($formula->$field)) {
+				log_message('error', '[SELL] Formula field not found: ' . $field);
+				redirect($_SERVER['HTTP_REFERER']);
+				return;
+			}
 
-			$potongan_lm = $this->MasterModel
-				->formulasData('lm')
-				->row('potongan_lm');
+			$basePrice = (float) $formula->$field;
 
-			$tahun = $tahun_potongan;
-			$potArr = json_decode($potongan_lm, true);
+			$potArr = json_decode(
+				$this->MasterModel->formulasData('lm')->row('potongan_lm'),
+				true
+			);
 
-			if (!isset($potArr[$tahun])) {
+			if (!isset($potArr[$tahun_potongan])) {
 				log_message('error', '[SELL] Potongan tahun invalid');
 				redirect($_SERVER['HTTP_REFERER']);
 				return;
 			}
 
-			$pricePerGram = $basePrice + (float) $potArr[$tahun];
+			$pricePerGram = $basePrice + (float) $potArr[$tahun_potongan];
 		}
 
 		/* ==============================================
-		SPECIAL MATERIAL 14 (LM FORMULA)
+		SPECIAL MATERIAL 14 (LM LAMA)
 		============================================== */
-
 		elseif ($idMaterial === 14) {
 
-		if ($weight == 0.5) {
-			$field = 'f_nol5';
-		} else {
-			$field = 'f_' . str_replace('.', '_coma_', $weight);
+			$field = ($weight == 0.5)
+				? 'f_nol5'
+				: 'f_' . str_replace('.', '_coma_', $weight);
+
+			if (!isset($formula->$field)) {
+				log_message('error', '[SELL] Formula field not found: ' . $field);
+				redirect($_SERVER['HTTP_REFERER']);
+				return;
+			}
+
+			$basePrice = (float) $formula->$field;
+
+			$potongan = (float) $this->MasterModel
+				->formulasData('lm_lama')
+				->row('a');
+
+			$pricePerGram = $basePrice + $potongan;
 		}
-
-		if (!isset($formula->$field)) {
-			log_message('error', '[SELL] Formula field not found: ' . $field);
-			redirect($_SERVER['HTTP_REFERER']);
-			return;
-		}
-
-		$basePrice = (float) $formula->$field;
-
-		$potongan = $this->MasterModel
-			->formulasData('lm_lama')
-			->row('a');
-
-		$pricePerGram = $basePrice + (float)$potongan;
-	}
 
 		/* ==============================================
-		GENERIC BASED ON M_TYPE
+		GENERIC BASED ON TYPE
 		============================================== */
 		else {
 
 			switch ($mType) {
 
 				case 'AU':
-					$rti = $formula->f_rti_au_sell ?? 0;
-					$pricePerGram = round(($percentage / 100) * $rti);
+					$pricePerGram = round(($percentage / 100) * ($formula->f_rti_au_sell ?? 0));
 					break;
 
 				case 'AG':
-					$rti = $formula->f_rti_ag_sell ?? 0;
-					$pricePerGram = round(($percentage / 100) * $rti);
+					$pricePerGram = round(($percentage / 100) * ($formula->f_rti_ag_sell ?? 0));
 					break;
 
 				case 'PT':
 				case 'PD':
 				case 'RH':
 				case 'IR':
-					$rti = $formula->f_rti_pt_sell ?? 0;
-					$pricePerGram = round(($percentage / 100) * $rti);
+					$pricePerGram = round(($percentage / 100) * ($formula->f_rti_pt_sell ?? 0));
 					break;
 
 				case 'RU':
-					$rti = $formula->f_rti_ru_sell ?? 0;
-					$pricePerGram = round(($percentage / 100) * $rti);
+					$pricePerGram = round(($percentage / 100) * ($formula->f_rti_ru_sell ?? 0));
 					break;
 
 				case 'TA':
-					$rti = $formula->f_rti_ta_sell ?? 0;
-					$pricePerGram = round(($percentage / 100) * $rti);
+					$pricePerGram = round(($percentage / 100) * ($formula->f_rti_ta_sell ?? 0));
 					break;
 
 				case 'UBS':
@@ -1635,10 +1639,21 @@ class TransactionController extends CI_Controller
 			}
 		}
 
+		/* ==============================================
+		FINAL VALIDATION
+		============================================== */
+		if ($weight <= 0) {
+			log_message('error', '[SELL] Invalid FINAL weight');
+			redirect($_SERVER['HTTP_REFERER']);
+			return;
+		}
+
+		if ($pricePerGram <= 0) {
+			log_message('error', '[SELL] Invalid pricePerGram (0)');
+		}
+
 		$priceTotal = round($pricePerGram * $weight);
 
-		$tahun_potongan = $this->input->post('tahun_potongan') ?: '-';
-		
 		$data = [
 			'id'           => $idLast,
 			'qty'          => $weight,
@@ -1646,18 +1661,15 @@ class TransactionController extends CI_Controller
 			'prices'       => $pricePerGram,
 			'name'         => 'T-Shirt',
 			'materialName' => $materialName,
-			'materialType' => $tahun_potongan,
-			'carat'        => $percentage ? $percentage . '%' : '-',
+			'materialType' => $materialType,
+			'carat'        => $caratDisplay,
 			'weight'       => $weight,
 			'priceTotal'   => $priceTotal,
 		];
 
 		$this->cart->insert($data);
 
-		log_message('debug', '[SELL] Inserted item: ' . json_encode($data));
-		log_message('debug', '[SELL] weight=' . $weight);
-		log_message('debug', '[SELL] pricePerGram=' . $pricePerGram);
-		log_message('debug', '[SELL] priceTotal=' . $priceTotal);
+		log_message('debug', '[SELL] FINAL DATA: ' . json_encode($data));
 
 		/* ==============================================
 		RECALCULATE TOTAL
@@ -1671,7 +1683,7 @@ class TransactionController extends CI_Controller
 		}
 
 		/* ==============================================
-		CREATE OR UPDATE HEADER
+		CREATE / UPDATE HEADER
 		============================================== */
 		if (!$idTransaction) {
 
@@ -1707,6 +1719,7 @@ class TransactionController extends CI_Controller
 				'idTransaction'   => $idTransaction,
 				'jenis_transaksi' => "sell"
 			]);
+
 		} else {
 
 			$this->db->update(
@@ -1727,18 +1740,16 @@ class TransactionController extends CI_Controller
 
 		foreach ($this->cart->contents() as $item) {
 
-			$dataItems = [
-				'ti_t_id'        => $idTransaction,
-				'ti_material'    => $item['materialName'],
+			$this->TransactionModel->sellCheckoutItems([
+				'ti_t_id'         => $idTransaction,
+				'ti_material'     => $item['materialName'],
 				'ti_material_type'=> $item['materialType'],
-				'ti_carat'       => $item['carat'],
-				'ti_weight'      => $item['weight'],
-				'ti_price'       => $item['prices'],
-				'ti_price_total' => $item['priceTotal'],
-				'ti_date_created'=> $this->dateToday,
-			];
-
-			$this->TransactionModel->sellCheckoutItems($dataItems);
+				'ti_carat'        => $item['carat'],
+				'ti_weight'       => $item['weight'],
+				'ti_price'        => $item['prices'],
+				'ti_price_total'  => $item['priceTotal'],
+				'ti_date_created' => $this->dateToday,
+			]);
 		}
 
 		log_message('debug', '=========== SELL ADD TO CART END ===========');
