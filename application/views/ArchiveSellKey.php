@@ -49,6 +49,12 @@
                     }
                     ?>
                 </label>
+
+                <?php if(in_array($this->input->get("key"), ["lm","material-ubs"])): ?>
+                    <div class="alert-price-info">
+                        ⚠️ Harga yang dimasukkan adalah <b>harga per gram (price/gram)</b> sesuai data excel.
+                    </div>
+                <?php endif; ?>
                 
                 <?php 
                 switch($this->input->get("key")){
@@ -419,6 +425,19 @@
         padding: 14px 16px;
         border-radius: 14px;
     }
+}
+
+.alert-price-info {
+    margin-top: -8px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: rgba(255, 193, 7, 0.15);
+    border: 1px solid rgba(255, 193, 7, 0.4);
+    color: #856404;
+    font-size: 0.9rem;
+    font-weight: 500;
+    backdrop-filter: blur(6px);
 }
 </style>
 
