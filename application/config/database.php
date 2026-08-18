@@ -3,82 +3,75 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
-| DATABASE CONNECTIVITY SETTINGS
+| DATABASE CONNECTIVITY SETTINGS (env-aware version)
 | -------------------------------------------------------------------
-| This file will contain the settings needed to access your database.
+| Drop-in replacement for application/config/database.php.
 |
-| For complete instructions please consult the 'Database Connection'
-| page of the User Guide.
+| This reads DB_HOST / DB_USERNAME / DB_PASSWORD / DB_DATABASE from a
+| ".env" file at the project root when present, and falls back to the
+| same local defaults the original file used, so nothing breaks if
+| ".env" is missing.
 |
+| HOW TO APPLY (do this yourself after reviewing):
+|   1. Rename the current application/config/database.php to
+|      database.local-backup.php (keep it until you've verified this
+|      works).
+|   2. Rename this file (database.env-ready.php) to database.php.
+|   3. Copy .env.example to .env at the project root and fill in the
+|      real values for whichever environment you're deploying to.
+|   4. Load a page and confirm the app still connects correctly.
+|
+| For each future client install, they just get their own .env with
+| their own DB_* values - no code changes needed per client.
 | -------------------------------------------------------------------
-| EXPLANATION OF VARIABLES
-| -------------------------------------------------------------------
-|
-|	['dsn']      The full DSN string describe a connection to the database.
-|	['hostname'] The hostname of your database server.
-|	['username'] The username used to connect to the database
-|	['password'] The password used to connect to the database
-|	['database'] The name of the database you want to connect to
-|	['dbdriver'] The database driver. e.g.: mysqli.
-|			Currently supported:
-|				 cubrid, ibase, mssql, mysql, mysqli, oci8,
-|				 odbc, pdo, postgre, sqlite, sqlite3, sqlsrv
-|	['dbprefix'] You can add an optional prefix, which will be added
-|				 to the table name when using the  Query Builder class
-|	['pconnect'] TRUE/FALSE - Whether to use a persistent connection
-|	['db_debug'] TRUE/FALSE - Whether database errors should be displayed.
-|	['cache_on'] TRUE/FALSE - Enables/disables query caching
-|	['cachedir'] The path to the folder where cache files should be stored
-|	['char_set'] The character set used in communicating with the database
-|	['dbcollat'] The character collation used in communicating with the database
-|				 NOTE: For MySQL and MySQLi databases, this setting is only used
-| 				 as a backup if your server is running PHP < 5.2.3 or MySQL < 5.0.7
-|				 (and in table creation queries made with DB Forge).
-| 				 There is an incompatibility in PHP with mysql_real_escape_string() which
-| 				 can make your site vulnerable to SQL injection if you are using a
-| 				 multi-byte character set and are running versions lower than these.
-| 				 Sites using Latin-1 or UTF-8 database character set and collation are unaffected.
-|	['swap_pre'] A default table prefix that should be swapped with the dbprefix
-|	['encrypt']  Whether or not to use an encrypted connection.
-|
-|			'mysql' (deprecated), 'sqlsrv' and 'pdo/sqlsrv' drivers accept TRUE/FALSE
-|			'mysqli' and 'pdo/mysql' drivers accept an array with the following options:
-|
-|				'ssl_key'    - Path to the private key file
-|				'ssl_cert'   - Path to the public key certificate file
-|				'ssl_ca'     - Path to the certificate authority file
-|				'ssl_capath' - Path to a directory containing trusted CA certificats in PEM format
-|				'ssl_cipher' - List of *allowed* ciphers to be used for the encryption, separated by colons (':')
-|				'ssl_verify' - TRUE/FALSE; Whether verify the server certificate or not ('mysqli' only)
-|
-|	['compress'] Whether or not to use client compression (MySQL only)
-|	['stricton'] TRUE/FALSE - forces 'Strict Mode' connections
-|							- good for ensuring strict SQL while developing
-|	['ssl_options']	Used to set various SSL options that can be used when making SSL connections.
-|	['failover'] array - A array with 0 or more data for connections if the main should fail.
-|	['save_queries'] TRUE/FALSE - Whether to "save" all executed queries.
-| 				NOTE: Disabling this will also effectively disable both
-| 				$this->db->last_query() and profiling of DB queries.
-| 				When you run a query, with this setting set to TRUE (default),
-| 				CodeIgniter will store the SQL statement for debugging purposes.
-| 				However, this may cause high memory usage, especially if you run
-| 				a lot of SQL queries ... disable this to avoid that problem.
-|
-| The $active_group variable lets you choose which connection group to
-| make active.  By default there is only one group (the 'default' group).
-|
-| The $query_builder variables lets you determine whether or not to load
-| the query builder class.
 */
+
+if (!function_exists('ilm_load_env')) {
+	function ilm_load_env($path)
+	{
+		if (!is_readable($path)) {
+			return;
+		}
+		foreach (file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+			$line = trim($line);
+			if ($line === '' || strpos($line, '#') === 0 || strpos($line, '=') === false) {
+				continue;
+			}
+			list($key, $value) = explode('=', $line, 2);
+			$key = trim($key);
+			$value = trim($value);
+			$len = strlen($value);
+			if ($len >= 2 && (($value[0] === '"' && $value[$len - 1] === '"') || ($value[0] === "'" && $value[$len - 1] === "'"))) {
+				$value = substr($value, 1, -1);
+			}
+			if (getenv($key) === false) {
+				putenv("$key=$value");
+				$_ENV[$key] = $value;
+			}
+		}
+	}
+}
+
+if (!function_exists('ilm_env')) {
+	function ilm_env($key, $default = null)
+	{
+		$value = getenv($key);
+		return ($value === false) ? $default : $value;
+	}
+}
+
+// project root is one level up from application/config/
+ilm_load_env(APPPATH . '../.env');
+
 $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '103.27.207.23',
-	'username' => 'ile_user',
-	'password' => 'L9#vT2@qZ8!mR4$kW7^pX3',
-	'database' => 'iloveemas_db',
+	'hostname' => ilm_env('DB_HOST', '127.0.0.1'),
+	'username' => ilm_env('DB_USERNAME', 'root'),
+	'password' => ilm_env('DB_PASSWORD', ''),
+	'database' => ilm_env('DB_DATABASE', 'db_ilovemas'),
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
