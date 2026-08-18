@@ -37,3 +37,6 @@ _archive_legacy_backups/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# --- Claude Code tool-local state ---
+.claude/
