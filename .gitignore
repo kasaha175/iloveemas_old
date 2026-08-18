@@ -1,0 +1,39 @@
+# ==========================================================================
+# iloveemas_apps - .gitignore
+# Added as part of Phase 1 "repo hygiene" cleanup (productization prep).
+# Review and adjust before committing - this is intentionally broad.
+# ==========================================================================
+
+# --- Secrets / environment ---
+.env
+.env.*
+!.env.example
+
+# --- CodeIgniter runtime/cache/logs ---
+application/cache/*
+!application/cache/index.html
+application/logs/*
+!application/logs/index.html
+
+# --- Legacy backup files (manual "versioning") ---
+# These patterns catch the TransactionControllerBackup.php /
+# routes15072025.php style files so new ones never get committed again.
+*Backup.php
+*[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].php
+*.zip
+
+# --- Local DB dumps (may contain real customer/transaction data) ---
+*.sql
+
+# --- Misc dev artifacts that shouldn't be in source control ---
+error_log
+cookies.txt
+*.log
+
+# --- Archive folder created by iloveemas_cleanup.ps1 ---
+_archive_legacy_backups/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
