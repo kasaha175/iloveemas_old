@@ -162,8 +162,12 @@ class TransactionController extends CI_Controller
 		$datapost = $this->input->post();
 		$idUser = $this->session->userdata("idUser");
 		$userData = $this->UserModel->userDataById($idUser)->row();
-		if ($userData->u_password == md5($datapost['password']))
+		if ($this->UserModel->verifyPassword($datapost['password'], $userData->u_password))
 		{
+			if (!$this->UserModel->isBcryptHash($userData->u_password))
+			{
+				$this->UserModel->rehashPassword($userData->u_id, $datapost['password']);
+			}
 			$data = array(
 			 't_alasan' => $datapost['alasan']
 			);

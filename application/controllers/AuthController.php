@@ -58,28 +58,25 @@ class AuthController extends CI_Controller
             $username = str_replace(' ', '-', $username);
             $username = preg_replace('/[^A-Za-z0-9]/', '', $username);
             $password = $this->input->post('password');
-            $password = str_replace(' ', '-', $password);
-            $password = preg_replace('/[^A-Za-z0-9]/', '', $password);
-            $password = md5($password);
-            $userData = $this->UserModel->userData($username, $password)->result();
-            $cek = count($userData);
-            
-            if ($cek > 0)
+            $user = $this->UserModel->userByUsername($username)->row();
+
+            if ($user && $this->UserModel->verifyPassword($password, $user->u_password))
             {
-                foreach ($userData as $a)
+                if (!$this->UserModel->isBcryptHash($user->u_password))
                 {
+                    $this->UserModel->rehashPassword($user->u_id, $password);
                 }
-                
+
                 // Reset attempt counter saat login berhasil
                 $this->session->set_userdata([
                     'login_attempts' => 0,
                     'locked_until' => null
                 ]);
-                
+
                 $data_session = array(
                     'authUser' => true,
-                    'idUser' => $a->u_id,
-                    'cabang_id' => 1,
+                    'idUser' => $user->u_id,
+                    'cabang_id' => $user->u_ca_id ?: 1,
                     'last_activity' => time()
                 );
                 $this->session->set_userdata($data_session);
